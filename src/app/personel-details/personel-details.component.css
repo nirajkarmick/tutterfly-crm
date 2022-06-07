@@ -1,0 +1,11 @@
+.pac-container {
+    z-index: 10420 !important;
+}
+#modalEdit{
+	z-index: 1000 !important;
+}
+.error {
+    font-size: 12px;
+    color: #f94816;
+    display: block;
+  }

@@ -1,0 +1,19 @@
+<!-- <div class="fixed-header dashboard menu-pin menu-behind  windows desktop  pace-done pace-done"> --> 
+<div class="fixed-header dashboard menu-pin menu-behind  windows desktop  pace-done pace-done">
+    <app-admin-header [users]="users" id="adminHeaderFixed" class="d-flex clearfix"></app-admin-header>
+    <div class="page-container adminPageContainer">
+        <app-admin-left-menu  [activeUrl]="activeUrl"></app-admin-left-menu>
+        <!--<div class="page-content-wrapper">
+
+        </div>-->
+        <spinner [backgroundColor]="'#006dcc'" [spinner]="spinkit.skThreeBounce"></spinner>
+        <div class="content-page">
+            <div class="content adminWrapperContent">
+                <div class="container-fluid AdminSec">
+                    <router-outlet name="adminSection"></router-outlet>
+                </div>
+            </div>
+        </div>
+    </div>
+     <app-adminfooter></app-adminfooter> 
+</div>

@@ -1,0 +1,99 @@
+.page-sidebar {
+    left: 0;
+    width: 220px; /*top:70px;*/
+    position: fixed;
+    height:calc(100vh - 70px);
+    overflow-y: auto;
+    background: #fff;
+    color: #444;
+    float: left;
+    top:70px;
+}
+
+.page-sidebar .sdebar-menu .menu-items > li > a {
+    padding-left: 0px;
+    text-align: left;
+}
+
+.page-sidebar .sidebar-menu .menu-items > li > a > .arrow {
+    float: right;
+    padding-right: 5px;
+}
+
+.page-sidebar .sidebar-menu .menu-items > li > a > .title {
+    width: 85%;
+}
+
+.page-sidebar .sidebar-header {
+    height: 50px;
+}
+
+.sidebar-menu {
+    padding-top: 10px;
+}
+
+.sidebar-menu a {
+    text-align: left;
+    width: 100%;
+    margin: 3px 0 0 0;
+    display: block;
+    padding: 3px 0 3px 30px;
+    color: #444;
+}
+
+.sidebar-menu a:hover {
+    background: #ddd;
+}
+
+.sidebar-menu a .title {
+    text-align: left;
+    font-weight: bold;
+}
+
+summary {
+    text-align: left;
+    padding: 7px 7px 5px 15px;
+    color: #222;
+}
+.nav-link[data-toggle].collapsed:after {
+    content: "\f105";
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    float: right;
+}
+.nav-link[data-toggle]:not(.collapsed):after {
+    content: "\f107";
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    float: right;
+}
+.page-sidebar ul.leftSideNav .nav-item{
+    padding-left: 0;
+}
+.page-sidebar ul.leftSideNav a:hover, .page-sidebar ul.leftSideNav button:hover, .page-sidebar ul.leftSideNav a:active, .page-sidebar ul.leftSideNav button:active{
+    background: #006dcc;
+    color: #fff;
+}
+.leftSideNav-dropdown-list{
+    padding-left: 5px;
+    background: #f7f7f7;
+}
+.page-sidebar ul.leftSideNav a.active{
+    background: #006dcc;
+    color: #fff;
+}
+.nav.flex-column.flex-nowrap.leftSideNav{
+    margin-top: 5px;
+}
+.leftSideNav li, .leftSideNav-dropdown-list li{border-bottom: 1px solid #f1f1f1}
+

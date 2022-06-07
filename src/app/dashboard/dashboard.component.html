@@ -1,0 +1,379 @@
+<div class="container-fluid1 dashPage1 content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                    </div>
+                    <h4 class="page-title">Dashboard</h4>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-xl-8 col-lg-8" [ngClass]="graph_loader?'dash-blur1':''" style="overflow: hidden;">
+                <div class="card dashboardDivHeight container-loads">
+                    <div class="card-header card-white-head d-flex align-items-center justify-content-between">
+                        <h4 class="header-title mb-0">Monthly Performance</h4>
+                        <div class="">
+                       <!--      <button class="mr-2" (click)="getClosedWonGraph()" type="button" *ngIf="target_graph">
+                                <i class="mdi mdi-graph"></i>
+                                Closed Won
+                            </button>
+                            <button class="mr-2" (click)="getTargetGraph()" type="button" *ngIf="closed_won_graph">
+                                <i class="mdi mdi-graph"></i>
+                                Target
+                            </button> -->
+                            <button class="" (click)="getGraphData()" type="button">
+                                <i class="mdi mdi-refresh"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="loader-wrapper" *ngIf="graph_loader">
+                        <div id="loader"></div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="widgetHeader2 d-flex align-items-center justify-content-between" *ngIf="options!=undefined && options.dataProvider!=undefined">
+                            <div class="a">
+                                <div class="head">Closed</div>
+                            <div class="content totalCloseAmount d-flex">{{options.dataProvider[0].closed_amount}} 
+                           <!-- <div class="dropdown">
+                              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> 
+                              <span class="caret"></span></button>
+                              <ul class="dropdown-menu">
+                                <li class="dropdown-item"><a href="javascript:void(0);" class="text-muted">Account Closed - {{options.dataProvider[0].currency_symbol}}  {{options.dataProvider[0].target_personal_account_amount}}</a></li>
+                                <li class="dropdown-item"><a href="javascript:void(0);" class="text-muted">Person Account Closed - {{options.dataProvider[0].currency_symbol}}  {{options.dataProvider[0].target_account_amount}}</a></li>
+                              </ul>
+                            </div> -->
+
+                            </div>
+                            </div>
+                            <div class="b">
+                                <div class="head">Open</div>
+                            <div class="content">{{options.dataProvider[0].open_ammount}}</div>
+                            </div>
+                            <div class="c">
+                                <div class="head">Target Amount</div>
+                            <div class="content">
+                                <span>{{options.dataProvider[0].currency_symbol}}
+                                    {{options.dataProvider[0].target_amount}}</span>
+                                <span id="dash_valueBox">
+                                    <a (click)="valueBoxShow()"><i class="fas fa-edit"></i></a>
+                                    <div class="valueBox" *ngIf="valueBox">
+                                        <div class="col-md-12 col-sm-12 valueBoxHead">Edit Target Amount</div>
+                                        <div class="col-md-12 col-sm-12 valueBoxContent">
+                                            <div class="col-md-2 col-sm-2 p0 pull-left">
+                                                {{options.dataProvider[0].currency_symbol}}</div>
+                                            <div class="col-md-10 col-sm-10 p0 pull-left"><input type="text"
+                                                    class="form-control" (input)="validate_number($event)"
+                                                    value="options.dataProvider[0].target_amount"
+                                                    [(ngModel)]="targetValue"></div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12">
+                                            <button class="btn btn-primary btn-sm pull-right"
+                                                (click)="setTarget()">Save</button>
+                                            <button class="btn btn-light btn-sm pull-right mr5"
+                                                (click)="valueBoxHide()">Cancel</button>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="widgetContent">
+                            <div *ngIf="options.dataProvider!=undefined && target_graph">
+                                <amCharts id="chartdiv1" [options]="options" [style.width.%]="100"
+                                    [style.height.px]="400"></amCharts>
+                            </div>
+
+                            <div *ngIf="lineOptions.dataProvider!=undefined && closed_won_graph">
+                                <amCharts id="chartdiv2" [options]="lineOptions" [style.width.%]="100"
+                                                        [style.height.px]="400"></amCharts> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4" [ngClass]="activity_loader?'dash-blur1':''" style="overflow: hidden;">
+                <div class="card-box1 card dashboardDivHeight container-loads" id="dashboardActivity">
+                    <div id="loader-wrapper" *ngIf="activity_loader">
+                        <div id="loader"></div>
+                    </div>
+                    <div class="card-header card-white-head">
+                        <div class="float-right">
+                            <button class="" (click)="refreshUserFeed()" type="button">
+                                <i class="mdi mdi-refresh"></i>
+                            </button>
+                        </div>
+                        <h4 class="header-title mb-0">User Activities</h4>
+                    </div>
+                    <div class="widget-chart card-body" dir="ltr">
+                        <ul class="activity-timeline timeline-left list-unstyled">
+                            <li *ngFor="let feed of userFeed">
+                                <div class="timeline-icon bg-primary" *ngIf="feed.feedable_type=='Task'">
+                                    <i class="mdi mdi-clipboard-check-outline font-medium-2 align-middle"></i>
+                                </div>
+                                <div class="timeline-icon bg-pink" *ngIf="feed.feedable_type=='FileManagement'">
+                                    <i class="mdi mdi-file-edit-outline font-medium-2 align-middle"></i>
+                                </div>
+                                <div class="timeline-icon bg-success" *ngIf="feed.feedable_type=='Account'">
+                                    <i class="mdi mdi-briefcase-account-outline font-medium-2 align-middle"></i>
+                                </div>
+                                <div class="timeline-icon bg-success" *ngIf="feed.feedable_type=='Supplier'">
+                                    <i class="mdi mdi-briefcase-account-outline font-medium-2 align-middle"></i>
+                                </div>
+                                <div class="timeline-icon bg-info" *ngIf="feed.feedable_type=='Contact'">
+
+                                    <i class="mdi mdi-account-multiple-check-outline font-medium-2 align-middle"></i>
+                                </div>
+                                <div class="timeline-icon bg-blue" *ngIf="feed.feedable_type=='Opportunity'">
+
+                                    <i class="mdi mdi-lightbulb-on font-medium-2 align-middle"></i>
+                                </div>
+                                <div class="timeline-icon bg-secondary" *ngIf="feed.feedable_type=='PersonalAccount'">
+                                    <i class="mdi mdi-book-account-outline font-medium-2 align-middle"></i>
+                                </div>
+                                <div class="timeline-icon bg-danger" *ngIf="feed.feedable_type=='Lead'">
+
+                                    <i class="mdi mdi-filter-menu-outline font-medium-2 align-middle"></i>
+                                </div>
+                                <div class="timeline-icon bg-warning" *ngIf="feed.feedable_type=='Email'">
+                                    <i class="mdi mdi-email-outline font-medium-2 align-middle"></i>
+                                </div>
+                                <div class="timeline-icon bg-danger" *ngIf="feed.feedable_type=='Report'">
+                                    <i class="mdi mdi-book-multiple-outline font-medium-2 align-middle"></i>
+                                </div>
+                                <div class="timeline-icon bg-dark" *ngIf="feed.feedable_type=='ProformaInvoice'">
+                                    <i class="mdi mdi-receipt font-medium-2 align-middle"></i>
+                                </div>
+
+                                <div class="timeline-icon bg-info" *ngIf="feed.feedable_type=='FileManagement'">
+                                    <i class="mdi mdi-file-outline font-medium-2 align-middle"></i>
+                                </div>
+                                 <div class="timeline-icon bg-success" *ngIf="feed.feedable_type=='Itinerary'">
+                                    <i class="fas fa-money-check"></i>
+                                    <!-- <i class="mdi mdi-file-outline font-medium-2 align-middle"></i> -->
+                                </div>
+                                <div class="timeline-info">
+                                    <p class="font-weight-bold mb-0 text-capitalize">
+                                        <span *ngIf="feed.feedable_type!='Email'"> {{feed.message}} </span>
+                                        <span *ngIf="feed.feedable_type=='Email'"> sent email </span>
+                                    </p>
+                                    <span class="font-small-3" title="{{feed.message}} {{feed.feedable_id.name}}">
+                                        <a href="javascript:void(0);" class="text-capitalize"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                            [queryParams]="{ 'id': feed.user_id.id }">{{feed.user_id.name}}</a>
+                                        <span *ngIf="feed.feedable_type!='Email'"> {{feed.message}} </span>
+                                        <span *ngIf="feed.feedable_type=='Email'"> sent email </span>
+                                        <a href="javascript:void(0);" class="text-capitalize"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: [feed.link_to] }} ]"
+                                            [queryParams]="{ 'id': feed.feedable_id.id }"
+                                            *ngIf="feed.feedable_type!='Itinerary' && feed.feedable_type!='ProformaInvoice'&& feed.feedable_type!='Email' && feed.feedable_type!='Task'">{{feed.feedable_id.name}}</a>
+                                        <a href="javascript:void(0);" class="text-capitalize"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection:['taskDetails'] }} ]"
+                                            [queryParams]="{ 'id':  (feed.feedable_id | json) }"
+                                            *ngIf="feed.feedable_type=='Task'">{{feed.feedable_id.name}}</a>
+                                        <a href="javascript:void(0);" class="text-capitalize"
+                                            *ngIf="feed.feedable_type=='ProformaInvoice'">{{feed.feedable_id.name}}</a>
+                                        <a href="javascript:void(0);" class="text-capitalize"
+                                            *ngIf="feed.feedable_type=='Email'">{{feed.feedable_id.name}}</a>
+                                        <a href="javascript:void(0);" class="text-capitalize"
+                                            [routerLink]="['/itineraryMain',{ outlets: { itinerarySection:['itinerary-details'] }} ]"
+                                            [queryParams]="{ 'id': feed.feedable_id.id }"
+                                            *ngIf="feed.feedable_type=='Itinerary'">{{feed.feedable_id.name}}</a>
+                                    </span>
+                                </div>
+                                <small class="text-muted">{{feed.created_at | date: 'dd MMM yyyy | hh:mm a'}}</small>
+                            </li>
+                        </ul>
+                        <div class="text-center m-auto" *ngIf="userFeed && userFeed.length>10">
+                            <a class="btn btn-primary btn-rounded" (click)="viewMoreUserFeed()"
+                                style="color: #fff;">View More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-4 col-md-4">
+                <div class="card dashboardDivHeight todayTskDiv">
+                    
+
+         <!--  <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" role="tab" data-target="#TodayTask" href="#">Today's Task</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" role="tab" data-target="#PendingTask" href="#">Pending Task</a>
+            </li>
+        </ul> -->
+
+         <!--  <div class="tab-content">
+            <div class="tab-pane active" id="TodayTask">
+                <div class="card-body">
+                        <div class="todoapp">
+                            <div *ngFor="let pay of todayPayment" class="mb-1 brdr-btm">
+                                 
+                                <div>
+                                    <span >Payment reminder for  <a href="javascript:void(0);"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['oppoDetails'] }}]"
+                                            [queryParams]="{ 'id': pay.opportunity_id}">{{pay.name}}</a></span>
+                                </div>
+                                
+                            </div>
+                            <div *ngFor="let key of todayTask" class="mb-1 brdr-btm">
+                                <div> <a class="tsk-no-link1 font-weight-bold"
+                                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['taskDetails'] }}]"
+                                        [queryParams]="{ 'id': key | json}">{{key.name}}
+
+                                    </a>&nbsp;at {{key.due_date | date: 'dd MMM yyyy | hh:mm a'}}
+
+                                </div>
+                                <div>
+                                    <span *ngIf="key.owner_id">Assigned By <a href="javascript:void(0);"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                            [queryParams]="{ 'id': key.owner_id.id}">{{key.owner_id.name}}</a></span>
+                                </div>
+                                <div>
+                                    <span *ngIf="key.contact_id">
+                                        <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['contactDetails'] }}]"
+                                            [queryParams]="{ 'id': key.contact_id.id} ">{{key.contact_id.name}}</a>&nbsp;|
+                                        &nbsp;
+                                    </span>
+                                    <span>
+                                        <a [routerLink]="['/maindashboard',{ outlets: { bodySection: [key.taskable_link] }}]"
+                                            [queryParams]="{ 'id': key.taskable_id.id} ">{{key.taskable_id.name}}</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="tab-pane" id="PendingTask">
+                 <div class="card-body">
+                        <div class="todoapp"> 
+                            <div *ngFor="let key of pendingTask" class="mb-1 brdr-btm">
+                                <div> <a class="tsk-no-link1 font-weight-bold"
+                                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['taskDetails'] }}]"
+                                        [queryParams]="{ 'id': key | json}">{{key.name}}
+
+                                    </a>&nbsp;at {{ key.due_date  | date: 'dd MMM yyyy | hh:mm a'}}
+
+                                </div>
+                                <div>
+                                    <span *ngIf="key.owner_id">Assigned By <a href="javascript:void(0);"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                            [queryParams]="{ 'id': key.owner_id.id}">{{key.owner_id.name}}</a></span>
+                                </div>
+                                <div>
+                                    <span *ngIf="key.contact_id">
+                                        <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['contactDetails'] }}]"
+                                            [queryParams]="{ 'id': key.contact_id.id} ">{{key.contact_id.name}}</a>&nbsp;|
+                                        &nbsp;
+                                    </span>
+                                    <span>
+                                        <a [routerLink]="['/maindashboard',{ outlets: { bodySection: [key.taskable_link] }}]"
+                                            [queryParams]="{ 'id': key.taskable_id.id} ">{{key.taskable_id.name}}</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div> -->
+                    <div class="card-header card-white-head">
+                        <h4 class="header-title mb-0">Today's Task</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="todoapp">
+                            <div *ngFor="let pay of todayPayment" class="mb-1 brdr-btm">
+                                 
+                                <div>
+                                    <span >Payment reminder for  <a href="javascript:void(0);"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['oppoDetails'] }}]"
+                                            [queryParams]="{ 'id': pay.opportunity_id}">{{pay.name}}</a></span>
+                                </div>
+                                
+                            </div>
+                            <div *ngFor="let key of todayTask" class="mb-1 brdr-btm">
+                                <div> <a class="tsk-no-link1 font-weight-bold"
+                                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['taskDetails'] }}]"
+                                        [queryParams]="{ 'id': key | json}">{{key.name}}
+
+                                    </a>&nbsp;at {{key.due_date | date: 'dd MMM yyyy | hh:mm a'}}
+
+                                </div>
+                                <div>
+                                    <span *ngIf="key.owner_id">Assigned By <a href="javascript:void(0);"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                            [queryParams]="{ 'id': key.owner_id.id}">{{key.owner_id.name}}</a></span>
+                                </div>
+                                <div>
+                                    <span *ngIf="key.contact_id">
+                                        <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['contactDetails'] }}]"
+                                            [queryParams]="{ 'id': key.contact_id.id} ">{{key.contact_id.name}}</a>&nbsp;|
+                                        &nbsp;
+                                    </span>
+                                    <span>
+                                        <a [routerLink]="['/maindashboard',{ outlets: { bodySection: [key.taskable_link] }}]"
+                                            [queryParams]="{ 'id': key.taskable_id.id} ">{{key.taskable_id.name}}</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-4">
+                <div class="card dashboardDivHeight">
+                    <div class="card-header card-white-head">
+                        <h4 class="header-title mb-0">Recent Files</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush dashboard-widgets">
+                            <li class="list-group-item list-group-item-action border-0 d-flex align-items-center justify-content-between"
+                                *ngFor="let obj of recent">
+                                <div class="">
+                                    <i class="fas fa-file-pdf fa-2x"></i>&nbsp;
+                                    <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['fileDetails'] }}]"
+                                        [queryParams]="{ 'id': obj.id}">{{obj.title}}</a>
+                                    <span style="font-size:14px;"><br>{{obj.description}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-4">
+                <div class="card dashboardDivHeight">
+                    <div class="card-header card-white-head ">
+                        <h4 class="header-title mb-0">Key Deals - Recent Opportunities</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush dashboard-widgets">
+                            <li class="list-group-item list-group-item-action border-0 d-flex align-items-center justify-content-between"
+                                *ngFor="let key of keyDeals">
+                                <div class="list-left d-flex">
+                                    <div class="list-content">
+                                        <a href="javascript:void(0);" class="list-title text-capitalize"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['oppoDetails'] }}]"
+                                            [queryParams]="{ 'id': key.id}">{{key.name}}</a>
+                                        <span class="text-muted d-block"><a href="javascript:void(0);"
+                                                [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                                [queryParams]="{ 'id': key.created_by.id}">{{key.created_by.name}}</a> -
+                                            <small>{{key.created_at | date: 'dd MMM yyyy | hh:mm a'}}</small></span>
+                                    </div>
+                                </div>
+                                <span>{{key.amount}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12 col-md-12" [innerHTML]="vData">
+            </div>
+        </div>
+    </div>
+</div>

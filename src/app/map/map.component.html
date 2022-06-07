@@ -1,0 +1,6 @@
+<div *ngIf="lat && lng" style="margin-top:10px;">
+	<span style="display: none">**{{lat}}----{{lng}}--{{address}}**</span>
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="10">
+    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  </agm-map>
+</div>

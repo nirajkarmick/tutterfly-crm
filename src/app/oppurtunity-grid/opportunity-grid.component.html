@@ -1,0 +1,1193 @@
+<!-- <script src="assets/js/myjs.js"></script> -->
+<div class=" no-padding container-fixed-lg CRMTable">
+    <div class="container-fluid">
+        <div class="row"> 
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <form class="form-inline">
+                            <a href="javascript: void(0);"  class="btn btn-blue ml-2"
+                                [routerLink]="['/maindashboard',{ outlets: { bodySection: ['import-data'] }}]" [queryParams]="{ 'type': 'opportunities'}" matTooltip="Import Opportunities">
+                                <i class="fas fa-file-csv"></i>
+                            </a>
+                           <!--  <a href="javascript: void(0);" title="Export" class="btn btn-secondary ml-1"
+                                [routerLink]="['/maindashboard',{ outlets: { bodySection: ['import-data'] }}]"
+                                [queryParams]="{ 'type': 'opportunity_histories'}">
+                                <i class="fas fa-file-import"></i>
+                            </a> -->
+                        </form> 
+                    </div>
+                    <h4 class="page-title">Opportunity</h4>
+                </div>
+            </div>
+        </div>
+        <!-- START card -->
+        <div class="card">
+            <div class="card-header card-white-head">
+                <div class="card-title m-0 w-100">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="select-DataView">
+                                <div class="d-flex icon-module float-left mr-1">
+                                    <!-- <img src="assets/new_assets/images/account-icon.png" alt="" width=""
+                                        class="img-fluid"> -->
+                                        <div class="timeline-icon bg-primary rounded-circle">
+                                            <i class="mdi mdi-book-account-outline float-left m-0 h3 p-2 align-middle text-white"></i>
+                                        </div>
+                                </div>
+                                <div class="select-DataViewml-2 d-flex align-items-end">
+                                    <div class="form-group m-0 float-left">
+                                        <label class="m-0 text-primary">
+                                            <small>Opportunity <span
+                                                    *ngIf="totalData  && (viewId>0  || viewId==-1)">({{totalData}})</span></small>
+                                        </label>
+                                        <div class="ClientViewDrop opp_view_drop"
+                                            *ngIf="exampleData!=null && exampleData!=undefined && exampleData.length!=0" (click)="load_selectCustom()">
+                                            <select2 [data]="exampleData" [value]="viewId" [options]="options"
+                                                (valueChanged)="renderNewView($event.value)" width="100%"></select2>
+                                        </div>
+                                    </div>
+                                    <button type="button" (click)="pinned_view()" matTooltip="Pin View" class="btn btn-danger" *ngIf="viewId>0 && (pinned_view_id!=viewId)" type="button"><i class="mdi mdi-pin"></i></button>
+                                    <button type="button" (click)="unpinned_view()" matTooltip="Unpin View" class="btn btn-warning" *ngIf="viewId>0 && (pinned_view_id==viewId)" type="button"><i class="mdi mdi-pin-off"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="float-right"> 
+                                <div class="btn-group mb-0 mt-1">
+                                    <button type="button" class="btn btn-primary newBtn float-right"
+                                        data-target="#add_new_cnt" data-toggle="modal" (click)="openNewAccountPop()" id="newOppPop"  *ngIf="create_opportunity">
+                                        <span class="btn-label"><i class="fas fa-plus"></i></span>New Opportunity
+                                    </button>
+                                    <button type="button" class="btn btn-warning newBtn float-right mr-1 ml-1"
+                                        data-target="#add_new_opp_stn" data-toggle="modal" (click)="openStandard()" id="newOppPop"  *ngIf="isStandard && create_opportunity">
+                                        <span class="btn-label"><i class="fas fa-plus"></i></span>Standard
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" (click)="checkCurrentView()"
+                                        type="button"><i class="fas fa-sync-alt"></i></button>
+                                    <button type="button" class="btn btn-light" data-toggle="modal"
+                                        data-target="#FilterBox" [disabled]="viewId==undefined || viewId==0 || viewId==-1"
+                                        type="button"><i class="fas fa-filter"></i></button>
+                                    <div class="dropdown">
+                                        <a class="btn btn-blue dropdown-toggle" href="javascript:void(0);"
+                                            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Settings 
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" data-toggle="modal" data-target="#modalAddView">New
+                                                View</a>
+                                            <a class="dropdown-item" data-toggle="modal" data-target="#modalRename"
+                                                *ngIf="viewId>0">Rename</a>
+                                            <a class="dropdown-item" data-toggle="modal" data-target="#modalsharing"
+                                                *ngIf="viewId>0">Sharing Settings</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" data-target="#FilterBox"
+                                                data-toggle="modal" *ngIf="viewId>0">Edit List Filters</a>
+                                            <a *ngIf="viewId>0" class="dropdown-item" data-toggle="modal"
+                                                data-target="#modalFieldisp">Select Fields to display</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" *ngIf="viewId>0"
+                                                (click)="delete_view(viewId)">Delete</a>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown dropdown-default pull-right" *ngIf="viewId>0">
+                                        <button class="btn btn-secondary dropdown-toggle text-center ml-1" type="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            View
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" (click)="tableViewshow()">Table</a>
+                                            <a class="dropdown-item" (click)="kanbanViewshow()">Kanban </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" *ngIf="kanbanView && viewId!=0">
+                <app-kanban-view [kanban]="kanbanData"></app-kanban-view>
+            </div>
+            <div class="card-body" *ngIf="tableView || viewId==0">
+                <div class="table-responsive"
+                    *ngIf="dataSource!=undefined && display_columns!=undefined && gridData != undefined">
+                    <table mat-table [dataSource]="dataSource" class="table table-hover table-striped table-bordered"
+                        matSort>
+                        <ng-container *ngFor="let c of display_columns ;let i  =$index" [matColumnDef]="c.name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{c.alias_name}}</th>
+                            <td mat-cell *matCellDef="let acc" style="position: relative;">
+                                <span *ngIf="c.name=='name' ">
+                                    <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['oppoDetails'] }}]"
+                                        [queryParams]="{ 'id': acc.id}">{{acc[c.name]}}</a></span>
+                                <span
+                                    *ngIf="c.name=='opportunitable_id' || c.name == 'contact_id' ||c.name=='experience_id'">{{getAliasName(acc[c.name])}}</span>
+                                <span *ngIf="c.name=='destination_id'">
+                                    <span *ngFor="let a of acc[c.name]; let i = index">
+                                        <span *ngIf="acc[c.name].length==1">
+                                            <a href="javascript:void(0)" (click)="open_pull_it(a.name,a.city_id)"> {{a.name}}</a>
+                                        </span>
+                                        <span *ngIf="acc[c.name].length > 1">
+                                            <a href="javascript:void(0)" (click)="open_pull_it(a.name,a.city_id)">{{a.name}}</a>
+                                            <span *ngIf="acc[c.name].length > i+1">,</span>
+                                        </span>
+                                    </span>
+                                </span>
+                                <span *ngIf="c.name=='opportunity_tag_id'">
+                                    <mat-chip-list aria-label="Tags">
+                                        <mat-chip color="warn" *ngFor="let a of acc[c.name]; let i = index" selected>&#xf02b; &nbsp;{{a.name}}</mat-chip>
+                                    </mat-chip-list>  
+                                </span>
+
+                                <span *ngIf="c.name=='opportunitable_type'">
+                                    {{acc[c.name].replace('App\\Models\\', '')}}
+                                </span>
+                                <span *ngIf="c.name=='inclusion_id'">
+                                    <span *ngFor="let a of acc[c.name]; let i = index">
+                                        <span *ngIf="acc[c.name].length==1">{{a.name}}</span>
+                                        <span *ngIf="acc[c.name].length > 1">{{a.name}}<span
+                                                *ngIf="acc[c.name].length > i+1">,</span></span>
+                                    </span>
+                                </span>
+                                <span
+                                    *ngIf="c.name=='owner_id' || c.name == 'created_by' || c.name == 'last_modified_by_id' ">
+                                    <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                        [queryParams]="{ 'id': acc.owner_id}">{{getOwnerName(acc[c.name])}}</a>
+                                </span>
+                                <span *ngIf="c.name=='sales_stage_id'"> {{acc[c.name].name}}</span>
+
+                                <span *ngIf="c.name=='created_at'">{{acc[c.name] | date: 'dd MMM yyyy'}}</span>
+                                 <span *ngIf="c.name=='updated_at'">{{acc[c.name] | date: 'dd MMM yyyy'}}</span>
+                                <span *ngIf="c.name=='travel_date'"><span *ngIf="acc[c.name] && acc[c.name]!='1970-01-01'">{{acc[c.name] | date: 'dd MMM yyyy'}}</span></span>
+                                <span *ngIf="c.name=='close_date'"><span *ngIf="acc[c.name] && acc[c.name]!='1970-01-01'">{{acc[c.name] | date: 'dd MMM yyyy'}}</span>
+                                </span> 
+                                <span
+                                    *ngIf="c.name!='name' && c.name!='acc_type_id' && c.name!='sales_stage_id' && c.name!='opportunity_tag_id' && c.name!='opportunitable_type' && c.name!='owner_id' && c.name!='last_name' &&    c.name != 'created_by' && c.name != 'last_modified_by_id'
+                                  && c.name!='experience_id' && c.name!='opportunitable_id'  && !(c.name == 'contact_id' || c.name == 'travel_date' || c.name == 'close_date' || c.name == 'created_at' || c.name == 'updated_at')  && !(c.name=='destination_id' || c.name=='inclusion_id')">
+                                    <span *ngIf="acc[c.name]!='1970-01-01'"> {{acc[c.name]}}</span>
+                                </span>
+
+
+                                <!-- <span
+                                    *ngIf="c.name!='name' && c.name!='acc_type_id' &&
+                        c.name!='sales_stage_id' && c.name!='owner_id' && c.name!='last_name'
+                          &&    c.name != 'created_by' && c.name != 'last_modified_by_id'  
+                          && c.name!='experience_id'  && !(c.id == 7  || c.id == 8  || c.id==9)  && !(c.name=='destination_id' || c.name=='inclusion_id')">
+                                    <span *ngIf="acc[c.name]!='1970-01-01'"> {{acc[c.name]}}</span>
+                                </span> -->
+                                <a *ngIf="c.editable_flag==1" class="editBtn"
+                                    (click)="EditPopShow(c.id,acc[c.name],acc.id)"><i class="fas fa-edit"></i></a>
+                                <a *ngIf="c.editable_flag!=1" class="lockBtn"><i class="fas fa-lock"></i></a>
+                                <div class="Editpop"
+                                    *ngIf="Editpop &&(acc.id===updateColumnData.account_id) && (updateColumnData.column_id===c.id)">
+                                    <div
+                                        *ngIf="updateColumnData.column_id != 16 && !(c.name=='close_date' || c.name=='travel_date') && updateColumnData.column_id != 12">
+                                        <div class="col-md-9 col-sm-9 float-left p0"><input type="text"
+                                                [(ngModel)]="updateValue" /></div>
+                                    </div>
+                                    <div *ngIf="updateColumnData.column_id == 16">
+                                        <div class="col-md-9 col-sm-9 float-left p0">
+                                            <select [(ngModel)]="updateValue" class="form-control">
+                                                <option *ngFor="let key of getKeys(accType)" [value]="key">
+                                                    {{accType[key] | titlecase }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="updateColumnData.column_id == 12">
+                                        <div class="col-md-9 col-sm-9 float-left p0">
+                                            <select [(ngModel)]="updateValue" class="form-control">
+                                                <option *ngFor="let a of createData.sales_stages" [value]="a.id"
+                                                    [selected]="a.id == updateValue.id ? true : false">{{a.name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <span class="col-md-9 col-sm-9 p0 float-left"
+                                        *ngIf="c.name=='close_date' || c.name=='travel_date'">
+                                        <input matInput [matDatepicker]="picker" class="form-control"
+                                            [value]="updateValue" [(ngModel)]="updateValue">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"
+                                            style="position: absolute; top: -3px; right: 0px;"><i
+                                                class="fas fa-calendar"></i></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </span>
+                                    <div class="col-md-3 col-sm-3 float-right p0">
+                                        <a class="btn btn-sm btn-primary float-right" (click)="EditPopHide()"><i
+                                                class="fas fa-times"></i></a>
+                                        <a class="btn btn-sm btn-primary float-right" style="margin-right:3px"
+                                            (click)="updateColumn()"><i class="fas fa-save"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <div class="col-md-12 text-center">
+                        <button *ngIf="totalCurrent < totalData && viewId == 0"
+                            class="btn btn-small tfc-load-more btn-view-blue" (click)="loadMoreData(0)">Load
+                            More</button>
+                             <button *ngIf="totalCurrent < totalData && viewId == -1"
+                            class="btn btn-small tfc-load-more btn-view-blue" (click)="loadMoreData(viewId)">Load
+                            More</button>
+
+                        <button *ngIf="totalCurrent < totalData && viewId>0"
+                            class="btn btn-small tfc-load-more btn-view-blue" (click)="loadMoreData(viewId)">Load
+                            More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- Start Page rightbar ADD ACCOUNT -->
+<!-- ============================================================== -->
+<!-- <app-add-standard [standardFields]="standardFields" [newStAccPop]="newStAccPop" [formTitle]="formTitle" [extraFields]= extraFields *ngIf="openStandard_f" [st_formType]="st_formType" [createData]="createData"></app-add-standard> -->
+<div id="add_new_cnt" class="modal fixed-left fade" tabindex="-1" role="dialog" style="padding-right: 0 !important;"
+    [ngClass]="popUpClass ? 'modelOpenNew':''" *ngIf="newAccPop">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">Add New Opportunity</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body addNew-form" *ngIf="createData">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">Opportunity Information</h5>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="row mt10">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Opportunity Name  <span class="text-danger">*</span></label>
+                                <input type="text" [ngClass]="name_error ? 'frm-danger':''" class="form-control"
+                                    [(ngModel)]="newopportunity.name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Opportunity Owner</label>
+                                <p>{{account_owner}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 addmodelRadio">
+                            <div class="form-group">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                            id="inlineRadio1" value="option1" (click)="AccountContShow()" checked>
+                                        Account
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                            id="inlineRadio2" value="option2" (click)="PerAccountContShow()">
+                                        Personal Account
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="AccountCont">
+                        <div class="col-md-6">
+                            <div class="auto-comp-div-pop">
+                                <div class="form-group autocomplete">
+                                    <label> Account  <span class="text-danger">*</span></label>
+
+                                    <input id="myInput1" [(ngModel)]="account_nameSearch" class="form-control" type="text" [ngClass]="acct_error ? 'frm-danger':''" (keyup)="search_acc($event)" name="auto_acc_name" placeholder="Search Account">
+
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoAccList.length >0">
+
+                                        <div *ngFor="let acc of autoAccList" class="auto-itm">
+                                            <div (click)="selectAccId(acc.id)">
+                                                <strong>{{acc.name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <label>Contact Name  <span class="text-danger">*</span></label>
+                                <select type="text" class="form-control" [(ngModel)]="newopportunity.contact_id"
+                                    [ngClass]="cont_error ? 'frm-danger':''">
+                                    <option *ngFor="let a of accounts_client" [value]="a.id">
+                                        {{a.first_name}} {{a.middle_name}} {{a.last_name}}
+                                    </option>
+                                </select>    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="PerAccountCont">
+                        <div class="col-md-6">
+                            <div class="auto-comp-div-pop">
+                                <div class="form-group autocomplete1">
+                                    <label> Personal Accounts  <span class="text-danger">*</span></label>
+
+                                    <input id="myInput2" [(ngModel)]="per_account_nameSearch" class="form-control"
+                                        type="text" [ngClass]="per_error ? 'frm-danger':''"
+                                        (keyup)="search_per_acc($event)" name="auto_p_acc_name"
+                                        placeholder="Search Account">
+
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoPerAccList.length >0">
+
+                                        <div *ngFor="let acc of autoPerAccList" class="auto-itm">
+                                            <div (click)="selectPerAccId(acc.id)">
+                                                <strong>{{acc.first_name}} {{acc.last_name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="createData && createData.experiences">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Experience<span class="text-danger">*</span></label>
+                                <select type="text" class="form-control" [(ngModel)]="newopportunity.experience_id"  [ngClass]="exp_error ? 'frm-danger':''" >
+                                    <option value="">Select Experience</option>
+                                    <option *ngFor="let a of createData.experiences" [value]="a.id">{{a.name}}
+                                    </option>
+                                </select> 
+                            </div>
+                        </div>
+                       <!--  <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Destination(s)*</label> 
+                                <select2 [data]="allDestinations"   [ngClass]="dest_error ? 'frm-danger':''"  [options]="destOptions" (valueChanged)="selectedDestin($event.value)" width="100%"></select2>
+                            </div> 
+                        </div>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="form-group"> 
+
+                                <label>Destination(s)  <span class="text-danger">*</span></label> 
+                                <input id="myInput_des" [(ngModel)]="destination_nameSearch"  [ngClass]="dest_error ? 'frm-danger':''"  class="form-control" type="search"  (ngModelChange)="search_dest()" name="auto_des_name" placeholder="Search Destinations">
+
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoDestList.length >0">
+
+                                        <div *ngFor="let dest of autoDestList" class="auto-itm">
+                                            <div (click)="selectDestId(dest.id)">
+                                                <strong>{{dest.name}} <span *ngIf="dest.region"> ,{{dest.region}}</span> ,{{dest.country_name}}</strong>
+                                            </div>
+                                        </div>
+
+                                    </div> 
+                                    <div *ngIf="selectedDestinationArray && selectedDestinationArray.length>0" class="mt-2 ml-1 mb-1">
+                                        <mat-chip-list aria-label="Destinations" >
+                                        <mat-chip color="primary" *ngFor="let a of selectedDestinationArray; let i = index" selected>&#xf041; &nbsp;{{a.name}}<button type="button" class="close close_chip" (click)="removeDestin(a.id)">&times;</button></mat-chip>
+                                    </mat-chip-list>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Inclusion(s)  </label>
+                                <select2 [data]="allInclusions"  [options]="incOptions" (valueChanged)="selectedIncl($event.value)" width="100%"></select2> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 TravelDateui">
+                            <div class="form-group">
+                                <label>Date of Travel</label>
+                                <input matInput [matDatepicker]="picker2" class="form-control form-control1"
+                                    [(ngModel)]="newopportunity.travel_date">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"><i class="fas fa-calendar"></i>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>No of Nights</label>
+                                <input type="text" class="form-control" [(ngModel)]="newopportunity.no_of_nights">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>No of Pax</label>
+                                <input type="text" class="form-control" [(ngModel)]="newopportunity.no_of_pax">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group ">
+                                <label>No of Adults</label>
+                                <input type="text" class="form-control" [(ngModel)]="newopportunity.no_of_adults">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>No of Childs</label>
+                                <input type="text" class="form-control" [(ngModel)]="newopportunity.no_of_childs">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group ">
+                                <label>No of Infants</label>
+                                <input type="text" class="form-control" [(ngModel)]="newopportunity.no_of_infants">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Stage</label>
+                                <select type="text" class="form-control" (change)="selectStage($event.target.value)"
+                                    [(ngModel)]="newopportunity.sales_stage_id">
+                                    <option *ngFor="let a of createData.sales_stages" [value]="a.id">{{a.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Probability</label>
+                                <input type="text" class="form-control" [(ngModel)]="newopportunity.probability"
+                                    [disabled]="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 closeDateui">
+                            <div class="form-group ">
+                                <label>Close Date</label>
+                                <input matInput [matDatepicker]="picker" class="form-control"
+                                    [(ngModel)]="newopportunity.close_date">
+                                <mat-datepicker-toggle matSuffix [for]="picker"><i class="fas fa-calendar"></i>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Amount</label>
+                                <input type="text" class="form-control" [(ngModel)]="newopportunity.amount">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Expected Revenue</label>
+                                <p *ngIf="newopportunity.probability>0 && newopportunity.amount>0">
+                                    {{newopportunity.probability * newopportunity.amount/100}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt10">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Description</label>
+                                <textarea class="form-control" style="height:100px;"
+                                    [(ngModel)]="newopportunity.description"> </textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Check to mark the Opportunity as Key Deal</label>
+                                <input type="checkbox" [(ngModel)]="newopportunity.key_deal"><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="createData.opportunity_tags && createData.opportunity_tags.length">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tags</label>
+                                <select2 [data]="allTags"  [options]="tagOptions" (valueChanged)="selectedTags($event.value)" width="100%"></select2>
+                                <!-- <select type="text" class="form-control select2 opp-tag-select" size="4" multiple
+                                    [(ngModel)]="newopportunity.tag_id">
+                                    <option *ngFor="let a of createData.opportunity_tags" [value]="a.id">&#xf02b; &nbsp; {{a.name}}
+                                    </option>
+                                </select> -->
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="row" *ngIf="isAttachment">
+                    <div class="col-md-12"> 
+                        <h5 class="addNew-form-Subhead">Attachment Information</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-lg-12 col-md-12 mt-2" matTooltip="Attachments">
+                           
+                           <button type="button" class="btn btn-light custom-file-upload" data-toggle="modal"   data-target="#add_attachment" (click)="openAttachModeal()" ><i class="fa fa-paperclip mr-2"></i>Add Attachment</button> 
+                        </div>
+                        <div class="col-lg-12 col-md-12 mt-2" *ngIf="module_attachment">
+                            <ul class="list-unstyled" style="display: flex;flex-wrap: wrap;">
+                                <li *ngFor="let attch of module_attachment;let i=index" s
+                                    class="email_attachChip mr-1">
+                                    <a href="javascript:void(0);" class="attach-file" *ngIf="attch"><span
+                                            class="attachfileText">{{attch}}</span> <span class="attach_close"
+                                            (click)="removeModAttachment(i)">&times;</span></a>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                    <app-addform [(extraFields)]="extraFields"></app-addform>
+                </div>
+                <!-- <div class="text-right mt-2">
+                    <button class="btn btn-primary float-right" type="button" (click)="createnewOpportunity()">Save
+                        Opportunity</button>
+                </div> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary float-right" type="button" (click)="createnewOpportunity()">Save
+                    Opportunity</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add View Modal -->
+<div class="modal fade" id="modalAddView" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h4>Add New <span class="semi-bold">List View</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group-attached">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>List Name</label>
+                                <input type="text" class="form-control" name="sviewNames" [(ngModel)]="sviewName">
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top:10px;">
+                            <p>Who sees this list view?</p>
+                            <div class="radio radio-success">
+                                <div class="radio radio-success radio-single mb-2">
+                                    <input type="radio" [value]="0" id="male2" aria-invalid="false" name="optionyesc"
+                                        [(ngModel)]="sviewVisibility">
+                                    <label for="male2">Only I can see this list view</label>
+                                </div>
+                                <div class="radio radio-success radio-single">
+                                    <input type="radio" [value]="1" name="optionyesc" id="female2"
+                                        [(ngModel)]="sviewVisibility">
+                                    <label for="female2">All users can see this list view</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                (click)="saveView()">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+<!-- Rename View Modal -->
+<div class="modal fade" id="modalRename" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h4>Rename <span class="semi-bold">List View</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group-attached">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>List Name</label>
+                                <input type="text" class="form-control" [(ngModel)]="sviewName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                (click)="updateViewName()">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.Rename end-->
+
+<!-- Sharing View Modal -->
+<div class="modal fade" id="modalsharing" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h4>Sharing <span class="semi-bold">Settings</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group-attached">
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top:10px;">
+                            <p>Who sees this list view?</p>
+                            <div class="radio radio-success">
+                                <div class="radio radio-success radio-single mb-2">
+                                    <input type="radio" [value]="0" id="male" aria-invalid="false" name="optionyex"
+                                        [(ngModel)]="sviewVisibility">
+                                    <label for="male">Only I can see this list view</label>
+                                </div>
+                                <div class="radio radio-success radio-single mb-2">
+                                    <input type="radio" [value]="1" name="optionyex" id="female"
+                                        [(ngModel)]="sviewVisibility">
+                                    <label for="female">All users can see this list view</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                (click)="updateViewVisibility()">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.Sharing end-->
+<!-- MODAL STICK UP SMALL ALERT -->
+
+<div class="modal fixed-left fade" id="FilterBox" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <div class="col-md-12 col-sm-12 p0">
+                    <button type="button" class="btn btn-light float-left" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary float-right" data-dismiss="modal" (click)="saveFilter()">Save
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="FilterBlock">
+                    <div class="btn btn-light btn-block float-left defaultBtn">
+                        <div>
+                            <div class="col-md-12 p0 BtnHead">Show me</div>
+                            <div class="col-md-12 p0 BtnContent">All Opportunities</div>
+                        </div>
+                        <div class="FilterSmallpop" *ngIf="AllFilter">
+                            <div class="col-md-12" style="margin-top:10px;">
+                                <p>Who sees this list view?</p>
+                                <div class="radio radio-success">
+                                    <div class="col-md-12 p0">
+                                        <input type="radio" value="allAccount" name="optionyesu" id="allAccount"
+                                            aria-invalid="false">
+                                        <label for="allAccount">All Opportunities</label>
+                                    </div>
+                                    <div class="col-md-12 p0">
+                                        <input type="radio" checked="checked" value="myAccount" name="optionyesu"
+                                            id="myAccount">
+                                        <label for="myAccount">My Opportunities</label>
+                                    </div>
+                                    <div class="col-md-12 p0 mt5">
+                                        <button type="button" class="btn btn-light float-right"
+                                            (click)="doneAccount()">Done</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="arrowFilter"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear-both position-relative">
+                    <div *ngFor="let f of filterArray;let i =index">
+                        <div class="btn btn-light btn-block float-left NewBtn" (click)="fetchFilterData(i)" *ngIf="f.is_additional==0">
+                            <button type="button" class="close" (click)="removeFilter(i)">&times;</button>
+                            <div style="width: 85%"  >
+                                <div class="col-md-12 p0 BtnHead">{{colMap[f.column_id]}}</div>
+                                <div class="col-md-12 p0 BtnContent">{{opMap[f.operator_id]}} {{f.value}}</div>
+                            </div>
+                        </div>
+                        <div class="btn btn-light btn-block float-left NewBtn" (click)="fetchFilterCustomData(i)" *ngIf="f.is_additional==1">
+                            <button type="button" class="close" (click)="removeFilter(i)">&times;</button>
+                            <div style="width: 85%"  >
+                                <div class="col-md-12 p0 BtnHead">{{addcolMap[f.column_id]}}</div>
+                                <div class="col-md-12 p0 BtnContent">{{opMap[f.operator_id]}} {{f.value}}</div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="btn btn-light btn-block float-left NewBtn" *ngIf="AllFilterNew"
+                        style="border: 0;height: 0; padding: 0;position:relative">
+                        <div class="FilterSmallpopNew topArrow">
+                            <div class="col-md-12 p0">
+                                <div class="form-group">
+                                    <label>Fields</label>
+                                   <!--  <select class="form-control" [(ngModel)]="filterElement.column_id"
+                                        (change)="fieldFilterChange()">
+                                        <option *ngFor="let col of allColumn" [value]="col.id">{{col.alias_name}}
+                                        </option> 
+                                    </select> -->
+                                    <select class="form-control" [(ngModel)]="filterElement.column_id" (change)="filterValChange()">
+                                        <optgroup label="Standard Fields">
+                                            <option *ngFor="let col of allColumn" [value]="col.id+'-st'">{{col.alias_name}}
+                                            </option>
+                                        </optgroup>
+                                        <optgroup label="Custom Fields" *ngIf="allAdditinalColumn && allAdditinalColumn.length>0">
+                                        <option *ngFor="let add of allAdditinalColumn" [value]="add.id+'-ad'">{{add.alias_name}}
+                                        </option>
+                                      </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 p0 mt5">
+                                <div class="form-group">
+                                    <label>Operator</label>
+                                    <select class="form-control" [(ngModel)]="filterElement.operator_id">
+                                        <option *ngFor="let op of allOperators" [value]="op.id">{{op.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 p0 mt5">
+                                <div class="form-group">
+                                    <label>value</label>
+                                    <input *ngIf="!date_format && !picklist_select" [(ngModel)]="filterElement.value" type="text"
+                                        class="form-control" [disabled]="date_range">
+                                        
+                                    <span *ngIf="!date_format && !picklist_select && date_range" class="position-absolute custom_fltr_calndr"><a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('custom');"><i class="fas fa-calendar"></i></a></span> 
+                                    
+                                    <div *ngIf="date_format && !picklist_select">
+                                        <input matInput [matDatepicker]="picker" class="form-control"
+                                            [(ngModel)]="filterElement.value" placeholder="Choose a date"  id="picker_dtt" (focus)="picker.open()" >
+                                        <mat-datepicker-toggle matSuffix [for]="picker"><i class="fas fa-calendar"></i>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                    </div>
+                                    <div *ngIf="!date_format && picklist_select">
+                                        <select class="form-control" [(ngModel)]="filterElement.value">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let dt of  filter_picklist " [value]="dt.name" >{{dt.name}}</option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="date_range" class="date_rng"> 
+                                        <a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('YESTERDAY')">Yesterday</a>
+                                        <a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('TODAY')">Today</a>
+                                        <a href="javascript:void(0)" (click)="more_range_show()" *ngIf="!more_range" class="mb-1 ml-1"><i class="mdi mdi-calendar-plus"></i> More</a>
+                                        <span *ngIf="more_range">
+                                             <a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('TOMORROW')">TOMORROW</a>
+                                            <a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('CURRENT MONTH')">Current Month</a>
+                                            <a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('PREVIOUS MONTH')">Previous Month</a> 
+                                        </span>
+                                        <a href="javascript:void(0)" (click)="less_range_show()" *ngIf="more_range" class="mb-1 ml-1"><i class="mdi mdi-calendar-minus"></i>Less</a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt5 p0">
+                                <button type="button" class="btn btn-light float-right"
+                                    (click)="AddFilterElement()">Done</button>
+                            </div>
+                            <div class="arrowFilter"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-12 col-sm-12 p0 mt5">
+                    <a (click)="NewFilterShowHide()" class="pull-left">Add Filter</a>
+                    <a (click)="filterArray=[]" class="pull-right">Remove All</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL STICK UP SMALL ALERT -->
+
+
+<!-- Add View Modal -->
+<div class="modal fade" id="modalFieldisp" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog " style="max-width:700px">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h4>Select Fields to Display</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngIf="columns!=undefined && allColumn!=undefined">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Available Standard Fields</label>
+                            <select class="form-control" multiple size="10" [(ngModel)]="aFields">
+                                <option *ngFor="let col of getAvailableFields()" [value]="col">{{col.alias_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="button-list mt-3">
+                            <button type="button" (click)="moveToVisisble()"
+                                class="btn btn-success waves-effect waves-light"><i
+                                    class="fas fa-arrow-right"></i></button>
+                            <button type="button" (click)="moveToAvailable()"
+                                class="btn btn-danger waves-effect waves-light"><i
+                                    class="fas fa-arrow-left"></i></button>
+                            <button type="button" (click)="moveUp()" class="btn btn-info waves-effect waves-light"><i
+                                    class="fas fa-arrow-up"></i></button>
+                            <button type="button" (click)="moveDown()"
+                                class="btn btn-warning waves-effect waves-light"><i
+                                    class="fas fa-arrow-down"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Visible Standard Fields</label>
+                            <select class="form-control" multiple size="10" [(ngModel)]="visiFields">
+                                <option *ngFor="let col of getVisibleFields()" [value]="col">{{col.alias_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                 <!---Additional Fields Display--> 
+                
+                <div class="row" *ngIf="additinalColumn!=undefined && isLocal">
+                    <hr>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Available Additional Fields</label>
+                            <select class="form-control" multiple size="10" [(ngModel)]="availableExtraFileds">
+                                <option *ngFor="let fld of getAdditionalAvailableFields()" [value]="fld">{{fld.alias_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="button-list mt-3">
+                            <button type="button" (click)="moveToAdditionalVisisble()"
+                                class="btn btn-success waves-effect waves-light"><i
+                                    class="fas fa-arrow-right"></i></button>
+                            <button type="button" (click)="moveToAdditionalAvailable()"
+                                class="btn btn-danger waves-effect waves-light"><i
+                                    class="fas fa-arrow-left"></i></button>
+                            <button type="button" (click)="moveAdditionalUp()" class="btn btn-info waves-effect waves-light"><i
+                                    class="fas fa-arrow-up"></i></button>
+                            <button type="button" (click)="moveAdditionalDown()"
+                                class="btn btn-warning waves-effect waves-light"><i
+                                    class="fas fa-arrow-down"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Visible Additional Fields</label>
+                            <select class="form-control" multiple size="10" [(ngModel)]="visibleExtraFileds">
+                                <option *ngFor="let col of getVisibleAdditionalFields()" [value]="col">{{col.alias_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-12 m-t-10 sm-m-t-10">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            (click)="updateColumns()">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+
+
+
+
+
+<div id="add_new_opp_stn" class="modal fixed-left fade" tabindex="-1" role="dialog" style="padding-right: 0 !important;" [ngClass]="popUpClass ? 'modelOpenNew':''" *ngIf="newStAccPop && openStandard_f">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">{{formTitle}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body addNew-form" *ngIf="createData">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">{{st_formType}} Information</h5>
+                    </div>
+                </div>
+              <div *ngIf="standardFields && standardFields.length>0"> 
+                  <div class="row">
+
+                      <div class="col-md-6" *ngFor="let fld of standardFields;let i=index"  [ngClass]="(PerAccountCont && (fld.type=='search_account' || fld.type=='search_contact'  )) ? 'pa_hide': (fld.type=='search_per_account' && PerAccountCont==false)?'acc_hide':'no-to-class'" >
+                          <div class="form-group" *ngIf="fld.name=='name'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newopportunity.name">
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='amount'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <!-- <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name"  [(ngModel)]="newopportunity.amount"> -->
+                              <input type="number" class="form-control" id="{{fld.name}}_st" min="1" name="fld.name"  [(ngModel)]="newopportunity.amount">
+                          </div>
+
+
+                          <div class="form-group" *ngIf="fld.type=='search_account' && AccountCont">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" (keyup)="search_acc($event)" [(ngModel)]="account_nameSearch" name="auto_acc_name"
+                                        placeholder="Search Account">
+
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoAccList.length >0">
+
+                                        <div *ngFor="let acc of autoAccList" class="auto-itm">
+                                            <div (click)="selectAccId(acc.id)">
+                                                <strong>{{acc.name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                          </div>
+                          <div class="form-group" *ngIf="fld.type=='search_contact' && AccountCont">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newopportunity.contact_id">
+                                    <option *ngFor="let a of accounts_client" [value]="a.id">
+                                        {{a.first_name}} {{a.middle_name}} {{a.last_name}}
+                                    </option>
+                              </select>
+                          </div>
+                          <div class="form-group" *ngIf="fld.type=='search_per_account' && PerAccountCont" >
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="per_account_nameSearch" 
+                                        (keyup)="search_per_acc($event)" 
+                                        placeholder="Search Account">
+
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoPerAccList.length >0">
+
+                                        <div *ngFor="let acc of autoPerAccList" class="auto-itm">
+                                            <div (click)="selectPerAccId(acc.id)">
+                                                <strong>{{acc.first_name}} {{acc.last_name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                          </div>
+                          <div class="form-group" *ngIf="fld.name == 'description'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <textarea class="form-control" id="{{fld.name}}_st" name="fld.name"   [(ngModel)]="newopportunity.description"></textarea>
+                          </div>
+
+                          <!-- number fields -->
+                          <div class="form-group" *ngIf="fld.name=='no_of_nights'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}_st" min="1" name="fld.name"  [(ngModel)]="newopportunity.no_of_nights">
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='no_of_pax'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}_st" min="1" name="fld.name"  [(ngModel)]="newopportunity.no_of_pax">
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='no_of_adults'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}_st" min="1" name="fld.name"  [(ngModel)]="newopportunity.no_of_adults">
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='no_of_childs'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}_st" min="1" name="fld.name"  [(ngModel)]="newopportunity.no_of_childs">
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='no_of_infants'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}_st" min="1" name="fld.name"  [(ngModel)]="newopportunity.no_of_infants">
+                          </div>
+
+                         <!--  <div class="form-group" *ngIf="fld.type=='selectbox'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st">
+                                   <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a">{{a}}
+                                  </option>
+                              </select>
+                          </div> -->
+                          <!-- <div class="form-group" *ngIf="fld.type=='multiselect'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" size="4" id="{{fld.name}}_st" multiple>
+                                  <option *ngFor="let a of fld.type_value" [value]="a">{{a}}
+                                  </option>
+                              </select>
+                          </div> -->
+                          <div class="form-group" *ngIf="fld.name=='key_deal'" id="{{fld.name}}_check">
+                              <label class="key_check_label">{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <div *ngFor="let a of fld.type_value" class="form-check form-check-inline key_check">
+
+                                  <input type="checkbox" value="{{a}}"  id="{{fld.name}}_st"  class="{{fld.name}} form-check-input ml-0" [(ngModel)]="newopportunity.key_deal">
+                                  <label class="form-check-label"></label>
+                              </div>
+                          </div>
+                          <div class="" *ngIf="fld.type=='radio' && fld.name=='opportunitable_type'" id="{{fld.name}}_radio">
+                              <label class="">{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <div *ngFor="let a of fld.type_value" class="form-check form-check-inline" style="cursor:pointer;"> 
+                                    <label style="vertical-align: top;" *ngIf="a=='Account'" class="form-check-label">
+                                     <input type="radio"  value="{{a}}" class="{{fld.name}} form-check-input ml-0" name="radio_fetch" checked  (click)="AccountContShow()" >{{a}}</label> 
+                                  <label style="vertical-align: top;" *ngIf="a!='Account'"  class="form-check-label">
+                                      <input type="radio"  value="{{a}}" class="{{fld.name}} form-check-input ml-0" name="radio_fetch"  (click)="PerAccountContShow()">{{a}}
+                                  </label> 
+                              </div>
+                          </div>
+                          <!-- <div class="" *ngIf="fld.type=='radio' && fld.name!='opportunitable_type'" id="{{fld.name}}_radio">
+                              <label class="">{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <div *ngFor="let a of fld.type_value" class="form-check form-check-inline">
+                                <input type="radio" value="{{a}}" class="{{fld.name}} form-check-input ml-0" name="radio_fetch">
+                                  <label style="vertical-align: top;" class="form-check-label">{{a}}</label>
+                              </div>
+                          </div> -->
+                          <div class="form-group" *ngIf="fld.name=='probability'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                                <input type="text" class="form-control"  id="{{fld.name}}_st" [(ngModel)]="newopportunity.probability" [disabled]="true"> 
+                               
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='expected_revenue'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                                <p *ngIf="newopportunity.probability>0 && newopportunity.amount>0">
+                                    {{newopportunity.probability * newopportunity.amount/100}}</p>
+                               
+                          </div>
+                          <div class="form-group custom_calender_c" *ngIf="fld.name=='travel_date'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <input matInput [matDatepicker]="picker2"  id="{{fld.name}}_st"  class="form-control form-control1"  [(ngModel)]="newopportunity.travel_date">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"><i class="fas fa-calendar"></i>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+
+                          </div> 
+                          
+                          <div class="form-group custom_calender_c" *ngIf="fld.name=='close_date'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <input matInput [matDatepicker]="picker_opp" class="form-control form-control1"  id="{{fld.name}}_st" 
+                                    [(ngModel)]="newopportunity.close_date">
+                                <mat-datepicker-toggle matSuffix [for]="picker_opp"><i class="fas fa-calendar"></i>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker_opp></mat-datepicker>
+
+                          </div> 
+                          <div class="form-group" *ngIf="fld.name=='experience_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newopportunity.experience_id">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='inclusion_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <select2 [data]="allInclusions"  [options]="incOptions" (valueChanged)="selectedIncl($event.value)" width="100%"></select2>
+                             <!--  <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newopportunity.inclusion_id" multiple="">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>   -->   
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='sales_stage_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newopportunity.sales_stage_id" (change)="selectStage($event.target.value)"> 
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option> 
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='tag_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <select2 [data]="allTags"  [options]="tagOptions" (valueChanged)="selectedTags($event.value)" width="100%"></select2>
+                                <!-- <select type="text" class="form-control select2 opp-tag-select" size="4" multiple  id="{{fld.name}}_st" 
+                                    [(ngModel)]="newopportunity.tag_id">
+                                    <option *ngFor="let a of createData.opportunity_tags" [value]="a.id">&#xf02b; &nbsp; {{a.name}}
+                                    </option>
+                                </select> -->
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='destination_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <select2 [data]="allDestinations"   [ngClass]="dest_error ? 'frm-danger':''"  [options]="destOptions" (valueChanged)="selectedDestin($event.value)" width="100%"></select2> 
+                          </div>
+                      </div>
+               
+                  </div>
+              </div>
+
+              <app-addform [(extraFields)]="extraFields"></app-addform>
+           </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary float-right" type="button" (click)="createnewStOpportunity()">Save
+                    Opportunity</button>
+            </div>
+</div>
+</div>
+</div> 
+ 
+<app-attachment-upload [(module_attachment)]="module_attachment" [(documentData)]="documentData" [(attachModalOpen)]="attachModalOpen" *ngIf="attachModalOpen"></app-attachment-upload>    
+
+<style type="text/css">
+    .custom_calender_c .mat-datepicker-toggle {
+        top: 16px !important;
+        right: 0px !important;
+    }
+      .key_check{
+    position: revert;
+  }
+  .key_check input{
+    position: absolute;
+    left: 0;
+    top: 19%;
+  }
+  .key_check_label{
+    margin-left: 10%;
+  }
+  .acc_hide{
+        display: none;
+    }
+    .pa_hide{
+        display: none;
+    }
+    
+
+    input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}
+
+   
+</style>

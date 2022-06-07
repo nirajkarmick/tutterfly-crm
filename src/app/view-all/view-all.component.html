@@ -1,0 +1,190 @@
+<div>
+  <div>
+    <!--Contact Section Start-->
+    <div class="modal-header clearfix text-right" style="display: inherit;">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onNoClick()">&times;
+      </button>
+    </div>
+    <div class="ContactCont" *ngIf="rContact!=undefined">
+      <div class="ContactHead">
+        <div class="SmallIcon Contacticon pull-left">&nbsp;</div>
+        <div class="SmallIconHead pull-left">Contact( <span>{{rContact.length}}</span> )</div>
+        <!-- <button type="button" class="btn btn-light pull-right" (click)="open_new()">New</button> -->
+      </div>
+      <div class="row contactListcont">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <table class="table table-hover table-condensed dataTable no-footer">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Title</th>
+                <th>Email</th>
+                <th>Phone</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let obj of rContact">
+                <td class="hoverSec"><a href="javascript:void(0);"
+                    (click)="open_details(obj.id)">{{obj.salutation | titlecase}} {{obj.first_name  | titlecase}}
+                    {{obj.middle_name  | titlecase}} {{obj.last_name  | titlecase}}
+                    <div class="HoverPop">
+                      <div class="pointerArrow"></div>
+                      <div style="height:40px;">
+                        <div class="BigIcon Contacticon"></div>
+                        <div class="BigIconHead"><a href="javascript:void(0);">{{obj.first_name  | titlecase}}
+                            {{obj.middle_name  | titlecase}} {{obj.last_name  | titlecase}}</a></div>
+                      </div>
+                      <div class="BigIconContent">
+                        <div class="col-md-6 col-sm-6 mt5 pull-left cnt"><span class="title_">Title</span><span
+                            class="content_">{{obj.title}}</span></div>
+                        <div class="col-md-6 col-sm-6 mt5 pull-left cnt"><span class="title_">Account Name</span><span
+                            class="content_">{{obj.first_name  | titlecase}} {{obj.middle_name  | titlecase}}
+                            {{obj.last_name  | titlecase}}</span></div>
+                        <div class="col-md-6 col-sm-6 mt5 pull-left cnt"><span class="title_">Phone</span><span
+                            class="content_">{{obj.phone}}</span></div>
+                        <div class="col-md-6 col-sm-6 mt5 pull-left cnt"><span class="title_">Email</span><span
+                            class="content_">{{obj.email}}</span></div>
+                      </div>
+                    </div>
+                  </a></td>
+                <td>{{obj.title}}</td>
+                <td>{{obj.email}}</td>
+                <td>{{obj.phone}}
+                  <!-- <div class="dropdown">
+                      <button class="btn btn-light dropdown-toggle pull-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item" href="#">Delete</a>
+                      </div>
+                    </div> -->
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+
+
+      </div>
+
+
+
+    </div>
+
+    <!--Opportunities Section Start-->
+    <div class="OpporCont CRMTable" *ngIf="opportunities!=undefined">
+      <div class="ContactHead">
+        <div class="SmallIcon Contacticon pull-left">&nbsp;</div>
+        <div class="SmallIconHead pull-left">Opportunities({{opportunities.length}})
+          <!-- <a *ngIf="opportunities.length>6">View All</a> -->
+        </div>
+        <button type="button" class="btn btn-light pull-right" (click)="open_new()">New</button>
+      </div>
+
+
+      <div class="row contactListcont">
+        <div class="col-lg-12 col-md-12 col-sm-12 ">
+          <table class="table table-hover table-condensed dataTable no-footer">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>No. Of Pax</th>
+                <th>Date of Travel</th>
+                <th>Close Date</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let op of opportunities">
+                <td class="hoverSec"><a href="javascript:void(0);" (click)="open_details(op.id)">{{op.name}}
+                    <div class="HoverPop">
+                      <div class="pointerArrow"></div>
+                      <div style="height:40px;">
+                        <div class="BigIcon Contacticon"></div>
+                        <div class="BigIconHead"><a href="javascript:void(0);">{{op.name  | titlecase}}</a></div>
+                      </div>
+                      <div class="BigIconContent oppcons">
+                        <!-- <div class="col-md-6 col-sm-6 mt5 pull-left cnt"><span class="title_">Account Name</span><span class="content_">{{accParent[op.account_id]}}</span></div> -->
+                        <div class="col-md-6 col-sm-6 mt5 pull-left cnt"><span class="title_">Close Date</span><span
+                            class="content_">{{op.close_date}}</span></div>
+                        <div class="col-md-6 col-sm-6 mt5 pull-left cnt"><span class="title_">Amount</span><span
+                            class="content_">{{op.amount}}</span></div>
+                        <!-- <div class="col-md-6 col-sm-6 mt5 pull-left cnt"><span class="title_">Opportunity Owner</span><span class="content_">{{accParent[op.owner_id]}}</span></div> -->
+                      </div>
+                    </div>
+                  </a></td>
+                <td>{{op.amount}}</td>
+                <td>{{op.no_of_pax}}</td>
+                <td>{{op.travel_date}}</td>
+                <td>{{op.close_date}}</td>
+                <!-- <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle pull-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" href="#">Edit</a>
+                              <a class="dropdown-item" href="#">Delete</a>
+                            </div>
+                          </div> -->
+
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="ContactCont" *ngIf="stages!=undefined">
+      <div class="ContactHead">
+        <div class="SmallIcon Contacticon pull-left">&nbsp;</div>
+        <div class="SmallIconHead pull-left">Stage History( <span>{{stages.length}}</span> )</div>
+
+      </div>
+      <div class="row contactListcont ">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <table class="table table-hover table-condensed dataTable no-footer">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>Amount</th>
+                <th>Probability (%)</th>
+                <th>Expected Revenue</th>
+                <th>Close Date</th>
+                <th>Last Modified</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let obj of stages">
+                <td>{{obj.sales_stage}}</td>
+                <td>{{obj.amount}}</td>
+                <td>{{obj.probability}}</td>
+                <td>{{obj.expected_revenue}}</td>
+                <td>{{obj.close_date}}</td>
+                <td>{{obj.updated_at  | date: 'dd MMM yyyy | hh:mm a' }}</td>
+
+                <!-- <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle pull-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#">Edit</a>
+                          <a class="dropdown-item" href="#">Delete</a>
+                        </div>
+                      </div> -->
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+
+
+      </div>
+
+
+
+    </div>
+  </div>
+  <button class="btn btn-primary btn-sm btn-block" style="width: 100px;margin: 10px auto 0;" mat-raised-button
+    (click)="onNoClick()">Close</button>

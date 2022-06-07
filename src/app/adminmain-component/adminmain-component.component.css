@@ -1,0 +1,41 @@
+/*@import url("css/corporate.css");*/
+.page-container {
+    padding-left: 0;
+}
+
+.page-container .page-content-wrapper {
+    padding-left: 220px;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.page-container .page-content-wrapper .content {
+    padding-top: 0;
+}
+
+.page-container .page-content-wrapper .content.adminWrapperContent{
+    /*padding-bottom: 0;*/
+    /*padding-left: 30px;
+    padding-right: 30px;*/
+}
+
+@media (max-width: 767px) {
+    .page-container .page-content-wrapper {
+        padding-left: 0px;
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+    .page-container .page-content-wrapper .content.adminWrapperContent{
+        padding-bottom: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+.logo-light span span{
+    color: #fff;
+    position: relative;
+    top: 10px;
+    margin-left: 5px;
+}

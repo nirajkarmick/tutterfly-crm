@@ -1,0 +1,3 @@
+.CRMTable .card .card-block { padding: 0px; /*height: 400px;*/padding: 10px;}
+/* #modalAdd .modal-content{height:250px} */
+#modalAdd .modal-body { height: 150px; overflow-y: hidden;}

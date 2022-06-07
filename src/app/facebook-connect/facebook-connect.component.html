@@ -1,0 +1,106 @@
+<!-- <div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Facebook Connect</h4>
+        </div>
+    </div>
+</div> -->
+<div class=" no-padding container-fixed-lg bg-white mt-2">
+    <div class="container-fluid p0">
+        <div class="card" style="min-height:500px">
+            <div class="card-header">
+                <div class="card-title col-md-9">
+                    <div class="MainHeadCont">
+                        <h5 class="MainHead">Facebook Leads Managment </h5>
+                    </div>
+                </div>
+                <div class="col-md-3 pull-left"> 
+                </div>
+            </div>
+            <div class="card-body"> 
+           <div class="row">
+                   <div class="col-12 d-flex align-items-center justify-content-center heightMainbody mt-3" *ngIf="!isFbConneted">
+                       <div class="text-center width-75 m-auto maindivcard"> 
+                           <h1>WATInt Lead Management Platform</h1>
+                           <a href="https://int.watconsultingservices.com?connetWAT={{random_hash}}&email={{tenantEmail}}&dm={{tenantDomain}}&dc={{tenantDB}}&tn_id={{tenantId}}" target="_blank">
+                           <img class="img" src="assets/img/fb_connet.png" width="250" alt=""></a>
+                           
+                       </div> 
+                   </div>  
+                   <div class="col-12 d-flex align-items-center justify-content-center heightMainbody" *ngIf="isFbConneted">
+                       <div class="text-center width-75 m-auto maindivcard"> 
+                           <h1>WATInt Lead Management Platform</h1>
+                          <div> Connected to Facebook </div>
+                          <!-- <div>
+                            <button class="btn btn-info btn-rounded waves-effect waves-light mt-3" (click)="pull_leads()"><i aria-hidden="true" class="mdi mdi-source-pull m-1"
+                                      ></i>Pull New Leads From Facebook </button>
+                          </div> -->
+                        </div>
+                  </div>
+                  <div class="row mt-3 m-1"  *ngIf="isFbConneted"> 
+                    <div class="card col-4 " *ngFor="let pg of allPages">
+                        <img class="card-img-top" src="assets/img/login_bg.jpg" alt="Picture" style="height: 120px">
+                        <div class="card-body text-center">
+                          <img class="avatar_fb rounded-circle" src="{{pg.picture.data.url}}" alt="Picture"> 
+                          <h4 class="card-title" *ngIf="pg.name">{{pg.name}}</h4> 
+                            <p class="card-text" *ngIf="pg.about" matTooltip="{{pg.about}}">{{(pg.about.length>120)? (pg.about | slice:0:120)+'..':(pg.about)}}</p>
+                            <p class="card-text" *ngIf="pg.website"  >{{pg.website}}</p> 
+                            <p class="card-text" *ngIf="fbPageLeads[pg.id]">
+                                <strong>Total Leads:{{fbPageLeads[pg.id]}}</strong>
+                            </p>   
+                        </div>
+                    </div>                       
+                 </div>
+                 
+                 <div class="col-12 mt-4" *ngIf="isFbConneted && fb_leads && fb_leads.length>0">                   
+                        <div class="row">
+                        <div class="col-md-6"> <h3>Facebook Leads({{fb_leads.length}})</h3>
+                        </div>
+                        <div class="col-md-6">
+                                <button class="btn btn-primary mt-2 pull-right mb-1" (click)="save_leads()"><i  class="mdi mdi-filter-menu-outline m-1"></i>Save </button>
+                          </div>
+                        </div>
+                        <div class="table-responsive"> 
+                                <table class="table table-bordered table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">
+                                  <input type="checkbox" class="custom-control-input" id="customCheck_all" (change)="checkAllLeads($event)" [(ngModel)]="selectAll" style="position:relative;">
+                                            <label class="custom-control-label" for="customCheck_all"  matTooltip="Select All">Select All</label></th>
+                                      <th scope="col">Name</th>
+                                      <th scope="col">Email</th>
+                                      <th scope="col">Phone</th>
+                                      <th scope="col">Date</th> 
+                                      <th scope="col">Page</th> 
+                                      <th scope="col">&nbsp;</th> 
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let lead of fb_leads;let i=index">
+                                      <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck_{{i}}" [(ngModel)]="lead.checked" >
+                                            <label class="custom-control-label" for="customCheck_{{i}}"></label>
+                                        </div>
+                                      </td>
+                                      <td>{{lead.first_name}} {{lead.last_name}}</td>
+                                      <td>{{lead.email}}</td>
+                                      <td>{{lead.phone}}</td> 
+                                      <td>{{lead.created_at | date: 'dd MMM yyyy'}}</td> 
+                                      <td>{{lead.c_id}}</td> 
+                                      <td>
+                                    <span><a href="javascript:(0)" (click)="deleteLeads(lead.id,lead.first_name)" matTooltip="Delete"><i aria-hidden="true" class="fas fa-trash text-danger"
+                                      ></i></a></span></td>
+                                    </tr> 
+                                  </tbody>
+                                </table>
+                        </div>
+
+                </div>
+       </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

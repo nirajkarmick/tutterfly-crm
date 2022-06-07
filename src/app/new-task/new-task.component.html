@@ -1,0 +1,190 @@
+<!--<div class="modal">-->
+<div class="modal-dialog newTask">
+  <div class="modal-content">
+    <div class="modal-header clearfix">
+      <h5><span class="semi-bold">{{title}}</span></h5>
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onCloseDialog(undefined)">&times;
+      </button>
+      
+    </div>
+    <div class="modal-body">
+      <!-- <form role="form"> -->
+      <div class="col-md-12 popHead">Task Information</div>
+      <div class="">
+        <div class="row mt10">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Subject *</label>
+              <input type="text" [ngClass]="name_error ? 'frm-danger':''" class="form-control"
+                [(ngModel)]="newTask.name">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group ">
+              <label>Assigned To</label>
+              <select type="text" class="form-control" [(ngModel)]="newTask.assigned_user_id">
+                <option *ngFor="let obj of users" [value]="obj.id">{{displayOption(obj)}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Comments</label>
+              <textarea class="form-control" style="height:60px;" [(ngModel)]="newTask.description"></textarea>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Status *</label>
+              <select type="text" [ngClass]="status_error ? 'frm-danger':''" class="form-control"
+                [(ngModel)]="newTask.status">
+                <option *ngFor="let obj of statusList" [value]="obj.name">{{displayOption(obj)}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group taskPopDate">
+              <label>Due Date</label>
+
+              <!-- <mat-form-field class="form-control">
+                              <input matInput [matDatepicker]="picker" (focus)="picker.open()"  [(ngModel)]="newTask.due_date">
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                          </mat-form-field> -->
+              <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" class="form-control" [(ngModel)]="newTask.due_date" [ngClass]="due_error ? 'frm-danger':''"
+                placeholder="Date Time" [min]="todayDate">
+              <owl-date-time #dt1></owl-date-time>
+
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Priority</label>
+              <select type="text" class="form-control text-capitalize" [(ngModel)]="newTask.priority">
+                <option *ngFor="let obj of priority" [value]="obj.name">{{displayOption(obj)}}</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-12 mt10 popHead" *ngIf="related_to">Related To</div>
+        <div class="row"  *ngIf="related_to">
+          <div class="col-md-12 addmodelRadio">
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" [(ngModel)]="newTask.taskable_type"
+                    name="inlineRadioOptions" id="inlineRadio1" value="App\Account" (click)="AccountContShow()" checked>
+                  Account
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                    [(ngModel)]="newTask.taskable_type" id="inlineRadio2" value="App\PersonalAccount"
+                    (click)="PerAccountContShow()"> Person Account
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="inlineRadio3">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                    [(ngModel)]="newTask.taskable_type" id="inlineRadio3" value="App\Opportunity"
+                    (click)="OppContShow()"> Opportunity
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="AccountCont">
+          <div class="col-md-6">
+            <div class="form-group autocomplete" style="width:90%">
+              <label>Accounts *</label>
+
+              <input id="myInput" [(ngModel)]="account_nameSearch" class="form-control" type="text"
+                [ngClass]="acct_error ? 'frm-danger':''" (keydown)="search_acc($event)" name="auto_acc_name"
+                placeholder="Search Account">
+
+              <div id="myInputautocomplete-list" class="autocomplete-items" *ngIf="autoAccList.length >0">
+
+                <div *ngFor="let acc of autoAccList" class="auto-itm">
+                  <div (click)="selectAccId(acc.id)">
+                    <strong>{{acc.name}}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Contact Name *</label>
+              <select type="text" [ngClass]="cont_error ? 'frm-danger':''" class="form-control" [disabled]="!contacts"
+                [(ngModel)]="newTask.contact_id">
+                <option *ngFor="let obj of contacts;let i = index" [value]="obj.id" [label]="displayOption(obj)"
+                  [selected]="i==0">{{displayOption(obj)}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="PerAccountCont">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Person Accounts *</label>
+
+              <input id="myInput" [(ngModel)]="per_account_nameSearch" class="form-control" type="text"
+                [ngClass]="per_error ? 'frm-danger':''" (keydown)="search_per_acc($event)" name="auto_p_acc_name"
+                placeholder="Search Account">
+
+              <div id="myInputautocomplete-list" class="autocomplete-items" *ngIf="autoPerAccList.length >0">
+
+                <div *ngFor="let acc of autoPerAccList" class="auto-itm">
+                  <div (click)="selectPerAccId(acc.id)">
+                    <strong>{{acc.first_name}} {{acc.last_name}}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="PerOppCont">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Opportunity *</label>
+
+              <input id="myInput" [(ngModel)]="opp_nameSearch" class="form-control" type="text"
+                [ngClass]="opp_error ? 'frm-danger':''" (keydown)="search_opp($event)" name="opp_nameSearch" placeholder="Search Opportunity">
+
+              <div id="myInputautocomplete-list" class="autocomplete-items" *ngIf="autoOppoList.length >0">
+
+                <div *ngFor="let acc of autoOppoList" class="auto-itm">
+                  <div (click)="selectOppId(acc.id)">
+                    <strong>{{acc.name}}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-md-12">
+        <div class="col-md-9 col-sm-9 p0 pull-left">
+        </div>
+        <div class="col-md-3 col-sm-3 p0 pull-right">
+          <button type="button" class="btn btn-primary btn-block m-t-5 pull-right" (click)="createNew()"
+            data-dismiss="modal">{{botton_tittle}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

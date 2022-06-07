@@ -1,0 +1,88 @@
+<div class="card-block p0 CRMTable FileCont" *ngIf="_source && displayColumns && keys">
+    <div class="breadcrumbs">
+        <a *ngFor="let b of breadCrumbs;let i = index"><span (click)="getNextFolderListTable(b.id,b.Name,i)" [ngClass]="breadCrumbs.length == i+1 ? 'active':''">{{b.Name}}&nbsp;</span><i class="fa fa-angle-right"></i></a>
+    </div>
+    <div class="table-responsive">
+        <mat-form-field class="MatSearch" style="display:none;">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+
+        <table mat-table [dataSource]="_source" class="table tableRepo table-hover table-bordered table-striped" matSort>
+            <ng-container *ngFor="let obj of displayColumns" [matColumnDef]="obj.name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header><span class="spanMAin">{{obj.alias_name}}</span></th>
+                <td mat-cell *matCellDef="let row" class="elips" style="position: relative;">
+          
+            <span *ngIf=" !(obj.name==='created_by' || obj.name==='owner_id' || obj.name==='last_modified_by_id' || obj.name==='folder_id')">
+              <span *ngIf="row[obj.name] && row[obj.name].name">
+                  <span class="pull-left eilps spanMAin">{{row[obj.name].name}}</span> 
+              </span>
+              <span *ngIf="mainReport && (row[obj.name] && !row[obj.name].name)">
+                  <div *ngIf="obj.name == 'name' ; else noLink" class="pull-left">                    
+                    <a *ngIf="!isFolder" class="elips spanMAin"
+                       [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reportDisplay'] }}]"
+                       [queryParams]="{ 'id': row.id}">
+                      {{row[obj.name]}}
+                    </a>
+                    <a *ngIf="isFolder" class="spanMAin" (click)="getNextFolderListTable(row.id,row[obj.name])" [routerLink]="">
+                        <span class="fileIcon_folder pull-left"></span>
+                        <span class="pull-left elips ">{{row[obj.name]}}</span>
+                    </a>
+                   </div>
+                  <ng-template #noLink>
+                      <span class="pull-left elips spanMAin" (click)="navigate(obj.name,row.id)" *ngIf="obj.name!='created_at' && obj.name!='updated_at'">{{row[obj.name]}} {{obj.name}}</span>
+                      <span *ngIf="obj.name=='created_at' || obj.name=='updated_at'">{{row[obj.name] | date: 'dd MMM yyyy'}}</span>
+                  </ng-template>
+                 
+              </span>
+
+              <span *ngIf="!mainReport && (row[obj.name] && !row[obj.name].name)">
+                  <div *ngIf="obj.name == 'name' ; else noLink" class="pull-left">                   
+                    <a *ngIf="row['folder'] == 0" class="elips spanMAin"
+                       [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reportDisplay'] }}]"
+                       [queryParams]="{ 'id': row.id}">
+                      {{row[obj.name]}}
+                    </a>
+                    <a *ngIf="row['folder'] == 1" class="spanMAin" (click)="getNextFolderListTable(row.id,row[obj.name])" [routerLink]=""> 
+                        <span class="fileIcon_folder pull-left"></span>
+                        <span class="pull-left elips ">{{row[obj.name]}}</span>
+                    </a>
+                  
+                  </div>
+                  <ng-template #noLink>
+                     <!--  <span class="pull-left elips spanMAin"
+                            (click)="navigate(obj.name,row.id)">{{row[obj.name]}}
+                          </span> -->
+                          <span class="pull-left elips spanMAin" (click)="navigate(obj.name,row.id)" *ngIf="obj.name!='created_at' && obj.name!='updated_at'">{{row[obj.name]}} {{obj.name}}</span>
+                      <span *ngIf="obj.name=='created_at' || obj.name=='updated_at'">{{row[obj.name] | date: 'dd MMM yyyy'}}</span>
+                  </ng-template>
+                 
+              </span>
+            </span>
+                    <span *ngIf=" obj.name==='created_by' || obj.name==='owner_id' || obj.name==='last_modified_by_id'">
+              <span class="pull-left elips spanMAin"> {{userMap.get(row[obj.name])}}</span>
+            </span>
+                    <span *ngIf=" obj.name==='folder_id'">
+               <a class="spanMAin" (click)="getNextFolderListTable(row[obj.name].id,row[obj.name].name)" [routerLink]="">
+                      <span class="fileIcon_folder pull-left"></span>
+                      <span class="pull-left elips spanMAin foldder" *ngIf="row[obj.name]">{{row[obj.name].name}}</span> 
+            </a>
+            </span>
+
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="keys"></tr>
+            <tr mat-row *matRowDef="let row; columns: keys;"></tr>
+        </table>
+        <!--<mat-paginator class="tableRepoPage" [pageSizeOptions]="[10, 25, 100]"></mat-paginator>-->
+
+    </div>
+</div>
+
+
+<script>
+    var styleNode = document.createElement('style');
+    styleNode.type = "text/css";
+    document.getElementsByTagName('head')[0].appendChild(styleNode);
+    document.getElementsByName('object').contents().find("head").append($("<style type='text/css'>pre{font-size:32px;}</style>"));
+</script>

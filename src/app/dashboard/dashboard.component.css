@@ -1,0 +1,84 @@
+.widgetCont{background: #fff; border:1px solid #ddd;border-radius: 8px;/*margin-top:15px;*/width:100%;height:auto;max-height:500px;}
+
+.widgetContent{padding:15px;text-align: left;}
+.widgetCont a{color: rgb(0, 109, 204);}
+.headDate{font-size:12px; margin:5px 10px 0 0;}
+.btn-group .btn{padding: 4px 10px;}
+.widgetContSmall{background: #fff; border:1px solid #ddd;border-radius: 8px;/*margin-top:15px;*/width:100%;height:auto;max-height:250px;min-height: 150px;min-height: 100px;overflow: hidden}
+.widgetContSmall .widgetContent{padding:15px;text-align: left;max-height:205px; height: 200px;overflow-y: auto;}
+
+.taskHist{ padding-bottom: 5px; border-bottom: 1px solid #ddd;}
+.eventHist{ padding: 5px 0; border-bottom: 1px solid #ddd; float:left;width:100%;/*height: 50px;*/}
+.eventHist .evntName{padding: 0 5px 0 0;float:left;}
+.eventHist .evntMsg{padding: 0;float:left;/*font-weight:600;*//*text-transform: capitalize;*/ word-break: break-all;text-overflow: hidden;}
+.eventHist .evntDate{padding: 0;color:#aaa;float:left;}
+.widgetHeader2{font-size:16px;max-width: 100%; text-overflow: ellipsis; white-space: nowrap;font-weight: 700;padding: 15px 15px 5px 15px;text-align: left;float: left;width: 100%}
+.widgetHeader2 .head{font-size:14px;color:#777;margin-right:8px;float:left;font-weight:normal;line-height: 27px}
+.widgetHeader2 .content{font-size:18px;margin-right:15px;float:left;font-weight:500;position: relative;}
+.widgetHeader2 .content span{font-size:18px;margin-right:5px;float:left;}
+.widgetHeader2 .content a{font-size:16px;float:left;}
+.widgetHeader2 .content .valueBox{width:200px;height:150px;border-radius: 15px;border:1px solid #999;background: #fff; position: absolute; z-index: 8989;top: 25px;right: 0;}
+.widgetHeader2 .content .valueBoxHead{padding: 10px 15px 5px 15px; color: #222; font-size: 15px;}
+.widgetHeader2 .content .valueBoxContent{padding: 10px 15px 5px 15px; color: #222; font-size: 15px;height: 60px;}
+.dashPage .ContactHead{width: 100%; /*min-height: 36px;*/ height: auto; display: block; /*max-height: 50px;*/ float: left; margin-bottom: 10px;}
+.keyDeal{padding-bottom:5px}
+.widgetContent .keyDeal:not(:last-child){
+	border-bottom: 1px solid #ccc;
+}
+
+.userActivity,.monthPerform{height:500px;max-height:500px;overflow: hidden}
+.userActivity .widgetContent{max-height:410px;height: 430px;border-bottom:1px solid #ddd;}
+.userActivity .viewMore{width:100%;text-align: center;}
+.userActivity .viewMore a{margin:0 auto;padding: 2px 5px;font-size: 12px;}
+.widgetHeader{font-size:16px;max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;font-weight: 700;padding: 15px;text-align: left;box-shadow: 0 1px 4px 0 #ccc;}
+
+.widgetHeader button.btn.btn-light{padding: 0;border: none;font-size: 16px;}
+.widgetHeader.boxshadow{box-shadow: 0 1px 4px 0 #ccc;}
+
+.userActivity .widgetContent{max-height: 400px;min-height:150px;}
+.widgeFooter{min-height:50px;box-shadow: 0px -3px 7px 0 #cccccc6b;}
+.widgeFooter .viewMore{min-height:50px;}
+.userActivity .widgeFooter .viewMore a{position: relative;top: 12px;color: #ffffff;font-weight: 600;font-size: 15px;background: #006dcc;border-radius: 15px;padding: 5px 15px}
+.userActivity .widgeFooter .viewMore a:hover{background: #004a93}
+.evntMsg a{
+	font-weight: 600;
+}
+.tsk-no-link{
+	color:#333;
+	font-weight: 600;
+	text-transform: capitalize;
+}
+
+.tsk-no-link:hover{
+	color:blue;  
+}
+
+@media (max-width: 767px) {
+	.monthPerform{height:530px;max-height:550px;overflow: hidden}
+}
+
+#modalEmail .modal-content{height:500px}
+
+.brdr-btm{
+	border-bottom: 1px solid #e7e7e7 !important;
+}
+
+.todayTskDiv .nav-tabs .nav-item.show .nav-link, .todayTskDiv .nav-tabs .nav-link.active {
+    color: #006dcc;
+    background-color: #ffffff;
+    border-color: #ccc #ccc #ccc;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+}
+.todayTskDiv .nav-tabs {
+    border-bottom: 1px solid #ccc;
+}
+.totalCloseAmount .dropdown .btn{
+	background: transparent;
+    color: #333;
+    border: none;
+    padding: 0;
+}
+.totalCloseAmount .dropdown .btn:focus,.totalCloseAmount .dropdown .btn:focus-visible{box-shadow:none;outline:0;
+}

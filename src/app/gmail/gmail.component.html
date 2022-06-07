@@ -1,0 +1,264 @@
+<div class=" no-padding container-fixed-lg  ClientDetails" *ngIf="gmailLoad==0" >
+    <div class="container-fluid" style="min-height: 400px;">
+     <div class="ClientInfo mt-4"  >
+            <div class="row"> 
+               <div class="col-sm-12" *ngIf="auth_data.length==0" style="text-align: center;">
+               	<a href="javascript:void(0)"  data-toggle="modal" data-target="#modalGmail">
+                    <img src="assets/img/gmail_logo.png" width="200">
+                </a>
+                 <h5>Connect to Gmail</h5>
+                 <h5>Select Gmail Integration and Sync. Enable and expand Let users access TutterflyCRM records from Gmail.<br> To let reps relate emails to relevant TutterflyCRM records, enable Enhanced Email with Gmail.</h5>
+
+                 <h6>This will allow TutterflyCRM to:<br>
+                   Read, compose, send, and permanently delete all your email from Gmail</h6>
+                </div>
+
+          </div>
+      </div>      
+</div>
+</div>
+
+
+<div class="container-mailbox" id="gmail_container" *ngIf="gmailLoad==1"> 
+
+    <div class="mail-box">
+        <aside class="sm-side ">
+            
+            <ul class="inbox-nav inbox-divider"> 
+                <li>
+                	<a class="composemailinlist" (click)="composemail()"><i class="fas fa-pencil-alt"></i>&nbsp;Compose Mail</a>
+                </li>
+                <li [ngClass]="current_label=='INBOX'?'active':''" >
+                    <a href="javscript:void(0)" (click)="get_msg_Label('INBOX')"><i class="fas fa-inbox"></i> Inbox</a>
+                </li>
+                <li [ngClass]="current_label=='SENT'?'active':''" >
+                    <a href="javscript:void(0)" (click)="get_msg_Label('SENT')"><i class="fas fa-paper-plane"></i> Sent</a>
+                </li>
+                <li [ngClass]="current_label=='IMPORTANT'?'active':''" >
+                    <a href="javscript:void(0)" (click)="get_msg_Label('IMPORTANT')"><i class="fas fa-star"></i> Important</a>
+                </li>
+                <li [ngClass]="current_label=='DRAFT'?'active':''" >
+                    <a href="javscript:void(0)" (click)="get_msg_Label('DRAFT')"><i class="fas fa-inbox"></i> Draft</a>
+                </li>
+                <li [ngClass]="current_label=='SPAM'?'active':''" >
+                    <a href="javscript:void(0)" (click)="get_msg_Label('SPAM')"><i class="fas fa-exclamation-circle"></i> Spam</a>
+                </li>
+                <li [ngClass]="current_label=='TRASH'?'active':''" >
+                    <a href="javscript:void(0)" (click)="get_msg_Label('TRASH')"><i class="fas fa-trash-alt"></i> Trash</a>
+                </li>
+                  
+            </ul>
+        </aside>
+        <aside class="lg-side">
+            <div *ngIf="!bodyDiv">
+                <div class="mailSearch">
+                	<div class="row">
+                		<div class="col-md-7 mt-3">
+                			<div id="ctl00_menusearch" class="input-group form-group">
+		                                             
+		                        <input type="hidden" name="search_param" value="0" id="search_param">
+		                        <input name="ctl00$txtsearch" type="text" id="ctl00_txtsearch" class="form-control" placeholder="Search your keywords Here..."   >                        
+		                        <span class="input-group-btn">
+		                        	<button type="button" class="btn btn-light" (click)="search_email($event)">Search</button>
+		                            <!-- <input type="submit" name="ctl00$btnsearch" value="Search" class="btn btn-light"> -->
+		                        </span>
+		                    </div>
+                		</div>
+                		<div class="col-md-5 mt-3">
+                			<div class="dropdown text-right">
+							  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    <i class="fas fa-ellipsis-v"></i>
+							  </button>
+							  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="right:0;left: auto">
+							    <!-- <a class="dropdown-item" href="#">Action</a> -->
+							    <!-- <a class="dropdown-item" href="#">Another action</a> -->
+                                <a class="dropdown-item"  title="Remove Gmail Account" (click)="removeGmail()" href="javscript:void(0)" ><i class="fas fa-close mr-2"></i>Remove Gmail</a>
+							    <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+							  </div>
+							</div>
+                		</div>
+                	</div>
+                </div>
+                <div class="mail-option">
+                       
+                        <div class="btn-group pull-left"> 
+                            <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" id="mailboxRefresh" href="javscript:void(0)" class="btn mini tooltips" (click)="ngOnInit()">
+                                <i class="fas fa-refresh"></i>
+                            </a>
+                            <!-- <div class="btn-group" id="btnGroupDel" style="display: none">
+                                <button class="btn btn-light"><i class="fas fa-trash-o"></i></button>
+                                <button class="btn btn-light" (click)="makeAsRead()">Mark as read</button>
+                            </div> -->
+                        </div>
+                     
+                        <div class="inbox-head">
+                            <form action="javscript:void(0)" class="pull-right position">
+                                <div class="input-append">
+                                    <!-- <input type="text" class="sr-input" placeholder="Search Mail">
+                                    <button class="btn sr-btn mr-2" type="button"><i class="fas fa-search"></i></button>
+                                    <button class="btn pr-btn" type="button" title="Remove Gmail Account" (click)="removeGmail()" ><i class="fas fa-close mr-2"></i>Remove Gmail</button> -->
+
+		                            <button class="btn pr-btn ml-2 next-prev-btn" type="button" title="Previous" (click)="get_previous_page()"  ><i class="fas fa-angle-left"></i></button>
+		                            <button class="btn pr-btn ml-2 next-prev-btn" type="button" title="Next" (click)="get_next_page()" ><i class="fas fa-angle-right"></i></button>
+                        
+                                </div>
+                            </form>
+                        </div>
+                        <ul class="unstyled inbox-pagination" *ngIf="allInbox && allInbox.length > 0">
+                            <li><span id="ember4496" class="ember-view" > 
+                            <strong> Showing  {{paginationLength}}</strong>  </span></li>
+                            <!-- <li *ngIf="allInbox && allInbox.length > 0">
+                                <span><strong>{{allInbox.length}}[{{pageNumber}}]</strong></span> 
+                            </li> --> 
+                          
+                        </ul>
+                    </div>
+                <div *ngIf="allInbox" class="inbox-body">
+                    
+                    <div class="flex-table-body">
+                        <div class="conversation flex-table-row conversation-read" *ngFor="let inbox of allInbox; let i=index;">
+                            <div class="flex-table-row-selection">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" class="mail-checkbox mail_check" id="mailCheck_{{i}}" value="{{inbox.message_id}}" (click)="markEmail()">
+                                    <label for="mailCheck_{{i}}"></label>
+                                </div>
+                            </div>
+
+                                <div class="flex-table-row-media" (click)="getMailBody(inbox.message_id)" style="cursor: pointer">
+                                    <div class="mini-card-avatar">
+                                        <div class="avatar_round">
+                                            <span class="avatar_content text-capitalize">{{inbox.from | slice:0:1}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="mini-card-content">
+                                        <div class="email-recipient">
+                                            <span class="view-message  dont-show" [ngClass]="inbox.seen==0 ? 'unread-msg':''" *ngIf="inbox.from!=null">{{inbox.from | slice:0:35}}</span>
+                                            <span class="view-message  dont-show" [ngClass]="inbox.seen==0 ? 'unread-msg':''" *ngIf="inbox.from==null">{{inbox.from_name | slice:0:35}}</span>
+                                        </div>
+                                        <div class="text-muted small">
+                                            <i data-toggle="tooltip" data-placement="bottom" class="icon-email-incoming valign-inline" title="incoming"></i>
+                                            <!-- <span id="mailDatetime" data-toggle="tooltip" data-placement="bottom" title="{{inbox.date | date: 'MMM d, y, h:mm a'}}" class="ember-view relative-date">{{inBetween(inbox.date)}}</span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="email-content" (click)="getMailBody(inbox.message_id)" style="cursor: pointer">
+                                    <div class="row">
+                                    	<div class="col-md-9">
+                                    		<div class="email-subject">
+		                                        <a href="javascript:void(0);" class="" title="{{inbox.subject}}" ><span class="email-subject-content">{{inbox.subject}}</span></a>
+		                                    </div>
+                                    	</div>
+                                    	<div class="col-md-3 text-right">
+                                    		<!-- <span class="text-right">9:25 AM</span>  -->
+                                            <span class="text-right">{{inbox.date | date: 'MMM d, y, h:mm a'}}</span> 
+                                    	</div>
+                                    </div>
+                                   <!--  <div class="email-msg">
+                                        <span *ngIf="inbox.from">{{inbox.from}}</span>
+                                    </div> -->
+                                </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div *ngIf="!allInbox" class="inbox-body no-mail">
+                    {{box_msg}}  
+                </div>
+            </div>
+            <div *ngIf="bodyDiv">
+                <div *ngIf="allInbox" class="inbox-body">
+                    <div class="mail-option">
+                        <div class="btn-group pull-left">
+                            <nav aria-label="breadcrumb" class="mailbreadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="javascript:void(0);" (click)="backToInbox()"><i class="fas fa-arrow-left mr-1"></i>Back</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{bodyData.subject}}</li>
+                                </ol>
+                            </nav>
+                        </div>
+                      
+                        <ul class="unstyled inbox-pagination">
+                            <!-- <li><span id="ember4496" class="ember-view">29 min ago </span></li> -->
+                             <li><span id="ember4496" class="ember-view">{{inBetween(bodyData.date)}} </span></li>
+                        </ul>
+                    </div>
+                    <div class="flex-table-body mailbodyView">
+                        <div class="bodypanel bodypanel-default">
+                            <div class="email-thread-view">
+                                <div class="email-thread-avatar">
+                                    <div class="mini-card-avatar">
+                                        <div class="avatar_round">
+                                            <span class="avatar_content text-capitalize">{{bodyData.received_from | slice:0:1}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="email-thread-details mb-2">
+                                    <div class="email-thread-details-header clearfix">
+                                        <div class="email-thread-details-sender">
+                                            <div class="email-thread-layer">
+                                                 <h6 style="margin-bottom: 0"> 
+                                                    <span class="text-capitalize">{{bodyData.received_from}}</span>&nbsp; 
+                                                </h6>
+                                               <div class="emailid-tread-show">
+                                                    <div class="email-recipient-list">
+                                                        To:
+                                                        <small>{{bodyData.received_to}}</small>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="inbox_body email-thread-details-body " [innerHTML]="mail_body">
+                                    </div>
+                                    <div class="gmail_attach" *ngIf="bodyData.attachments">
+                                        <ul class="">
+                                            <li *ngFor="let attch of bodyData.attachments;let i=index" style="float: left">
+                                                <a href="javascript:void(0);" class="attach-file" *ngIf="attch.filename" (click)="get_attachment(attch.filename,attch,msg_id,i)"><i class="fas fa-download mr-1"></i>{{attch.filename}}</a>
+                                            </li>
+                                        </ul>    
+                                        <a id="download-attach" href="javascript:void(0)" download="filename"></a> 
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--<div  class="inbox-body">--><!--*ngIf="!allInbox"-->
+                <!--<div class="inbox-head1">
+                    <div class="pull-right" (click)="ngOnInit()">
+                        <a href="javascript:void(0);" class="btn btn-success m-t-20 m-r-15"> <i class="fas fa-arrow-left"></i>&nbsp;Back</a></div>
+                </div>-->
+
+                <!--</div>-->
+            </div>
+        </aside>
+    </div>
+</div>
+
+<!-- /.modal-dialog end-->
+<div class="modal fade" id="modalGmail" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content modal-filled ">
+      <div class="modal-body p-4">
+        <div class="text-center_">
+            <h4>Connect Gmail</h4>
+            <p>Connect your gmail account to the TutterflyCRM:</p>
+            <p class="mb-0"><strong>2-way sync</strong></p>
+            <p>Both incoming and outgoing emails are sync between the TutterflyCRM and your gmail account </p>
+          <!-- <h4><span class="mt-2 text-white">Are you sure you want to delete {{deleted_name}}?</span></h4> -->
+          <div class="form-group button-list text-right">
+            <a href="{{gToken_url}}" class="btn btn-primary waves-effect waves-light">Proceed
+            </a>
+            <button type="button" class="btn btn-light waves-effect waves-light"
+                    data-dismiss="modal">Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

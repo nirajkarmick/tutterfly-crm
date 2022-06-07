@@ -1,0 +1,29 @@
+<div class="modal fixed-left fade" id="pdfitinerarymodal" style="display: none">
+  
+    <button class="closebtn-newCreateitinerarymodal"><i class="fas fa-close"></i></button>
+    <div class="modal-dialog modal-dialog-aside" role="document" style="width: 40%;">
+    <div class="modal-content">
+        <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title"> PDF List</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+             <div class="modal-body">
+              <ul *ngIf="pdf_list && pdf_list.length>0" class="list-group">
+                <li class="list-group-item" *ngFor="let pdf of pdf_list">
+                  <img src="assets/img/pdf_icon.png" width="30">
+               <a [attr.href]="s3_pdf+pdf.file_name"  title="{{pdf.file_name}}" target="_blank" class="ml-1 pdf_anchor text-uppercase">{{pdf.file_name}}</a>
+              </li>
+                
+              </ul>
+             </div>
+           </div>
+         </div>
+</div>
+
+<style type="text/css">
+  .pdf_anchor{
+    font-size: 16px;
+    color: inherit;
+    font-weight: bold;
+  }
+</style>

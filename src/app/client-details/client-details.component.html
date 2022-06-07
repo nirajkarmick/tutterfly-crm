@@ -1,0 +1,1465 @@
+<div class=" no-padding container-fixed-lg  ClientDetails" *ngIf="clientDetails!=undefined && clientDetails!=null">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Account details</h4>
+                </div>
+            </div> 
+        </div>  
+        <div class="card card-transparent123">
+            <div class="card-header card-white-head">
+                <div class="card-title m-0 w-100"> 
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="select-DataView">
+                                <div class="d-flex icon-module float-left mr-1">
+                                    <div class="timeline-icon bg-primary rounded-circle">
+                                        <i
+                                            class="mdi mdi-briefcase-account-outline float-left m-0 h3 p-2 align-middle text-white"></i>
+                                    </div>
+                                </div>
+                                <div class="select-DataViewml-2">
+                                    <div class="form-group m-0">
+                                        <label class="m-0 text-primary">
+                                            <small>Account</small>
+                                        </label>
+                                        <div class="ClientViewDrop">
+                                            {{clientDetails.name}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="float-right">
+                                <div class="btn-group mb-0 mt-1">
+                                    <button type="button" class="btn btn-primary right-bar-toggle mr-2" data-toggle="modal"
+                                        data-target="#modalEdit" (click)="openEditAccountPop()"  *ngIf="edit_account">Edit</button>
+                                    <!-- <button type="button" class="btn btn-warning right-bar-toggle mr-2" data-toggle="modal"
+                                        data-target="#add_new_acc_st" (click)="openEditAccountPopSt()"  *ngIf="isStandard && edit_account">Edit St</button> -->
+                                    <button type="button" class="btn btn-danger mr-2" data-toggle="modal"
+                                        data-target="#close" *ngIf="delete_account">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="bottomSec row pt-2">
+                        <div class="col-md-2 col-sm-12">
+                            <div class="text-cont">
+                                <div class="text-label">Type</div>
+                                <div class="text-value">{{accType[clientDetails.acc_type_id]}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12" *ngIf="clientDetails.phone">
+                            <div class="text-cont">
+                                <div class="text-label">Phone</div>
+                                <div class="text-value">{{clientDetails.phone}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12" *ngIf="clientDetails.website">
+                            <div class="text-cont">
+                                <div class="text-label">Website</div>
+                                <div class="text-value1"><a href="https://{{clientDetails.website}}"
+                                        target="_blank">{{clientDetails.website}}</a></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="text-cont">
+                                <div class="text-label">Owner</div>
+                                <div class="text-value">
+                                    <a href="javascript:void(0);"
+                                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                        [queryParams]="{ 'id': clientDetails.owner_id}"
+                                        class="formReadonly form-control1">{{clientDetails.owner_name}}
+                                    </a>&nbsp;&nbsp;
+                                    <a href="javascript" data-toggle="modal" class="m-l-5" data-target="#modalOwner"
+                                        (click)="openOwnership()" title="Change Owner"><i class="fa fa-user"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12"  *ngIf="clientDetails.billing_street">
+                            <div class="text-cont">
+                                <div class="text-label">Billing Address</div>
+                                <div class="text-value">
+                                    <p class="mb-0" title="{{clientDetails.billing_street}}">
+                                        {{clientDetails.billing_street}}  {{clientDetails.billing_city}} {{clientDetails.billing_state}} {{clientDetails.billing_zip}} {{clientDetails.billing_country}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12" *ngIf="clientDetails.record_id">
+                            <div class="text-cont">
+                                <div class="text-label">Account ID</div>
+                                <div class="text-value1"> {{clientDetails.record_id}} </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ClientInfo">
+            <div class="row">
+                <div class="col-md-8 col-xl-8 col-lg-8 col-sm-12">
+                    <div class="card-box">
+                        <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
+                            <li class="nav-item">
+                                <a class="active nav-link" data-toggle="tab" role="tab" data-target="#RelatedCont"
+                                    href="#">Related</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="tab" role="tab"
+                                    data-target="#DetailsCont">Details</a>
+                            </li>
+
+                            <li class="nav-item" *ngIf="isAttachment">
+                                <a class="nav-link" href="#" data-toggle="tab" role="tab"
+                                    data-target="#DetailsAttachmt">Attachments</a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="DetailsAttachmt">
+                                <!--Contact Section Start-->
+                                <div class="ContactCont1" >
+                                   
+
+                                <table class="table tableFile" width="100%" *ngIf="documentData && documentData.length>0">
+                                <thead  class="thead-light">
+                                    <tr>  
+                                        <th>File Name</th> 
+                                        <th>Type</th> 
+                                    </tr>
+                                </thead>
+                                   <tbody>
+                                    <tr *ngFor="let row of documentData;let k=index"> 
+                                        <td style="text-align: left;">
+                                          <a href="https://s3.ap-south-1.amazonaws.com/tutterflycrm-bucket/{{row.file_extension}}/{{row.file_name }}" target="_blank" class="spanMAinFile d-flex align-items-center" >
+                                          
+                                            <span *ngIf="row.file_extension == 'gif'" class="icongif extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'xls' || row.file_extension == 'xlsx'" class="iconxls extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'png'" class="iconpng extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'ppt' || row.file_extension == 'pptx'" class="iconppt extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'pdf'" class="iconpdf extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'doc' || row.file_extension == 'docx'" class="icondoc extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'csv'" class="iconcsv extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'jpg' || row.file_extension == 'JPG'" class="iconjpg extIcon"></span> 
+                                            <span _ngcontent-ibi-c23="" class="pull-left fileTxt" title="{{row.title }}"> {{row.title }} </span>
+                                     </a>
+                                        </td> 
+                                        <td style="text-align: left;">{{row.file_extension}}</td>
+                                    </tr>
+                                </tbody>
+                               </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane active" id="RelatedCont">
+                                <!--Contact Section Start-->
+                                <div class="ContactCont1"  (click)="hide_acc_led()">
+                                    <div class="row ContactHead">
+                                        <div class="col-md-6">
+                                            <div class="SmallIcon Contacticon pull-left">&nbsp;</div>
+                                            <div class="SmallIconHead pull-left">Contact(
+                                                <span>{{rContact.length}}</span> )
+                                                <a *ngIf="rContact.length>6" (click)="contactViewAll()">View All</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button"
+                                                class="btn btn-primary waves-effect waves-light float-right btn-small"
+                                                [routerLink]="['/maindashboard',{ outlets: { bodySection: ['contactGrid'] }}]"
+                                                [queryParams]="{ 'open': id}" *ngIf="create_contact">New</button>
+                                        </div>
+                                    </div>
+                                    <div class="row contactListcont">
+                                        <div class="col-md-4" *ngFor="let obj of rContact | slice:0:6;">
+                                            <div class="card contactList1">
+                                                <div class="card-body">
+                                                    <div class="card-title">
+                                                        <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['contactDetails'] }}]"
+                                                            [queryParams]="{ 'id': obj.id}">{{obj.salutation | titlecase}}
+                                                            {{obj.first_name | titlecase}}
+                                                            {{obj.middle_name | titlecase}}
+                                                            {{obj.last_name | titlecase}} </a>
+                                                    </div>
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li class="d-flex align-items-center mb-25">
+                                                            <i class="fas fa-address-card"></i>&nbsp;<span class="ml-2">{{obj.title}}</span>
+                                                        </li>
+                                                        <li class="d-flex align-items-center mb-25">
+                                                            <i class="fas fa-envelope"></i>&nbsp;<span class="ml-2"
+                                                                title="{{obj.email}}">{{obj.email}}</span>
+                                                        </li>
+                                                        <li class="d-flex align-items-center mb-25">
+                                                            <i class="fas fa-phone-alt"></i>&nbsp;<span class="ml-2">{{obj.phone}}</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Opportunities Section Start-->
+                                <hr>
+                                <div class="OpporCont1">
+                                    <div class="ContactHead row"  (click)="hide_acc_led()">
+                                        <div class="col-md-6">
+                                            <div class="SmallIcon Contacticon pull-left">&nbsp;</div>
+                                            <div class="SmallIconHead pull-left">
+                                                Opportunities({{opportunities.length}}) <a
+                                                    *ngIf="opportunities.length>6" (click)="oppoViewAll()">View All</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button"
+                                                class="btn btn-primary waves-effect waves-light float-right btn-small"
+                                                [routerLink]="['/maindashboard',{ outlets: { bodySection: ['OpportunityGrid'] }}]"
+                                                [queryParams]="{ 'open': id,'type': 'a'}"
+                                                *ngIf="create_opportunity">New</button>
+                                        </div>
+                                    </div> 
+                                    <div class="row contactListcont">
+                                        <div class="col-md-4 contactList1"
+                                            *ngFor="let op of opportunities | slice:0:6;">
+                                            <div class="card contactList1">
+                                                <div class="card-body">
+                                                    <div class="card-title">
+                                                        <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['oppoDetails'] }}]" matTooltip="{{op.name}}"
+                                                [queryParams]="{ 'id': op.id}"> {{(op.name | slice: 0:30) + (op.name.length > 30 ? '..' : '')}} </a>
+            <span class=" float-right mt-1" (click)="show_acc_led(op.id)" *ngIf="op.ledger_account"><i class="fas fa-coins" matTooltip="Ledger Account"></i></span>
+            <div class="acc_led card" id="acc_led_{{op.id}}" style="display: none" *ngIf="op.ledger_account">
+                <div class="card-body">
+                     <h4 class="card-title">Ledger Account</h4>
+                      <p><strong>Total: </strong>{{op.amount}}</p>
+                     <p><strong>Balance: </strong>{{op.ledger_account.balance_amount}}</p>
+                 
+                        <table *ngIf="op.ledger_account.ledger_particulars" class="table">
+                            <tr>
+                                <th>Date</th>
+                                <th>Note</th>
+                                <th>Amount Recieved</th>
+                            </tr>
+                            <tr *ngFor="let part of op.ledger_account.ledger_particulars">
+                                <td>{{part.date | date:'d-MMM-y'}}</td>
+                                <td>{{part.particulars}}</td>
+                                <td>{{part.amount}}</td>
+                            </tr>
+                        </table>
+                         
+                </div>
+              
+            </div>
+                                                            
+                            </div>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex align-items-center mb-25">
+                                    <i
+                                        class="fas fa-map"></i>&nbsp;<span class="ml-2">{{op.name}}</span>
+                                </li>
+                                <li class="d-flex align-items-center mb-25">
+                                    <i
+                                        class="fas fa-users"></i>&nbsp;<span class="ml-2">{{op.no_of_pax}}</span>
+                                </li>
+                                <li class="d-flex align-items-center mb-25" *ngIf="op.travel_date && op.travel_date!='1970-01-01'">
+                                    <i
+                                        class="fas fa-calendar-alt"></i>&nbsp;<span class="ml-2">{{op.travel_date}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="tab-pane " id="DetailsCont" >
+            <div class="row" *ngIf="clientDetails!=undefined && clientDetails!=null">
+                <div class="col-md-12">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header p-0" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left" type="button"
+                                        data-toggle="collapse" data-target="#collapseOne"
+                                        aria-expanded="true" aria-controls="collapseOne">
+                                        <i class="fas fa-info-circle mainIcon"></i><i
+                                            class="fas fa-angle-double-right mr-3"></i>Account
+                                        Information
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseOne" class="collapse show fade"
+                                aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <form id="form-project" role="form" autocomplete="off"
+                                        novalidate>
+                                        <div class="">
+                                            <div class="row clearfix">
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Account
+                                                            name</label>
+                                                        <div class="formReadonly form-control">
+                                                            {{clientDetails.name}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group ">
+                                                        <label>Account Owner</label>
+                                                        <div class="formReadonly form-control"
+                                                            *ngIf="clientDetails.owner_id">
+                                                            <a href="javascript:void(0);" [routerLink]=" ['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                    [queryParams]="{ 'id': clientDetails.owner_id}"
+                    >{{getOwnerName(clientDetails.owner_id)}} 
+                </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="row clearfix">
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Type</label>
+                                                        <div class="formReadonly form-control">
+                                                            {{accType[clientDetails.acc_type_id]}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group ">
+                                                        <label>Parent
+                                                            Account</label>
+                                                        <div class="formReadonly form-control" *ngIf="clientDetails.acc_parent_name" >
+                                                            <a href="javascript:void(0)" [routerLink]="['/maindashboard',{ outlets: { bodySection: ['clientDetails'] }}]"
+                                                            [queryParams]="{ 'id': clientDetails.acc_parent_id}"  (click)="hash_chage()">
+                                                            {{clientDetails.acc_parent_name}}
+                                                        </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Website</label>
+                                                        <div class="formReadonly form-control">
+                                                            {{clientDetails.website}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Frenchiser</label>
+                                                        <div class="formReadonly form-control">
+                                                            {{clientDetails.franchisor_id}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Phone</label>
+                                                        <div class="formReadonly form-control">
+                                                            {{clientDetails.phone}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group  required">
+                                                        <label>Industry</label>
+                                                        <div class="formReadonly form-control">
+                                                            {{industries[clientDetails.industry_id]!=undefined?industries[clientDetails.industry_id]:'NA'}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Company Email
+                                                            ID</label>
+                                                        <div class="formReadonly form-control">
+                                                            {{clientDetails.email}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Rating</label>
+                                                        <div class="formReadonly form-control">
+                                                            {{rating[clientDetails.rating_id]}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group  required">
+                                                <label>Description</label>
+                                                <div class="formReadonly form-control">
+                                                    {{clientDetails.description}}
+                                                </div>
+                                            </div>
+                                            <div class="row"
+                                                *ngIf="newAccount.custom_fields && newAccount.custom_fields.length>0 && extraFields">
+                                                <div class="col-md-6"
+                                                    *ngFor="let fld of newAccount.custom_fields">
+                                                    <div class="form-group required">
+                                                        <label>{{get_label_name(fld.account_additional_field_id)}}</label>
+                                                        <div class="formReadonly form-control" *ngIf="fld.type!='picklist'">
+                                                            {{fld.field_value}}
+                                                        </div> 
+                                                        <div class="formReadonly form-control"  *ngIf="fld.type=='picklist'">
+                                                            {{fld.pick_value}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header p-0" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed btn-block text-left"
+                                        type="button" data-toggle="collapse"
+                                        data-target="#collapseTwo" aria-expanded="false"
+                                        aria-controls="collapseTwo">
+                                        <i class="fas fa-align-justify mainIcon"></i><i
+                                            class="fas fa-angle-double-right mr-3"></i>
+                                        Account Summary
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse fade" aria-labelledby="headingTwo"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <app-funnel [data]="clientData.graph_data"></app-funnel>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header p-0" id="headingThree">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed btn-block text-left"
+                                        type="button" data-toggle="collapse"
+                                        data-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
+                                        <i class="fas fa-map-marker-alt mainIcon"></i><i
+                                            class="fas fa-angle-double-right mr-3"></i>Address
+                                        information
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse fade"
+                                aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="required">
+                                        <label>Billing Address</label>
+                                        <div class="formReadonly form-control" style="height:auto">
+                                            <span>{{clientDetails.billing_street}} {{clientDetails.billing_city}} {{clientDetails.billing_state}} {{clientDetails.billing_zip}} {{clientDetails.billing_country}}<br></span>
+                                    <p style="height:200px;width:100%"
+                                        *ngIf="clientDetails.billing_country">
+                                        <app-map [address]="clientDetails.billing_street+','+clientDetails.billing_city+','+clientDetails.billing_state+','+clientDetails.billing_zip+','+clientDetails.billing_country">
+                                        </app-map>
+                                    </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header p-0" id="headingFour">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed btn-block text-left"
+                                        type="button" data-toggle="collapse"
+                                        data-target="#collapseFour" aria-expanded="false"
+                                        aria-controls="collapseFour">
+                                        <i class="fas fa-window-maximize mainIcon"></i><i
+                                            class="fas fa-angle-double-right mr-3"></i>System
+                                        information
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseFour" class="collapse fade"
+                                aria-labelledby="headingFour" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group required">
+                                                <label>Created by</label>
+                                                <div class="formReadonly form-control">
+                                                    <a class="pull-left"><a
+                                                            href="javascript:void(0);"
+                                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                                            [queryParams]="{ 'id': clientDetails.owner_id}"
+                                                            class="formReadonly form-control1">{{getOwnerName(clientDetails.owner_id)}}
+                                                        </a>
+                                                        ,</a>
+                                                    <span style="margin-left:5px;"
+                                                        class="pull-left">{{clientDetails.created_at | date: 'dd MMM yyyy | hh:mm a'}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group required">
+                                                <label>Last Modified By </label>
+                                                <div class="formReadonly form-control">
+                                                    <a class="pull-left"><a
+                                                            href="javascript:void(0);"
+                                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                                            [queryParams]="{ 'id': clientDetails.owner_id}"
+                                                            class="formReadonly form-control1">{{getOwnerName(clientDetails.owner_id)}}
+                                                        </a>
+                                                        ,</a>
+                                                    <span style="margin-left:5px;"
+                                                        class="pull-left">{{clientDetails.updated_at | date: 'dd MMM yyyy | hh:mm a'}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="col-md-4 col-xl-4 col-lg-4 col-sm-12" (click)="hide_acc_led()">
+<div class="card-box ClientInfoRight ">
+<ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
+<li class="nav-item">
+<a class="active nav-link" data-toggle="tab" role="tab" data-target="#ActivityCont"
+href="#">Activity</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" role="tab" data-target="#Taskacccount"
+href="#">Activities Log</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="ActivityCont">
+<ul class="nav nav-tabs nav-tabs-fillup" data-init-reponsive-tabs="dropdownfx">
+<li class="nav-item">
+<a href="#" class="active nav-link" data-toggle="tab" data-target="#taskCont"
+    (click)="clear_con_list()"><span>Task</span></a>
+</li>
+<li class="nav-item">
+<a href="#" class="nav-link" data-toggle="tab" data-target="#LogAcallCont"
+    (click)="clear_con_list()"><span>Log a Call</span></a>
+</li>
+<li class="nav-item">
+<a href="#" class="nav-link" data-toggle="tab" data-target="#EmailCont"
+    (click)="clear_con_list()"><span>Email</span></a>
+</li>
+<li class="nav-item" *ngIf="isWhatsappEnabled">
+<a href="#" class="nav-link" data-toggle="tab" data-target="#WaspCont" ><span><i class="fa fa-whatsapp mr-1"></i>Whatsapp</span></a>
+</li>
+</ul>
+<!-- Tab panes Start-->
+<div class="tab-content">
+<div class="tab-pane" id="WaspCont" >
+    <app-whatsapp-form [watsapp]="watsapp" (renderData)="renderData()" [clientData]="clientData" [whatsapp_thread_exist]="whatsapp_thread_exist"></app-whatsapp-form>
+</div>
+<div class="tab-pane active" id="taskCont">
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="form-group required">
+            <label>Subject</label>
+            <input type="text" class="form-control" [(ngModel)]="task.subject">
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+        <form class="example-form col-md-12 col-md-12 p0 SearchContact"
+            *ngIf="assignedUserOptions!=null && assignedUserOptions!=undefined && assignedUserOptions!=[]">
+            <mat-form-field class="example-full-width form-group">
+                <label>Assigned to</label>
+                <input type="text" class="form-control" aria-label="Number"
+                    matInput [formControl]="myControl2"
+                    [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete"
+                    (optionSelected)='getASelectedValUser($event.option.value)'
+                    [displayWith]="displayAssignedUserFn">
+                    <mat-option *ngFor="let obj of assignedUserOptions | async"
+                        [value]="obj"><span>{{obj.name | titlecase}}</span>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- <mat-form-field> -->
+    <div class="col-lg-12 col-md-12 taskDueDate">
+        <div class="form-group">
+            <label>Select Due Date</label><input [owlDateTime]="dt1"
+                [owlDateTimeTrigger]="dt1" class="form-control"
+                [(ngModel)]="task.due_date" placeholder="Date Time" [ngClass]="due_error ? 'frm-danger':''" [min]="todayDate">
+            <owl-date-time #dt1></owl-date-time>
+        </div>
+    </div>
+    <!-- </mat-form-field> -->
+    <div class="col-lg-12 col-md-12">
+        <div class="auto-comp-div">   
+            <div class="form-group autocomplete taskAuto">
+                <label>Contact</label>
+
+                <input id="myInput" [(ngModel)]="contact_nameSearch"
+                    class="form-control" type="text"
+                    [ngClass]="acct_error ? 'frm-danger':''"
+                    (keydown)="search_contacts($event)" name="auto_acc_name"
+                    placeholder="Search Contact">
+
+                <div id="myInputautocomplete-list" class="autocomplete-items"
+                    *ngIf="autocontList.length >0">
+
+                    <div *ngFor="let acc of autocontList" class="auto-itm">
+                        <div (click)="selectContId(acc)">
+                            <strong>{{acc.first_name}}
+                                {{acc.last_name}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+        <div class="form-group">
+            <label>Related to</label>
+            <p>{{clientDetails.name}}</p>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+        <button class="btn btn-primary btn-cons m-b-10 float-right"
+            type="button" (click)="createTask()"><span class="bold">Save</span>
+        </button>
+    </div>
+</div>
+</div>
+<div class="tab-pane" id="LogAcallCont">
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="form-group required">
+            <label>Subject</label>
+            <input type="text" class="form-control" [(ngModel)]="call.subject">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="form-group  required">
+            <label>Comments.</label>
+            <textarea class="form-control"
+                [(ngModel)]="call.description"></textarea>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="form-group">
+            <label>Related to</label>
+            <p>{{clientDetails.name}}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+
+        <div class="auto-comp-div">
+            <div class="form-group autocomplete taskAuto">
+                <label> Contact</label>
+                <input id="myInput" [(ngModel)]="contact_nameSearch"
+                    class="form-control" type="text"
+                    [ngClass]="acct_error ? 'frm-danger':''"
+                    (keydown)="search_contacts($event)" name="auto_acc_name"
+                    placeholder="Search Contact">
+                <div id="myInputautocomplete-list" class="autocomplete-items"
+                    *ngIf="autocontList.length >0">
+                    <div *ngFor="let acc of autocontList" class="auto-itm">
+                        <div (click)="selectContId(acc)">
+                            <strong>{{acc.first_name}}
+                                {{acc.last_name}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <button class="btn btn-primary btn-cons m-b-10 float-right"
+            type="button" (click)="logCall()"><span class="bold">Save</span>
+        </button>
+    </div>
+</div>
+</div>
+<!-- <div class="tab-pane" id="WaspCont" >
+    <div class="row"  *ngIf="countryLoaded"> 
+            <div class="col-md-12"> 
+                      <div class="whatappHead">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group required">
+                                    <label>Phone number with country Code *</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend mr-1">
+                                        <span class="input-group-text p-0" id="basic-addon1">
+                                            <select2 placeholder="select"  [options]="countryOptions" [data]="countryData" [value]="select_country"  class="form-control1"  (valueChanged)="getPhoneCode($event.value)"   width="100%"></select2>
+                                        </span>
+                                      </div>                                   
+                      
+                                 
+                                    <input type="text" class="form-control" [(ngModel)]="watsapp.recipient_no" ><span style="cursor:pointer;" (click)="renderData()" matTooltip="Refresh"><i class="fa fa-refresh mt-2" style=" font-size: 20px; "></i></span>
+                                    </div>
+                                </div>
+                            </div> 
+                          </div>
+                      </div>
+                      <div class="whatappContainer" >
+                        <div class="whatsap_bg" ></div>
+                        <div class="whatapp_body" id="wats_bdy">
+                            <div *ngFor="let wp of clientData.whatsapp_activites">
+                          <div tabindex="-1" class="mb-12 message-in msgBox-div"  *ngIf="wp.direction=='incoming'">
+                            <div class="msgBox msgBox_w msgBox_C">
+                              <span class="Bubblearrow">
+                                <svg viewBox="0 0 8 13" width="8" height="13" class="">
+                                  <path opacity=".13" fill="#0000000" d="M1.533 3.568L8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
+                                  <path fill="currentColor" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
+                                </svg>
+                              </span>
+                              <div class="Nm1g1 _22AX6">
+                                <div class="_22Msk">
+                                  <div class="copyable-text">
+                                    <div class="_1Gy50">
+                                      <span class="i0jNr selectable-text copyable-text">
+                                        <span>{{wp.message}}</span>
+                                      </span>
+                                      <span class="_20bHr"></span>
+                                    </div>
+                                  </div>
+                                  <div class="_1beEj">
+                                    <div class="_15K2I">
+                                      <span class="kOrB_">{{wp.created_at | date:'h:mm a'}}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div tabindex="-1" class="mb-12 message-out focusable-list-item" >
+                            <div class="msgBox msgBox_w msgBox_C" *ngIf="wp.direction=='outgoing'">
+                              <span class="Bubblearrow">
+                                <svg viewBox="0 0 8 13" width="8" height="13" class="">
+                                  <path opacity=".13" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z"></path>
+                                  <path fill="currentColor" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path>
+                                </svg>
+                              </span>
+                              <div class="Nm1g1 _22AX6">
+                                <div class="_22Msk" >
+                                  <div class="copyable-text">
+                                    <div class="_1Gy50">
+                                      <span class="i0jNr selectable-text copyable-text">
+                                        <span>{{wp.message}}</span>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div class="_1beEj">
+                                    <div class="_15K2I" role="button">
+                                      <span class="kOrB_" dir="auto">{{wp.created_at | date:'h:mm a'}}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                        </div>
+                        <div class=""  *ngIf="clientDetails.acc_whatsapp_no_exist">
+                          <div class="d-flex align-items-center justify-content-between">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Type a message" [(ngModel)]="watsapp.message"></div>
+                            <div class="sendBtn" (click)="sendWatsapp()"><i class="fas fa-send"></i></div> 
+                          </div>
+                        </div>
+                        
+                      <div class="whatapp_msgSender"   *ngIf="!clientDetails.acc_whatsapp_no_exist">
+                          <div>This Account is not connected with us on whatsapp.Connect by sending a welcome template.</div>
+                          <div>
+                            <button class="btn btn-primary btn-cons m-b-10 float-right" type="button"
+                                                (click)="sendWhatsappTemplate()"><span class="bold"><i class="fas fa-send mr-1"></i>Send Template</span>
+                                            </button></div>
+                      </div>
+                      </div>
+        </div> 
+         
+    </div>
+</div> -->
+<div class="tab-pane" id="EmailCont" >
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="form-group required">
+            <label>From</label>
+            <input type="text" class="form-control"
+                [(ngModel)]="clientData.auth_email" disabled>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+        <div class="form-group required">
+            <label>To</label>
+            <input type="text" class="form-control"
+                [(ngModel)]="mail.to_address"
+                (keydown)="search_email($event,'to_address')">
+            <div style="position: absolute; top: 29px; right: 23px;">
+                <a class="pull-left" href="javascript:void(0);"
+                    (click)="ccBlockShow()">CC</a>
+                <a class="pull-left ml5" href="javascript:void(0);"
+                    (click)="bccBlockShow()">BCC</a>
+            </div>
+            <div class="clearfix"></div>
+            <div id="myInputautocomplete-list1" class="autocomplete-items"
+                *ngIf="to_address_list.length >0">
+                <div *ngFor="let acc of to_address_list" class="auto-itm">
+                    <div (click)="selectEmailId(acc,'to_address')">
+                        <strong>{{acc.first_name}} {{acc.last_name}}( {{acc.email}})</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12" *ngIf="ccBlock">
+        <div class="form-group required">
+            <label>CC</label>
+            <input type="text" class="form-control"
+                [(ngModel)]="mail.cc_address"
+                (keydown)="search_email($event,'cc_address')">
+            <div id="myInputautocomplete-list2" class="autocomplete-items"
+                *ngIf="cc_address_list.length >0">
+                <div *ngFor="let acc of cc_address_list" class="auto-itm">
+                    <div (click)="selectEmailId(acc,'cc_address')">
+                        <strong>{{acc.name}} ( {{acc.email}})</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12" *ngIf="bccBlock">
+        <div class="form-group required">
+            <label>BCC</label>
+            <input type="text" class="form-control"
+                [(ngModel)]="mail.bcc_address"
+                (keydown)="search_email($event,'bcc_address')">
+            <div id="myInputautocomplete-list3" class="autocomplete-items"
+                *ngIf="bcc_address_list.length >0">
+                <div *ngFor="let acc of bcc_address_list" class="auto-itm">
+                    <div (click)="selectEmailId(acc,'bcc_address')">
+                        <strong>{{acc.name}} ( {{acc.email}})</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12"  *ngIf="show_email_temp">
+        <div class="form-group required">
+            <label>Email Template</label>
+            <select (change)="setUpEmailValue()" [(ngModel)]="emailTemplate"
+                class="form-control">
+                <option *ngFor="let o of clientData.email_templates"
+                    value="{{o.id}}">{{o.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+        <div class="form-group required">
+            <label>Subject</label>
+            <input type="text" class="form-control"
+                placeholder="Enter Subject..." [(ngModel)]="mail.subject">
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+       <strong class="error mb-1" *ngIf="email_templates_err">{{email_templates_err}}</strong>
+        <div class="wysiwyg5-wrapper b-a b-grey">
+            <!-- <app-quil-editor [(description_html)]="mail.description_html">
+            </app-quil-editor>   -->
+            <angular-editor [placeholder]="'Enter text here..'" [(ngModel)]="mail.description_html"    [config]="config" ></angular-editor>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 mt5">
+                   <div class="row inner_email_attached" id="composebottomEmail" style="width:calc(100% - 70px)">
+                                <div class="col-lg-2 col-md-2 mt-2" >
+                                <!-- <input class="btn btn-secondary btn-cons m-b-10 pull-left"  type="file" id="myFile" (change)="attachFiles($event.target.files)" style="display: none"> -->
+                                <label type="btn btn-light" class="btn btn-light custom-file-upload" for="myFile" data-toggle="modal"   data-target="#email_attachment" (click)="openEmailAttachModeal()"  matTooltip="Add Attachment"><i class="fa fa-paperclip"></i></label>
+
+                           
+                          <!--  <button type="button" class="btn btn-light custom-file-upload" data-toggle="modal"   data-target="#email_attachment" (click)="openEmailAttachModeal()" matTooltip="Add Attachment" ><i class="fa fa-paperclip mr-2"></i></button>  --> 
+                            </div>
+                            <div class="col-lg-9 col-md-9 mt-2" *ngIf="all_attachment">
+                                <ul class="list-unstyled" style="display: flex;flex-wrap: wrap;">
+                                    <li *ngFor="let attch of all_attachment;let i=index" s class="email_attachChip mr-1">
+                                        <a href="javascript:void(0);" class="attach-file" *ngIf="attch" ><span class="attachfileText">{{attch.title}}</span> <span class="attach_close"  (click)="removeAttachment(i)">&times;</span></a>
+                                        
+                                    </li>  
+                                </ul>         
+                            </div>
+                    </div>
+                                                <button class="btn btn-primary btn-cons m-b-10 float-right"
+                                                    type="button" (click)="sendEmail()"><span
+                                                        class="bold">Send</span></button>
+                                            </div>
+                                        </div>
+</div>
+
+</div>
+</div>
+<div class="tab-pane" id="Taskacccount">
+                <div class="activityResult">
+                    <div class="card p-0">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="taskMainHead">
+                                    <h2>Next Task</h2>
+                                </div>
+                                <div *ngFor="let next of clientData.next_steps" class="clearfix">
+                                    <div class="row taskHead p0">
+                                        <a class="col-md-1 col-sm-1 NxttaskArrow" data-toggle="collapse"
+                                            href="#nxt{{next.id}}" role="button" aria-expanded="false"
+                                            aria-controls="collapseExample">
+                                            <i class="fas"></i></a>
+                                        <span class="NxttskIco col-md-1 col-sm-1"><i
+                                                class="fas fa-list"></i></span>
+                                        <a class="col-md-10 col-sm-10 float-right TaskName"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['taskDetails'] }}]"
+                                            [queryParams]="{ 'id': next |json}">{{next.name}}</a>
+                                    </div>
+                                    <div class="NxttskCnt col-md-11 ml-auto float-right">
+                                        <div class="col-md-12 TaskDet float-right"
+                                            *ngIf="next.taskable_link">You have a task with
+                                            <a [routerLink]="['/maindashboard',{ outlets: { bodySection: [next.taskable_link] }}]"
+                                                [queryParams]="{ 'id': next.taskable_id.id} ">{{next.taskable_id.name}}</a>
+                                        </div>
+                                        <div class="col-md-12 TaskDet float-right"
+                                            *ngIf="!next.taskable_link">You have a task.</div>
+                                        <div class="clearfix"></div>
+                                        <div class="collapse" id="nxt{{next.id}}">
+                                            <div class="taskopen col-md-12 col-sm-12 float-right">
+                                                <span><b>Name</b></span><br><span>{{next.name}}</span><br>
+                                                <span><b>Description</b></span><br><span>{{next.description}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="taskMainHead">
+                                    <h2>Previous Task</h2>
+                                </div>
+                                <div *ngFor="let pre of clientData.past_activities" class="clearfix">
+                                    <div class="row taskHead p0">
+                                        <a class="col-md-1 col-sm-1 PretaskArrow" data-toggle="collapse"
+                                            href="#pre{{pre.id}}" role="button" aria-expanded="false"
+                                            aria-controls="collapseExample"><i class="fas"></i></a>
+                                        <span class="PretskIco col-md-1 col-sm-1"><i
+                                                class="fas fa-list"></i></span>
+                                        <a class="col-md-10 col-sm-10 float-right TaskName"
+                                            [routerLink]="['/maindashboard',{ outlets: { bodySection: ['taskDetails'] }}]"
+                                            [queryParams]="{ 'id': pre | json}">{{pre.name}}</a>
+                                    </div>
+                                    <div class="PretskCnt col-md-11 ml-auto float-right">
+                                        <div class="col-md-12 TaskDet float-right"
+                                            *ngIf="pre.taskable_link">You had a task with <a
+                                                [routerLink]="['/maindashboard',{ outlets: { bodySection: [pre.taskable_link] }}]"
+                                                [queryParams]="{ 'id': pre.taskable_id.id} ">{{pre.taskable_id.name}}</a>
+                                        </div>
+                                        <div class="col-md-12 TaskDet float-right"
+                                            *ngIf="!pre.taskable_link">You had a task.</div>
+                                        <div class="clearfix"></div>
+                                        <div class="collapse" id="pre{{pre.id}}">
+                                            <div class="taskopen col-md-12 col-sm-12 float-right">
+                                                <span><b>Name</b></span><br><span>{{pre.name}}</span><br>
+                                                <span><b>Description</b></span><br><span>{{pre.description}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Collapse end-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="taskMainHead">
+                                    <h2>Email</h2>
+                                    <span _ngcontent-c8="" class="float-right mr-15 email_refresh"
+                                        style="color: #ddd;cursor: pointer;position: relative;z-index: 100;top: 2px;"
+                                        (click)="refreshEmail()">
+                                        <i _ngcontent-c8="" class="fas fa-refresh"
+                                            style="background: #f16a25;padding:5px 5.8px;font-size: 13px;border-radius: 5px;z-index: 99999999999999;color: #fff;"></i></span>
+                                </div>
+                                <div *ngFor="let emailHis of clientData.past_activities_emails"
+                                    class="clearfix">
+                                    <div class="row taskHead p0">
+                                        <a class="PretaskArrow col-md-1 col-sm-1" data-toggle="collapse"
+                                            href="#emailHis{{emailHis.id}}" role="button"
+                                            aria-expanded="false" aria-controls="collapseExample"><i
+                                                class="fas"></i></a>
+                                        <span class="PretskIco col-md-1 col-sm-1"><i
+                                                class="fas fa-envelope"></i></span>
+                                        <a class="col-md-10 col-sm-10 float-right TaskName"
+                                            href="#emailHis{{emailHis.id}}" data-toggle="collapse"
+                                            role="button" aria-expanded="false"
+                                            aria-controls="collapseExample">{{emailHis.subject | slice:0:25}}
+                                        </a>
+                                    </div>
+                                    <div class="PretskCnt col-md-11 ml-auto float-right">
+                                        <p class="text-left TaskDet"><a href="javascript:void(0);"
+                                                class="text-capitalize">{{trimEmail(emailHis.from_address)}}</a>
+                                            sent an email to <a href="javascript:void(0);"
+                                                class="text-capitalize">{{trimEmail(emailHis.to_address)}}</a>
+                                        </p>
+                                        <div class="clearfix"></div>
+                                        <div class="collapse" id="emailHis{{emailHis.id}}">
+                                            <div class="taskopen col-md-12 col-sm-12 float-right">
+                                                <span><strong>{{emailHis.from_address}}</strong></span><br>
+                                                <span [innerHTML]="emailHis.description_html"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- Start Page rightbar ADD ACCOUNT -->
+<!-- ============================================================== -->
+
+<div id="modalEdit" class="modal fixed-left fade" tabindex="-1" role="dialog" style="padding-right: 0 !important;"
+    *ngIf="EditAccPop">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">Edit Account</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="card-body addNew-form">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">Account Information</h5>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="row mt10">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Account Name  <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Account Owner</label>
+                                <p>{{newAccount.account_owner}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Account Type  <span class="text-danger">*</span></label>
+                                <select [(ngModel)]="newAccount.acc_type_id" class="form-control">
+                                    <option *ngFor="let key of getKeys(accType)" [value]="key">{{accType[key] |
+                                        titlecase }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- <div class="auto-comp-div"> -->
+                                <div class="form-group autocomplete1">
+                                    <label>Parent Account</label>
+
+                                    <input id="myInput" [(ngModel)]="account_nameSearch" class="form-control"
+                                        type="text" (keydown)="search_acc($event)" name="auto_acc_name"
+                                        placeholder="Search Account">
+
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"  *ngIf="autoAccList.length >0">
+
+                                        <div *ngFor="let acc of autoAccList" class="auto-itm">
+                                            <div (click)="fetch_acc(acc.id,acc.name)">
+                                                <strong>{{acc.name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Website</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.website">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Franchise</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.franchisor_id">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.phone"
+                                    (input)="validate_phone($event)">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Industry</label>
+                                <select [(ngModel)]="newAccount.industry_id" class="form-control">
+                                    <option *ngFor="let key of getKeys(industries)" [value]="key">{{industries[key]
+                                        | titlecase }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <span id="acc_em_id_err" class="error">{{email_error_msg}}</span>
+                                <input type="text" class="form-control" (input)="validateEmail($event);"
+                                    [(ngModel)]="newAccount.email">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Rating</label>
+                                <select [(ngModel)]="newAccount.rating_id" class="form-control">
+                                    <option *ngFor="let key of getKeys(rating)" [value]="key">{{rating[key] |
+                                        titlecase }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" [(ngModel)]="newAccount.description"> </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="addNew-form-Subhead">Address Information</h5>
+                        </div>
+                    </div>
+                    <div class="row mt10">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Billing Street</label>
+                                <input placeholder="search for location" autocorrect="off" autocapitalize="off"
+                                    spellcheck="off" id="street_add" type="text" class="form-control" #search_add
+                                    [(ngModel)]="newAccount.billing_street" [formControl]="searchControl">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt10">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Billing City</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.billing_city">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Billing State</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.billing_state">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Billing Zip</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.billing_zip">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Billing Country</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.billing_country">
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="row" *ngIf="isAttachment">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">Attachment Information</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-lg-12 col-md-12 mt-2" matTooltip="Attachments">
+                           
+                           <button type="button" class="btn btn-light custom-file-upload" data-toggle="modal"   data-target="#add_attachment" (click)="openAttachModeal()" ><i class="fa fa-paperclip mr-2"></i>Add Attachment</button> 
+                        </div>
+                        <div class="col-lg-12 col-md-12 mt-2" *ngIf="module_attachment">
+                            <ul class="list-unstyled" style="display: flex;flex-wrap: wrap;">
+                                <li *ngFor="let attch of module_attachment;let i=index" s
+                                    class="email_attachChip mr-1">
+                                    <a href="javascript:void(0);" class="attach-file" *ngIf="attch"><span
+                                            class="attachfileText">{{attch}}</span> <span class="attach_close"
+                                            (click)="removeModAttachment(i)">&times;</span></a>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                    <app-editform [(extraFields)]="extraFields"></app-editform>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary float-right" type="button" (click)="updateAccount()">Update</button> 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="add_new_acc_st" class="modal fixed-left fade" tabindex="-1" role="dialog" style="padding-right: 0 !important;" [ngClass]="popUpClass ? 'modelOpenNew':''" *ngIf="newStAccPop && openStandard_f">
+    <div class="modal-dialog modal-dialog-aside" role="document"> 
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">{{formTitle}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body addNew-form" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">{{st_formType}} Information</h5>
+                    </div>
+                </div>
+              <div *ngIf="standardFields && standardFields.length>0"> 
+                   <div class="row">
+
+                      <div class="col-md-6" *ngFor="let fld of standardFields;let i=index" >
+
+                          <div class="form-group" *ngIf="fld.name=='name'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newAccount.name">
+                          </div>
+
+                            <div class="form-group" *ngIf="fld.name=='acc_type_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <select [(ngModel)]="newAccount.acc_type_id" [ngClass]="accType_error ? 'frm-danger':''" class="form-control">
+                                    <option *ngFor="let key of getKeys(accType)" [value]="key">
+                                        {{accType[key] | titlecase }}</option>
+                                </select>
+                            </div> 
+                          <div class="form-group" *ngIf="fld.type=='search_account'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" (keydown)="search_acc($event)" [(ngModel)]="account_nameSearch" name="auto_acc_name"  placeholder="Search Account">
+                                    <div id="myInputautocomplete-list" class="autocomplete-items" *ngIf="autoAccList.length >0">
+                                        <div *ngFor="let acc of autoAccList" class="auto-itm">
+                                            <div (click)="fetch_acc(acc.id,acc.name)">
+                                                <strong>{{acc.name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                          </div> 
+
+                          <div class="form-group" *ngIf="fld.name=='email'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newAccount.email">
+                          </div>  
+                          <div class="form-group" *ngIf="fld.name=='description'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <textarea class="form-control" name="desc_acc" [(ngModel)]="newAccount.description" > </textarea>
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='website'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newAccount.website">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='phone'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newAccount.phone">
+                          </div> 
+
+                          <div class="form-group" *ngIf="fld.name=='mobile'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newAccount.mobile">
+                          </div>     
+                          <div class="form-group" *ngIf="fld.name=='rating_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newAccount.rating_id">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>  
+                          <div class="form-group" *ngIf="fld.name=='industry_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newAccount.industry_id" >
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                      </div>
+               
+                  </div>
+               
+                  </div>
+                  <div *ngIf="standard_address">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="addNew-form-Subhead">Address Information</h5>
+                        </div>
+                    </div>
+
+                    <div class="row mt10">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                    <label>Billing Street</label>
+                                <input placeholder="search for location" autocorrect="off" autocapitalize="off"
+                                    spellcheck="off" id="street_add" type="text" class="form-control" #search_st
+                                    [(ngModel)]="newAccount.billing_street" [formControl]="searchControl_st">
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row"> 
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Billing City</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.billing_city">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Billing State</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.billing_state">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt10">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Billing Zip</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.billing_zip">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Billing Country</label>
+                                <input type="text" class="form-control" [(ngModel)]="newAccount.billing_country">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              <app-editform [(extraFields)]="extraFields"></app-editform>
+              </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary float-right" type="button" (click)="updateAccountSt()">Update</button>
+            </div>
+            </div>
+</div>
+</div> 
+<div class="modal fade" id="close" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-filled bg-danger">
+            <div class="modal-body p-4">
+                <div class="text-center">
+                    <h4><span class="mt-2 text-white">Are you sure you want to delete the Account?</span></h4>
+                    <div class="form-group button-list">
+                        <button type="button" class="btn btn-light waves-effect waves-light" data-dismiss="modal"
+                            (click)="delete()">Yes</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light"
+                            data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade slide-down disable-scroll EditOppor" id="modalOwner" role="dialog"
+    aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="ownerShipEdit">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h5>Change <span class="semi-bold">Account Owner</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                </button>
+            </div>
+            <div class="modal-body button-list">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group comp-selectbx text-left" (click)="selectBox()">
+                            <label><strong>Owner</strong></label>
+                            <select2 [data]="assignData" class="select2" [value]="account_new_owner_id"
+                                (valueChanged)="renderNewView($event.value)" [options]="ownerOptions" width="100%">
+                            </select2>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary m-t-5 m-l-5 float-right" (click)="changeOwner()">Change
+                    Owner
+                </button>
+                <button type="button" class="btn btn-danger m-t-5  float-right" data-dismiss="modal"
+                    (click)="closeOwner()">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-attachment-upload [(module_attachment)]="module_attachment" [(documentData)]="documentData" [(attachModalOpen)]="attachModalOpen" *ngIf="attachModalOpen"></app-attachment-upload>
+
+<app-email-attachment [(all_attachment)]="all_attachment" [(emailAttachModalOpen)]="emailAttachModalOpen" [(all_attachment_urls)]="all_attachment_urls" [(mail)]="mail" *ngIf="emailAttachModalOpen"></app-email-attachment>   
+
+
+<!-- Add Modal -->
+<style type="text/css">
+    .taskAuto {
+        position: relative !important;
+    }
+    
+</style>

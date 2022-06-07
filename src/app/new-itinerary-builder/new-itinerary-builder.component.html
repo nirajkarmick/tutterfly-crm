@@ -1,0 +1,379 @@
+<div class=" no-padding container-fixed-lg CRMTable">
+    <div *ngIf="isLoading" class="itinry_loader">
+      <img src="assets/img/itinerary.gif" />
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Itinerary Builder</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header card-white-head" id="newCreateitinerarymodal">
+                <div class="card-title m-0 w-100">
+                    <div class="row  ml-md-0 mr-md-0 justify-content-between">
+                        <div class="select-DataView">
+                            <div class="d-flex icon-module float-left mr-1">
+                                <div class="timeline-icon bg-primary rounded-circle">
+                                    <i class="mdi mdi-briefcase-account-outline float-left m-0 h3 p-2 align-middle text-white"></i>
+                                </div>
+                            </div> 
+                            <div class="select-DataViewml-2 d-flex align-items-end">
+                                <div class="form-group m-0 float-left">
+                                    <h3 class="d-block text-left" *ngIf="editable_id==0">Create New Itinerary </h3>
+                                    <h3 class="d-block text-left" *ngIf="editable_id>0">Edit Itinerary </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-inline">
+                            <div class="ml-2">
+                                <button type="button" class="btn btn-info btn-rounded waves-effect waves-light" [routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itineraries'] }}]">
+                                    <span class="btn-label"><i class="mdi mdi-arrow-left-thick"></i></span> Back to itinerary list
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body bg-pattern-bottom">
+                <div class="row">
+                    <div class="col-md-12 ribbon-box">
+                        <div class="ribbon ribbon-pink float-left"><h4 class="text-white"><i class="mdi mdi-access-point mr-1"></i> Basic Detail</h4></div>
+                    </div>
+                    <div class="col-md-12 ribbon-box" *ngIf="error_messages && error_messages.length>0">
+                        <div *ngFor="let err of error_messages">
+                            <div class="alert alert-warning" role="alert" *ngIf="err!=''">
+                                <!-- <strong>Customize </strong> --> {{err}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tripname">Tour Name</label>
+                            <input type="text" id="tripname" [(ngModel)]="newtinerary.name" class="form-control" name="">
+                            <!-- <span class="error err_span">{{errName}}</span> -->
+                        </div>
+                       <!--  <div class="form-group tour_itinerary_destination"><label for="destname">Select Destinations</label>
+                            <div class="input-group">
+
+                                <select2 [data]="destinationData" id="destname" class="form-control select2 p-0" (valueChanged)="renderNewView($event.value)" [value]="newtinerary.destination_id" [options]="destinationOptions" width="100%" multiple style="height: 100%"></select2>  
+
+                               
+                            </div> 
+                        </div>-->
+                       <!--  <div class="form-group  tour_itinerary_destination"> 
+
+                                <label>Destination(s)  <span class="text-danger">*</span></label> 
+                                <input id="myInput_des" [(ngModel)]="destination_nameSearch"  [ngClass]="dest_error ? 'frm-danger':''"  class="form-control" type="search"  (ngModelChange)="search_dest()" name="auto_des_name" placeholder="Search Destinations">
+
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoDestList.length >0">
+
+                                        <div *ngFor="let dest of autoDestList" class="auto-itm">
+                                            <div (click)="selectDestId(dest.id)">
+                                                <strong>{{dest.name}} <span *ngIf="dest.region"> ,{{dest.region}}</span> ,{{dest.country_name}}</strong>
+                                            </div>
+                                        </div>
+
+                                    </div> 
+                                    <div *ngIf="selectedDestinationArray && selectedDestinationArray.length>0" class="mt-2 ml-1 mb-1">
+                                        <mat-chip-list aria-label="Destinations" >
+                                        <mat-chip color="primary" *ngFor="let a of selectedDestinationArray; let i = index" selected>&#xf041; &nbsp;{{a.name}}<button type="button" class="close close_chip" (click)="removeDestin(a.id)">&times;</button></mat-chip>
+                                    </mat-chip-list>  
+                                </div>
+                            </div> -->
+                        <div class="form-group tour_itinerary_destination"><label for="destname" *ngIf="destinationData && destinationData.length>0">Select Destinations</label>
+                            <div class="input-group">  
+                           <ngx-select-dropdown (change)="renderNewViewDest($event.value)" [multiple]="true"   [config]="config" [options]="destinationData" style="width: 100%;"></ngx-select-dropdown>
+                            </div> 
+                        </div>
+                        <div class="row d-flex align-items-center" *ngIf="editable_id==0">
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div class="form-group">
+                                    <mat-radio-group aria-label="Select an option">
+                                        <mat-radio-button value="0" [checked]="true" name="day_sell" (click)="close_itinerarydatepiker()"> No Dates</mat-radio-button>
+                                        <mat-radio-button value="1" [checked]="false" name="day_sell" (click)="close_itinerarydayselector()" class="ml-2">Specific Dates</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="incrementor " id="itinerarydayselector"> 
+                                    <div class="d-flex">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="noofnights" [(ngModel)]="itin_night" (input)="validate_days($event,'n')">
+                                                <div class="input-group-append" matTooltip="Number of days">
+                                                    <div class="input-group-text">N</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h2 class="slash ml-1 mr-1 mb-0 mt-0">
+                                            /
+                                        </h2>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="noofnights" (input)="validate_days($event,'d')" [(ngModel)]="itin_day">
+                                                <div class="input-group-append" matTooltip="Number of nights">
+                                                    <div class="input-group-text">D</div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="itinerarydatepiker" style="display: none;">
+                                    <div class="input-group ite_date_picker">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text" data-toggle="modal"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                        <input class="form-border-bottm form-control" id="dt_range" ngxDaterangepickerMd showCancel="true"
+                                               placeholder="Choose date" [(ngModel)]="selected" [showDropdowns]="true"
+                                               [lockStartDate]="false" [customRangeDirection]="false"
+                                               (ngModelChange)="ngModelChange($event)" (chosenDate)="chosenDate($event)"
+                                               (click)="setRange()" [locale]="{applyLabel: 'ok', format: 'DD/MM/YYYY'}"/>
+                                         
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-flex align-items-center">
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label for="price_itin" >Price</label>
+                                    <input type="number" class="form-control" name="noofnights" [(ngModel)]="newtinerary.amount" id="price_itin" min="0"> 
+                                </div>
+                            </div> <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label for="curr_itin" >Currency</label> 
+                                    <select class="form-control" [(ngModel)]="newtinerary.timezone" id="curr_itin">
+                                        <option value="INR">INR</option>
+                                         <option value="USD">USD</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex align-items-center">
+                            <div class="text-left">
+                                <button type="button" class="btn btn-info btn-rounded waves-effect waves-light mr-2" data-toggle="modal" data-target="#dest_imgs" id="st_dest_imgs1">
+                                    <span class="btn-label"><i class="mdi mdi-image-plus"></i></span>Choose Banner Images
+                                </button>
+                            </div>
+                            <div class="choosebannerShow" data-toggle="modal" data-target="#dest_imgs" id="st_dest_imgs1" style="cursor: pointer;">
+                                <img src="assets/img/no-img.jpg" id="img_url" alt="your image" *ngIf="selectedBanner==''">
+
+                                <img [src]="selectedBanner" *ngIf="selectedBanner" id="img_url" alt="your image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"> 
+                        <div class="form-group ">
+                            <label>Tour Description</label> 
+                         <textarea name="address" id="address" class="form-control" placeholder=" " rows="8" [(ngModel)]="newtinerary.description"></textarea>
+                            <!-- <app-short-editor [(description_html)]="newtinerary.description"></app-short-editor> -->
+                        </div>
+                    </div>
+                    <div class="col-md-12 d-flex align-items-center justify-content-between mt-2">
+                        <div class="form-inline"> 
+                        </div>
+                        <div class="nextPagebtn">
+                            <ul class="list-inline itineraryModalfooterBtn m-0">
+                                <li class="list-inline-item" *ngIf="editable_id==0">
+                                    <button type="button" class="btn btn-theme" (click)="createnewItinerary()">Next</button>
+                                </li>
+                                <li class="list-inline-item" *ngIf="editable_id>0">
+                                    <button type="button" class="btn btn-theme" (click)="updateItinerary()">Update</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" style="margin:0 auto; display: none; z-index:9999" id="crop_model" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog" style="max-width: 650px">
+        <div class="modal-content">
+            <div class="modal-body" style="padding: 10px; max-height: 650px;overflow: auto;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="close_crop()">&times;
+                </button>
+                <div class="form-group-attached">
+                    <div class="row">
+                        <div class="col-md-12" *ngIf="normalImgCropping">
+                            <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                                           [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="4 / 2"
+                                           [resizeToWidth]="1200" [cropperMinWidth]="720" [onlyScaleDown]="true"
+                                           [roundCropper]="false" [canvasRotation]="canvasRotation" [transform]="transform"
+                                           [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png"
+                                           (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                                           (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()">
+                            </image-cropper>
+                        </div>
+                        <div class="col-md-12" *ngIf="!normalImgCropping">
+                            <image-cropper [imageBase64]="base64Image" [maintainAspectRatio]="true"
+                                           [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="4 / 2"
+                                           [resizeToWidth]="1200" [cropperMinWidth]="720" [onlyScaleDown]="true"
+                                           [roundCropper]="false" [canvasRotation]="canvasRotation" [transform]="transform"
+                                           [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png"
+                                           (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                                           (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()">
+                            </image-cropper>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 m-t-10 sm-m-t-10">
+                            <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'"/>
+                        </div>
+                        <div class="col-md-6 mt-5">
+                            <button type="button" class="btn btn-warning m-t-5 pull-right" data-dismiss="modal"
+                                    (click)="done_cropping()">Done Cropping
+                            </button>
+                            <button type="button" class="btn btn-secondary m-t-5 ml-5 pull-right1" data-dismiss="modal"
+                                    (click)="close_crop()">Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dest_daywise" id="st_destinations" style="display: none"></button>
+
+<div id="dest_daywise" class="modal fixed-left fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">Select Day wise Destinations</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 ribbon-box" *ngIf="errDay!=''">
+                    <div class="alert alert-warning" role="alert">
+                          {{errDay}}
+                    </div>
+                </div>
+                <div class="row" *ngIf="newtinerary.number_of_days>0">
+                    <div class="col-sm-12" *ngFor="let it_d of days_array;let k = index">
+                        <div class="card">
+                            <div class="card-header addNew-form-Subhead">
+                                <h5 class="card-title">Day {{it_d.dd}}</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group m-0"> 
+                                    <div class="checkbox form-check-inline" *ngFor="let des of it_d.destinations;let i = index">
+                                        <div class="dest_chk_div">
+                                            <input type="checkbox" id="inlineCheckbox1_{{k}}_{{des.name}}" name="inlineCheckbox1_{{k}}_{{des.name}}[]" (click)="setDestinationDayWise($event,k,i,des.id)"   >
+                                            <label for="inlineCheckbox1_{{k}}_{{des.name}}"> {{des.name}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary float-right" type="button" data-dismiss="modal" (click)="checkDayWiseDest()">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dest_imgs" class="modal fixed-left fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">Select Itinerary Feature Image</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="basicwizard">
+                    <ul class="nav nav-pills bg-light nav-justified mb-2">
+                        <li class="nav-item" *ngIf="loadDestImage && loadDestImage.length>0">
+                            <a href="#basictab1" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2 " [ngClass]="loadDestImage && loadDestImage.length>0 ? 'active':''" >
+                                <i class="mdi mdi-image mr-1"></i>
+                                <span class="d-none d-sm-inline">Destination Images</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#basictab2" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2" [ngClass]="loadDestImage && loadDestImage.length>0 ? '':'active'">
+                                <i class="mdi mdi-upload-outline mr-1"></i>
+                                <span class="d-none d-sm-inline">Upload form local</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content b-0 mb-0 pt-0">
+                        <div class="tab-pane active" id="basictab1"  [ngClass]="loadDestImage && loadDestImage.length>0 ? 'active':''" >
+                            <div class="row" *ngIf="loadDestImage && loadDestImage.length>0">
+                                <div *ngFor="let des of destinationToPullit">
+                                <div class="col-md-12 mb-2"  *ngIf="allDestPullImages && allDestPullImages[des] && allDestPullImages[des].length>0">
+                                    <h5 class="addNew-form-Subhead">{{getDestName(des)}}</h5>  
+                                </div>
+                                
+                                <div class="destination_img_grid d-flex" *ngIf="allDestPullImages && allDestPullImages[des] && allDestPullImages[des].length>0">
+                                    <div class="destination_img_grid_mail_thumb">
+                                        <picture>
+                                            <img [src]="allDestPullImages[des][0].images_url" alt="" class="img-fit" >
+                                        </picture>
+                                    </div>
+                                    <div class="destination_img_grid_mail_list">
+                                        <ul class="destination_img_grid_mail_list_img overflow-auto">
+                                            <li class="active" *ngFor="let dd of allDestPullImages[des]" (click)="selectDestImg(dd.images_url)"><img class="img-fit" src="{{dd.images_url}}" alt=""></li> 
+                                        </ul>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="basictab2"  [ngClass]="loadDestImage && loadDestImage.length>0 ? '':'active'" >
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="uploadFilefromlocal">
+                                        <input type="file" id="uploadFilefromlocal" (change)="addFIle($event)" #banner>
+                                        <div class="dz-message needsclick">
+                                            <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                            <h3>Click to upload.</h3>
+                                            <span class="text-muted font-13">(Select 
+                                                <strong>Banner Image</strong> )</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                <button class="btn btn-primary float-right" type="button" data-dismiss="modal" >Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+    .select2-container-important-rule {
+        background-color: #fff;
+        box-shadow: none;
+        border-bottom: 1px solid #ccc;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+
+    .dest_chk_div .checkbox input[type=checkbox]:checked + label::after {
+        left: 13px;
+    }
+
+    .dest_chk_div {
+        cursor: pointer;
+    }
+</style>

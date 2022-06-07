@@ -1,0 +1,1500 @@
+<div class=" no-padding123 container-fixed-lg ClientDetails" *ngIf="clientDetails!=undefined && clientDetails!=null">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Contact</h4>
+                </div>
+            </div>
+        </div>  
+        <div class="card card-transparent123">
+            <div class="card-header card-white-head">
+                <div class="card-title m-0 w-100">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="select-DataView">
+                                <div class="d-flex icon-module float-left mr-1">
+                                    <!-- <img src="assets/new_assets/images/account-icon.png" alt="" width=""
+                                        class="img-fluid"> -->
+                                        <div class="timeline-icon bg-primary rounded-circle">
+                                            <i class="mdi mdi mdi-file-edit-outline float-left m-0 h3 p-2 align-middle text-white"></i>
+                                        </div>
+                                </div>
+                                <div class="select-DataViewml-2">
+                                    <div class="form-group m-0">
+                                        <label class="m-0 text-primary">
+                                            <small>Contact</small>
+                                        </label>
+                                        <div class="ClientViewDrop">
+                                            {{clientDetails.salutation}} {{clientDetails.first_name | titlecase}}
+                                            {{clientDetails.last_name | titlecase}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="float-right">
+                                <div class="btn-group mb-0 mt-1">
+                                    <button type="button" class="btn btn-primary right-bar-toggle mr-2" data-toggle="modal"
+                                        data-target="#modalEdit" (click)="openEditContactPop()" *ngIf="edit_contact">Edit</button>
+                                    <!-- <button type="button" class="btn btn-warning right-bar-toggle mr-2" data-toggle="modal"
+                                        data-target="#modalEditSt" (click)="openEditContactPopSt()" *ngIf="isStandard && edit_contact">Edit</button> -->
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                        data-target="#close" *ngIf="delete_contact">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="bottomSec row pt-2">
+                        <div class="col-md-2 col-sm-12" *ngIf="clientDetails.title">
+                            <div class="text-cont">
+                                <div class="text-label">Title</div>
+                                <div class="text-value">{{clientDetails.title}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12"  *ngIf="clientDetails.phone">
+                            <div class="text-cont">
+                                <div class="text-label">Phone</div>
+                                <div class="text-value" >{{clientDetails.phone}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12" *ngIf="clientDetails.email">
+                            <div class="text-cont">
+                                <div class="text-label">Email</div> 
+                                <div class="text-value no-capss">
+                                    <a target="_blank" href="mailto:{{clientDetails.email}}"
+                                        (input)="validateEmail($event);">{{clientDetails.email}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <div class="text-cont">
+                                <div class="text-label">Contact Owner</div>
+                                <div class="text-value">
+                                    <a href="javascript:void(0);"
+                                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                        [queryParams]="{ 'id': clientDetails.owner_id}"
+                                        class="formReadonly form-control1">{{getOwnerName(clientDetails.owner_id)}}</a>&nbsp;&nbsp;
+                                    <a href="javascript" data-toggle="modal" class="m-l-5" data-target="#modalOwner"
+                                        (click)="openOwnership()" title="Change Owner"><i
+                                            class="fas fa-user"></i></a>&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12" *ngIf="clientDetails.record_id">
+                            <div class="text-cont">
+                                <div class="text-label">Contact ID</div>
+                                <div class="text-value1"> {{clientDetails.record_id}} </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ClientInfo">
+            <div class="row">
+                <div class=" col-md-8 col-xl-8 col-lg-8 col-sm-12">
+                    <div class="card-box">
+                        <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab"
+                                    data-target="#RelatedCont" href="#">Related</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" data-toggle="tab" role="tab"
+                                    data-target="#DetailsCont">Details</a></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="tab" role="tab"
+                                data-target="#DetailsAttachmt">Attachments</a>
+                        </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="DetailsAttachmt"> 
+                                <div class="ContactCont1" >                                   
+
+                                <table class="table tableFile" width="100%" *ngIf="documentData && documentData.length>0">
+                                <thead  class="thead-light">
+                                    <tr>  
+                                        <th>File Name</th> 
+                                        <th>Type</th> 
+                                    </tr>
+                                </thead>
+                                   <tbody>
+                                    <tr *ngFor="let row of documentData;let k=index"> 
+                                        <td style="text-align: left;">
+                                          <a href="https://s3.ap-south-1.amazonaws.com/tutterflycrm-bucket/{{row.file_extension}}/{{row.file_name }}" target="_blank" class="spanMAinFile d-flex align-items-center" >
+                                          
+                                            <span *ngIf="row.file_extension == 'gif'" class="icongif extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'xls' || row.file_extension == 'xlsx'" class="iconxls extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'png'" class="iconpng extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'ppt' || row.file_extension == 'pptx'" class="iconppt extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'pdf'" class="iconpdf extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'doc' || row.file_extension == 'docx'" class="icondoc extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'csv'" class="iconcsv extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'jpg' || row.file_extension == 'JPG'" class="iconjpg extIcon"></span> 
+                                            <span _ngcontent-ibi-c23="" class="pull-left fileTxt" title="{{row.title }}"> {{row.title }} </span>
+                                     </a>
+                                        </td> 
+                                        <td style="text-align: left;">{{row.file_extension}}</td>
+                                    </tr>
+                                </tbody>
+                               </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane active" id="RelatedCont">
+                                <div class="OpporCont1">
+                                    <div class="row ContactHead">
+                                        <div class="col-md-6">
+                                            <div class="SmallIcon Contacticon">&nbsp;</div>
+                                            <div class="SmallIconHead">
+                                                Opportunities({{opportunities.length}})
+                                                <a *ngIf="opportunities.length>6" (click)="oppoViewAll()">View All</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button"
+                                                class="btn btn-primary waves-effect waves-light float-right"
+                                                [routerLink]="['/maindashboard',{ outlets: { bodySection: ['OpportunityGrid'] }}]"
+                                                [queryParams]="{ 'open': id,'type':'c','acc':clientDetails.account_id[0].id}"
+                                                *ngIf="create_opportunity">New</button>
+                                        </div>
+                                    </div>
+                                    <div class="row contactListcont">
+                                        <div class="col-md-4" *ngFor="let op of opportunities | slice:0:6;">
+                                            <div class="card contactList1">
+                                                <div class="card-body">
+                                                    <div class="card-title">
+                                                        <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['oppoDetails'] }}]"matTooltip="{{op.name}}"
+                                                [queryParams]="{ 'id': op.id}"> {{(op.name | slice: 0:30) + (op.name.length > 30 ? '..' : '')}} </a>
+                                                    </div>
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li class="d-flex align-items-center mb-25">
+                                                            <i class="fas fa-map"></i>&nbsp;<span class="ml-2">{{op.name}}</span>
+                                                        </li>
+                                                        <li class="d-flex align-items-center mb-25">
+                                                            <i
+                                                                class="fas fa-users"></i>&nbsp;<span class="ml-2">{{op.no_of_pax}}</span>
+                                                        </li>
+                                                        <li class="d-flex align-items-center mb-25" *ngIf="op.travel_date && op.travel_date!='1970-01-01'">
+                                                            <i class="fas fa-calendar-alt"></i>&nbsp;<span class="ml-2">{{op.travel_date}}</span>
+                                                        </li>
+                                                        <li class="d-flex align-items-center mb-25" *ngIf="op.close_date && op.close_date!='1970-01-01'">
+                                                            <i class="fas fa-calendar-times"></i>&nbsp;<span  class="ml-2">{{op.close_date}}</span>
+                                                        </li>
+                                                        <li class="d-flex align-items-center mb-25">
+                                                            <i class="fas fa-money-bill-wave"></i>&nbsp;<span class="ml-2">{{op.amount}}</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                <div class="tab-pane " id="DetailsCont">
+                    <div class="row" *ngIf="clientDetails!=undefined && clientDetails!=null">
+                        <div class="col-lg-12">
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header p-0" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left" type="button"
+                                                data-toggle="collapse" data-target="#collapseOne"
+                                                aria-expanded="true" aria-controls="collapseOne">
+                                                <i class="fas fa-address-book mainIcon"></i><i
+                                                    class="fas fa-angle-double-right mr-3"></i>Contact
+                                                Information
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseOne" class="collapse show fade"
+                                        aria-labelledby="headingOne" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <form id="form-project" role="form" autocomplete="off"
+                                                novalidate>
+                                                <div class="">
+                                                    <div class="row clearfix">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group required">
+                                                                <label>Contact
+                                                                    name</label>
+                                                                <div class="formReadonly form-control">
+                                                                    {{clientDetails.salutation}}
+                                                                    {{clientDetails.first_name}}
+                                                                    {{clientDetails.middle_name}}
+                                                                    {{clientDetails.last_name}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group ">
+                                                                <label>Contact
+                                                                    Owner</label>
+
+                                                                <div class="formReadonly form-control">
+                                                                    <a href="javascript:void(0);"
+                                                                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                                                        [queryParams]="{ 'id': clientDetails.owner_id}"
+                                                                        class="formReadonly form-control1">
+                                                                        {{getOwnerName(clientDetails.owner_id)}}
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group ">
+                                                            <label>Account Name</label>
+                                                            <div class="formReadonly form-control">
+                                                                <a href="javascript:void(0);"
+                                                                    [routerLink]="['/maindashboard',{ outlets: { bodySection: ['clientDetails'] }}]"
+                                                                    [queryParams]="{ 'id': clientDetails.account_id[0].id}"
+                                                                    class="formReadonly form-control1">{{clientDetails.account_id[0].name }}
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group "><label>Report
+                                                                to</label>
+                                                            <a href="javascript:void(0);"
+                                                                class="formReadonly form-control">{{returnReportingTo(clientDetails)}}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group required">
+                                                            <label>Title</label>
+                                                            <div class="formReadonly form-control">
+                                                                {{clientDetails.title}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group required">
+                                                            <label>Department</label>
+                                                            <div class="formReadonly form-control">
+                                                                {{clientDetails.department}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group required">
+                                                            <label>Phone</label>
+                                                            <div class="formReadonly form-control"
+                                                                (input)="validate_phone($event)">
+                                                                {{clientDetails.phone}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Mobile</label>
+                                                            <div class="formReadonly form-control"
+                                                                (input)="validate_phone($event)">
+                                                                {{clientDetails.mobile}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group required">
+                                                            <label>Email</label>
+                                                            <span id="acc_em_id_err"
+                                                                class="error">{{email_error_msg}}</span>
+                                                            <div class="formReadonly form-control elips"
+                                                                (input)="validateEmail($event);">
+                                                                {{clientDetails.email}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group  required">
+                                                            <label>Last
+                                                                Stay-in-Touch
+                                                                Date </label>
+                                                            <div class="formReadonly form-control">
+                                                                {{clientDetails.updated_at | date: 'dd MMM yyyy | hh:mm a'}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row"
+                                                    *ngIf="clientDetails.custom_fields && clientDetails.custom_fields.length>0 && extraFields">
+                                                    <div class="col-md-6"
+                                                        *ngFor="let fld of clientDetails.custom_fields">
+                                                        <div class="form-group required">
+                                                            <label>{{get_label_name(fld.contact_additional_field_id)}}</label>
+                                                            
+                                                            
+                                                        <div class="formReadonly form-control" *ngIf="fld.type!='picklist'">
+                                                            {{fld.field_value}}
+                                                        </div> 
+                                                        <div class="formReadonly form-control"  *ngIf="fld.type=='picklist'">
+                                                            {{fld.pick_value}}
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header p-0" id="headingTwo">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed btn-block text-left"
+                                                type="button" data-toggle="collapse"
+                                                data-target="#collapseTwo" aria-expanded="false"
+                                                aria-controls="collapseTwo">
+                                                <i class="fas fa-map-marker-alt mainIcon"></i><i
+                                                    class="fas fa-angle-double-right mr-3"></i>
+                                                Address information
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse fade" aria-labelledby="headingTwo"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="required">
+                                                <label>Mailing Address</label>
+                                                <div class="formReadonly form-control" style="height:auto">
+                                                    <span>{{clientDetails.mailing_street}} {{clientDetails.mailing_city}} {{clientDetails.mailing_state}} {{clientDetails.mailing_zip}} {{clientDetails.mailing_country}}<br></span>
+                                                    <p style="height:200px;width:100%">
+                                                        <app-map [address]="clientDetails.mailing_street+','+clientDetails.mailing_city+','+clientDetails.mailing_state+','+clientDetails.mailing_zip+','+clientDetails.mailing_country">
+                                                        </app-map>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header p-0" id="headingThree">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed btn-block text-left"
+                                                type="button" data-toggle="collapse"
+                                                data-target="#collapseThree" aria-expanded="false"
+                                                aria-controls="collapseThree">
+                                                <i class="fas fa-window-maximize mainIcon"></i><i
+                                                    class="fas fa-angle-double-right mr-3"></i>System
+                                                information
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseThree" class="collapse fade"
+                                        aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="row" *ngIf="accountList!=undefined">
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Created by</label>
+                                                        <div class="formReadonly form-control">
+                                                            <a href="javascript:void(0);"
+                                                                [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                                                [queryParams]="{ 'id': clientDetails.owner_id}"
+                                                                class="formReadonly form-control1">{{getOwnerName(clientDetails.owner_id)}}</a>
+                                                            <span style="margin-left:5px;"
+                                                                class="float-right1">{{clientDetails.created_at | date: 'dd MMM yyyy | hh:mm a'}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Last Modified By </label>
+                                                        <div class="formReadonly form-control">
+                                                            <a href="javascript:void(0);"
+                                                                [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                                                [queryParams]="{ 'id': clientDetails.owner_id}"
+                                                                class="formReadonly form-control1">{{getOwnerName(clientDetails.owner_id)}}</a>
+                                                            <span style="margin-left:5px;"
+                                                                class="float-right1">{{clientDetails.updated_at | date: 'dd MMM yyyy | hh:mm a'}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                    <div class="card-box ClientInfoRight">
+                        <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
+                            <li class="nav-item">
+                                <a class="active nav-link" data-toggle="tab" role="tab" data-target="#ActivityCont"
+                                    href="#">Activity</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" role="tab" data-target="#Taskcontact"
+                                    href="#">Activities Log</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="ActivityCont">
+                                <ul class="nav nav-tabs nav-tabs-fillup" data-init-reponsive-tabs="dropdownfx"
+                                    data-init-reponsive-tabs="dropdownfx">
+                                    <li class="nav-item">
+                                        <a href="#" class="active nav-link" data-toggle="tab" data-target="#taskCont"
+                                            (click)="resetForm()"><span>Task</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-toggle="tab" data-target="#LogAcallCont"
+                                            (click)="resetForm()"><span>Log a Call</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-toggle="tab" data-target="#EmailCont"
+                                            (click)="resetForm()"><span>Email</span></a>
+                                    </li>
+                                    <li class="nav-item" *ngIf="isWhatsappEnabled">
+                                    <a href="#" class="nav-link" data-toggle="tab" data-target="#WaspCont" ><span><i class="fa fa-whatsapp mr-1"></i>Whatsapp</span></a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                <div class="tab-pane" id="WaspCont" >
+                                    <app-whatsapp-form [watsapp]="watsapp" (renderData)="renderData()" [clientData]="clientData" [whatsapp_thread_exist]="whatsapp_thread_exist"></app-whatsapp-form>
+                                </div>
+                                    <!--Task Start-->
+                                    <div class="tab-pane active" id="taskCont">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="form-group required">
+                                                    <label>Subject</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="task.subject">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12">
+                                                <form class="example-form col-md-12 col-md-12 p0 SearchContact"
+                                                    *ngIf="filteredOptions!=null && filteredOptions!=undefined && filteredOptions!=[]">
+                                                    <mat-form-field class="example-full-width form-group"
+                                                        style="width:100%;">
+                                                        <label>Assigned To</label>
+                                                        <input type="text" class="form-control" aria-label="Number"
+                                                            matInput [formControl]="myControl" [matAutocomplete]="auto">
+                                                        <mat-autocomplete #auto="matAutocomplete"
+                                                            (optionSelected)='getASelectedVal($event.option.value)'
+                                                            [displayWith]="displayAssignedUserFn">
+                                                            <mat-option *ngFor="let obj of  filteredOptions | async"
+                                                                [value]="obj">
+                                                                <span>{{displayAssignedUserFn(obj) | titlecase}}</span>
+                                                            </mat-option>
+                                                        </mat-autocomplete>
+                                                    </mat-form-field>
+                                                </form>
+                                            </div>
+
+                                            <!-- <mat-form-field> -->
+                                            <div class="col-lg-12 col-md-12 taskDueDate">
+                                                <div class="form-group">
+                                                    <label>Select Due Date</label><input [owlDateTime]="dt1"
+                                                        [owlDateTimeTrigger]="dt1" class="form-control"
+                                                        [(ngModel)]="task.due_date" placeholder="Date Time"  [min]="todayDate" [ngClass]="due_error ? 'frm-danger':''" > 
+                                                    <owl-date-time #dt1></owl-date-time>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="form-group">
+                                                    <label>Name</label>
+                                                    <p>{{clientDetails.salutation}} {{clientDetails.first_name |
+                                                        titlecase}} {{clientDetails.last_name | titlecase}}</p>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-lg-12 col-md-12">
+                                                <label>Related To</label>
+                                                <p> {{clientDetails.account_id[0].name }}</p>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12">
+                                                <button class="btn btn-primary btn-cons m-b-10 float-right"
+                                                    type="button" (click)="createTask()"><span class="bold">Save</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Task end-->
+
+                                    <!--Log a call Start-->
+                                    <div class="tab-pane" id="LogAcallCont">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="form-group required">
+                                                    <label>Subject</label>
+                                                    <input type="text" class="form-control" [(ngModel)]="call.subject">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="form-group  required">
+                                                    <label>Comments</label>
+                                                    <textarea class="form-control"
+                                                        [(ngModel)]="call.description"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="form-group">
+                                                    <label>Name</label>
+                                                    <!--   <p>{{clientDetails.name}}</p> -->
+                                                    <p>{{clientDetails.salutation}} {{clientDetails.first_name |
+                                                        titlecase}} {{clientDetails.last_name | titlecase}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12">
+
+                                                <label>Related To</label>
+                                                <p> {{clientDetails.account_id[0].name }}</p>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12">
+                                                <button class="btn btn-primary btn-cons m-b-10 float-right"
+                                                    type="button" (click)="logCall()"><span class="bold">Save</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Email Start-->
+        <div class="tab-pane" id="EmailCont" >
+          <div class="row"> 
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group required">
+                    <label>From</label>
+                    <input type="text" class="form-control"
+                        [(ngModel)]="clientData.auth_user.email" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group required">
+                    <label>To</label>
+                    <input type="text" class="form-control"
+                        [(ngModel)]="mail.to_address"
+                        (keydown)="search_email($event,'to_address')">
+                    <div style="position: absolute; top: 29px; right: 23px;">
+                        <a class="float-right" href="javascript:void(0);"
+                            (click)="ccBlockShow()">CC</a>&nbsp;
+                        <a class="float-right ml5" href="javascript:void(0);"
+                            (click)="bccBlockShow()">BCC</a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div id="myInputautocomplete-list1" class="autocomplete-items"
+                        *ngIf="to_address_list.length >0">
+                        <div *ngFor="let acc of to_address_list" class="auto-itm">
+                            <div (click)="selectEmailId(acc,'to_address')">
+                                <strong>{{acc.first_name}} {{acc.last_name}}
+                                    ({{acc.email}})</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12" *ngIf="ccBlock">
+                <div class="form-group required">
+                    <label>CC</label>
+                    <input type="text" class="form-control"
+                        [(ngModel)]="mail.cc_address"
+                        (keydown)="search_email($event,'cc_address')">
+                    <div id="myInputautocomplete-list2" class="autocomplete-items"
+                        *ngIf="cc_address_list.length >0">
+                        <div *ngFor="let acc of cc_address_list" class="auto-itm">
+                            <div (click)="selectEmailId(acc,'cc_address')">
+                                <strong>{{acc.first_name}} {{acc.last_name}}
+                                    ({{acc.email}})</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12" *ngIf="bccBlock">
+                <div class="form-group required">
+                    <label>BCC</label>
+                    <input type="text" class="form-control"
+                        [(ngModel)]="mail.bcc_address"
+                        (keydown)="search_email($event,'bcc_address')">
+                    <div id="myInputautocomplete-list3" class="autocomplete-items"
+                        *ngIf="bcc_address_list.length >0">
+                        <div *ngFor="let acc of bcc_address_list" class="auto-itm">
+                            <div (click)="selectEmailId(acc,'bcc_address')">
+                                <strong>{{acc.first_name}} {{acc.last_name}}
+                                    ({{acc.email}})</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <label>Related To</label>
+                <p> {{clientDetails.account_id[0].name }}</p>
+            </div>
+
+            <div class="col-lg-12 col-md-12"  *ngIf="show_email_temp">
+                <div class="form-group required">
+                    <label>Email Template</label>
+                    <select (change)="setUpEmailValue()" [(ngModel)]="emailTemplate"
+                        class="form-control">
+                        <option *ngFor="let o of clientData.email_templates"
+                            value="{{o.id}}">{{o.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group required">
+                    <label>Subject</label>
+                    <input type="text" class="form-control"
+                        placeholder="Enter Subject..." [(ngModel)]="mail.subject">
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+       <strong class="error mb-1" *ngIf="email_templates_err">{{email_templates_err}}</strong>
+                <div class="wysiwyg5-wrapper b-a b-grey">
+                    <app-quil-editor [(description_html)]="mail.description_html">
+                    </app-quil-editor>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12 mt5">
+
+                   <div class="row inner_email_attached" id="composebottomEmail" style="width:calc(100% - 70px)">
+                                <div class="col-lg-2 col-md-2 mt-2">
+                                <!-- <input class="btn btn-secondary btn-cons m-b-10 pull-left"  type="file" id="myFile" (change)="attachFiles($event.target.files)" style="display: none"> -->
+                                <label type="btn btn-light" class="btn btn-light custom-file-upload" for="myFile" data-toggle="modal"   data-target="#email_attachment" (click)="openEmailAttachModeal()"  matTooltip="Add Attachment"><i class="fa fa-paperclip"></i></label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 mt-2" *ngIf="all_attachment">
+                                <ul class="list-unstyled" style="display: flex;flex-wrap: wrap;">
+                                    <li *ngFor="let attch of all_attachment;let i=index" s class="email_attachChip mr-1">
+                                        <a href="javascript:void(0);" class="attach-file" *ngIf="attch" ><span class="attachfileText">{{attch.title}}</span> <span class="attach_close"  (click)="removeAttachment(i)">&times;</span></a>
+                                        
+                                    </li>  
+                                </ul>        
+                            </div>
+                    </div>
+                <button class="btn btn-primary btn-cons m-b-10 float-right"
+                    type="button" (click)="sendEmail()"><span class="bold">Send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+                                    <!--Email end-->
+
+                                    <!--Event Start-->
+    <div class="tab-pane" id="EventCont">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group required">
+                    <label>Subject</label>
+                    <input type="text" [(ngModel)]="event.subject" class="form-control">
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group required">
+                    <label>Name</label>
+                    <div class="form-control formReadonly">
+                        {{loginUser.name}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label>Name</label>
+                    <p>{{clientDetails.name}}</p>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group  required">
+                    <label>Description</label>
+                    <textarea [(ngModel)]="event.description" class="form-control"
+                        style="height:100px;"></textarea>
+                </div>
+            </div>
+
+            <!-- Start event time date -->
+            <p class="col-lg-12 col-md-12"
+                style="margin-top: 10px;font-size: 12px;font-weight: 500;text-transform: uppercase;margin-bottom: 5px;">
+                Start</p>
+            <div class="col-lg-6 col-md-6 EventDate">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input matInput [matDatepicker]="EvtstartDate" class="form-control"
+                        [value]="EvtstartDate">
+                    <mat-datepicker-toggle matSuffix [for]="EvtstartDate"><i
+                            class="fas fa-calendar"></i>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #EvtstartDate></mat-datepicker>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 EventDate">
+                <div class="form-group">
+                    <label>Time</label>
+                    <select [(ngModel)]="event.start_time" class="form-control">
+                        <option>12:00 AM</option>
+                        <option>12:30 AM</option>
+                        <option>1:00 AM</option>
+                        <option>1:30 AM</option>
+                        <option>2:00 AM</option>
+                        <option>2:30 AM</option>
+                        <option>3:00 AM</option>
+                        <option>3:30 AM</option>
+                        <option>4:00 AM</option>
+                        <option>4:30 AM</option>
+                        <option>5:00 AM</option>
+                        <option>5:30 AM</option>
+                        <option>6:00 AM</option>
+                        <option>6:30 AM</option>
+                        <option>7:00 AM</option>
+                        <option>7:30 AM</option>
+                        <option>8:00 AM</option>
+                        <option>8:30 AM</option>
+                        <option>9:00 AM</option>
+                        <option>9:30 AM</option>
+                        <option>10:00 AM</option>
+                        <option>10:30 AM</option>
+                        <option>11:00 AM</option>
+                        <option>11:30 AM</option>
+                        <option>12:00 PM</option>
+                        <option>12:30 PM</option>
+                        <option>1:00 PM</option>
+                        <option>1:30 PM</option>
+                        <option>2:00 PM</option>
+                        <option>2:30 PM</option>
+                        <option>3:00 PM</option>
+                        <option>3:30 PM</option>
+                        <option>4:00 PM</option>
+                        <option>4:30 PM</option>
+                        <option>5:00 PM</option>
+                        <option>5:30 PM</option>
+                        <option>6:00 PM</option>
+                        <option>6:30 PM</option>
+                        <option>7:00 PM</option>
+                        <option>7:30 PM</option>
+                        <option>8:00 PM</option>
+                        <option>8:30 PM</option>
+                        <option>9:00 PM</option>
+                        <option>9:30 PM</option>
+                        <option>10:00 PM</option>
+                        <option>10:30 PM</option>
+                        <option>11:00 PM</option>
+                        <option>11:30 PM</option>
+
+                    </select>
+                </div>
+            </div>
+
+            <!-- End event time date -->
+            <p class="col-lg-12 col-md-12"
+                style="margin-top: 15px;font-size: 12px;font-weight: 500;text-transform: uppercase;margin-bottom: 5px;">
+                End</p>
+            <div class="col-lg-6 col-md-6 EventDate">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input matInput [matDatepicker]="EvtEndDate" class="form-control"
+                        [value]="EvtEndDate">
+                    <mat-datepicker-toggle matSuffix [for]="EvtEndDate">
+                        <i class="fas fa-calendar"></i>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #EvtEndDate></mat-datepicker>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 EventDate">
+                <div class="form-group">
+                    <label>Time</label>
+                    <select [(ngModel)]="event.end_time" class="form-control">
+                        <option>12:00 AM</option>
+                        <option>12:30 AM</option>
+                        <option>1:00 AM</option>
+                        <option>1:30 AM</option>
+                        <option>2:00 AM</option>
+                        <option>2:30 AM</option>
+                        <option>3:00 AM</option>
+                        <option>3:30 AM</option>
+                        <option>4:00 AM</option>
+                        <option>4:30 AM</option>
+                        <option>5:00 AM</option>
+                        <option>5:30 AM</option>
+                        <option>6:00 AM</option>
+                        <option>6:30 AM</option>
+                        <option>7:00 AM</option>
+                        <option>7:30 AM</option>
+                        <option>8:00 AM</option>
+                        <option>8:30 AM</option>
+                        <option>9:00 AM</option>
+                        <option>9:30 AM</option>
+                        <option>10:00 AM</option>
+                        <option>10:30 AM</option>
+                        <option>11:00 AM</option>
+                        <option>11:30 AM</option>
+                        <option>12:00 PM</option>
+                        <option>12:30 PM</option>
+                        <option>1:00 PM</option>
+                        <option>1:30 PM</option>
+                        <option>2:00 PM</option>
+                        <option>2:30 PM</option>
+                        <option>3:00 PM</option>
+                        <option>3:30 PM</option>
+                        <option>4:00 PM</option>
+                        <option>4:30 PM</option>
+                        <option>5:00 PM</option>
+                        <option>5:30 PM</option>
+                        <option>6:00 PM</option>
+                        <option>6:30 PM</option>
+                        <option>7:00 PM</option>
+                        <option>7:30 PM</option>
+                        <option>8:00 PM</option>
+                        <option>8:30 PM</option>
+                        <option>9:00 PM</option>
+                        <option>9:30 PM</option>
+                        <option>10:00 PM</option>
+                        <option>10:30 PM</option>
+                        <option>11:00 PM</option>
+                        <option>11:30 PM</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group required">
+                    <label>Location</label>
+                    <input type="text" class="form-control"
+                        [(ngModel)]="event.location">
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <form class="example-form col-md-12 col-md-12 p0 SearchContact"
+                    *ngIf="filteredOptions!=[]">
+                    <mat-form-field class="example-full-width form-group">
+                        <label>Related To</label>
+                        <input type="text" class="form-control" aria-label="Number"
+                            matInput [formControl]="myControl" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete"
+                            (optionSelected)='getASelectedVal($event.option.value)'
+                            [displayWith]="displayAssignedUserFn">
+                            <mat-option *ngFor="let obj of filteredOptions | async"
+                                [value]="obj">
+                                <span>{{displayAssignedUserFn(obj) | titlecase}}</span>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </form>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <button class="btn btn-primary btn-cons m-b-10 float-right"
+                    type="button" (click)="createEvent()"><span class="bold">Save</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+                            <div class="tab-pane" id="Taskcontact">
+                                <div class="activityResult">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="taskMainHead">
+                                                <h2>Next Task</h2>
+                                            </div>
+                                            <div *ngFor="let next of clientData.next_steps" class="clearfix">
+                                                <div class="row taskHead p0">
+                                                    <a class="col-md-1 col-sm-1 float-right NxttaskArrow"
+                                                        data-toggle="collapse" href="#nxt{{next.id}}" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample">
+                                                        <i class="fas"></i></a>
+                                                    <span class="NxttskIco col-md-1 col-sm-1"><i
+                                                            class="fas fa-list"></i></span>
+                                                    <a class="col-md-10 col-sm-10 float-right TaskName"
+                                                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['taskDetails'] }}]"
+                                                        [queryParams]="{ 'id': next | json}">{{next.name}}</a>
+                                                </div>
+                                                <div class="NxttskCnt col-md-11 ml-auto float-right">
+                                                    <div class="col-md-12 TaskDet float-right">You have a task with
+                                                        {{next.name}}</div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="collapse" id="nxt{{next.id}}">
+                                                        <div class="taskopen col-md-12 col-sm-12 float-right">
+                                                            <span>Name</span><br><span>{{next.name}}</span><br>
+                                                            <span>Description</span><br><span>{{next.description}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="taskMainHead">
+                                                <h2>Previous Task</h2>
+                                            </div>
+                                            <div *ngFor="let pre of clientData.past_activities" class="clearfix">
+                                                <div class="row taskHead p0">
+                                                    <a class="col-md-1 col-sm-1 float-right PretaskArrow"
+                                                        data-toggle="collapse" href="#pre{{pre.id}}" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample">
+                                                        <i class="fas"></i></a>
+                                                    <span class="PretskIco col-md-1 col-sm-1"><i
+                                                            class="fas fa-list"></i></span>
+                                                    <a class="col-md-10 col-sm-10 float-right TaskName"
+                                                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['taskDetails'] }}]"
+                                                        [queryParams]="{ 'id': pre | json}">{{pre.name}}</a>
+                                                </div>
+                                                <div class="PretskCnt col-md-11 float-right">
+                                                    <div class="col-md-12 TaskDet float-right">You had a task with
+                                                        {{pre.name}}</div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="collapse" id="pre{{pre.id}}">
+                                                        <div class="taskopen col-md-12 col-sm-12 float-right">
+                                                            <span>Name</span><br><span>{{pre.name}}</span><br>
+                                                            <span>Description</span><br><span>{{pre.description}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="taskMainHead">
+                                                <h2>Email</h2>
+                                                <span class="float-right mr-15 email_refresh" (click)="refreshEmail()"
+                                                    style="color: #ddd;cursor: pointer;position: relative;z-index: 100;top: 2px;">
+                                                    <i class="fas fa-refresh"
+                                                        style="background: #f16a25;padding:5px 5.8px;    font-size: 13px;border-radius: 5px;z-index: 99999999999999;color: #fff;"></i></span>
+                                            </div>
+                                            <div *ngFor="let emailHis of clientData.past_activities_emails"
+                                                class="clearfix">
+                                                <div class="row taskHead p0">
+                                                    <a class="float-right PretaskArrow" style="width:45px"
+                                                        data-toggle="collapse" href="#emailHis{{emailHis.id}}"
+                                                        role="button" aria-expanded="false"
+                                                        aria-controls="collapseExample">
+                                                        <i class="fas"></i></a>
+                                                    <span class="PretskIco col-md-1 col-sm-1"
+                                                        style="margin-right: 10px;"><i
+                                                            class="fas fa-envelope"></i></span>
+                                                    <a href="#emailHis{{emailHis.id}}"
+                                                        class="col-md-6 col-sm-6 float-right TaskName"
+                                                        data-toggle="collapse" role="button" aria-expanded="false"
+                                                        aria-controls="collapseExample">{{emailHis.subject | slice:0:25}}</a>
+                                                </div>
+                                                <div class="PretskCnt col-md-11 float-right">
+                                                    <p class="text-left" style="padding-left:18px">
+                                                        <a href="javascript:void(0);"
+                                                            class="text-capitalize">{{trimEmail(emailHis.from_address)}}</a>
+                                                        sent an email to <a href="javascript:void(0);"
+                                                            class="text-capitalize">{{trimEmail(emailHis.to_address)}}</a>
+                                                    </p>
+                                                    <div class="clearfix"></div>
+                                                    <div class="collapse" id="emailHis{{emailHis.id}}">
+                                                        <div class="taskopen col-md-12 col-sm-12 float-right">
+                                                            <span><strong>{{emailHis.from_address}}</strong></span><br>
+                                                            <span [innerHTML]="emailHis.description_html"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalEdit" class="modal fixed-left fade" tabindex="-1" role="dialog" style="padding-right: 0 !important;"
+    *ngIf="EditAccPop">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">Edit Contact</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="card mb-0">
+                    <div class="card-body addNew-form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="addNew-form-Subhead">Additional Information</h5>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="row mt10">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Salutation</label>
+                                        <select type="text" class="form-control" [(ngModel)]="newContact.salutation">
+                                            <option *ngFor="let salutation of salutations">{{salutation.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label>Account Owner</label>
+                                        <p>{{loginUser.name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" [(ngModel)]="newContact.first_name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Last Name  <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" [(ngModel)]="newContact.last_name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="auto-comp-div-pop"> 
+                                        <div class="form-group autocomplete">
+                                            <label>Account Name  <span class="text-danger">*</span></label>
+                                            <input id="myInput" [(ngModel)]="account_nameSearch" class="form-control"
+                                                type="text" (keydown)="search_acc($event)" name="myCountry"
+                                                placeholder="Search Account">
+
+                                            <div id="myInputautocomplete-list" class="autocomplete-items"
+                                                *ngIf="autoAccList.length >0">
+                                                <div *ngFor="let acc of autoAccList" class="auto-itm">
+                                                    <div (click)="fetch_acc(acc.id,acc.name)">
+                                                        <strong>{{acc.name}}</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               <!--  <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Reports To</label>
+                                        <select [(ngModel)]="newContact.reports_to_id" class="form-control">
+                                            <option *ngFor="let key of reportToLst" [value]="key.id">{{key.salutation}}
+                                                {{key.first_name}} {{key.middle_name}} {{key.last_name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div> -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input type="text" class="form-control" [(ngModel)]="newContact.title">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label>Department</label>
+                                        <input type="text" class="form-control" [(ngModel)]="newContact.department">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input type="text" class="form-control" [(ngModel)]="newContact.phone"
+                                            (input)="validate_phone($event)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Mobile</label>
+                                        <input type="text" class="form-control" [(ngModel)]="newContact.mobile"
+                                            (input)="validate_phone($event)">
+                                    </div>
+                                </div>
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <span id="acc_em_id_err" class="error">{{email_error_msg}}</span>
+                                        <input type="text" class="form-control" [(ngModel)]="newContact.email"
+                                            (input)="validateEmail($event);">
+                                    </div>
+                                </div>
+                            </div>
+                           <!--  <div class="row">
+                               
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date of Birth</label>
+                                        <input matInput [matDatepicker]="picker" class="form-control"
+                                            [(ngModel)]="newContact.dob">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"
+                                            style="position: absolute; top: 18px; right: 12px;"><i
+                                                class="fas fa-calendar"></i>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="addNew-form-Subhead">Address Information</h5>
+                                </div>
+                            </div>
+                            <div class="row mt10">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                <label>Mailing Street</label>
+                                        <input placeholder="search for location" autocorrect="off" autocapitalize="off"
+                                            spellcheck="off" id="street_add" type="text" class="form-control" #search
+                                            [(ngModel)]="newContact.mailing_street" [formControl]="searchControl">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt10">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label>Mailing City</label>
+                                        <input type="text" class="form-control" [(ngModel)]="newContact.mailing_city">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Mailing State</label>
+                                        <input type="text" class="form-control" [(ngModel)]="newContact.mailing_state">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt10">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Mailing Zip</label>
+                                        <input type="text" class="form-control" [(ngModel)]="newContact.mailing_zip">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Mailing Country</label>
+                                        <input type="text" class="form-control"
+                                            [(ngModel)]="newContact.mailing_country">
+                                    </div>
+                                </div>
+                            </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">Attachment Information</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-lg-12 col-md-12 mt-2" matTooltip="Attachments">
+                           
+                           <button type="button" class="btn btn-light custom-file-upload" data-toggle="modal"   data-target="#add_attachment" (click)="openAttachModeal()" ><i class="fa fa-paperclip mr-2"></i>Add Attachment</button> 
+                        </div>
+                        <div class="col-lg-12 col-md-12 mt-2" *ngIf="module_attachment">
+                            <ul class="list-unstyled" style="display: flex;flex-wrap: wrap;">
+                                <li *ngFor="let attch of module_attachment;let i=index" s
+                                    class="email_attachChip mr-1">
+                                    <a href="javascript:void(0);" class="attach-file" *ngIf="attch"><span
+                                            class="attachfileText">{{attch}}</span> <span class="attach_close"
+                                            (click)="removeModAttachment(i)">&times;</span></a>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                            <app-editform [(extraFields)]="extraFields"></app-editform>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="updateContact()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="modalEditSt" class="modal fixed-left fade" tabindex="-1" role="dialog" style="padding-right: 0 !important;" [ngClass]="popUpClass ? 'modelOpenNew':''" *ngIf="newStAccPop && openStandard_f">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">{{formTitle}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body addNew-form" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">{{st_formType}} Information</h5>
+                    </div>
+                </div>
+              <div *ngIf="standardFields && standardFields.length>0"> 
+                   <div class="row">
+
+                      <div class="col-md-6" *ngFor="let fld of standardFields;let i=index">
+
+                          <div class="form-group" *ngIf="fld.name=='first_name'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.first_name">
+                          </div>
+
+                          <div class="form-group" *ngIf="fld.name=='last_name'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.last_name">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='department'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.department">
+                          </div>  
+                          <div class="form-group" *ngIf="fld.type=='search_account'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" (keydown)="search_acc($event)" [(ngModel)]="account_nameSearch" name="auto_acc_name"
+                                        placeholder="Search Account">
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoAccList.length >0">
+                                        <div *ngFor="let acc of autoAccList" class="auto-itm">
+                                            <div (click)="fetch_acc(acc.id,acc.name)">
+                                                <strong>{{acc.name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='title'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.title">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='company'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.company">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='email'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.email">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='website'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.website">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='phone'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.phone">
+                          </div> 
+
+                          <div class="form-group" *ngIf="fld.name=='mobile'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.mobile">
+                          </div>   
+
+                          <!-- number fields -->
+                          <div class="form-group" *ngIf="fld.name=='no_employees'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}_st" min="1" name="fld.name"  [(ngModel)]="newContact.no_employees">
+                          </div>    
+                          <div class="form-group custom_calender_c" *ngIf="fld.name=='dob'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <input matInput [matDatepicker]="picker2"  id="{{fld.name}}_st"  class="form-control form-control1"  [(ngModel)]="newContact.dob">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"><i class="fas fa-calendar"></i>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+
+                          </div>  
+                          <div class="form-group" *ngIf="fld.name=='rating_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newContact.rating_id">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='lead_status_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newContact.lead_status_id" >
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='salutation'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newContact.salutation" >
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.name">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='industry_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newContact.industry_id" >
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                      </div>
+               
+                  </div>
+               
+                  </div>
+                  <div *ngIf="standard_address">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="addNew-form-Subhead">Address Information</h5>
+                        </div>
+                    </div>
+
+                    <div class="row mt10">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                    <label>Mailing Street</label>
+                                <input placeholder="search for location" autocorrect="off" autocapitalize="off"
+                                    spellcheck="off" id="street_add" type="text" class="form-control" #search_st
+                                    [(ngModel)]="newContact.mailing_street" [formControl]="searchControl_st">
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row"> 
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Mailing City</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_city">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mailing State</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_state">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt10">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mailing Zip</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_zip">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mailing Country</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_country">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              <app-editform [(extraFields)]="extraFields"></app-editform>
+              </div>
+
+           
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary float-right" type="button" (click)="updateContactSt()">Update</button>
+            </div>
+            </div>
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+<div class="modal fade EditOppor" id="modalOwner" role="dialog" aria-hidden="false" *ngIf="ownerShipEdit">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h5>Change <span class="semi-bold">Contact Owner</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group comp-selectbx text-left" (click)="selectBox()">
+                            <label><strong>Owner</strong></label>
+                            <select2 [data]="assignData" class="select2" [value]="contact_new_owner_id"
+                                (valueChanged)="renderNewView($event.value)" [options]="ownerOptions" width="100%">
+                            </select2>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary float-right ml-2" (click)="changeOwner()">Change Owner
+                </button>
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal"
+                    (click)="closeOwner()">Close
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="close" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-filled bg-danger">
+            <div class="modal-body p-4">
+                <div class="text-center">
+                    <h4><span class="mt-2 text-white">Are you sure you want to delete the contact?</span></h4>
+                        <div class="form-group button-list">
+                            <button type="button" class="btn btn-light waves-effect waves-light" data-dismiss="modal"
+                                (click)="delete()">Yes</button>
+                            <button type="button" class="btn btn-primary waves-effect waves-light"
+                                data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-attachment-upload [(module_attachment)]="module_attachment" [(documentData)]="documentData" [(attachModalOpen)]="attachModalOpen" *ngIf="attachModalOpen"></app-attachment-upload>  
+
+<app-email-attachment [(all_attachment)]="all_attachment" [(emailAttachModalOpen)]="emailAttachModalOpen" [(all_attachment_urls)]="all_attachment_urls" [(mail)]="mail" *ngIf="emailAttachModalOpen"></app-email-attachment>   
+
+<style type="text/css">
+    .no-capss {
+        text-transform: none !important;
+    }
+</style>

@@ -1,0 +1,986 @@
+<!-- <script src="assets/js/myjs.js"></script> -->
+<div class="no-padding container-fixed-lg CRMTable">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <form class="form-inline">
+                            <a href="javascript: void(0);" class="btn btn-blue ml-2"
+                                [routerLink]="['/maindashboard',{ outlets: { bodySection: ['import-data'] }}]"  [queryParams]="{ 'type': 'contacts'}"  matTooltip="Import Contacts">
+                                <i class="fas fa-file-csv"></i>
+                            </a>
+                            <!-- <a href="javascript: void(0);" title="Export" class="btn btn-secondary ml-1"> 
+                                <i class="fas fa-file-import"></i>
+                            </a>-->
+                        </form> 
+                    </div>
+                    <h4 class="page-title">Contact</h4>
+                </div>
+            </div>
+        </div> 
+        <!-- START card -->
+
+        <div class="card">
+            <div class="card-header card-white-head">
+                <div class="card-title m-0 w-100">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="select-DataView">
+                                <div class="d-flex icon-module float-left mr-1">
+                                    <!-- <img src="assets/new_assets/images/account-icon.png" alt="" width=""
+                                        class="img-fluid"> -->
+                                        <div class="timeline-icon bg-primary rounded-circle">
+                                            <i class="mdi mdi mdi-file-edit-outline float-left m-0 h3 p-2 align-middle text-white"></i>
+                                        </div>
+                                </div>
+                                <div class="select-DataViewml-2 d-flex align-items-end">
+                                    <div class="form-group m-0 float-left">
+                                        <label class="m-0 text-primary">
+                                            <small>Contact <span
+                                                    *ngIf="totalData  && viewId>0">({{totalData}})</span></small>
+                                        </label>
+                                        <div class="ClientViewDrop"
+                                            *ngIf="exampleData!=null && exampleData!=undefined && exampleData.length!=0">
+                                            <select2 [data]="exampleData" [value]="viewId" [options]="options"
+                                                (valueChanged)="renderNewView($event.value)" width="100%"></select2>
+                                        </div>
+                                    </div>
+                                    <button type="button" (click)="pinned_view()" matTooltip="Pin View" class="btn btn-danger" *ngIf="viewId>0 && (pinned_view_id!=viewId)" type="button"><i class="mdi mdi-pin"></i></button>
+                                    <button type="button" (click)="unpinned_view()" matTooltip="Unpin View" class="btn btn-warning" *ngIf="viewId>0 && (pinned_view_id==viewId)" type="button"><i class="mdi mdi-pin-off"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="float-right">
+                                <div class="btn-group mb-0 mt-1">
+                                    <button type="button" class="btn btn-primary newBtn float-right"
+                                        data-target="#add_new_cnt" data-toggle="modal" id="popNew" (click)="openNewAccountPop()"
+                                        *ngIf="create_contact">
+                                        <span class="btn-label"><i class="fas fa-plus"></i></span>New Contact
+                                    </button>
+                                    <button type="button" class="btn btn-warning newBtn float-right"
+                                        data-target="#add_new_cnt_st" data-toggle="modal" id="popNew" (click)="openNewAccountPopSt()"
+                                        *ngIf="isStandard && create_contact">
+                                        <span class="btn-label"><i class="fas fa-plus"></i></span>New St
+                                    </button>
+                                    <!-- <button type="button" class="btn btn-light float-right" data-toggle="modal"
+                                        data-target="#modalListMail" (click)="fetchMailMeta()" [disabled]="viewId==0">
+                                        <span>Send List Mail</span>
+                                    </button> -->
+                                    <button type="button" class="btn btn-secondary" (click)="checkCurrentView()"><i
+                                            class="fas fa-refresh"></i></button>
+                                    <button type="button" class="btn btn-light"
+                                        [disabled]="viewId==undefined ||viewId==0" data-target="#FilterBox"
+                                        data-toggle="modal"><i class="fas fa-filter"></i></button>
+                                    <div class="dropdown">
+                                        <a class="btn btn-blue dropdown-toggle" href="javascript:void(0);"
+                                            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Settings
+                                            <!-- <i class="mdi mdi-chevron-down"></i> -->
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" data-toggle="modal" data-target="#modalAddView">New
+                                                View</a>
+                                            <a class="dropdown-item" data-toggle="modal" data-target="#modalRename"
+                                                (click)="renameModel()" *ngIf="viewId>0">Rename</a>
+                                            <a class="dropdown-item" data-toggle="modal" data-target="#modalsharing"
+                                                *ngIf="viewId>0">Sharing Settings</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" data-target="#FilterBox"
+                                                data-toggle="modal" *ngIf="viewId>0">Edit List Filters</a>
+                                            <a class="dropdown-item" data-toggle="modal" data-target="#modalFieldisp"
+                                                *ngIf="viewId>0">Select Fields to display</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" *ngIf="viewId>0"
+                                                (click)="delete_view(viewId)">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive table nowrap w-100 table-striped table-bordered"
+                    *ngIf="dataSource!=undefined && display_columns!=undefined && gridData != undefined">
+                    <table mat-table [dataSource]="dataSource" class="table table-hover" matSort>
+                        <!-- Position Column -->
+                        <ng-container *ngFor="let c of display_columns ;let i  =$index" [matColumnDef]="c.name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{c.alias_name}}</th>
+                            <td mat-cell *matCellDef="let acc" style="position: relative;">
+                                <span *ngIf="c.name=='account_name' && acc.account_id">{{acc.account_id.name}}</span>
+                                <span *ngIf="c.name=='last_name' || c.name=='first_name'"><a
+                                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['contactDetails'] }}]"
+                                        [queryParams]="{ 'id': acc.id}">{{acc[c.name]}}</a></span>
+                                <span *ngIf="c.name=='acc_type_id'">{{accType[acc[c.name]]}}</span>
+                                <span *ngIf="c.name=='owner_id' || c.name == 'last_modified_by_id' || c.name == 'created_by' ">
+                                    <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                        [queryParams]="{ 'id': acc.owner_id}">{{getOwnerName(acc[c.name])}}</a>
+                                </span>
+                                <span *ngIf="c.name=='acc_parent_id'">{{accParent[acc[c.name]]}}</span>
+                                <span *ngIf="c.name=='created_at'">{{acc[c.name] | date: 'dd MMM yyyy'}}</span>
+                                <span *ngIf="c.name=='updated_at'">{{acc[c.name] | date: 'dd MMM yyyy'}}</span>
+                                <span *ngIf="c.name=='dob'"><span *ngIf="acc[c.name] && acc[c.name]!='1970-01-01'">{{acc[c.name] | date: 'dd MMM yyyy'}}</span>
+                                </span>
+                                <span
+                                    *ngIf="c.name!='name' && c.name!='acc_type_id' && c.name!='owner_id' && c.name!='last_name' && c.name!='first_name' && c.name != 'created_by' && c.name != 'last_modified_by_id' && c.name != 'reports_to_id' && c.name != 'created_at' && c.name != 'updated_at' && c.name != 'dob'">{{acc[c.name]}}
+                                </span>
+                                <span *ngIf="c.name == 'reports_to_id'">{{reportToDetails(acc[c.name])}} </span>
+                                <a *ngIf="c.editable_flag==1" class="editBtn"
+                                    (click)="EditPopShow(c.id,acc[c.name],acc.id)"><i class="fas fa-edit"></i></a>
+                                <a *ngIf="c.editable_flag!=1" class="lockBtn"><i class="fas fa-lock"></i></a>
+                                <div class="Editpop"
+                                    *ngIf="Editpop &&(acc.id===updateColumnData.account_id) && (updateColumnData.column_id===c.id)">
+                                    <div *ngIf="updateColumnData.column_id != 16 && updateColumnData.column_id != 10">
+                                        <div class="col-md-9 col-sm-9 float-left p0"><input type="text"
+                                                [(ngModel)]="updateValue" /></div>
+                                    </div>
+                                    <div *ngIf="updateColumnData.column_id == 16">
+                                        <div class="col-md-9 col-sm-9 float-left p0">
+                                            <select [(ngModel)]="updateValue" class="form-control">
+                                                <option *ngFor="let key of getKeys(accType)" [value]="key">
+                                                    {{accType[key] | titlecase }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="updateColumnData.column_id == 10">
+                                        <div class="col-md-9 col-sm-9 float-left p0">
+                                            <input matInput [matDatepicker]="picker" class="form-control"
+                                                [value]="updateValue" [(ngModel)]="updateValue">
+                                            <mat-datepicker-toggle matSuffix [for]="picker"
+                                                style="position: absolute; top: -3px; right: 0px;"><i
+                                                    class="fas fa-calendar"></i></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 float-right p0">
+                                        <a class="btn btn-sm btn-primary float-right" (click)="EditPopHide()"><i
+                                                class="fas fa-times"></i></a>
+                                        <a class="btn btn-sm btn-primary float-right" style="margin-right:3px"
+                                            (click)="updateColumn()"><i class="fas fa-save"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <!-- <button *ngIf="totalCurrent < totalData" class="btn btn-small  tfc-load-more btn-view-blue" (click)="loadMoreData()">Load More</button> -->
+                    <div class="col-md-12 text-center">
+                        <button *ngIf="totalCurrent < totalData && viewId == 0"
+                            class="btn btn-small tfc-load-more btn-view-blue" (click)="loadMoreData(0)">Load
+                            More</button>
+                        <button *ngIf="totalCurrent < totalData && viewId>0"
+                            class="btn btn-small tfc-load-more btn-view-blue" (click)="loadMoreData(viewId)">Load
+                            More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- Start Page rightbar ADD ACCOUNT -->
+<!-- ============================================================== -->
+<div id="add_new_cnt" class="modal fixed-left fade" tabindex="-1" role="dialog" style="padding-right: 0 !important;"
+    [ngClass]="popUpClass ? 'modelOpenNew':''" *ngIf="newAccPop">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">Add New Contact</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">Contact Information</h5>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="row mt10">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Salutation</label>
+                                <select type="text" class="form-control" [(ngModel)]="newContact.salutation">
+                                    <option *ngFor="let salutation of salutations">{{salutation.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Account Owner</label>
+                                <p>{{account_owner}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.first_name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Last Name  <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" parsley-trigger="change"
+                                    [ngClass]="name_error ? 'frm-danger':''" [(ngModel)]="newContact.last_name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="auto-comp-div-pop">
+                                <div class="form-group autocomplete">
+                                    <label>Account Name  <span class="text-danger">*</span></label>
+                                    <input id="myInput" parsley-trigger="change" [(ngModel)]="account_nameSearch"
+                                        class="form-control" type="text" (keydown)="search_acc($event)"
+                                        name="auto_acc_name" placeholder="Search Account">
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoAccList.length >0">
+                                        <div *ngFor="let acc of autoAccList" class="auto-itm">
+                                            <div (click)="fetch_acc(acc.id,acc.name)">
+                                                <strong>{{acc.name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.title">
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Reports To</label>
+                                <select [(ngModel)]="newContact.reports_to_id" class="form-control">
+                                    <option *ngFor="let key of reportToLst" [value]="key.id">{{key.salutation}}
+                                        {{key.first_name}} {{key.middle_name}} {{key.last_name}}</option>
+                                </select>
+                            </div>
+                        </div> --> 
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Department</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.department">
+                            </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.phone"
+                                    (input)="validate_phone($event)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                       
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mobile</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mobile"
+                                    (input)="validate_phone($event)">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <span id="acc_em_id_err" class="error">{{email_error_msg}}</span>
+                                <input type="text" class="form-control" (input)="validateEmail($event);"
+                                    [(ngModel)]="newContact.email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="addNew-form-Subhead">Address Information</h5>
+                        </div>
+                    </div>
+                    <div class="row mt10">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Mailing Street</label>
+                                <input placeholder="search for location" autocorrect="off" autocapitalize="off"
+                                    spellcheck="off" id="street_add" type="text" class="form-control" #search
+                                    [(ngModel)]="newContact.mailing_street" [formControl]="searchControl">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Mailing City</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_city">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mailing State</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_state">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>mailing Zip</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_zip">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mailing Country</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_country">
+                            </div>
+                        </div>
+
+                    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">Attachment Information</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-lg-12 col-md-12 mt-2" matTooltip="Attachments">
+                           
+                           <button type="button" class="btn btn-light custom-file-upload" data-toggle="modal"   data-target="#add_attachment" (click)="openAttachModeal()" ><i class="fa fa-paperclip mr-2"></i>Add Attachment</button> 
+                        </div>
+                        <div class="col-lg-12 col-md-12 mt-2" *ngIf="module_attachment">
+                            <ul class="list-unstyled" style="display: flex;flex-wrap: wrap;">
+                                <li *ngFor="let attch of module_attachment;let i=index" s
+                                    class="email_attachChip mr-1">
+                                    <a href="javascript:void(0);" class="attach-file" *ngIf="attch"><span
+                                            class="attachfileText">{{attch}}</span> <span class="attach_close"
+                                            (click)="removeModAttachment(i)">&times;</span></a>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                    <app-addform [(extraFields)]="extraFields"></app-addform>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="createnewContact()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="add_new_cnt_st" class="modal fixed-left fade" tabindex="-1" role="dialog" style="padding-right: 0 !important;" [ngClass]="popUpClass ? 'modelOpenNew':''" *ngIf="newStAccPop && openStandard_f">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">{{formTitle}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body addNew-form" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">{{st_formType}} Information</h5>
+                    </div>
+                </div>
+              <div *ngIf="standardFields && standardFields.length>0"> 
+                   <div class="row">
+
+                      <div class="col-md-6" *ngFor="let fld of standardFields;let i=index">
+
+                          <div class="form-group" *ngIf="fld.name=='first_name'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.first_name">
+                          </div>
+
+                          <div class="form-group" *ngIf="fld.name=='last_name'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.last_name">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='department'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.department">
+                          </div>  
+                          <div class="form-group" *ngIf="fld.type=='search_account'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" (keydown)="search_acc($event)" [(ngModel)]="account_nameSearch" name="auto_acc_name"
+                                        placeholder="Search Account">
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoAccList.length >0">
+                                        <div *ngFor="let acc of autoAccList" class="auto-itm">
+                                            <div (click)="fetch_acc(acc.id,acc.name)">
+                                                <strong>{{acc.name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='title'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.title">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='company'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.company">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='email'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.email">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='website'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.website">
+                          </div>  
+
+                          <div class="form-group" *ngIf="fld.name=='phone'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.phone">
+                          </div> 
+
+                          <div class="form-group" *ngIf="fld.name=='mobile'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}_st" name="fld.name" [(ngModel)]="newContact.mobile">
+                          </div>   
+
+                          <!-- number fields -->
+                          <div class="form-group" *ngIf="fld.name=='no_employees'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}_st" min="1" name="fld.name"  [(ngModel)]="newContact.no_employees">
+                          </div>    
+                          <div class="form-group custom_calender_c" *ngIf="fld.name=='dob'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <input matInput [matDatepicker]="picker2"  id="{{fld.name}}_st"  class="form-control form-control1"  [(ngModel)]="newContact.dob">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"><i class="fas fa-calendar"></i>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+
+                          </div>  
+                          <div class="form-group" *ngIf="fld.name=='rating_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newContact.rating_id">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='lead_status_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newContact.lead_status_id" >
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='salutation'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newContact.salutation" >
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.name">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='industry_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}_st" [(ngModel)]="newContact.industry_id" >
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                      </div>
+               
+                  </div>
+               
+                  </div>
+                  <div *ngIf="standard_address">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="addNew-form-Subhead">Address Information</h5>
+                        </div>
+                    </div>
+
+                    <div class="row mt10">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                    <label>Mailing Street</label>
+                                <input placeholder="search for location" autocorrect="off" autocapitalize="off"
+                                    spellcheck="off" id="street_add" type="text" class="form-control" #search_st
+                                    [(ngModel)]="newContact.mailing_street" [formControl]="searchControl_st">
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row"> 
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label>Mailing City</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_city">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mailing State</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_state">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt10">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mailing Zip</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_zip">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mailing Country</label>
+                                <input type="text" class="form-control" [(ngModel)]="newContact.mailing_country">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              <app-addform [(extraFields)]="extraFields"></app-addform>
+              </div>
+
+           
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary float-right" type="button" (click)="createnewStContact()">Add</button>
+            </div>
+            </div>
+</div>
+</div> 
+
+<!-- Add Modal -->
+<!-- Add View Modal -->
+
+<div id="modalAddView" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Add New <span class="semi-bold">List View</span><small
+                        class="d-block">Fill form and add list view</small></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group-attached">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>List Name</label>
+                                <input type="text" class="form-control" [(ngModel)]="sviewName">
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top:10px;">
+                            <p>Who sees this list view?</p>
+                            <div class="radio radio-info form-check-inline">
+                                <input type="radio" [value]="0" id="male" aria-invalid="false"
+                                    [(ngModel)]="sviewVisibility">
+                                <label for="male">Only I can see this list view</label>
+                            </div>
+                            <div class="radio radio-info form-check-inline">
+                                <input type="radio" [value]="1" id="female" [(ngModel)]="sviewVisibility">
+                                <label for="female">All users can see this list view</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-primary m-t-5 float-right" data-dismiss="modal"
+                                (click)="saveView()">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+<!-- Rename View Modal -->
+<div class="modal fade" id="modalRename" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h5>Rename <span class="semi-bold">List View</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group-attached">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>List Name</label>
+                                <input type="text" class="form-control" [(ngModel)]="sviewName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-primary m-t-5 float-right" data-dismiss="modal"
+                                (click)="renameView()">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.Rename end-->
+
+<!-- Sharing View Modal -->
+<div class="modal fade" id="modalsharing" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h4>Sharing <span class="semi-bold">Settings</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group-attached">
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top:10px;">
+                            <p>Who sees this list view?</p>
+                            <div class="radio radio-success">
+                                <div class="radio radio-success radio-single mb-2">
+                                    <input type="radio" [value]="0" id="male1" aria-invalid="false" name="optionyes"
+                                        [(ngModel)]="sviewVisibility">
+                                    <label for="male1">Only I can see this list view</label>
+                                </div>
+                                <div class="radio radio-success radio-single">
+                                    <input type="radio" [value]="1" id="female1" name="optionyes"
+                                        [(ngModel)]="sviewVisibility">
+                                    <label for="female1">All users can see this list view</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-primary m-t-5 float-right" data-dismiss="modal"
+                                (click)="updateViewVisibility()">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.Sharing end-->
+
+<!-- MODAL STICK UP SMALL ALERT -->
+<div id="FilterBox" class="modal fixed-left fade" tabindex="-1" role="dialog" style="padding-right: 0 !important;">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <button type="button" class="btn btn-light float-left" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary float-right" data-dismiss="modal"
+                    (click)="saveFilter()">Save</button>
+            </div>
+            <div class="modal-body">
+                <div class="FilterBlock">
+                    <div class="btn btn-light btn-block float-left defaultBtn">
+                        <div class="text-left">
+                            <div class="col-md-12 p0 BtnHead small">Show me</div>
+                            <div class="col-md-12 p0 BtnContent">All accounts</div>
+                        </div>
+                        <div class="FilterSmallpop text-left" *ngIf="AllFilter">
+                            <div class="col-md-12" style="margin-top:10px;">
+                                <p>Who sees this list view?</p>
+                                <div class="radio radio-success">
+                                    <div class="col-md-12 p0">
+                                        <input type="radio" value="allAccount" name="optionyeb" id="allAccount"
+                                            aria-invalid="false">
+                                        <label for="allAccount">All Contacts</label>
+                                    </div>
+                                    <div class="col-md-12 p0">
+                                        <input type="radio" checked="checked" value="myAccount" name="optionyeb"
+                                            id="myAccount">
+                                        <label for="myAccount">My Contacts</label>
+                                    </div>
+                                    <div class="col-md-12 p0 mt5">
+                                        <button type="button" class="btn btn-light float-right">Done</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="arrowFilter"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear-both position-relative"> 
+                    <div *ngFor="let f of filterArray;let i =index" style="margin-top: 5px;height: 55px;">
+                        <div class="btn btn-light btn-block float-left NewBtn filtersRow" (click)="fetchFilterData(i)" *ngIf="f.is_additional==0">
+                            <button type="button" class="close" (click)="removeFilter(i)"><i
+                                    class="fas fa-close fs-14"></i></button>
+                            <div class="text-left">
+                                <div class="col-md-12 p0 BtnHead">{{colMap[f.column_id]}}</div>
+                                <div class="col-md-12 p0 BtnContent"> {{opMap[f.operator_id]}} {{f.value}}</div>
+                            </div>
+                        </div>
+                        <div class="btn btn-light btn-block float-left NewBtn" (click)="fetchFilterCustomData(i)" *ngIf="f.is_additional==1">
+                            <button type="button" class="close" (click)="removeFilter(i)">&times;</button>
+                            <div style="width: 85%"  >
+                                <div class="col-md-12 p0 BtnHead">{{addcolMap[f.column_id]}}</div>
+                                <div class="col-md-12 p0 BtnContent">{{opMap[f.operator_id]}} {{f.value}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn btn-light btn-block float-left NewBtn" *ngIf="AllFilterNew"
+                        style="border: 0;height: 0; padding: 0;position:relative">
+                        <div class="FilterSmallpopNew topArrow">
+                            <div class="col-md-12 p0">
+                                <div class="form-group">
+                                    <label>Fields</label>
+                                   <!--  <select class="form-control" (change)="fieldFilterChange($event)" [(ngModel)]="filterElement.column_id">
+                                        <option *ngFor="let col of allColumn" [value]="col.id">{{col.alias_name}}
+                                        </option>
+                                    </select> -->
+                                    <select class="form-control" [(ngModel)]="filterElement.column_id" (change)="filterValChange()">
+                                        <optgroup label="Standard Fields">
+                                            <option *ngFor="let col of allColumn" [value]="col.id+'-st'">{{col.alias_name}}
+                                            </option>
+                                        </optgroup>
+                                        <optgroup label="Custom Fields" *ngIf="allAdditinalColumn && allAdditinalColumn.length>0">
+                                        <option *ngFor="let add of allAdditinalColumn" [value]="add.id+'-ad'">{{add.alias_name}}
+                                        </option>
+                                      </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 p0 mt5">
+                                <div class="form-group">
+                                    <label>Operator</label>
+                                    <select class="form-control" [(ngModel)]="filterElement.operator_id">
+                                        <option *ngFor="let op of allOperators" [value]="op.id">{{op.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 p0 mt5">
+                                <div class="form-group">
+                                    <label>value</label>
+                                    <input *ngIf="!date_format && !picklist_select" [(ngModel)]="filterElement.value" type="text"
+                                        class="form-control" [disabled]="date_range">
+                                        
+                                    <span *ngIf="!date_format && !picklist_select && date_range" class="position-absolute custom_fltr_calndr"><a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('custom');"><i class="fas fa-calendar"></i></a></span>  
+                                    
+                                    <div *ngIf="date_format && !picklist_select">
+                                        <input matInput [matDatepicker]="picker" class="form-control" id="picker_dtt"  (focus)="picker.open()"
+                                            [(ngModel)]="filterElement.value" placeholder="Choose a date" >
+                                        <mat-datepicker-toggle matSuffix [for]="picker"><i class="fas fa-calendar"></i>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                    </div>
+                                    <div *ngIf="!date_format && picklist_select">
+                                        <select class="form-control"   [(ngModel)]="filterElement.value">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let dt of  filter_picklist " [value]="dt.name" >{{dt.name}}</option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="date_range" class="date_rng"> 
+                                        <a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('YESTERDAY')">Yesterday</a>
+                                        <a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('TODAY')">Today</a>
+                                        <a href="javascript:void(0)" (click)="more_range_show()" *ngIf="!more_range" class="mb-1 ml-1"><i class="mdi mdi-calendar-plus"></i> More</a>
+                                        <span *ngIf="more_range">
+                                             <a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('TOMORROW')">TOMORROW</a>
+                                            <a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('CURRENT MONTH')">Current Month</a>
+                                            <a href="javascript:void(0)"  class="mb-1 ml-1" (click)="loadDate('PREVIOUS MONTH')">Previous Month</a> 
+                                        </span>
+                                        <a href="javascript:void(0)" (click)="less_range_show()" *ngIf="more_range" class="mb-1 ml-1"><i class="mdi mdi-calendar-minus"></i>Less</a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt5 p0">
+                                <button type="button" class="btn btn-light float-right"
+                                    (click)="AddFilterElement()">Done</button>
+                            </div>
+                            <div class="arrowFilter"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clear-both mt-2">
+                    <a (click)="NewFilterShowHide()" class="float-left text-info">Add Filter</a>
+                    <a (click)="filterArray=[]" class="float-right text-info">Remove All</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL STICK UP SMALL ALERT -->
+
+<!-- Add View Modal -->
+<div class="modal fade" id="modalFieldisp" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h4>Select Fields to Display</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngIf="columns!=undefined && allColumn!=undefined">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Available Fields</label>
+                            <select class="form-control" multiple size="10" [(ngModel)]="aFields">
+                                <option *ngFor="let col of getAvailableFields()" [value]="col">{{col.alias_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="button-list mt-3">
+                            <button type="button" (click)="moveToVisisble()"
+                                class="btn btn-success waves-effect waves-light"><i
+                                    class="fas fa-arrow-right"></i></button>
+                            <button type="button" (click)="moveToAvailable()"
+                                class="btn btn-danger waves-effect waves-light"><i
+                                    class="fas fa-arrow-left"></i></button>
+                            <button type="button" (click)="moveUp()" class="btn btn-info waves-effect waves-light"><i
+                                    class="fas fa-arrow-up"></i></button>
+                            <button type="button" (click)="moveDown()"
+                                class="btn btn-warning waves-effect waves-light"><i
+                                    class="fas fa-arrow-down"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Visible Fields</label>
+                            <select class="form-control" multiple size="10" [(ngModel)]="visiFields">
+                                <option *ngFor="let col of getVisibleFields()" [value]="col">{{col.alias_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div> 
+                <!---Additional Fields Display--> 
+                
+                <div class="row" *ngIf="additinalColumn!=undefined && isLocal">
+                    <hr>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Available Additional Fields</label>
+                            <select class="form-control" multiple size="10" [(ngModel)]="availableExtraFileds">
+                                <option *ngFor="let fld of getAdditionalAvailableFields()" [value]="fld">{{fld.alias_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="button-list mt-3">
+                            <button type="button" (click)="moveToAdditionalVisisble()"
+                                class="btn btn-success waves-effect waves-light"><i
+                                    class="fas fa-arrow-right"></i></button>
+                            <button type="button" (click)="moveToAdditionalAvailable()"
+                                class="btn btn-danger waves-effect waves-light"><i
+                                    class="fas fa-arrow-left"></i></button>
+                            <button type="button" (click)="moveAdditionalUp()" class="btn btn-info waves-effect waves-light"><i
+                                    class="fas fa-arrow-up"></i></button>
+                            <button type="button" (click)="moveAdditionalDown()"
+                                class="btn btn-warning waves-effect waves-light"><i
+                                    class="fas fa-arrow-down"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group"> 
+                            <label>Visible Additional Fields</label>
+                            <select class="form-control" multiple size="10" [(ngModel)]="visibleExtraFileds">
+                                <option *ngFor="let col of getVisibleAdditionalFields()" [value]="col">{{col.alias_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-12 m-t-10 sm-m-t-10">
+                        <button type="button" class="btn btn-primary m-t-5 float-right" data-dismiss="modal"
+                            (click)="updateColumns()">Add</button>
+                        <!--<button type="button" class="btn btn-secondary m-t-5 m-r-5 float-right" data-dismiss="modal">Cancel</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+<!-- Send List Mail Modal -->
+<div class="modal fade" id="modalListMail" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <h4>Send List Mail</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body" *ngIf="templates">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label>Select Template</label>
+                                <select [(ngModel)]="sTemplate" (change)="change()" class="form-control">
+                                    <option *ngFor="let t of templates" [value]="t.id">{{t.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <input class="form-control" [(ngModel)]="selectedTemplate.subject">
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="wysiwyg5-wrapper b-a b-grey">
+                                <app-quil-editor [(description_html)]="selectedTemplate.body"></app-quil-editor>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-12 m-t-10 sm-m-t-10">
+                            <button type="button" class="btn btn-primary m-t-5 float-right" data-dismiss="modal"
+                                (click)="sendMassMail()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Send List Mail end-->
+
+
+
+<app-attachment-upload [(module_attachment)]="module_attachment" [(documentData)]="documentData" [(attachModalOpen)]="attachModalOpen" *ngIf="attachModalOpen"></app-attachment-upload>  

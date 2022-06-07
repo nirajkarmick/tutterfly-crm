@@ -1,0 +1,1093 @@
+.itinery-main-container {
+    height: calc(100vh - 3.5rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #FFF;
+    margin-right: 0;
+    z-index: 10;
+    box-shadow: 0 0.25rem 2rem -0.5rem rgba(5, 37, 48, .2);
+}
+
+.itinary-container-full-sticky {
+    width: 100%;
+    max-width: 100%;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: #FFF;
+}
+.err_span{
+    text-align: left;
+}
+.itinary-main-list-container a{
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    background: 0 0;
+    border: none;
+    cursor: auto;
+}
+.itinary-main-list-container a .trip-row_inner{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding:0 1rem;
+    cursor: pointer;
+    grid-gap: 0;
+}
+.itinary-main-list-container a .trip-row_inner .trips-column:not(list-item){
+    flex: 1 0 18rem;
+    min-width: 18rem;
+}
+.itinary-main-list-container a .trip-row_inner .trips-column:not(list-item) {
+    padding-left: 1rem;
+}
+.fp-flex-row--between-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+}
+.trips-column:not(.list-item){
+    flex: 1 0 18rem;
+    min-width: 18rem;
+}
+.row-between-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+}
+.preview-item{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    min-height: 5rem;
+    transition: all 0.35s ease 0s;
+    overflow: hidden;
+}
+.preview-item .bg-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(55, 80, 89);
+    background-size: cover;
+    position: relative;
+    border-radius: 0.25rem;
+}
+.preview-item .item-picture{
+    height: 3rem;
+    width: 3rem;
+    min-width: 3rem;
+    margin-right: 10px;
+}
+.background-color-info{background-color:rgb(248, 248, 248) !important;}
+.icon-eye{
+    fill: rgb(155, 167, 172);
+    height: 1rem;
+    width: 1rem;
+}
+.tooltip-trigger{
+    position: relative;
+}
+
+.trips-column:not(.list-item){
+    flex: 0 0 auto;
+}
+.trips-column:not(.list-item):first-of-type {
+    padding-left: 0;
+}
+.itinary-main-list-container a:not(:last-child){
+    border-bottom: 1px solid #333;
+}
+.trip-row_inner:hover {
+    background: #EFF9FF;
+}
+
+.page-sidebar {
+    left: 0;
+    width: 100%; /*top:70px;*/
+    position: relative;
+    height:calc(100vh - 70px);
+    overflow-y: auto;
+    background: #fff;
+    color: #444;
+    float: left;
+    top:0px;
+}
+.leftmenu-itinary .page-sidebar{
+    position: relative !important;
+    width: 100% !important;
+    top: 0 !important;
+}
+
+.page-sidebar .sdebar-menu .menu-items > li > a {
+    padding-left: 0px;
+    text-align: left;
+}
+
+.page-sidebar .sidebar-menu .menu-items > li > a > .arrow {
+    float: right;
+    padding-right: 5px;
+}
+
+.page-sidebar .sidebar-menu .menu-items > li > a > .title {
+    width: 85%;
+}
+
+.page-sidebar .sidebar-header {
+    height: 50px;
+}
+
+.sidebar-menu {
+    padding-top: 10px;
+}
+
+.sidebar-menu a {
+    text-align: left;
+    width: 100%;
+    margin: 3px 0 0 0;
+    display: block;
+    padding: 3px 0 3px 30px;
+    color: #444;
+}
+
+.sidebar-menu a:hover {
+    background: #ddd;
+}
+
+.sidebar-menu a .title {
+    text-align: left;
+    font-weight: bold;
+}
+
+summary {
+    text-align: left;
+    padding: 7px 7px 5px 15px;
+    color: #222;
+}
+.nav-link[data-toggle].collapsed:after {
+    content: "\f105";
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    float: right;
+}
+.nav-link[data-toggle]:not(.collapsed):after {
+    content: "\f107";
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    float: right;
+}
+.page-sidebar ul.leftSideNav .nav-item{
+    padding-left: 0;
+}
+.page-sidebar ul.leftSideNav a:hover, .page-sidebar ul.leftSideNav button:hover, .page-sidebar ul.leftSideNav a:active, .page-sidebar ul.leftSideNav button:active{
+    background: #006dcc;
+    color: #fff;
+}
+.leftSideNav-dropdown-list{
+    padding-left: 5px;
+    background: #f7f7f7;
+}
+.page-sidebar ul.leftSideNav a.active{
+    background: #006dcc;
+    color: #fff;
+}
+.nav.flex-column.flex-nowrap.leftSideNav{
+    margin-top: 5px;
+}
+.leftSideNav li, .leftSideNav-dropdown-list li{border-bottom: 1px solid #f1f1f1}
+
+
+.trip-days-header-container {
+    position: relative;
+    display: -webkit-box;
+    display: -moz-box;
+    /*display: box;*/
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.trip-days-header-lower {
+    padding: .75rem 1.25rem .5rem .5rem;
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -moz-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    background-image: linear-gradient(-180deg, rgba(5, 37, 48, 0), rgba(5, 37, 48, .5));
+    display: -webkit-box;
+    display: -moz-box;
+    /*display: box;*/
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    box-direction: normal;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    -webkit-box-align: start;
+    -moz-box-align: start;
+    box-align: start;
+    -webkit-align-items: flex-start;
+    -moz-align-items: flex-start;
+    -ms-align-items: flex-start;
+    -o-align-items: flex-start;
+    align-items: flex-start;
+    -ms-flex-align: start;
+}
+
+.AdminSec .card .card-header {
+    padding: 0
+}
+
+.trip-days-header h1 {
+    position: relative;
+    padding: .5rem;
+    border-radius: .25rem;
+    font-size: 1.563rem;
+    display: -webkit-box;
+    display: -moz-box;
+    /*display: box;*/
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    -webkit-transition-property: background-color;
+    -moz-transition-property: background-color;
+    transition-property: background-color;
+    -webkit-transition-duration: .25s;
+    -moz-transition-duration: .25s;
+    transition-duration: .25s;
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    box-flex: 0;
+    -webkit-flex: 0 1 auto;
+    -moz-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    margin: 0;
+}
+
+.trip-days-header {
+    color: #fff;
+    min-height: 8.75rem;
+    display: -webkit-box;
+    display: -moz-box;
+    /*display: box;*/
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    box-pack: justify;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    -o-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: justify;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    box-direction: normal;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex: 1 1 100%;
+    -moz-flex: 1 1 100%;
+    -ms-flex: 1 1 100%;
+    flex: 1 1 100%;
+    line-height: 1;
+    margin: 0;
+}
+
+.trip-days-header h1 .published-indicator {
+    opacity: 0;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    padding-bottom: .5rem;
+    transform: translateY(50%);
+    transition-duration: .25s;
+    transition-property: opacity, transform;
+    font-size: .9rem;
+    line-height: 1;
+}
+
+.trip-days-header h1 .publish-icon {
+    display: -webkit-box;
+    display: -moz-box;
+    /*display: box;*/
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    box-pack: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    -o-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    margin-right: .25rem;
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+}
+
+.trip-days-header h1 .published {
+    background-color: #81bc2e;
+    position: relative;
+    top: 0.6rem;
+}
+
+.trip-days-header h1 .publish-icon svg, .trip-days-header h1 svg {
+    fill: #fff;
+}
+
+svg {
+    pointer-events: none;
+    width: 1rem;
+    height: 1rem;
+}
+.trip-days-header h1 span {
+    padding-right: .5rem;
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    box-flex: 0;
+    -webkit-flex: 0 1 auto;
+    -moz-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    color: #fff;
+}
+.trip-days-header h1.is-clickable:hover {
+    background-color: rgba(255,255,255,.3);
+}
+.trip-day-header-creater-popup-btn{
+    cursor: pointer;
+}
+.form-check-input{margin-left: 0}
+input[type="radio"], input[type="checkbox"]{width:17px;height: 17px;top:-2px}
+.form-check-inline{top:4px}
+.noteinput-blow{font-size: 80%;}
+.col-form-label, .form-group label:not(.error){text-align: left;font-weight: bold;text-transform: unset;font-size: 12px}
+.col-form-label span{font-size: 80%;font-weight: normal}
+.control {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 18px;
+}
+.control input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+.control__indicator {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background: #e6e6e6;
+}
+.control--radio .control__indicator {
+    border-radius: 50%;
+}
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+    background: #ccc;
+}
+.control input:checked ~ .control__indicator {
+    background: #2aa1c0;
+}
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+    background: #0e647d;
+}
+.control input:disabled ~ .control__indicator {
+    background: #e6e6e6;
+    opacity: 0.6;
+    pointer-events: none;
+}
+.control__indicator:after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+.control input:checked ~ .control__indicator:after {
+    display: block;
+}
+.control--checkbox .control__indicator:after {
+    left: 8px;
+    top: 4px;
+    width: 3px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+.control--checkbox input:disabled ~ .control__indicator:after {
+    border-color: #7b7b7b;
+}
+.control--radio .control__indicator:after {
+    left: 7px;
+    top: 7px;
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    background: #fff;
+}
+.control--radio input:disabled ~ .control__indicator:after {
+    background: #7b7b7b;
+}
+/*.modal .modal-header{background: #ac9602;}*/
+.modal-body{
+    position: relative;
+    min-width: 20rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-box-flex: auto;
+    -moz-box-flex: auto;
+    box-flex: auto;
+    -webkit-flex: auto;
+    -moz-flex: auto;
+    -ms-flex: auto;
+    flex: auto;
+    padding: 1.05rem;
+    z-index: 1;
+}
+.modal .close{right: 13px;/*color: #fff;*/}
+.modal .modal-header{padding: 6px 15px;}
+.modal .modal-footer{padding: 10px 25px 10px}
+.files input {
+    outline: 2px dashed #92b0b3;
+    outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    padding: 100px 0px 85px 35%;
+    text-align: center !important;
+    margin: 0;
+    width: 100% !important;
+}
+.files input:focus{     outline: 2px dashed #92b0b3;  outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+ }
+.files{ position:relative}
+.files:after {  pointer-events: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 50px;
+    right: 0;
+    height: 56px;
+    content: "";
+    background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
+    display: block;
+    margin: 0 auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+.color input{ background-color:#f1f1f1;}
+.files:before {
+    position: absolute;
+    bottom: 10px;
+    left: 0;  pointer-events: none;
+    width: 100%;
+    right: 0;
+    height: 57px;
+    content: " or drag it here. ";
+    display: block;
+    margin: 0 auto;
+    color: #2ea591;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+}
+.trip-day-header {
+    padding: 1rem 1rem 0 1rem;
+}
+.itinerarydaylist-daywaise{text-align: left;}
+.itinerarydaylist-daywaise li{padding-left: 0;}
+.itinerarydaylist-daywaise li a{
+    overflow: hidden;
+    position: relative;
+    padding: .75rem;
+    z-index: 0;
+    color: #052530;
+    border-left: 2px solid transparent;
+    -webkit-transition-property: all;
+    -moz-transition-property: all;
+    transition-property: all;
+    -webkit-transition-duration: .25s;
+    -moz-transition-duration: .25s;
+    transition-duration: .25s;
+    display: block;
+}
+.itinerarydaylist-daywaise li a.active, .itinerarydaylist-daywaise li a:hover{
+    border-left: 2px solid #052530;
+    background-color: rgba(69,187,255,.05);
+}
+.itinerarydaylist-daywaise li{border-bottom: 1px solid #ccc;}
+.trip-days-list-actions {
+    padding: .75rem;
+    padding-left: .5rem;
+    position: relative;
+    border-left: 3px solid transparent;
+}
+.trip-days-list-actions .btn {
+    width: 100%;
+}
+.trip-day-header-labels {
+    display: -webkit-box;
+    display: -moz-box;
+    /*display: box;*/
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -moz-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+.trip-day-header-actions {
+    margin-top: .75rem;
+    padding-top: .75rem;
+    border-top: 1px solid #d7dfe3;
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -moz-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    display: -webkit-box;
+    display: -moz-box;
+    /*display: box;*/
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    box-pack: justify;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    -o-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: justify;
+}
+.trip-day-header-labels-inner {
+    display: -webkit-box;
+    display: -moz-box;
+    /*display: box;*/
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -moz-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+.trip-day-header-title {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -moz-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding-right: 1rem;
+    font-size: 1.25rem;
+    display: -webkit-box;
+    display: -moz-box;
+    /*display: box;*/
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+}
+.t-editable {
+    cursor: pointer;
+    -webkit-transition-property: background-color;
+    -moz-transition-property: background-color;
+    transition-property: background-color;
+    -webkit-transition-duration: .1s;
+    -moz-transition-duration: .1s;
+    transition-duration: .1s;
+}
+.trip-day-header-edit {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -moz-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+@media (min-width:79em){
+    .trip-day-header-edit .big-input-wrap {
+        width: auto;
+        padding-right: 1rem;
+    }
+    .trip-day-header-edit {
+        display: -webkit-box;
+        display: -moz-box;
+        /*display: box;*/
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+    .trip-day-header {
+        display: -webkit-box;
+        display: -moz-box;
+        /*display: box;*/
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -moz-box-align: center;
+        box-align: center;
+        -webkit-align-items: center;
+        -moz-align-items: center;
+        -ms-align-items: center;
+        -o-align-items: center;
+        align-items: center;
+        -ms-flex-align: center;
+        -webkit-box-pack: justify;
+        -moz-box-pack: justify;
+        box-pack: justify;
+        -webkit-justify-content: space-between;
+        -moz-justify-content: space-between;
+        -ms-justify-content: space-between;
+        -o-justify-content: space-between;
+        justify-content: space-between;
+        -ms-flex-pack: justify;
+    }
+    .trip-day-header-actions {
+        margin-top: 0;
+        border-top: none;
+        padding-top: 0;
+        padding-left: .5rem;
+    }
+}
+@media (min-width: 62em){
+    .modal-lg {
+        width: 900px;
+    }
+}
+@media (min-width: 40em){
+    .modal .modal-content {
+        max-height: calc(90vh - 2.5rem);
+    }
+
+    .trip-days-header-top {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        display: -webkit-box;
+        display: -moz-box;
+        /*display: box;*/
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+        -moz-box-pack: justify;
+        box-pack: justify;
+        -webkit-justify-content: space-between;
+        -moz-justify-content: space-between;
+        -ms-justify-content: space-between;
+        -o-justify-content: space-between;
+        justify-content: space-between;
+        -ms-flex-pack: justify;
+        -webkit-box-align: start;
+        -moz-box-align: start;
+        box-align: start;
+        -webkit-align-items: flex-start;
+        -moz-align-items: flex-start;
+        -ms-align-items: flex-start;
+        -o-align-items: flex-start;
+        align-items: flex-start;
+        -ms-flex-align: start;
+    }
+    .trip-days-header-lower {
+        -webkit-box-orient: horizontal;
+        -moz-box-orient: horizontal;
+        box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -moz-box-direction: normal;
+        box-direction: normal;
+        -webkit-flex-direction: row;
+        -moz-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-direction: row;
+        -webkit-box-align: end;
+        -moz-box-align: end;
+        box-align: end;
+        -webkit-align-items: flex-end;
+        -moz-align-items: flex-end;
+        -ms-align-items: flex-end;
+        -o-align-items: flex-end;
+        align-items: flex-end;
+        -ms-flex-align: end;
+        -webkit-box-pack: justify;
+        -moz-box-pack: justify;
+        box-pack: justify;
+        -webkit-justify-content: space-between;
+        -moz-justify-content: space-between;
+        -ms-justify-content: space-between;
+        -o-justify-content: space-between;
+        justify-content: space-between;
+        -ms-flex-pack: justify;
+        margin: 0;
+    }
+    .trip-days-header h1 span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 1;
+    }
+}
+
+.ite_date_picker .mat-datepicker-toggle{
+    position: absolute;
+    right: 8px;
+    top: -4px;
+}
+.create_itn label{
+   /* text-align:  left;
+    width: 32%;*/
+}
+.create_itn .form-group .err_span{
+    text-align: left;
+        top: 0;
+    position: absolute;
+    left: 33%
+}
+
+.incrementor.form-group {
+    /*width: 30%;*/
+    /*margin: 30px;*/
+}
+.incrementor.form-group .fa {
+    color: #95d7fc;
+}
+.file-upload {
+    display: block;
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+}
+.file-upload .file-select {
+    display: block;
+    border: 2px solid #dce4ec;
+    color: #34495e;
+    cursor: pointer;
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+    background: #ffffff;
+    overflow: hidden;
+    position: relative;
+}
+.file-upload .file-select .file-select-button {
+    background: #dce4ec;
+    padding: 0 10px;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+}
+.file-upload .file-select .file-select-name {
+    line-height: 40px;
+    display: inline-block;
+    padding: 0 10px;
+}
+.file-upload .file-select:hover {
+    border-color: #34495e;
+    transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+}
+.file-upload .file-select:hover .file-select-button {
+    background: #34495e;
+    color: #ffffff;
+    transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+}
+.file-upload.active .file-select {
+    border-color: #3fa46a;
+    transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+}
+.file-upload.active .file-select .file-select-button {
+    background: #3fa46a;
+    color: #ffffff;
+    transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+}
+.file-upload .file-select input[type="file"] {
+    z-index: 100;
+    cursor: pointer;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.file-upload .file-select.file-select-disabled {
+    opacity: 0.65;
+}
+.file-upload .file-select.file-select-disabled:hover {
+    cursor: default;
+    display: block;
+    border: 2px solid #dce4ec;
+    color: #34495e;
+    cursor: pointer;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 5px;
+    text-align: left;
+    background: #ffffff;
+    overflow: hidden;
+    position: relative;
+}
+.file-upload .file-select.file-select-disabled:hover .file-select-button {
+    background: #dce4ec;
+    color: #666666;
+    padding: 0 10px;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+}
+.file-upload .file-select.file-select-disabled:hover .file-select-name {
+    line-height: 40px;
+    display: inline-block;
+    padding: 0 10px;
+}
+.md-drppicker.double{
+    width: 500px !important;
+}
+/*
+#itinerarydatepiker .ite_date_picker .mat-datepicker-toggle{top:16px}*/
+    .select2-dropdown {
+        z-index: 10000 !important;
+    }
+
+    .newCreateitinerarymodal {
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        z-index: 1051;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow-y: auto;
+    }
+
+    .closebtn-newCreateitinerarymodal {
+        position: fixed;
+        right: 20px;
+        top: 10px;
+        background: transparent;
+        border: 0;
+        color: #ff0000;
+        opacity: .5;
+        font-size: 20px;
+
+    }
+
+    .newCreateitinerarymodal-wrapper {
+        position: relative;
+        top: calc(100vh - 95vh);
+    }
+
+    .inputtextdisblelabel {
+        background: transparent;
+        border: transparent;
+        cursor: text;
+    }
+
+    @media (min-width: 992px) {
+        .newCreateitinerarymodal-container.container .newCreateitinerarymodal-wrapper {
+            width: 60%;
+            margin: auto
+        }
+    }
+
+    #itinerarydatepiker.ite_date_picker .mat-datepicker-toggle {
+        top: 16px
+    }
+
+    .md-drppicker.ltr {
+        width: 500px
+    }
+
+    .newviewitinerarymodal {
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        z-index: 1008;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow-y: auto;
+    }
+
+    .newCreateitinerarymodal-wrapper.viewitinerary {
+        border: 1px solid #ccc;
+        padding: 10px;
+        box-shadow: 1px 0.5px 9px 0px rgba(161, 161, 161, 0.3686274509);
+    }
+
+    .file-edit-bt {
+        margin-left: 40%;
+    }
+
+    .file-edit-select {
+        border: none !important;
+        margin-top: 5px;
+    }
+
+    #itinerarydatepiker .mat-form-field-underline {
+        height: 0 !important;
+        display: none;
+    }
+
+    #newCreateitinerarymodal .overlay {
+        background: none !important;
+    }
+
+    table#itin_list tr td {
+        /*padding: 5px;*/
+    }
+
+    table#itin_list tr td .btn-sm {
+        line-height: 1 !important;
+    }
+
+    table#itin_list thead tr th {
+        font-weight: bold;
+        /* padding: 5px;*/
+        color: #292b2c;
+    }
+    .table td, .table th{padding:.30rem}
+    .no-itin-content{
+        text-align: center;
+        padding: 85px;
+    }
+    .send_email_alert_msg{
+        text-transform: capitalize;
+        padding: 5px 10px;
+    }

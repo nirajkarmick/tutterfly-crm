@@ -1,0 +1,465 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <div class="page-title-right">
+      </div>
+      <h4 class="page-title">Company Information </h4>
+    </div>
+  </div>
+</div>
+<div class=" no-padding container-fixed-lg CRMTable">
+  <div class="container-fluid p0" *ngIf="tenant">
+    <div class="row">
+      <div class="col-lg-6 col-md-6">
+        <div class="card text-center">
+          <div class="card-body">
+            <div class="position-relative adminProfile">
+              <img *ngIf="tenant.company_logo" [style.background]="'url('++')'" [src]="tenant.company_logo_url" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
+              <div class="uploadAvatar" data-toggle="modal" data-target="#modaluploadPhoto" title="Change Logo">
+                <i class="fa fa-pencil"></i>
+              </div>
+            </div>
+            <h4 class="mb-0">{{tenant.name}}</h4>
+            <!--<p class="text-muted">@webdesigner</p>-->
+            <!--<button type="button" class="btn btn-success btn-xs waves-effect mb-2 mt-1 waves-light" data-toggle="modal" data-target="#modalAdd" (click)="AddNewShow()">
+              <i class="fas fa-edit"></i> Edit
+            </button>-->
+            <button type="button" class="btn btn-primary right-bar-toggle btn-xs waves-effect mb-2 mt-1 waves-light" data-toggle="modal" data-target="#modalAdd" (click)="AddNewShow()">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <div class="text-start mt-3">
+              <h4 class="font-13 text-uppercase">Description :</h4>
+              <p class="text-muted font-13 mb-3">
+                {{tenant.name}}
+              </p>
+              <p class="text-muted mb-2 font-13"><strong>Currency :</strong> <span class="ms-2"> {{getCurName(tenant.currency_id)}}</span></p>
+              <p class="text-muted mb-2 font-13"><strong>Employees :</strong><span class="ms-2"> {{tenant.employees}}</span></p>
+              <p class="text-muted mb-2 font-13"><strong>Timezone :</strong> <span class="ms-2"> {{tenant.timezone}}</span></p>
+              <p class="text-muted mb-1 font-13"><strong>Fiscal year start - end :</strong> <span class="ms-2"> {{tenant.fiscal_year_start | date: 'dd MMM yyyy'}} - {{tenant.fiscal_year_end | date: 'dd MMM yyyy'}}</span></p>
+              <div class="text-muted mb-1 font-13 d-inline-flex"><strong>Address:</strong>
+                <address class="ms-2 mb-0" *ngIf="tenant.address_street">
+                  {{tenant.address_street}}
+                </address>
+              </div>
+              <p class="text-muted mb-2 font-13" *ngIf="tenant.address_city"><strong>City :</strong> <span class="ms-2"> {{tenant.address_city}}</span></p>
+              <p class="text-muted mb-2 font-13" *ngIf="tenant.address_state"><strong>State :</strong> <span class="ms-2"> {{tenant.address_state}}</span></p>
+              <p class="text-muted mb-2 font-13" *ngIf="tenant.address_country"><strong>Country :</strong> <span class="ms-2"> {{tenant.address_country}}</span></p>
+              <p class="text-muted mb-2 font-13" *ngIf="tenant.address_zip"><strong>Postal Code :</strong> <span class="ms-2"> {{tenant.address_zip}}</span></p>
+            </div>
+            <!--<ul class="social-list list-inline mt-3 mb-0">
+              <li class="list-inline-item">
+                <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github"></i></a>
+              </li>
+            </ul>-->
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card project-box">
+          <div class="card-body">
+            <div class="float-end cursor-pointer" data-toggle="modal" data-target="#modalBank" (click)="updateBank()" matTooltip="Update Bank Details">
+               <i class="fas fa-edit"></i>
+            </div>
+            <!-- Title-->
+            <h4 class="mt-0"><a href="project-detail.html" class="text-dark">Bank Details</a></h4>
+            <p class="text-muted text-uppercase mb-1 font-20">{{tenant.bank_acc_name}}</p>
+            <div class="badge bg-soft-dark text-dark mb-2 font-14">A/c: {{tenant.bank_acc_no}}</div>
+            <p class="text-muted mb-2 font-13"><strong>IFSC Code :</strong> <span class="ms-2"> {{tenant.bank_ifsc_code}}</span></p>
+            <p class="text-muted mb-2 font-13"><strong>GST No. :</strong> <span class="ms-2"> {{tenant.gst_no}}</span></p>
+            <h4 class="font-13 text-uppercase">Note :</h4>
+            <p class="text-muted font-13 mb-3 sp-line-2" [innerHTML]="tenant.payment_note_html"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- START card -->
+    <!--<div class="card card-transparent">
+      <div class="card-header">
+        <div class="card-title col-md-9">
+          <div class="MainHeadCont">
+            <h5 class="MainHead">Company Information</h5>
+          </div>
+        </div>
+        <div class="col-md-3 pull-left">
+          &lt;!&ndash;<button type="button" class="btn btn-primary newBtn right-bar-toggle pull-right" data-toggle="modal" data-target="#modalAdd" (click)="AddNewShow()">
+            <span class="pull-left"><i class="pg-plus"></i></span>
+            <span>Edit</span>
+          </button>&ndash;&gt;
+        </div>
+      </div>
+      <div class="card-body p-0" *ngIf="tenant && metaData">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card-box">
+              &lt;!&ndash; <div class="profileSecHead d-flexHead">Company Logo</div> &ndash;&gt;
+              <div class="profileSec d-flex">
+                <div class="attrName">Company Logo</div>
+                <div class="col-md-8 col-sm-8 p0 pull-left attrDesc">
+
+                  <div class="userProfileAvatar" *ngIf="tenant.company_logo" [style.background]="'url('+tenant.company_logo_url+')'">
+                    <div class="uploadAvatar" data-toggle="modal" data-target="#modaluploadPhoto" title="Change Logo">
+                      <i class="fa fa-pencil"></i>
+                    </div>
+                  </div>
+                  <div class="userProfileAvatar" *ngIf="!tenant.company_logo"><img
+                    src="assets/img/pullit/help-grid-watermark.png" alt="logoEmbajador">
+                    <div class="uploadAvatar" data-toggle="modal" data-target="#modaluploadPhoto" title="Change Logo">
+                      <i class="fa fa-pencil"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="profileSec d-flexHead">Organization Details</div>
+              <div class="profileSec d-flex">
+                <div class="attrName">Company Name</div>
+                <div class="attrDesc"></div>
+              </div>
+              <div class="profileSec d-flex">
+                <div class="attrName">Description</div>
+                <div class="attrDesc">{{tenant.name}}</div>
+              </div>
+              <div class="profileSec d-flex">
+                <div class="attrName">Currency</div>
+                <div class="attrDesc">{{getCurName(tenant.currency_id)}}</div>
+              </div>
+              <div class="profileSec d-flex">
+                <div class="attrName">Employees</div>
+                <div class="attrDesc">{{tenant.employees}}</div>
+              </div>
+              <div class="profileSec d-flex">
+                &lt;!&ndash; <div class="col-md-6 col-sm-6 p0"> &ndash;&gt;
+                <div class="attrName">Timezone</div>
+                <div class="attrDesc">{{tenant.timezone}}</div>
+                &lt;!&ndash; </div> &ndash;&gt;
+              </div>
+              <div class="clearfix"></div>
+              <div class="profileSec d-flexHead">Fiscal Year</div>
+              <div class="profileSec d-flex">
+                <div class="attrName">Fiscal year start</div>
+                <div class="attrDesc">{{tenant.fiscal_year_start}}</div>
+              </div>
+
+              <div class="profileSec d-flex">
+                <div class="attrName">Fiscal year end</div>
+                <div class="attrDesc">{{tenant.fiscal_year_end}}</div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="profileSec d-flexHead">Address Information</div>
+              <div class="profileSec d-flex">
+                <div class="attrName">Street Address</div>
+                <div class="attrDesc">
+                  <span *ngIf="tenant.address_street">{{tenant.address_street}}</span>
+
+                </div>
+              </div>
+              <div class="profileSec d-flex" *ngIf="tenant.address_city">
+                <div class="attrName">City</div>
+                <div class="attrDesc">
+                  <span>{{tenant.address_city}}</span>
+
+                </div>
+              </div>
+              <div class="profileSec d-flex" *ngIf="tenant.address_state">
+                <div class="attrName">State</div>
+                <div class="attrDesc">
+                  <span>{{tenant.address_state}}</span>
+                  <span *ngIf="tenant.address_zip"> -{{tenant.address_zip}}</span>
+
+                </div>
+              </div>
+              <div class="profileSec d-flex" *ngIf="tenant.address_country">
+                <div class="attrName">Country</div>
+                <div class="attrDesc">
+                  <span>{{tenant.address_country}}</span>
+
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="profileSec d-flexHead">Bank Details
+                <div class="pull-right" data-toggle="modal" data-target="#modalBank" (click)="updateBank()"
+                     matTooltip="Update Bank Details" style="cursor: pointer;">
+                  <span class="pull-left"><i class="fa fa-pencil"></i></span>
+                </div>
+              </div>
+              <div class="profileSec d-flex">
+                <div class="attrName">Bank Name</div>
+                <div class="attrDesc">{{tenant.bank_acc_name}}</div>
+              </div>
+              <div class="profileSec d-flex">
+                <div class="attrName">Bank Account No.</div>
+                <div class="attrDesc">{{tenant.bank_acc_no}}</div>
+              </div>
+              <div class="profileSec d-flex">
+                <div class="attrName">IFSC Code</div>
+                <div class="attrDesc">{{tenant.bank_ifsc_code}}</div>
+              </div>
+              <div class="profileSec d-flex">
+                <div class="attrName">GST No.</div>
+                <div class="attrDesc">{{tenant.gst_no}}</div>
+              </div>
+              <div class="profileSec d-flex">
+                <div class="attrName">Note</div>
+                <div class="attrDesc" [innerHTML]="tenant.payment_note_html"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card-box">
+              <div class="clearfix"></div>
+              <div class="col-md-12 col-sm-12 p0 pull-left">
+                <div *ngIf="address!=null && address != undefined">
+                  <app-map [address]="address" id="companySettingMap"></app-map>
+                  &lt;!&ndash; <agm-map [latitude]="lat" [longitude]="lng" [zoom]="13">
+                    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                  </agm-map> &ndash;&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+  </div>
+</div>
+<!-- ============================================================== -->
+<!-- Start Page rightbar ADD ACCOUNT -->
+<!-- ============================================================== -->
+<div class="modal fixed-left fade ng-star-inserted" id="modalAdd" role="dialog" aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog modal-dialog-aside">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange sticky-top">
+        <div class="card-title mb-0 mt-0">
+          <h3 class="m-0">Edit Company Information
+            <a href="javascript:void(0);" (click)="closeRightpanel()" class="close-rightBar"  data-dismiss="modal" aria-hidden="true" style="float: right;color: #fff;"><i class="fas fa-times-circle"></i></a>
+          </h3>
+        </div>
+      </div>
+      <div class="modal-body addNew-form">
+        <div class="col-md-12 addNew-form-Subhead">Organization Details</div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Name*</label>
+              <input type="text" class="form-control" [ngClass]="name_error ? 'frm-danger':''" [(ngModel)]="tenant.name">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Description</label>
+              <input type="text" class="form-control" [(ngModel)]="tenant.description">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Currency</label>
+              <select class="form-control" [(ngModel)]="tenant.currency_id">
+                <option *ngFor="let m of metaData.currencies" [value]="m.id">{{m.name}} ({{m.code}})</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Employees*</label>
+              <input type="text" [ngClass]="employee_error ? 'frm-danger':''" class="form-control"
+                     [(ngModel)]="tenant.employees">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 addNew-form-Subhead">Time Zone</div>
+        <div class="row">
+          <div class="col-md-6  comp-selectbx">
+            <div class="form-group">
+              <label>Time Zone</label>
+              <div *ngIf="timeZoneData!=null && timeZoneData!=undefined && timeZoneData.length!=0" (click)="selectBox()">
+                <select2 [data]="timeZoneData" class="select2" [value]="tenant.timezone" (valueChanged)="renderNewView($event.value)" [options]="timeZonesOptions" width="100%"></select2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 addNew-form-Subhead">Fiscal Year</div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Fiscal year start month*</label>
+              <select class="form-control" [(ngModel)]="tenant.fiscal_year_start_new" [ngClass]="fiscal_error ? 'frm-danger':''">
+                <option value="0">Select Month</option>
+                <option *ngFor="let m of metaData.fiscal_year_months;let i = index" [value]="i+1" [label]="m">{{m}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 addNew-form-Subhead">Address Informations</div>
+        <div class="row mt10">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Street*</label>
+              <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off"
+                     type="text" class="form-control" #search [(ngModel)]="tenant.address_street" [formControl]="searchControl">
+            </div>
+          </div>
+        </div>
+        <div class="row mt10">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>City*</label>
+              <input type="text" class="form-control" [ngClass]="city_error ? 'frm-danger':''" [(ngModel)]="tenant.address_city">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>State* </label>
+              <input type="text" class="form-control" [ngClass]="state_error ? 'frm-danger':''" [(ngModel)]="tenant.address_state">
+            </div>
+          </div>
+        </div>
+        <div class="row mt10">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Zip*</label>
+              <input type="text" class="form-control" [ngClass]="zip_error ? 'frm-danger':''"
+                     [(ngModel)]="tenant.address_zip">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Country* </label>
+              <div *ngIf="countryData!=null && countryData!=undefined && countryData.length!=0" (click)="selectBox()">
+                <select2 [data]="countryData" class="select2" [value]="tenant.address_country"
+                         (valueChanged)="renderCountry($event.value)" [options]="timeZonesOptions" width="100%"></select2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="update()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--bank form-->
+<div class="modal fixed-left fade" id="modalBank" tabindex="-1" role="dialog"
+     aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="modalBank">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4>Edit <span class="semi-bold">Bank Information</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12 mt10 popHead mt10">Bank Details</div>
+        <div class="row mt10">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Bank Name*</label>
+              <input type="text" class="form-control" [ngClass]="name_error ? 'frm-danger':''"
+                     [(ngModel)]="tenant.bank_acc_name">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Account No.</label>
+              <input type="text" class="form-control" [(ngModel)]="tenant.bank_acc_no">
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt10">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>IFSC Code</label>
+              <input type="text" class="form-control" [(ngModel)]="tenant.bank_ifsc_code">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>GST No.</label>
+              <input type="text" [ngClass]="employee_error ? 'frm-danger':''" class="form-control"
+                     [(ngModel)]="tenant.gst_no">
+            </div>
+          </div>
+        </div>
+        <div class="row mt10">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Note </label>
+              <app-quil-editor [(description_html)]="tenant.payment_note_html"></app-quil-editor>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary pull-right" (click)="updateBankInfo()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Bank form close-->
+<!-- Add Modal -->
+<!-- Add View Modal -->
+<!-- /.modal-dialog end-->
+<style type="text/css">
+  .form-group label:not(.error) {
+    text-transform: none;
+  }
+
+  .page-container.adminPageContainer {
+    min-height: 700px;
+  }
+
+  .modal-header.cardHeader-orange {
+    background-color: #5fb4ff;
+    /* padding: 1.38rem 1.5rem; */
+    color: #fff;
+  }
+</style>
+
+<div class="modal fade slide-down disable-scroll" id="modaluploadPhoto" tabindex="-1" role="dialog"
+     aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+  <div class="modal-dialog ">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-header clearfix text-left">
+          <h5>Upload <span class="semi-bold">Logo</span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="text-center">You can upload a JPG, GIF or PNG file. Maximum file size is 16 MB.</p>
+          <div class="upload-btn-wrapper" style="width: 100%">
+            <button class="btn btn-outline-primary" style="width: 100%"><i class="fas fa-upload"></i> Upload
+              Image
+            </button>
+            <input type="file" name="myfile" (change)="addFIle($event.target.files,true)"/>
+          </div>
+          <div class="text-center"><strong>{{photo_name}}</strong></div>
+        </div>
+        <div class="modal-footer">
+          <div class="col-md-12 p0">
+            <div class="col-md-9 col-sm-9 p0 pull-left">
+            </div>
+            <div class="col-md-3 col-sm-3 m-t-10 sm-m-t-10 p0 pull-right">
+              <button type="button" class="btn btn-primary btn-block m-t-5 pull-right" data-dismiss="modal"
+                      (click)="updateAvatar()">Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+</div>

@@ -1,0 +1,285 @@
+<div class="left-side-menu">
+  <div class="h-100" data-simplebar>
+    <div id="sidebar-menu">
+      <ul id="side-menu">
+        <!-- <li class="menu-title">Navigation</li> -->
+        <li *ngIf="is_user_ex==false">
+          <a [ngClass]="activeUrl=='dashboard' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['dashboard'] }}]"><i class="fas fa-desktop"></i>Dashboard</a>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a href="#leftaccountMenu" data-toggle="collapse" ><i class="mdi mdi-briefcase-account-outline"></i> <span>Accounts</span></a>
+          <div id="leftaccountMenu" class="collapse" data-toggle="collapse" >
+            <ul class="nav-second-level">
+              <li>
+                <a [ngClass]="activeUrl=='form-management-a' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['form-management-a'] }}]" [queryParams]="{ 'type': 'Account'}"><i class="mdi mdi-file-edit-outline mr-1"></i>Field Management</a>
+                
+              </li>
+              <li>
+                <a href="#leftaccountMenusecond" data-toggle="collapse"><i class="fas fa-arrow-right"></i> Picklist</a>
+                <div id="leftaccountMenusecond" class="collapse" data-toggle="collapse" >
+                  <ul class="nav-second-level">
+                    <li>
+                     <a [ngClass]="activeUrl=='industries' ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['industries'] }}]">Industries</a>
+                    </li>
+                    <li>
+                      <a [ngClass]="activeUrl=='leadRating' ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['leadRating'] }}]"> Ratings</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a href="#leftContactMenu" data-toggle="collapse" ><i class="mdi mdi mdi-file-edit-outline"></i> <span> Contacts</span></a>
+          <div id="leftContactMenu" class="collapse" data-toggle="collapse" >
+            <ul class="nav-second-level">
+              <li>
+                <a [ngClass]="activeUrl=='form-management-c' ? 'active':''"
+                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['form-management-c'] }}]" [queryParams]="{ 'type': 'Contact'}"><i class="mdi mdi-file-edit-outline mr-1"></i>Field Management</a>
+                 
+              </li>
+              <li>
+                <a href="#leftContactMenusecond" data-toggle="collapse"><i class="fas fa-arrow-right"></i> Picklist</a>
+                <div id="leftContactMenusecond" class="collapse" data-toggle="collapse" >
+                  <ul class="nav-second-level">
+                    <li>
+                                <a [ngClass]="activeUrl=='salutation' ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['salutation'] }}]">Salutations</a>
+                    </li> 
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a href="#leftPersonaccounttMenu" data-toggle="collapse" ><i class="mdi mdi-book-account-outline"></i> <span> Person Account</span></a>
+          <div id="leftPersonaccounttMenu" class="collapse" data-toggle="collapse" >
+            <ul class="nav-second-level">
+              <li>
+                <a [ngClass]="activeUrl=='form-management-p' ? 'active':''"
+                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['form-management-p'] }}]" [queryParams]="{ 'type': 'Personal Account'}"><i class="mdi mdi-file-edit-outline mr-1"></i>Field Management </a> 
+              </li>
+              <li>
+                <a href="#leftPersonaccounttMenusecond" data-toggle="collapse"><i class="fas fa-arrow-right"></i> Picklist</a>
+                <div id="leftPersonaccounttMenusecond" class="collapse" data-toggle="collapse" >
+                  <ul class="nav-second-level">
+                    <li>
+                        <a [ngClass]="activeUrl=='salutation' ? 'active':''"
+                            [routerLink]="['/adminMain',{ outlets: { adminSection: ['salutation'] }}]">Salutations</a>
+                    </li> 
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a href="#leftleadMenu" data-toggle="collapse" ><i class="mdi mdi-filter-menu-outline"></i> <span> Lead</span></a>
+          <div id="leftleadMenu" class="collapse" data-toggle="collapse" >
+            <ul class="nav-second-level">
+              <li> 
+                 <a [ngClass]="activeUrl=='form-management-l' ? 'active':''"
+                            [routerLink]="['/adminMain',{ outlets: { adminSection: ['form-management-l'] }}]" [queryParams]="{ 'type': 'Leads'}"><i class="mdi mdi-file-edit-outline mr-1"></i>Field Management</a>                               
+              </li>
+              <li>
+                <a href="#leftleadMenusecond" data-toggle="collapse"><i class="fas fa-arrow-right"></i> Picklist</a>
+                <div id="leftleadMenusecond" class="collapse" data-toggle="collapse" >
+                  <ul class="nav-second-level">
+                    <li>
+                      <a [ngClass]="activeUrl=='leadStatus' ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['leadStatus'] }}]">Status</a>
+                    </li>
+                    <li>
+                      <a [ngClass]="activeUrl=='leadRating' ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['leadRating'] }}]">
+                                    Ratings</a>
+                    </li>
+                    <li>
+                        <a [ngClass]="activeUrl=='industries' ? 'active':''"
+                            [routerLink]="['/adminMain',{ outlets: { adminSection: ['industries'] }}]">Industries</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a href="#leftsuppMenu" data-toggle="collapse" ><i class="mdi mdi-account-tie-outline"></i> <span>Supplier</span></a>
+          <div id="leftsuppMenu" class="collapse" data-toggle="collapse" >
+            <ul class="nav-second-level">
+              <li>
+                <a [ngClass]="activeUrl=='form-management-s' ? 'active':''"
+                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['form-management-s'] }}]" [queryParams]="{ 'type': 'Supplier'}"><i class="mdi mdi-file-edit-outline mr-1"></i>Field Management
+                    </a> 
+              </li>
+              <li>
+                <a href="#leftSuppMenusecond" data-toggle="collapse"><i class="fas fa-arrow-right"></i> Picklist</a>
+                <div id="leftSuppMenusecond" class="collapse" data-toggle="collapse" >
+                  <ul class="nav-second-level">
+                    <li>
+                      <a [ngClass]="activeUrl=='supplier-picklist-r'  ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['supplier-picklist-r'] }}]"  [queryParams]="{ 'type': 'ratings'}">Ratings</a>
+                    </li>
+                    <li>
+                       <a [ngClass]="activeUrl=='supplier-picklist-t'  ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['supplier-picklist-t'] }}]"  [queryParams]="{ 'type': 'types'}">Types</a>
+                    </li>
+                    <li>
+                      <a [ngClass]="activeUrl=='supplier-picklist-s'  ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['supplier-picklist-s'] }}]"  [queryParams]="{ 'type': 'services'}">Services</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a href="#leftopportMenu" data-toggle="collapse" ><i class="mdi mdi-account-cash-outline"></i> <span>Opportunities</span></a>
+          <div id="leftopportMenu" class="collapse" data-toggle="collapse" >
+            <ul class="nav-second-level">
+              <li>
+                    <a [ngClass]="activeUrl=='form-management-o' ? 'active':''"
+                        [routerLink]="['/adminMain',{ outlets: { adminSection: ['form-management-o'] }}]" [queryParams]="{ 'type': 'Opportunity'}"><i class="mdi mdi-file-edit-outline mr-1"></i>Field Management
+                        </a>                
+              </li>
+              <li>
+                <a href="#leftopportMenusecond" data-toggle="collapse"><i class="fas fa-arrow-right"></i> Picklist</a>
+                <div id="leftopportMenusecond" class="collapse" data-toggle="collapse" >
+                  <ul class="nav-second-level">
+                    <li>
+                     <a [ngClass]="activeUrl=='oppTags' ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['oppTags'] }}]">Tags</a>
+                    </li>
+                    <li>
+                        <a [ngClass]="activeUrl=='oppoInclusion' ? 'active':''"
+                            [routerLink]="['/adminMain',{ outlets: { adminSection: ['oppoInclusion'] }}]">Inclusions</a>
+                    </li>
+                    <li>
+                        <a [ngClass]="activeUrl=='oppoExperience' ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['oppoExperience'] }}]">Experiences</a>
+                    </li>
+                    <li>
+                         <a [ngClass]="activeUrl=='oppoDesti' ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['oppoDesti'] }}]">Destinations</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a href="#lefttaskMenu" data-toggle="collapse" ><i class="mdi mdi-clipboard-check-outline"></i> <span>Task</span></a>
+          <div id="lefttaskMenu" class="collapse" data-toggle="collapse" >
+            <ul class="nav-second-level">              
+              <li>
+                <a href="#leftTaskMenusecond" data-toggle="collapse"><i class="fas fa-arrow-right"></i> Picklist</a>
+                <div id="leftTaskMenusecond" class="collapse" data-toggle="collapse" >
+                  <ul class="nav-second-level">
+                    <li>
+                                <a [ngClass]="activeUrl=='taskPriority' ? 'active':''"
+                                    [routerLink]="['/adminMain',{ outlets: { adminSection: ['taskPriority'] }}]">Task
+                                    Priorities</a>
+                    </li> 
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a href="#leftitinMenu" data-toggle="collapse" ><i class="mdi mdi-format-list-checks"></i> <span>Itinerary</span></a>
+          <div id="leftitinMenu" class="collapse" data-toggle="collapse" >
+            <ul class="nav-second-level">              
+              <li>
+                <a href="#leftItinMenusecond" data-toggle="collapse"><i class="fas fa-arrow-right"></i> Picklist</a>
+                <div id="leftItinMenusecond" class="collapse" data-toggle="collapse" >
+                  <ul class="nav-second-level">
+                    <li>
+                        <a [ngClass]="activeUrl=='itinerary-inclusion'  ? 'active':''"
+                            [routerLink]="['/adminMain',{ outlets: { adminSection: ['itinerary-inclusion'] }}]">Itinerary Inclusion</a>
+                    </li> 
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a href="#leftSideNav-dropdownUsers" data-toggle="collapse" [ngClass]="(activeUrl=='users' || activeUrl=='adminProfile' || activeUrl=='adminRole') ? 'active':''">
+            <i class="mdi mdi-account-group-outline"></i> <span>User Management</span>
+          </a>
+          <div class="collapse" data-toggle="collapse" [ngClass]="(activeUrl=='users' || activeUrl=='adminProfile' || activeUrl=='adminRole') ? 'show':''" id="leftSideNav-dropdownUsers">
+            <ul class="nav-second-level">
+              <li>
+                <a [ngClass]="activeUrl=='users' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['users'] }}]"> User</a>               
+              </li>
+              <li *ngIf="is_user_ex==false">
+                <a [ngClass]="activeUrl=='adminProfile' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['adminProfile'] }}]"> Profiles & Permissions</a>
+              </li>
+              <li *ngIf="show_role && is_user_ex==false">
+                <a [ngClass]="activeUrl=='adminRole' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['adminRole'] }}]"> Roles</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li *ngIf="show_email_temp  && is_user_ex==false">
+          <a href="#leftSideNav-dropdownEmail" data-toggle="collapse" [ngClass]="(activeUrl=='emailTemplate' || activeUrl=='emailFooter') ? 'active':''">
+            <i class="mdi mdi-email-sync-outline"></i>
+            <span>Email Management </span>
+          </a>
+          <div class="collapse" [ngClass]="(activeUrl=='emailTemplate' || activeUrl=='emailFooter') ? 'show':''" id="leftSideNav-dropdownEmail">
+            <ul class="nav-second-level">
+              <li>
+                <a [ngClass]="activeUrl=='emailTemplate' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['emailTemplate'] }}]">Email Templates</a>
+              </li>
+              <li>
+                <a [ngClass]="activeUrl=='emailFooter' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['emailFooter'] }}]">Email footer</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <!-- <li  *ngIf="is_user_ex==false">
+          <a href="javascript:void(0);"><i class="mdi mdi-bell-check-outline"></i> <span>Notificatiion and Alert</span></a>
+        </li> -->
+        <li *ngIf="is_user_ex==false">
+          <a [ngClass]="activeUrl=='salesProcess' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['salesProcess'] }}]">
+            <i class="mdi mdi-target-account"></i> Sales Stages</a>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a [ngClass]="activeUrl=='compSetting' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['compSetting'] }}]">
+            <i class="mdi mdi-office-building"></i> Company Settings</a>
+        </li>
+        <li *ngIf="is_user_ex==false">
+          <a [ngClass]="activeUrl=='billings' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['billings'] }}]"><i class="mdi mdi-cash-usd-outline"></i>Billings</a>
+        </li>
+        <li  *ngIf="is_user_ex==false">
+          <a href="#leftSideintegration" data-toggle="collapse">
+            <i class="mdi mdi-file-cog-outline"></i> Integrations</a>
+          <div class="collapse"  id="leftSideintegration">
+            <ul class="nav-second-level">
+              <li *ngIf="is_user_ex==false">
+                <a href="javascript:void(0);" [ngClass]="activeUrl=='lead-capture' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['lead-capture'] }}]">
+                  <i class="mdi mdi-filter-variant-plus"></i> Lead Capture API</a>
+              </li>
+              <li *ngIf="is_user_ex==false">
+                <a [ngClass]="activeUrl=='facebook-connet' ? 'active':''" [routerLink]="['/adminMain',{ outlets: { adminSection: ['facebook-connect'] }}]">
+                  <i class="mdi mdi-facebook"></i> Facebook Connect</a>
+              </li>
+            </ul>
+          </div>
+        </li>        
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+

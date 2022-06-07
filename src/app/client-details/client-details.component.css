@@ -1,0 +1,35 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+
+  .pac-container {
+    z-index: 10420 !important;
+}
+#modalEdit{
+	z-index: 1000 !important;
+}
+.TaskName:hover {
+    font-size: 16px;
+    background: transparent !important; 
+} 
+.text-value1{
+  float: left;
+}
+.error {
+  font-size: 12px;
+  color: #f94816;
+  display: block;
+}
+
+/* .mat-dialog-container {
+  background: whitesmoke !important; 
+   color: black !important;
+} */
+
+

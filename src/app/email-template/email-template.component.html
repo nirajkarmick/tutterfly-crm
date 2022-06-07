@@ -1,0 +1,209 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <h4 class="page-title">Email Management</h4>
+    </div>
+  </div>
+</div>
+<div class=" no-padding container-fixed-lg bg-white CRMTable">
+  <div class="container-fluid p0">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title col-md-9">
+          <div class="MainHeadCont">
+            <div class="MainHead">
+              <h5>Email Template</h5> 
+            </div> 
+          </div> 
+        </div>
+       <!--  <div class="col-md-3 pull-left" *ngIf="!isLocal">
+          <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal" data-target="#modalAdd" (click)="AddNewShow(undefined)">
+            <span class="pull-left"><i class="pg-plus"></i></span>
+            <span>New</span>
+          </button>
+        </div> -->
+        <div class="col-md-3 pull-left"  *ngIf="isLocal">
+          <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal" data-target="#modalAddN" (click)="AddNewShow(undefined)">
+            <span class="pull-left"><i class="pg-plus"></i></span>
+            <span class="em_label">New</span>
+          </button>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="displayTable">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped" datatable [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th class="em_label">Sr. No.</th>
+                <th class="em_label">Name</th>
+                <th class="em_label">Subject</th>  
+                <th class="em_label">Created At</th>
+                <th class="em_label">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let element of emailTemplate;let i = index;">
+                <td class="em_label">{{i+1}}</td>
+                <td class="em_label">{{element.name}}</td>
+                <td class="em_label">{{element.subject}}</td> 
+                <td class="em_label">{{element.created_at  | date: 'dd MMM yyyy'}}</td>
+                <td class="em_label">
+                  <span style="margin-right:10px;" data-toggle="modal" data-target="#modalAddN"
+                    (click)="AddNewShow(element)" class="em_label"><i aria-hidden="true" class="fas fa-edit"></i></span>
+                  <span><i aria-hidden="true" (click)="deleteEmailTemp(element.id)"
+                      class="fas fa-trash text-danger"></i></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add Modal -->
+<!--side bar email footer template-->
+<div id="cusFormModelPop" class="modal fixed-left fade" id="modalAdd" tabindex="-1" role="dialog"
+  aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4>{{titleLable}} <span class="semi-bold">Email Template</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Subject</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.subject">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Body</label>
+              <div class="col-lg-12 col-md-12 p0">
+                <div class="wysiwyg5-wrapper b-a b-grey">
+                  <angular-editor [placeholder]="'Enter text here..'" [(ngModel)]="newElement.body_html"    [config]="config"  (ngModelChange)="onChange($event)"></angular-editor>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="create()" data-dismiss="modal">{{buttonLable}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="cusFormModelPop" class="modal fixed-left fade" id="modalAddN" tabindex="-1" role="dialog"
+  aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4>{{titleLable}} <span class="semi-bold">Email Template</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row"  (click)="unSetSubjectFocus()">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="em_label">Name</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.name">
+            </div>
+          </div>
+        </div>
+       <!--  <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Template Type</label>
+              <select class="form-control" [(ngModel)]="newElement.type" (change)="tempType()">
+                <option value="h">HTML</option>
+                <option value="d">Dynamic</option>
+              </select> 
+            </div>
+          </div>
+        </div> -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label  class="em_label">Subject</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.subject"  #tempSubject  (focus)="setSubjectFocus()">
+            </div>
+          </div>
+        </div>
+        <div class="row"  (click)="unSetSubjectFocus()">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label  class="em_label">Body</label>
+              <div class="col-lg-12 col-md-12 p0">
+                <div class="wysiwyg5-wrapper b-a b-grey email_editor" id="email_editor">
+                   <!-- <app-quil-editor  #editor [(description_html)]="newElement.body_html">
+            </app-quil-editor>  -->
+                  <angular-editor [placeholder]="'Enter text here..'" [(ngModel)]="newElement.body_html"  #editor   [config]="config"  (ngModelChange)="onChange($event)" (focus)="txtEditorPosition()"></angular-editor> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       <!--  <div class="row" *ngIf="temp_type=='d'">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Body</label>
+              <div class="col-lg-12 col-md-12 p0">   
+                      <textarea rows="10"  class="form-control" id="templateArea" #tempText [(ngModel)]="newElement.body_html" ></textarea> 
+              </div>
+            </div>
+          </div>
+        </div>--> 
+        <div class="row"  >
+            <div class="col-md-12">
+                <h5 class="addNew-form-Subhead">Add Placeholders</h5>
+            </div>
+        </div>
+        <div class="row" > 
+              <div class="col-md-6">  
+                <div class="form-group">
+                  <label  class="em_label">Module Name</label> 
+                          <select class="form-control" [(ngModel)]="mod_name" (change)="getModues()">
+                            <option *ngFor="let mod of allModules">{{mod}}</option>
+                          </select>
+                 </div>
+              </div>
+              <div class="col-md-6">  
+                <div class="form-group">
+                 <label  class="em_label">Module Value</label>
+                          <select class="form-control" [(ngModel)]="mod_data_name" (change)="insetModule('dsf')">
+                            <option *ngFor="let mod of modulesData" value="{{mod.name}}">{{mod.alias_name}}</option>
+                          </select>
+                  </div>
+            </div> 
+          </div>
+
+        
+
+
+      </div>
+      <div class="modal-footer"  (click)="unSetSubjectFocus()">
+        <button type="button" class="btn btn-primary" (click)="create()" data-dismiss="modal">{{buttonLable}}</button>
+      </div>
+    </div>
+  </div>
+</div>

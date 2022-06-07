@@ -1,0 +1,6 @@
+#modalEdit{
+	z-index: 1000 !important; 
+}
+.angular-editor-textarea{
+	height: 300px !important;
+}

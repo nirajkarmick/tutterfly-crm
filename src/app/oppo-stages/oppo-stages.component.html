@@ -1,0 +1,20 @@
+<nav class="navbar oppoStage">
+    <ul class="navbar-nav nav nav-tabs nav-tabs-simple col-md-10" role="tablist" data-init-reponsive-tabs="dropdownfx">
+        <li class="nav-item " *ngFor="let s  of stage_data; index as i;">
+            <a class="{{(current_pos==i)?'active':((current_pos>i)?'StageComplete':'')}} nav-link" data-toggle="tab" role="tab" data-target="{{'#'+s.id}}" href="#">
+                <button type="button" class="btn btn-lg btn-arrow-right oppoStage-Btn" (click)="currentSelection(s.id,i)" title="{{s.name}}">
+                    <span>{{s.name}}</span>
+                </button>
+            </a>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto markCurrent col-md-2">
+        <li class="nav-item">
+            <a class="nav-link">
+                <button type="button" class="btn  btn-primary" [disabled]="current_selection==undefined" (click)="updateCurrentStage()">
+                    <span>Mark as Current Stage</span>
+                </button>
+            </a>
+        </li>
+    </ul>
+</nav>

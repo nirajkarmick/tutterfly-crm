@@ -1,0 +1,202 @@
+<div class=" no-padding container-fixed-lg bg-white123 ClientDetails fileMainCont">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                    </div>
+                    <h4 class="page-title">Standard Report List</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-md-8 col-xl-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0 text-capitalize">{{report_type.replace('_', ' ')}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="card mb-1 shadow-none border" *ngFor="let list of st_report_lists">
+                            <div class="p-1">
+                                <div class="row align-items-center"  [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reports-standard'] }}]"
+                                [queryParams]="{ 'type': report_type,'range_type':list.date_range_type}" style="cursor: pointer;">
+                                    <div class="col-auto">
+                                        <div class="avatar-sm">
+                                            <span class="avatar-title badge-soft-primary text-primary rounded text-capitalize">
+                                                {{report_type | slice:0:1}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col pl-0">
+                                        <a href="javascript:void(0);" class="text-muted font-weight-bold">{{list.name}}</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="javascript:void(0);" class="btn btn-link font-16 text-muted">
+                                            <i class="mdi mdi-view-compact-outline"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xl-4">
+                <div class="card-box" *ngIf="report_type_id!=2">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-xl bg-info rounded">
+                                <i class="mdi mdi-briefcase-account-outline avatar-title font-22 text-white"></i>
+                            </div>
+                        </div>
+                        <div class="col-6 align-self-center">
+                            <div class="text-right">
+                                <h3 class="text-dark my-1">Accounts</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 row">
+                       <div class="col-md-6 text-center">
+                                <a href="javascript:void(0);" class="btn btn-primary"  (click)="get_report_list('accounts')">
+                                <span class="">Standard Report</span></a>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <a href="javascript:void(0);" class="btn btn-secondary"  [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reports'] }}]"
+                                [queryParams]="{ 'type': 'accounts'}">
+                                <span class="">Custom Report</span>
+                            </a>
+                            </div>
+                    </div>
+                </div>
+                <div class="card-box" *ngIf="report_type_id!=3">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-xl bg-warning rounded">
+                                <i class="mdi mdi-account-multiple-check-outline avatar-title font-22 text-white"></i>
+                            </div>
+                        </div>
+                        <div class="col-6 align-self-center">
+                            <div class="text-right">
+                                <h3 class="text-dark my-1">Contacts</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 row">
+                       <div class="col-md-6 text-center">
+                            <a href="javascript:void(0);" class="btn btn-primary" (click)="get_report_list('contacts')">
+                                <span class="" >Standard Report</span>
+                            </a></div>
+                            <div class="col-md-6 text-center">
+                            <a href="javascript:void(0);" class="btn btn-secondary"  [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reports'] }}]"
+                                [queryParams]="{ 'type': 'contacts'}">
+                                <span class="">Custom Report</span>
+                            </a></div>
+                    </div>
+                </div>
+                <div class="card-box" *ngIf="report_type_id!=5">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-xl bg-info rounded">
+                                <i class="mdi mdi-book-account-outline avatar-title font-22 text-white"></i>
+                            </div>
+                        </div>
+                        <div class="col-6  align-self-center">
+                            <div class="text-right">
+                                <h3 class="text-dark my-1">Person Accounts</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 row">
+                       <div class="col-md-6 text-center">
+                            <a href="javascript:void(0);" class="btn btn-primary"   (click)="get_report_list('personal_accounts')">
+                                <span class="" >Standard Report</span>
+                            </a></div>
+                            <div class="col-md-6 text-center">
+                            <a href="javascript:void(0);" class="btn btn-secondary"  [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reports'] }}]"
+                                [queryParams]="{ 'type': 'personal_accounts'}">
+                                <span class="">Custom Report</span>
+                            </a></div>
+                    </div>
+                </div>
+                <div class="card-box" *ngIf="report_type_id!=4">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-xl bg-success rounded">
+                                <i class="mdi mdi-filter-menu-outline avatar-title font-22 text-white"></i>
+                            </div>
+                        </div>
+                        <div class="col-6  align-self-center">
+                            <div class="text-right">
+                                <h3 class="text-dark my-1">Leads</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 row">
+                       <div class="col-md-6 text-center">
+                            <a href="javascript:void(0);" class="btn btn-primary"  (click)="get_report_list('leads')">
+                                <span class="" >Standard Report</span>
+                            </a></div>
+                            <div class="col-md-6 text-center">
+                            <a href="javascript:void(0);" class="btn btn-secondary"  [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reports'] }}]"
+                                [queryParams]="{ 'type': 'leads'}">
+                                <span class="">Custom Report</span>
+                            </a></div>
+                    </div>
+                </div>
+                <div class="card-box" *ngIf="report_type_id!=1">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-xl bg-blue rounded">
+                                <i class="mdi mdi-lightbulb-on avatar-title font-22 text-white"></i>
+                            </div>
+                        </div>
+                        <div class="col-6 align-self-center">
+                            <div class="text-right">
+                                <h3 class="text-dark my-1">Opportunities</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 row">
+                        <div class="col-md-6 text-center">
+                            <a href="javascript:void(0);" class="btn btn-primary"  (click)="get_report_list('opportunities')">
+                                <span class=""  >Standard Report</span>
+                            </a></div>
+                            <div class="col-md-6 text-center">
+                            <a href="javascript:void(0);" class="btn btn-secondary"  [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reports'] }}]"
+                                [queryParams]="{ 'type': 'opportunities'}">
+                                <span class="">Custom Report</span>
+                            </a></div>
+                    </div>
+                </div> 
+                <div class="card-box" *ngIf="report_type_id!=6">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-xl bg-blue rounded">
+                                <i class="mdi mdi-account-tie-outline avatar-title font-22 text-white"></i>
+                            </div>
+                        </div>
+                        <div class="col-6 align-self-center">
+                            <div class="text-right">
+                                <h3 class="text-dark my-1">Supplier</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 row">
+                        <div class="col-md-6 text-center">
+                            <a href="javascript:void(0);" class="btn btn-primary"  (click)="get_report_list('supplier')">
+                                <span class=""  >Standard Report</span>
+                            </a></div>
+                            <div class="col-md-6 text-center">
+                            <a href="javascript:void(0);" class="btn btn-secondary"  [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reports'] }}]"
+                                [queryParams]="{ 'type': 'supplier'}">
+                                <span class="">Custom Report</span>
+                            </a></div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+
+    </div>
+</div>

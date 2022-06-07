@@ -1,0 +1,1822 @@
+<a href="javascript:void(0);" class="pullit-menu-icon" id="pullit_m_icon" (click)="pullIt()" style="margin-top:16px;">
+  <img src="assets/img/pullit/pullit-logo-menu-icon.png" alt="pullit-logo" class="img-fluid" style="width: 35px">
+</a>
+<div class="modal-background"></div> 
+<!--<div id="pullit-expend"  class="">-->
+<!-- <div id="modal-skew-from-left" class="modal" *ngIf="showPullIt">-->
+<div id="modal-skew-from-left" class="modal1">
+  <div id="pullit" class="window container-loads" *ngIf="showPullIt">
+    <div id="loader-wrapper" *ngIf="graph_loader">
+      <div id="loader"></div>
+    </div> 
+    <div class="pullit-container text-left">
+      <div class="card">
+        <div class="card-header-sticky ml-auto">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <div class="card-title m-0">
+              <p class="m-0"><img src="assets/img/pullit/pullit-logo.png" alt="pullit-logo" class="img-fluid">PULLIT</p>
+            </div>
+            <div class="right-control">
+              <!--<a href="" class="maximize"><i class="fas fa-window-minimize"></i></a>-->
+              <!--<div class="maximize" (click)="maximize()"><img src="assets/img/pullit/pullit-logo.png" alt="pullit-logo" class="img-fluid" style="width: 30px"> PULLIT</div>
+              <div class="minimize" (click)="minimize()"></div>-->
+              <a href="javascript:void(0);" (click)="closePullIt()" id="pullitclose"><i class="fas fa-times"></i></a>
+            </div>
+          </div>
+          <div class="search">
+            <form action="">
+              <div class="form-group m-0">
+                <input type="search" autocomplete="off" #SearchInput class="form-control" placeholder="Enter Country, destination and Point of interest...." (keyup)="search_pullit()" name="pullit_keyword" [(ngModel)]="pullit_keyword">
+                <i class="fas fa-search"></i>
+                <div id="pullit-autocomplete" class="pullit-autocomplete" *ngIf="pullit_search_drop">
+                  <ul class="list-group">
+                    <ng-container *ngFor="let obj of pullit_countryData;let i=index;">
+                      <li class="list-group-item curser_pull" *ngIf="i<6" (click)="pullit_country_result(obj.id,obj.country_name)">
+                        <a href="javascript:void(0)">
+                          <img *ngIf="obj.flag" src="{{image_path}}flag/{{obj.flag}}" width="15">
+                          <i *ngIf="!obj.flag" class="fas fa-flag"></i>
+                          &nbsp;{{obj.country_name}}</a>
+                      </li>
+                    </ng-container>
+                    <ng-container *ngFor="let obj of pullit_destData;let i=index;">
+                      <li *ngIf="i<6" class="list-group-item curser_pull" (click)="search_destination(obj.id,obj.dest_name+' , '+obj.country_name,'search',0,'')">
+                        <a href="javascript:void(0)">
+                          <i class="fas fa-map-marked"></i> {{obj.dest_name}} <span *ngIf="obj.region">,{{obj.region}}</span>, {{obj.country_name}}
+                        </a>
+                      </li>
+                    </ng-container>
+                    <ng-container *ngFor="let obj of pullit_poiData;let i=index;">
+                      <li *ngIf="i<6" class="list-group-item curser_pull" (click)="search_poi(obj.id,obj.attraction_name,'search',0,'')">
+                        <a href="javascript:void(0)">
+                          <i class="fas fa-map-pin"></i> {{obj.attraction_name}}
+                        </a>
+                      </li>
+                    </ng-container>
+                  </ul>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-body pullit-body">
+          <!--Country Page-->
+          <div class="pullit-country-section" *ngIf="pullit_country">
+            <div id="flag" class="main-heading pt-3">
+              <h3 class="m-0 pullit-flag-heading">{{countryData.country_name}}
+                <img *ngIf="countryData.flag" src="{{image_path}}flag/{{countryData.flag}}" alt="{{countryData.country_name}}-Flag" class="img-fluid">
+                <i *ngIf="!countryData.flag" class="fas fa-flag"></i>
+              </h3>
+              <strong>
+                <p class="yellow">{{countryData.official_name}}</p>
+              </strong>
+            </div>
+            <section class="short-list-info">
+              <div class="row d-flex pt-2">
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Capital</p>
+                  <a href="javascript:void(0);"><span>{{countryData.capital}}</span></a>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Largest City</p>
+                  <span class="itinerary-info">{{countryData.largest_city}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Best Time to Visit </p>
+                  <span *ngFor="let time of countryData.best_time_to_visits; let i=index" class="itinerary-info">
+                  {{time.name}}<span *ngIf="i+1 !=countryData.best_time_to_visits.length">,</span></span>
+
+                </div>
+                <div class="basic-info-itinerary col-6"  *ngIf="countryData.currency">
+                  <p class="m-0 f-semibold">Currency</p>
+                  <span class="itinerary-info"><span class="currency-type">{{countryData.currency}}<span *ngIf="countryData.currency_symbol">({{countryData.currency_symbol}})</span></span><!--  |  <span class="currency">1 {{countryData.currency}}</span> --></span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Time Zone</p>
+                  <span *ngFor="let time of countryData.time_zones; let i=index" class="itinerary-info">
+                  {{time.time_zone_code}}<span *ngIf="i+1 !=countryData.time_zones.length">,</span>
+                  </span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Climate</p>
+                  <span *ngFor="let climate of countryData.climate_types; let i=index" class="itinerary-info">
+                  {{climate.name}}<span *ngIf="i+1 !=countryData.climate_types.length">,</span></span>
+                  <!-- <span class="itinerary-info">Tropica</span> -->
+                </div>
+                <!--  <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">What to buy</p>
+                  <span class="itinerary-info">Thai Silver Jewelry</span>
+                  </div>
+                  <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Weather</p>
+                  <span class="itinerary-info">
+                      29
+                      <sup>°C </sup>|<sup> °F</sup>
+                  </span>
+                  </div> -->
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Driving Side</p>
+                  <span class="itinerary-info">{{countryData.drives_on}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Official Language(s)</p>
+                  <span *ngFor="let lang of countryData.languages; let i=index" class="itinerary-info">
+                  {{lang.name}}<span *ngIf="i+1 !=countryData.languages.length">,</span></span>
+                  <!-- <span class="itinerary-info">Thai</span> -->
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="countryData.visa_info">
+                  <p class="m-0 f-semibold">Visa Info</p>
+                  <a href="javascript:void(0)" (click)="scroll_to_visa('visa_info_sec')"><i class="mdi mdi-passport mdi-24px"></i></a>                  
+                </div>
+                <div *ngIf="more_basic" class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Population</p>
+                  <span class="itinerary-info">{{countryData.population}}</span>
+                </div>
+                <div *ngIf="more_basic" class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Area</p>
+                  <span class="itinerary-info">{{countryData.area}} {{countryData.area_unit}}</span>
+                </div>
+                <div *ngIf="!more_basic" (click)="showMoreBasic()" class="readmore yellow">Show more
+                </div>
+              </div>
+            </section>
+            <section id="destination" class="destination-content pt-2">
+              <h5 class="yellow">About {{countryData.country_name}}</h5>
+              <p class="m-0">{{countryData.description}}
+              </p>
+            </section>
+            <section id="topdestinations" class="pointofinterst pt-2" *ngIf="countryData.destinations && countryData.destinations.length">
+              <h5 class="text-capitalize yellow mb-2">Top Destinations</h5>
+              <div class="row d-flex m-0">
+                <div *ngFor="let desti of countryData.destinations; let i=index" (click)="search_destination(desti.id,desti.dest_name,'country',countryData.id,countryData.country_name)" class="figure text-center col-3" style="cursor: pointer;">
+                  <figure *ngIf="i < 16">
+                    <div class="destiImg">
+                      <img *ngIf="desti.image" src="{{image_path}}destination/{{desti.image}}" alt="{{desti.dest_name}}-img" class="img-fluid" onError="this.src='assets/img/pullit/pullit-no-image.png'">
+                      <img *ngIf="!desti.image" src="{{image_path}}destination/no-image.png" alt="no-image" class="img-fluid">
+                    </div>
+                    <figcaption>
+                      <a href="javascript:void(0)" class="ellipsis-2l" matTooltip="{{desti.dest_name}}">{{desti.dest_name}}</a>
+                      <!--(desti.dest_name.length > 11) ? (desti.dest_name | slice:0:12) + '..' : ()-->
+                    </figcaption>
+                  </figure>
+                </div>
+              </div>
+            </section>
+            <section class="map-sec" *ngIf="countryLat > 0">
+              <agm-map [latitude]="countryLat" [longitude]="countryLong" [zoom]="5">
+                <agm-marker [latitude]="countryLat" [longitude]="countryLong"></agm-marker>
+              </agm-map>
+            </section>
+            <section id="pointofinterest" class="pointofinterst pt-2 destination-sec" *ngIf="countryData.poi && countryData.poi.length">
+              <h5 class="text-capitalize yellow">Major point of interest</h5>
+              <div class="masonry">
+                <div class="row d-flex m-0 ">
+                  <div *ngFor="let poi of countryData.poi; let i=index" (click)="search_poi(poi.id,poi.attraction_name,'country',countryData.id,countryData.country_name)" class="figure text-center masonry-column">
+                    <div *ngIf="poi && i < country_poi" class="destination-sec-item">
+                      <figure class="text-center m-0">
+                        <img *ngIf="poi.images_url" src="{{poi.images_url}}" alt="" class="img-fluid" onError="this.src='assets/img/pullit/pullit-no-image.png'">
+                        <img *ngIf="!poi.images_url" src="{{image_path}}destination/no-image.png" alt="no-image" class="img-fluid">
+                      </figure>
+                      <div class="destination-sec-overlay-vintage"></div>
+                      <div class="destination-sec-overlay"></div>
+                      <div class="destination-sec-caption">
+                        <div class="destination-sec-country"><span>&nbsp;</span></div>
+                        <div>
+                          <div class="destination-sec-destiName">
+                            <h2>{{poi.attraction_name}}</h2>
+                          </div>
+                          <div class="destination-sec-seeDetail"><span>See Details</span></div>
+                          <div class="destination-sec-destiDevider"></div>
+                        </div>
+                      </div>
+                      <!--<figcaption>
+                        <span class="text-white"></span>
+                      </figcaption>-->
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div href="javascript:void(0)" class="readmore" *ngIf="country_poi < 40" (click)="showMoreCountryPoi()">Show more</div>
+              <div href="javascript:void(0)" class="readmore" *ngIf="country_poi>40" (click)="showLessCountryPoi()">Show Less</div>
+            </section>
+            <section id="travelexperience" class="travelexperience pt-2">
+              <h5 class="text-capitalize yellow">Best Travel Experiences</h5>
+              <div class="container-fluid">
+                <div class="row d-flex">
+                  <figure class="text-center col-3">
+                    <img src="assets/img/pullit/bte-1.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Wildlife</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-3">
+                    <img src="assets/img/pullit/bte-2.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Water sports</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-3">
+                    <img src="assets/img/pullit/bte-3.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Honeymoon</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-3">
+                    <img src="assets/img/pullit/bte-4.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Nightlife</span></a>
+                    </figcaption>
+                  </figure>
+                  <!-- <div href="javascript:void(0)" class="readmore">Show more</div> -->
+                </div>
+              </div>
+            </section>
+            
+            <section id="visa_info_sec" #visa_info_sec class="pt-2" >
+              
+              
+              <h5 class="text-capitalize yellow">Visa <small *ngIf="countryData.visa_info">({{countryData.visa_info.country_of_residence}} to {{countryData.visa_info.visiting_country}})</small></h5> 
+              <div class="row" >
+                    <div class="col-6">
+                      <div class="form-group"> 
+                        <select2 placeholder="From Country" [options]="countryOptions"
+                           [data]="from_countries" [value]="selected_from_country" class="form-control1" (valueChanged)="setFromCountry($event.value)" width="100%"></select2>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group"> 
+                        <select2 placeholder="To Country" [options]="countryOptions"
+                           [data]="to_countries" [value]="selected_to_country" class="form-control1" (valueChanged)="setToCountry($event.value)" width="100%"></select2>
+                      </div>
+
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group pull-right"> 
+                        <button class="btn btn-primary" (click)="getVisaDetails('countryData')">Get Info</button>
+                      </div>
+                      
+                    </div>
+              </div>
+              
+              <div class="row" *ngIf="countryData.visa_info">
+               <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Visa Type</p>
+                  <span class="itinerary-info">
+                  {{countryData.visa_info.visa_type}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Visa Category</p>
+                  <span class="itinerary-info">
+                  {{countryData.visa_info.visa_category}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Processing Time</p>
+                  <span class="itinerary-info">
+                  {{countryData.visa_info.processing_time}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Stay Period</p>
+                  <span class="itinerary-info">
+                  {{countryData.visa_info.stay_period}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Validity</p>
+                  <span class="itinerary-info">
+                  {{countryData.visa_info.validity}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Fees</p>
+                  <span class="itinerary-info">
+                  {{countryData.visa_info.fees}}</span>
+                </div>
+              </div>
+              <div class="row" *ngIf="countryData.visa_info"> 
+                <div class="visa_info_doc" *ngIf="countryData.visa_info.required_documents">
+                  <strong>Document required</strong>
+                  <p [innerHTML]="countryData.visa_info.required_documents"></p>
+                 </div>
+                <div class="visa_info_doc" *ngIf="countryData.visa_info.eligibility_criteria">
+                  <strong>Eligibility Creteria</strong>
+                  <p [innerHTML]="countryData.visa_info.eligibility_criteria"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="countryData.visa_info.exemptions">
+                  <strong>Exemption</strong>
+                  <p [innerHTML]="countryData.visa_info.exemptions"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="countryData.visa_info.additional_info">
+
+                  <strong>Additional Information</strong>
+                  <p [innerHTML]="countryData.visa_info.additional_info"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="countryData.visa_info.general_information">
+
+                  <strong>General Information</strong>
+                  <p [innerHTML]="countryData.visa_info.general_information"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="countryData.visa_info.visa_application_process">
+                  <strong>Visa Application Process</strong>
+                  <p [innerHTML]="countryData.visa_info.visa_application_process"></p>
+                 </div>
+
+                <ul class="list-unstyled"> 
+                      <li class="" *ngFor="let url of countryData.visa_info.urls"> 
+                        <a href="javascript:void(0)" target="_blank">{{url}}</a>
+                      </li> 
+                 </ul>
+             </div>
+              
+            </section>
+            <hr>
+            <section id="airport" *ngIf="countryData.airports">
+              <div class="row">
+                <img src="assets/img/pullit/airport-bg.png" alt="" class="img-fluid airport-bg">
+              </div>
+              <h5 class="text-capitalize yellow">Airports (International)</h5>
+              <ul class="list-unstyled">
+                 <li *ngFor="let air of countryData.airports; let i=index"> <i class="fas fa-plane-departure"></i> {{air.airport_name}} 
+                </li>
+                <!-- <li><a href="javascript:void(0)" class="active" *ngFor="let air of countryData.airports; let i=index"><i class="fas fa-plane-departure"></i> {{air.airport_name}}</a>
+                </li> -->
+              </ul>
+              <hr>
+            </section>
+            <section id="socket-type" class="socket-types mb-2"  *ngIf="countryData.electrical_sockets && countryData.electrical_sockets.length>0">
+              <h5 class="text-capitalize yellow">Socket Type</h5>
+              <div class="row">
+                <div class="col-md-2 text-center" *ngFor="let elect of countryData.electrical_sockets; let i=index">
+                  <img src="{{image_path}}sockets/{{elect.image}}" alt="" class="img-fluid">
+                  <br><strong>{{elect.name}}</strong>
+                </div>
+              </div>
+            </section>
+          </div>
+          <!--Destination Page-->
+          <div class="pullit-destination-section" *ngIf="pullit_destination && destinationData">
+            <div id="flag" class="main-heading pt-3">
+              <h2 class="m-0 pullit-flag-heading">{{destinationData.dest_name}}
+                <img *ngIf="destinationData.country.flag" src="{{image_path}}flag/{{destinationData.country.flag}}" alt="{{destinationData.country.country_name}}-Flag" class="img-fluid">
+                <i *ngIf="!destinationData.country.flag" class="fas fa-flag"></i>
+                <button class="float-right btn" *ngIf="dest_ref_type!='search'" (click)="back_to_history_frm_des(dest_ref_type,dest_ref_id)"><i class="fas fa-arrow-left"></i></button>
+              </h2>
+              <strong>
+                <a href="javascript:void(0);" (click)="pullit_country_result(destinationData.country.id,destinationData.country.country_name)" *ngIf="destinationData.country.country_name">
+                  <p class="yellow">{{destinationData.country.country_name}}</p>
+                </a>
+              </strong>
+            </div>
+            <section class="short-list-info">
+              <div class="row d-flex">
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">State/Province</p>
+                  <a href="javascript:void(0);"><span>{{destinationData.dest_name}}</span></a>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Best Time to Visit </p>
+                  <span *ngFor="let time of destinationData.country.best_time_to_visits; let i=index" class="itinerary-info">
+                  {{time.name}}<span *ngIf="i+1 !=destinationData.country.best_time_to_visits.length">,</span></span>
+                </div>
+                <div class="basic-info-itinerary col-6"   *ngIf="destinationData.country.currency">
+                  <p class="m-0 f-semibold">Currency</p>
+                  <span class="itinerary-info"><span class="currency-type">{{destinationData.country.currency}}({{destinationData.country.currency_symbol}})</span>  
+                    </span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Time Zone</p>
+                  <!--  <span class="itinerary-info">destinationData.country.time_zone</span> -->
+                  <span *ngFor="let time of destinationData.country.time_zones; let i=index" class="itinerary-info">
+                  {{time.time_zone_code}}
+                    <span *ngIf="i+1 !=destinationData.country.time_zones.length">,</span>
+                  </span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Climate</p>
+                  <span *ngFor="let climate of destinationData.country.climate_types; let i=index" class="itinerary-info">
+                  {{climate.name}}<span *ngIf="i+1 !=destinationData.country.climate_types.length">,</span></span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Near by Destinationsn</p>
+                  <span *ngFor="let near of destinationData.nearBy; let i=index" class="itinerary-info">
+                    <a href="javascript:void(0);" (click)="search_destination(near.id,near.dest_name,'destination',destinationData.id,destinationData.dest_name)" *ngIf="i<10">
+                         {{near.dest_name}}</a>
+                    <span *ngIf="i+1 !=destinationData.nearBy.length && i<10">,</span>
+                  </span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="destinationData.visa_info">
+                  <p class="m-0 f-semibold">Visa Info</p>
+                  <a href="javascript:void(0)" (click)="scroll_to_visa('visa_info_sec_dest')"><i class="mdi mdi-passport mdi-24px"></i></a>                  
+                </div>
+              </div>
+              <div *ngIf="weatherLoad==false ; else weather_report">
+                
+              </div>
+              <section id="destination" class="destination-content pt-2" *ngIf="destinationData.description && destinationData.image">
+                <h5 class="yellow">About {{destinationData.dest_name}}</h5>
+                 
+
+                <p class="m-0" [innerHTML]="destinationData.description"></p>
+              </section>
+              <section class="map-sec mb-2 mt-2 position-relative h-500" *ngIf="destinationData.image">
+                <div class="overlay_toptobottom" *ngIf="destinationData.image"></div>
+                <div class="overlay_lefttoright" *ngIf="destinationData.image"></div>
+                <img src="{{destinationData.image}}" *ngIf="destinationData.image_source==1" onError="this.src='assets/img/pullit/pullit-no-image.png'">
+                <img src="{{image_path}}destination/{{destinationData.image}}" *ngIf="destinationData.image_source==0" class="objectImg" onError="this.src='assets/img/pullit/pullit-no-image.png'">
+                <div class="overlay_bottomtotop" *ngIf="destinationData.image"></div>
+                <div class="overlay_righttoleft" *ngIf="destinationData.image"></div>
+              </section>
+            </section>
+
+
+            <section class="map-sec mb-3" *ngIf="destinationLat > 0">
+              <agm-map [latitude]="destinationLat" [longitude]="destinationLong" [zoom]="8">
+                <agm-marker [latitude]="destinationLat" [longitude]="destinationLong"></agm-marker>
+              </agm-map>
+            </section>
+
+            <section id="pointofinterest" class="pointofinterst pt-2" *ngIf="destinationData.poi.length">
+              <h5 class="text-capitalize yellow">Major point of interest</h5>
+              <div class="container-fluid">
+                <div class="row d-flex">
+                  <div *ngFor="let poi of destinationData.poi; let i=index" (click)="search_poi(poi.id,poi.attraction_name,'destination',destinationData.id,destinationData.dest_name)" class="figure text-center col-4" style="cursor: pointer;">
+                    <div *ngIf="poi && i < country_poi">
+                      <figure class="text-center">
+                        <img src="{{poi.images_url}}" alt="" class="img-fluid" onError="this.src='assets/img/pullit/pullit-no-image.png'">
+                        <figcaption>
+                          <span class="text-white">{{poi.attraction_name}}</span>
+                        </figcaption>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div href="javascript:void(0)" class="readmore" *ngIf="destinationData.poi.length >10 && country_poi < 40" (click)="showMoreCountryPoi()">Show more</div>
+                  <div href="javascript:void(0)" class="readmore" *ngIf="country_poi>40" (click)="showLessCountryPoi()">Show Less</div>
+                </div>
+              </div>
+              <hr>
+
+            </section>
+
+            <section id="visa_info_sec_dest" #visa_info_sec_dest class="pt-2"  >
+              
+              <h5 class="text-capitalize yellow">Visa <small *ngIf="destinationData.visa_info">({{destinationData.visa_info.country_of_residence}} to {{destinationData.visa_info.visiting_country}})</small></h5> 
+              <div class="row" >
+                    <div class="col-6">
+                      <div class="form-group"> 
+                        <select2 placeholder="From Country" [options]="countryOptions"
+                           [data]="from_countries" [value]="selected_from_country" class="form-control1" (valueChanged)="setFromCountry($event.value)" width="100%"></select2>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group"> 
+                        <select2 placeholder="To Country" [options]="countryOptions"
+                           [data]="to_countries" [value]="selected_to_country" class="form-control1" (valueChanged)="setToCountry($event.value)" width="100%"></select2>
+                      </div>
+
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group pull-right"> 
+                        <button class="btn btn-primary" (click)="getVisaDetails('destinationData')">Get Info</button>
+                      </div>
+                      
+                    </div>
+              </div>
+              
+              <div class="row" *ngIf="destinationData.visa_info">
+               <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Visa Type</p>
+                  <span class="itinerary-info">
+                  {{destinationData.visa_info.visa_type}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Visa Category</p>
+                  <span class="itinerary-info">
+                  {{destinationData.visa_info.visa_category}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Processing Time</p>
+                  <span class="itinerary-info">
+                  {{destinationData.visa_info.processing_time}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Stay Period</p>
+                  <span class="itinerary-info">
+                  {{destinationData.visa_info.stay_period}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Validity</p>
+                  <span class="itinerary-info">
+                  {{destinationData.visa_info.validity}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Fees</p>
+                  <span class="itinerary-info">
+                  {{destinationData.visa_info.fees}}</span>
+                </div>
+              </div>
+              <div class="row" *ngIf="destinationData.visa_info"> 
+                <div class="visa_info_doc" *ngIf="destinationData.visa_info.required_documents">
+                  <strong>Document required</strong>
+                  <p [innerHTML]="destinationData.visa_info.required_documents"></p>
+                 </div>
+                <div class="visa_info_doc" *ngIf="destinationData.visa_info.eligibility_criteria">
+                  <strong>Eligibility Creteria</strong>
+                  <p [innerHTML]="destinationData.visa_info.eligibility_criteria"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="destinationData.visa_info.exemptions">
+                  <strong>Exemption</strong>
+                  <p [innerHTML]="destinationData.visa_info.exemptions"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="destinationData.visa_info.additional_info">
+
+                  <strong>Additional Information</strong>
+                  <p [innerHTML]="destinationData.visa_info.additional_info"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="destinationData.visa_info.general_information">
+
+                  <strong>General Information</strong>
+                  <p [innerHTML]="destinationData.visa_info.general_information"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="destinationData.visa_info.visa_application_process">
+                  <strong>Visa Application Process</strong>
+                  <p [innerHTML]="destinationData.visa_info.visa_application_process"></p>
+                 </div>
+
+                <ul class="list-unstyled"> 
+                      <li class="" *ngFor="let url of destinationData.visa_info.urls"> 
+                        <a href="javascript:void(0)" target="_blank">{{url}}</a>
+                      </li> 
+                 </ul>
+             </div>
+              
+            </section>
+            <section id="airport" *ngIf="destinationData.airports.length">
+              <div class="row">
+                <img src="assets/img/pullit/airport-bg.png" alt="" class="img-fluid airport-bg">
+              </div>
+              <h5 class="text-capitalize yellow">Airports</h5>
+              <ul class="list-unstyled">
+                 <li *ngFor="let air of destinationData.airports; let i=index"> <i class="fas fa-plane-departure"></i> {{air.dest_name}} 
+                </li>
+               <!--  <li><a href="javascript:void(0)" class="active" *ngFor="let air of destinationData.airports; let i=index"><i class="fas fa-plane-departure"></i> {{air.dest_name}}</a>
+                </li> -->
+              </ul>
+              <hr>
+            </section>
+            <!-- <section id="travelexperience" class="travelexperience pt-2">
+              <h6 class="text-capitalize">Best Travel Experiences</h6>
+              <div class="container-fluid">
+                <div class="row d-flex">
+                  <figure class="text-center col-4">
+                    <img src="assets/img/pullit/bte-1.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Wildlife</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-4">
+                    <img src="assets/img/pullit/bte-2.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Water sports</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-4">
+                    <img src="assets/img/pullit/bte-3.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Honeymoon</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-4">
+                    <img src="assets/img/pullit/bte-4.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Nightlife</span></a>
+                    </figcaption>
+                  </figure>
+                </div>
+              </div>
+              <hr>
+            </section> -->
+          </div>
+          <!--POI Page-->
+          <div class="pullit-destination-section" *ngIf="pullit_poi">
+            <div id="flag" class="main-heading pt-3">
+              <h4 class="m-0 pullit-flag-heading">{{poiData.attraction_name}}
+                <button class="float-right btn" *ngIf="dest_ref_type!='search'" (click)="back_to_history_frm_poi(poi_ref_type,poi_ref_id)"><i class="fas fa-arrow-left"></i></button>
+              </h4>
+              <strong>
+                <a href="javascript:void(0);" (click)="search_destination(poiData.destination.id,poiData.destination.dest_name,'poi',poiData.id,poiData.attraction_name)">
+                  <p>{{poiData.destination.dest_name}} <i class="fas fa-link ml-1"></i></p>
+                </a>
+              </strong>
+
+            </div>
+            <section id="" class="short-list-info">
+              <div class="row d-flex">
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.country.best_time_to_visits">
+                  <p class="m-0 f-semibold">Best Time to Visit </p>
+
+                  <span *ngFor="let time of poiData.country.best_time_to_visits; let i=index" class="itinerary-info">
+                  {{time.name}}<span *ngIf="i+1 !=poiData.country.best_time_to_visits.length">,</span></span>
+                </div>
+                <div class="basic-info-itinerary col-6"   *ngIf="poiData.country.currency">
+                  <p class="m-0 f-semibold">Currency</p>
+                  <span class="itinerary-info"><span class="currency-type">{{poiData.country.currency}}({{poiData.country.currency_symbol}})</span>  |  <span class="currency">1 {{poiData.country.currency}}</span> </span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Time Zone</p>
+                  <span *ngFor="let time of poiData.country.time_zones; let i=index" class="itinerary-info">
+                  {{time.time_zone_code}}
+                    <span *ngIf="i+1 !=poiData.country.time_zones.length">,</span>
+                  </span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.country.climate_types">
+                  <p class="m-0 f-semibold">Climate</p>
+                  <span *ngFor="let climate of poiData.country.climate_types; let i=index" class="itinerary-info">
+                  {{climate.name}}<span *ngIf="i+1 !=poiData.country.climate_types.length">,</span></span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Type </p>
+                  <span class="itinerary-info">
+                  {{poiData.attraction_type}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.website">
+                  <p class="m-0 f-semibold">Website </p>
+                  <span class="itinerary-info">
+                <a href="https://{{poiData.website}}" target="_blank"> {{poiData.website}}</a></span>
+                </div>
+
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.opened">
+                  <p class="m-0 f-semibold">Opened </p>
+                  <span class="itinerary-info">
+                  {{poiData.opened}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.floors">
+                  <p class="m-0 f-semibold">Floors </p>
+                  <span class="itinerary-info">
+                  {{poiData.floors}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.width">
+                  <p class="m-0 f-semibold">Width </p>
+                  <span class="itinerary-info">
+                  {{poiData.width}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.length">
+                  <p class="m-0 f-semibold">Length </p>
+                  <span class="itinerary-info">
+                  {{poiData.length}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.depth">
+                  <p class="m-0 f-semibold">Depth </p>
+                  <span class="itinerary-info">
+                  {{poiData.depth}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.size">
+                  <p class="m-0 f-semibold">Size </p>
+                  <span class="itinerary-info">
+                  {{poiData.size}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.architects">
+                  <p class="m-0 f-semibold">Architects </p>
+                  <span class="itinerary-info">
+                  {{poiData.architects}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.architectural_style">
+                  <p class="m-0 f-semibold">Architectural Style </p>
+                  <span class="itinerary-info">
+                  {{poiData.architectural_style}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.established">
+                  <p class="m-0 f-semibold">Established </p>
+                  <span class="itinerary-info">
+                  {{poiData.established}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.completed">
+                  <p class="m-0 f-semibold">Completed </p>
+                  <span class="itinerary-info">
+                  {{poiData.completed}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.burials">
+                  <p class="m-0 f-semibold">Burials </p>
+                  <span class="itinerary-info">
+                  {{poiData.burials}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.average_stay">
+                  <p class="m-0 f-semibold">Average Stay </p>
+                  <span class="itinerary-info">
+                  {{poiData.average_stay}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.cities">
+                  <p class="m-0 f-semibold">Cities </p>
+                  <span class="itinerary-info">
+                  {{poiData.cities}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.inflows">
+                  <p class="m-0 f-semibold">Inflows </p>
+                  <span class="itinerary-info">
+                  {{poiData.inflows}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.outflow">
+                  <p class="m-0 f-semibold">Outflow </p>
+                  <span class="itinerary-info">
+                  {{poiData.outflow}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.visa_info">
+                  <p class="m-0 f-semibold">Visa Info</p>
+                  <a href="javascript:void(0)" (click)="scroll_to_visa('visa_info_sec_poi')"><i class="mdi mdi-passport mdi-24px"></i></a>                  
+                </div>
+
+              </div>
+              <hr>
+              <div *ngIf="weatherLoad==false ; else weather_report">
+                
+              </div>
+             <!--  <section class="map-sec mb-2 mt-2 position-relative" *ngIf="weatherData && weatherData.main">
+                <h5 class="yellow blink_me">Live Weather</h5>
+                <div class="row d-flex">
+                  <div class="basic-info-itinerary col-6" *ngIf="weatherData.weather">
+                    <p class="m-0 f-semibold">{{weatherData.weather[0].main}}</p>
+                    <img src="http://openweathermap.org/img/w/{{weatherData.weather[0].icon}}.png">
+                    <a href="javascript:void(0);" class="text-capitalize"><span>{{weatherData.weather[0].description}}</span></a>
+                    
+                  </div>
+                  <div class="basic-info-itinerary col-6">
+                    <p class="m-0 f-semibold">Temperature</p> 
+                    <a href="javascript:void(0);"><span>{{getTemp(weatherData.main.temp)}}&deg;C</span></a>
+                  </div>
+                  <div class="basic-info-itinerary col-6">
+                    <p class="m-0 f-semibold">Humidity</p>
+                    <a href="javascript:void(0);"><span>{{weatherData.main.humidity}}</span></a>
+                  </div>
+                  <div class="basic-info-itinerary col-6">
+                    <p class="m-0 f-semibold">Wind Speed</p>
+                    <a href="javascript:void(0);"><span><i class="fas fa-wind"></i>{{weatherData.wind.speed}} m/s</span></a>
+                  </div>
+                </div>
+              </section> -->
+            </section>
+            <section id="pointofinterest-description" *ngIf="poiData.description">
+              <p class="m-0 text-white">{{poiData.description}}</p>
+            </section>
+            <section class="pt-2" id="pointofinterst-images" *ngIf="poiData.images && poiData.images.length > 0">
+              <div class="Heading mb-2 d-flex align-items-center justify-content-between">
+                <h5 class="text-white">Attraction Images</h5>
+                <!-- <button class="btn btn-primary btn-sm" (click)="view_d()">360 View image</button> -->
+              </div> 
+              <div id="streetview-container" class="mb-2" *ngIf="poiLat > 0"  >
+                <div id="streetview-map" #streetviewMap></div>
+                <div id="streetview-pano" #streetviewPano></div> 
+              </div>
+                <div class="row d-flex m-0">
+                  <div *ngFor="let img of poiData.images; let i=index" class="figure text-center col-4">
+                    <figure class="h-200"><img src="{{img.image_path.trim()}}" alt="" class="objectImg"></figure>
+                  </div>
+                </div>
+            </section>
+            <section id="experience-category-list">
+              <h5 class="text-capitalize yellow">Experiences</h5>
+              <ul class="list-unstyled m-0 columns2">
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/adventure.png" alt="" class="img-fluid"> Adventure</a></li>
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/wildlife-experience.svg" alt="" class="img-fluid"> Wildlife</a></li>
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/water-sports-experience.png" alt="" class="img-fluid"> Water Sports</a></li>
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/food-experience.png" alt="" class="img-fluid"> Foods</a></li>
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/night-lige-experience.png" alt="" class="img-fluid"> Nightlife</a></li>
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/fishing-experience.png" alt="" class="img-fluid"> Angling</a></li>
+              </ul>
+            </section>
+            <hr>
+            <section id="pointofinterest-address">
+              <p><strong>Address</strong>{{poiData.address}}</p>
+            </section>
+            <section id="pointofinterest-openinghours" *ngIf="poiData.openhours">
+              <div>
+                <img src="assets/img/pullit/alarm-clock.svg" alt="">
+                <span class="opening-hours"><strong>Open hours</strong></span>
+                <table class="table m-b-0">
+                  <tr>
+                    <td>{{poiData.openhours}}</td>
+                  </tr>
+                </table>
+              </div>
+              <hr>
+            </section>
+            <section id="pointofinterest-tickets" *ngIf="poiData.price_adult_foreigner">
+              <h5>Tickets</h5>
+              <div class="row">
+                <div class="col-6" *ngIf="poiData.price_adult_foreigner">
+                  <div class="text-center foreigners">
+                    <h6>Foreigners</h6>
+                    <img src="assets/img/pullit/ticket.svg" alt="" class="img-fluid">
+                    <p class="m-0">Adults: <span>${{poiData.price_adult_foreigner}}</span></p>
+                    <p class="m-0">Children: <span>${{poiData.price_child_foreigner}}</span></p>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="text-center locals" *ngIf="poiData.price_adult_local">
+                    <h6>Locals</h6>
+                    <img src="assets/img/pullit/ticket.svg" alt="" class="img-fluid">
+                    <p class="m-0">Adults: <span>${{poiData.price_adult_local}}</span></p>
+                    <p class="m-0">Children: <span>${{poiData.price_child_local}}</span></p>
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </section>
+            <section class="map-sec m-b-10" *ngIf="poiLat > 0">
+              <agm-map [latitude]="poiLat" [longitude]="poiLong" [zoom]="8">
+                <agm-marker [latitude]="poiLat" [longitude]="poiLong"></agm-marker>
+              </agm-map>
+            </section>
+
+            <section id="visa_info_sec_poi" #visa_info_sec_poi class="pt-2" >
+              <h5 class="text-capitalize yellow">Visa <small *ngIf="poiData.visa_info">({{poiData.visa_info.country_of_residence}} to {{poiData.visa_info.visiting_country}})</small></h5> 
+              <div class="row" >
+                    <div class="col-6">
+                      <div class="form-group"> 
+                        <select2 placeholder="From Country" [options]="countryOptions"
+                           [data]="from_countries" [value]="selected_from_country" class="form-control1" (valueChanged)="setFromCountry($event.value)" width="100%"></select2>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group"> 
+                        <select2 placeholder="To Country" [options]="countryOptions"
+                           [data]="to_countries" [value]="selected_to_country" class="form-control1" (valueChanged)="setToCountry($event.value)" width="100%"></select2>
+                      </div>
+
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group pull-right"> 
+                        <button class="btn btn-primary" (click)="getVisaDetails('poiData')">Get Info</button>
+                      </div>
+                      
+                    </div>
+              </div>
+              
+              <div class="row" *ngIf="poiData.visa_info">
+               <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Visa Type</p>
+                  <span class="itinerary-info">
+                  {{poiData.visa_info.visa_type}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Visa Category</p>
+                  <span class="itinerary-info">
+                  {{poiData.visa_info.visa_category}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Processing Time</p>
+                  <span class="itinerary-info">
+                  {{poiData.visa_info.processing_time}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Stay Period</p>
+                  <span class="itinerary-info">
+                  {{poiData.visa_info.stay_period}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Validity</p>
+                  <span class="itinerary-info">
+                  {{poiData.visa_info.validity}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Fees</p>
+                  <span class="itinerary-info">
+                  {{poiData.visa_info.fees}}</span>
+                </div>
+              </div>
+              <div class="row" *ngIf="poiData.visa_info"> 
+                <div class="visa_info_doc" *ngIf="poiData.visa_info.required_documents">
+                  <strong>Document required</strong>
+                  <p [innerHTML]="poiData.visa_info.required_documents"></p>
+                 </div>
+                <div class="visa_info_doc" *ngIf="poiData.visa_info.eligibility_criteria">
+                  <strong>Eligibility Creteria</strong>
+                  <p [innerHTML]="poiData.visa_info.eligibility_criteria"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="poiData.visa_info.exemptions">
+                  <strong>Exemption</strong>
+                  <p [innerHTML]="poiData.visa_info.exemptions"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="poiData.visa_info.additional_info">
+
+                  <strong>Additional Information</strong>
+                  <p [innerHTML]="poiData.visa_info.additional_info"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="poiData.visa_info.general_information">
+
+                  <strong>General Information</strong>
+                  <p [innerHTML]="poiData.visa_info.general_information"></p>
+                </div>
+                <div class="visa_info_doc" *ngIf="poiData.visa_info.visa_application_process">
+                  <strong>Visa Application Process</strong>
+                  <p [innerHTML]="poiData.visa_info.visa_application_process"></p>
+                 </div>
+
+                <ul class="list-unstyled"> 
+                      <li class="" *ngFor="let url of poiData.visa_info.urls"> 
+                        <a href="javascript:void(0)" target="_blank">{{url}}</a>
+                      </li> 
+                 </ul>
+             </div>
+              
+            </section>
+
+
+            <section id="airport" *ngIf="poiData.airports.length">
+              <div class="row">
+                <img src="assets/img/pullit/airport-bg.png" alt="" class="img-fluid airport-bg">
+              </div>
+              <h5 class="text-capitalize yellow">Airports</h5>
+              <ul class="list-unstyled">
+                 <li *ngFor="let air of poiData.airports; let i=index"> <i class="fas fa-plane-departure"></i> {{air.dest_name}} 
+                </li>
+                <!-- <li><a href="javascript:void(0)" class="active" *ngFor="let air of poiData.airports; let i=index"><i class="fas fa-plane-departure"></i> {{air.dest_name}}</a>
+                </li> -->
+              </ul>
+              <hr>
+            </section>
+            <section id="socket-type" class="socket-types mb-2" *ngIf="poiData.country.electrical_sockets && poiData.country.electrical_sockets.length>0">
+              <h5 class="text-capitalize yellow">Socket Type</h5>
+              <div class="row">
+                <div class="col-md-2 text-center" *ngFor="let elect of poiData.country.electrical_sockets; let i=index">
+                  <img src="{{image_path}}sockets/{{elect.image}}" alt="" class="img-fluid">
+                  <br><strong>{{elect.name}}</strong>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--</div>-->
+
+<!--<div id="pullit-expend" *ngIf="showPullIt" class="">
+
+  <div id="pullit" class="window container-loads">
+    <div id="loader-wrapper" *ngIf="graph_loader">
+      <div id="loader"></div>
+    </div>
+    <div class="pullit-container text-left">
+      <div class="unexpend-button" style="display: none">
+        <div class="stage">
+          <div id="triangle-left" class="bounce-7123 box" (click)="pullItCollapseWidth()"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header-sticky">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <div class="card-title m-0">
+              <p class="m-0"><img src="assets/img/pullit/pullit-logo.png" alt="pullit-logo" class="img-fluid">PULLIT</p>
+            </div>
+            <div class="right-control d-flex">
+              &lt;!&ndash;<a href="" class="maximize"><i class="fas fa-window-minimize"></i></a>&ndash;&gt;
+              &lt;!&ndash;<div class="maximize" (click)="maximize()"><img src="assets/img/pullit/pullit-logo.png" alt="pullit-logo" class="img-fluid" style="width: 30px"> PULLIT</div>
+              <div class="minimize" (click)="minimize()"></div>&ndash;&gt;
+              <a href="javascript:void(0);" (click)="closePullIt()" style="z-index: 9999" id="pullitclose"><i class="fas fa-times"></i></a>
+            </div>
+          </div>
+          <div class="search">
+            <form action="">
+              <div class="form-group m-0">
+                <input type="search" autocomplete="off" class="form-control" placeholder="Search your destination..." (keyup)="search_pullit()" name="pullit_keyword" [(ngModel)]="pullit_keyword">
+                <i class="fas fa-search"></i>
+                <div id="pullit-autocomplete" class="pullit-autocomplete" *ngIf="pullit_search_drop">
+                  <ul class="list-group">
+                    <ng-container *ngFor="let obj of pullit_countryData;let i=index;">
+                      <li class="list-group-item curser_pull" *ngIf="i<6" (click)="pullit_country_result(obj.id,obj.country_name)">
+                        <a href="javascript:void(0)">
+                          <img *ngIf="obj.flag" src="{{image_path}}flag/{{obj.flag}}" width="15">
+                          <i *ngIf="!obj.flag" class="fas fa-flag"></i>
+                          &nbsp;{{obj.country_name}}</a>
+                      </li>
+                    </ng-container>
+                    <ng-container *ngFor="let obj of pullit_destData;let i=index;">
+                      <li *ngIf="i<6" class="list-group-item curser_pull" (click)="search_destination(obj.id,obj.dest_name+' , '+obj.country_name,'search',0,'')">
+                        <a href="javascript:void(0)">
+                          <i class="fas fa-map-marked"></i> {{obj.dest_name}} , {{obj.country_name}}
+                        </a>
+                      </li>
+                    </ng-container>
+                    <ng-container *ngFor="let obj of pullit_poiData;let i=index;">
+                      <li *ngIf="i<6" class="list-group-item curser_pull" (click)="search_poi(obj.id,obj.attraction_name,'search',0,'')">
+                        <a href="javascript:void(0)">
+                          <i class="fas fa-map-pin"></i> {{obj.attraction_name}}
+                        </a>
+                      </li>
+                    </ng-container>
+                  </ul>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-body pullit-body">
+          <div class="pullit-country-section" *ngIf="pullit_country">
+            <div id="flag" class="main-heading pt-3">
+              <h3 class="m-0 pullit-flag-heading">{{countryData.country_name}}
+                <img *ngIf="countryData.flag" src="{{image_path}}flag/{{countryData.flag}}" alt="{{countryData.country_name}}-Flag" class="img-fluid">
+                <i *ngIf="!countryData.flag" class="fas fa-flag"></i>
+              </h3>
+              <strong>
+                <a href="javascript:void(0);">
+                  <p>{{countryData.official_name}}</p>
+                </a>
+              </strong>
+            </div>
+            <section id="" class="short-list-info">
+              <div class="row d-flex pt-2">
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Capital</p>
+                  <a href="javascript:void(0);"><span>{{countryData.capital}}</span></a>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Largest City</p>
+                  <span class="itinerary-info">{{countryData.largest_city}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Best Time to Visit </p>
+                  <span *ngFor="let time of countryData.best_time_to_visits; let i=index" class="itinerary-info">
+                  {{time.name}}<span *ngIf="i+1 !=countryData.best_time_to_visits.length">,</span></span>
+
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Currency</p>
+                  <span class="itinerary-info"><span class="currency-type">{{countryData.currency}}({{countryData.currency_symbol}})</span>  |  <span class="currency">1 {{countryData.currency}}</span> </span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Time Zone</p>
+                  <span *ngFor="let time of countryData.time_zones; let i=index" class="itinerary-info">
+                  {{time.time_zone_code}}<span *ngIf="i+1 !=countryData.time_zones.length">,</span>
+                  </span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Climate</p>
+                  <span *ngFor="let climate of countryData.climate_types; let i=index" class="itinerary-info">
+                  {{climate.name}}<span *ngIf="i+1 !=countryData.climate_types.length">,</span></span>
+                  &lt;!&ndash; <span class="itinerary-info">Tropica</span> &ndash;&gt;
+                </div>
+                &lt;!&ndash;  <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">What to buy</p>
+                  <span class="itinerary-info">Thai Silver Jewelry</span>
+                  </div>
+                  <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Weather</p>
+                  <span class="itinerary-info">
+                      29
+                      <sup>°C </sup>|<sup> °F</sup>
+                  </span>
+                  </div> &ndash;&gt;
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Driving Side</p>
+                  <span class="itinerary-info">{{countryData.drives_on}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Official Language(s)</p>
+                  <span *ngFor="let lang of countryData.languages; let i=index" class="itinerary-info">
+                  {{lang.name}}<span *ngIf="i+1 !=countryData.languages.length">,</span></span>
+                  &lt;!&ndash; <span class="itinerary-info">Thai</span> &ndash;&gt;
+                </div>
+                <div *ngIf="more_basic" class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Population</p>
+                  <span class="itinerary-info">{{countryData.population}}</span>
+                </div>
+                <div *ngIf="more_basic" class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Area</p>
+                  <span class="itinerary-info">{{countryData.area}} {{countryData.area_unit}}</span>
+                </div>
+                <div href="javascript:void(0)" *ngIf="!more_basic" (click)="showMoreBasic()" class="readmore">Show more
+                </div>
+              </div>
+            </section>
+            <section id="topdestinations" class="pointofinterst pt-2" *ngIf="countryData.destinations && countryData.destinations.length">
+              <h6 class="text-capitalize">Top Destinations</h6>
+              <div class="container-fluid">
+                <div class="row d-flex">
+                  <div *ngFor="let desti of countryData.destinations; let i=index" (click)="search_destination(desti.id,desti.dest_name,'country',countryData.id,countryData.country_name)" class="figure text-center col-3" style="cursor: pointer;">
+                    <figure *ngIf="i < 12">
+                      <div class="destiImg">
+                        <img *ngIf="desti.image" src="{{image_path}}destination/{{desti.image}}" alt="{{desti.dest_name}}-img" class="img-fluid" style="height: 60px" onError="this.src='assets/img/pullit/pullit-no-image.png'">
+                        <img *ngIf="!desti.image" src="{{image_path}}destination/no-image.png" alt="no-image" class="img-fluid" style="height: 60px">
+                      </div>
+                      <figcaption>
+                        <a href="javascript:void(0)" title="{{desti.dest_name}}"><span>{{(desti.dest_name.length > 11) ? (desti.dest_name | slice:0:12) + '..' : (desti.dest_name)}}</span></a>
+                      </figcaption>
+                    </figure>
+                  </div>
+                  &lt;!&ndash; <div href="javascript:void(0)" class="readmore">Show more</div> &ndash;&gt;
+                </div>
+              </div>
+              <hr>
+            </section>
+            <section class="map-sec" *ngIf="countryLat > 0">
+              <agm-map [latitude]="countryLat" [longitude]="countryLong" [zoom]="5">
+                <agm-marker [latitude]="countryLat" [longitude]="countryLong"></agm-marker>
+              </agm-map>
+              <hr>
+            </section>
+            <section id="destination" class="destination-content pt-2">
+              <h6 class="yellow">About {{countryData.country_name}}</h6>
+              <p class="m-0">{{countryData.description}}
+                &lt;!&ndash; <a href="javascript:void(0);" class="readmore">Read more</a> &ndash;&gt;
+              </p>
+            </section>
+            <hr>
+            <section id="pointofinterest" class="pointofinterst pt-2" *ngIf="countryData.poi && countryData.poi.length">
+              <h6 class="text-capitalize">Major point of interest</h6>
+              <div class="container-fluid">
+                <div class="row d-flex">
+                  <div *ngFor="let poi of countryData.poi; let i=index" (click)="search_poi(poi.id,poi.attraction_name,'country',countryData.id,countryData.country_name)" class="figure text-center col-4">
+                    <div *ngIf="poi && i < country_poi">
+                      <figure class="text-center">
+                        <img *ngIf="poi.images_url" src="{{poi.images_url}}" alt="" class="img-fluid" onError="this.src='assets/img/pullit/pullit-no-image.png'">
+                        <img *ngIf="!poi.images_url" src="{{image_path}}destination/no-image.png" alt="no-image" class="img-fluid">
+                        <figcaption>
+                          <a href="javascript:void(0)"><span>{{poi.attraction_name}}</span></a>
+                        </figcaption>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div href="javascript:void(0)" class="readmore" *ngIf="country_poi < 40" (click)="showMoreCountryPoi()">Show more</div>
+                  <div href="javascript:void(0)" class="readmore" *ngIf="country_poi>40" (click)="showLessCountryPoi()">Show Less</div>
+                </div>
+              </div>
+            </section>
+            <section id="travelexperience" class="travelexperience pt-2">
+              <h6 class="text-capitalize">Best Travel Experiences</h6>
+              <div class="container-fluid">
+                <div class="row d-flex">
+                  <figure class="text-center col-3">
+                    <img src="assets/img/pullit/bte-1.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Wildlife</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-3">
+                    <img src="assets/img/pullit/bte-2.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Water sports</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-3">
+                    <img src="assets/img/pullit/bte-3.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Honeymoon</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-3">
+                    <img src="assets/img/pullit/bte-4.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Nightlife</span></a>
+                    </figcaption>
+                  </figure>
+                  &lt;!&ndash; <div href="javascript:void(0)" class="readmore">Show more</div> &ndash;&gt;
+                </div>
+              </div>
+            </section>
+            &lt;!&ndash; <hr class="m-t-0">
+            <section id="visa" class="pt-2">
+              <h6 class="text-capitalize">Visa</h6>
+              <p>Visa not required</p>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="form-label" for="from-country">From country</label>
+                    <input type="text" class="form-control" name="name" id="from-country">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="form-label" for="to-country">To country</label>
+                    <input type="text" class="form-control" name="name" id="to-country" value="Bangkok">
+                  </div>
+                </div>
+              </div>
+              <ul class="list-unstyled">
+                <strong>Document required</strong>
+                <li>Document 1</li>
+                <li>Document 2</li>
+                <li>Document 3</li>
+                <li>Document 4</li>
+                <li>Document 5</li>
+                <li>Document 6</li>
+                <li>Document 7</li>
+                <li>Document 8</li>
+              </ul>
+              <p>When you visit Thailand for the purpose of leisure, sight-seeing and personal enlightenment, you are a tourist. A tourist is not allowed to work or conduct business in Thailand.
+                A tourist needs a tourist visa so you can stay in Thailand for a period of 15 or 30 days while doing her own explorations and excursions in the kingdom.
+              </p>
+              <p><strong>Estimated time to process</strong> 20days</p>
+              <p><strong>Estimated cost</strong> $250</p>
+              <p><strong>Note: </strong>Don’t forget that consular officers reserve the rights to request for additional documents when they deemed it necessary,
+                so it is advisable that you present yourself when you are in a good shape and state, together with your papers and documents.
+              </p>
+            </section> &ndash;&gt;
+            <hr>
+            <section id="airport" *ngIf="countryData.airports">
+              <div class="row">
+                <img src="assets/img/pullit/airport-bg.png" alt="" class="img-fluid airport-bg">
+              </div>
+              <h6 class="text-capitalize">Airports (International)</h6>
+              <ul class="list-unstyled">
+                <li><a href="javascript:void(0)" class="active" *ngFor="let air of countryData.airports; let i=index"><i class="fas fa-plane-departure"></i> {{air.airport_name}}</a>
+                </li>
+              </ul>
+              <hr>
+            </section>
+            <section id="socket-type" *ngIf="countryData.electrical_sockets">
+              <h6 class="text-capitalize">Socket Type</h6>
+              <div class="row">
+                <div class="col-md-2 text-center" *ngFor="let elect of countryData.electrical_sockets; let i=index">
+                  <img src="{{image_path}}sockets/{{elect.image}}" alt="" class="img-fluid">
+                  <br><strong>{{elect.name}}</strong>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="pullit-destination-section" *ngIf="pullit_destination && destinationData">
+            <div id="flag" class="main-heading pt-3">
+              <h2 class="m-0 pullit-flag-heading">{{destinationData.dest_name}}
+                <img *ngIf="destinationData.country.flag" src="{{image_path}}flag/{{destinationData.country.flag}}" alt="{{destinationData.country.country_name}}-Flag" class="img-fluid">
+                <i *ngIf="!destinationData.country.flag" class="fas fa-flag"></i>
+                <button class="float-right btn" *ngIf="dest_ref_type!='search'" (click)="back_to_history_frm_des(dest_ref_type,dest_ref_id)"><i class="fas fa-arrow-left"></i></button>
+              </h2>
+              <strong>
+                <a href="javascript:void(0);" (click)="pullit_country_result(destinationData.country.id,destinationData.country.country_name)" *ngIf="destinationData.country.country_name">
+                  <p>{{destinationData.country.country_name}}</p>
+                </a>
+              </strong>
+            </div>
+            <section id="" class="short-list-info">
+              <div class="row d-flex">
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">State/Province</p>
+                  <a href="javascript:void(0);"><span>{{destinationData.dest_name}}</span></a>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Best Time to Visit </p>
+                  <span *ngFor="let time of destinationData.country.best_time_to_visits; let i=index" class="itinerary-info">
+                  {{time.name}}<span *ngIf="i+1 !=destinationData.country.best_time_to_visits.length">,</span></span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Currency</p>
+                  <span class="itinerary-info"><span class="currency-type">{{destinationData.country.currency}}({{destinationData.country.currency_symbol}})</span>  |  <span class="currency">1 {{destinationData.country.currency}}</span> </span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Time Zone</p>
+                  &lt;!&ndash;  <span class="itinerary-info">destinationData.country.time_zone</span> &ndash;&gt;
+                  <span *ngFor="let time of destinationData.country.time_zones; let i=index" class="itinerary-info">
+                  {{time.time_zone_code}}
+                    <span *ngIf="i+1 !=destinationData.country.time_zones.length">,</span>
+                  </span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Climate</p>
+                  <span *ngFor="let climate of destinationData.country.climate_types; let i=index" class="itinerary-info">
+                  {{climate.name}}<span *ngIf="i+1 !=destinationData.country.climate_types.length">,</span></span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Near by Destinationsn</p>
+                  <span *ngFor="let near of destinationData.nearBy; let i=index" class="itinerary-info">
+                <a href="javascript:void(0);" (click)="search_destination(near.id,near.dest_name,'destination',destinationData.id,destinationData.dest_name)" *ngIf="i<10">
+                       {{near.dest_name}}
+               </a>
+
+                  <span *ngIf="i+1 !=destinationData.nearBy.length && i<10">,</span>
+                  </span>
+                </div>
+                &lt;!&ndash; <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">What to buy</p>
+
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Weather</p>
+                  <span class="itinerary-info">
+                  </span>
+                </div> &ndash;&gt;
+              </div>
+              <hr>
+            </section>
+            <section class="map-sec m-b-10 dest_img_Sec" *ngIf="destinationData.image">
+              <img src="{{destinationData.image}}" *ngIf="destinationData.image_source==1" onError="this.src='assets/img/pullit/pullit-no-image.png'">
+              <img src="{{image_path}}destination/{{destinationData.image}}" *ngIf="destinationData.image_source==0" onError="this.src='assets/img/pullit/pullit-no-image.png'">
+
+              <hr>
+            </section>
+            <section id="destination" class="destination-content pt-2" *ngIf="destinationData.description && destinationData.image">
+              <h6 class="yellow">About {{destinationData.dest_name}}</h6>
+              &lt;!&ndash; <p class="m-0" *ngIf="destinationData.description==null">{{getPlaceDescrip(destinationData.dest_name)}}</p> &ndash;&gt;
+              <p class="m-0" [innerHTML]="destinationData.description"></p>
+              <hr>
+            </section>
+            <section class="map-sec m-b-10" *ngIf="destinationLat > 0">
+              <agm-map [latitude]="destinationLat" [longitude]="destinationLong" [zoom]="8">
+                <agm-marker [latitude]="destinationLat" [longitude]="destinationLong"></agm-marker>
+              </agm-map>
+              <hr>
+            </section>
+
+            <section id="pointofinterest" class="pointofinterst pt-2" *ngIf="destinationData.poi.length">
+              <h6 class="text-capitalize">Major point of interest</h6>
+              <div class="container-fluid">
+                <div class="row d-flex">
+                  <div *ngFor="let poi of destinationData.poi; let i=index" (click)="search_poi(poi.id,poi.attraction_name,'destination',destinationData.id,destinationData.dest_name)" class="figure text-center col-4" style="cursor: pointer;">
+                    <div *ngIf="poi && i < country_poi">
+                      <figure class="text-center">
+                        <img src="{{poi.images_url}}" alt="" class="img-fluid" onError="this.src='assets/img/pullit/pullit-no-image.png'">
+                        <figcaption>
+                          <a href="javascript:void(0);"><span>{{poi.attraction_name}}</span></a>
+                        </figcaption>
+                      </figure>
+                    </div>
+                  </div>
+
+                  <div href="javascript:void(0)" class="readmore" *ngIf="country_poi < 40" (click)="showMoreCountryPoi()">Show more</div>
+                  <div href="javascript:void(0)" class="readmore" *ngIf="country_poi>40" (click)="showLessCountryPoi()">Show Less</div>
+                </div>
+              </div>
+              <hr>
+
+            </section>
+            <section id="airport" *ngIf="destinationData.airports.length">
+              <div class="row">
+                <img src="assets/img/pullit/airport-bg.png" alt="" class="img-fluid airport-bg">
+              </div>
+              <h6 class="text-capitalize">Airports</h6>
+              <ul class="list-unstyled">
+                <li><a href="javascript:void(0)" class="active" *ngFor="let air of destinationData.airports; let i=index"><i class="fas fa-plane-departure"></i> {{air.dest_name}}</a>
+                </li>
+              </ul>
+              <hr>
+            </section>
+            &lt;!&ndash; <section id="travelexperience" class="travelexperience pt-2">
+              <h6 class="text-capitalize">Best Travel Experiences</h6>
+              <div class="container-fluid">
+                <div class="row d-flex">
+                  <figure class="text-center col-4">
+                    <img src="assets/img/pullit/bte-1.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Wildlife</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-4">
+                    <img src="assets/img/pullit/bte-2.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Water sports</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-4">
+                    <img src="assets/img/pullit/bte-3.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Honeymoon</span></a>
+                    </figcaption>
+                  </figure>
+                  <figure class="text-center col-4">
+                    <img src="assets/img/pullit/bte-4.jpg" alt="" class="img-fluid">
+                    <figcaption>
+                      <a href="javascript:void(0)"><span>Nightlife</span></a>
+                    </figcaption>
+                  </figure>
+                </div>
+              </div>
+              <hr>
+            </section> &ndash;&gt;
+          </div>
+          <div class="pullit-destination-section" *ngIf="pullit_poi">
+            <div id="flag" class="main-heading pt-3">
+              <h4 class="m-0 pullit-flag-heading">{{poiData.attraction_name}}
+                <button class="float-right btn" *ngIf="dest_ref_type!='search'" (click)="back_to_history_frm_poi(poi_ref_type,poi_ref_id)"><i class="fas fa-arrow-left"></i></button>
+              </h4>
+              <strong>
+                <a href="javascript:void(0);" (click)="search_destination(poiData.destination.id,poiData.destination.dest_name,'poi',poiData.id,poiData.attraction_name)">
+                  <p>{{poiData.destination.dest_name}}</p>
+                </a>
+              </strong>
+
+            </div>
+            <section id="" class="short-list-info">
+              <div class="row d-flex">
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.country.best_time_to_visits">
+                  <p class="m-0 f-semibold">Best Time to Visit </p>
+
+                  <span *ngFor="let time of poiData.country.best_time_to_visits; let i=index" class="itinerary-info">
+                  {{time.name}}<span *ngIf="i+1 !=poiData.country.best_time_to_visits.length">,</span></span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Currency</p>
+                  <span class="itinerary-info"><span class="currency-type">{{poiData.country.currency}}({{poiData.country.currency_symbol}})</span>  |  <span class="currency">1 {{poiData.country.currency}}</span> </span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Time Zone</p>
+                  <span *ngFor="let time of poiData.country.time_zones; let i=index" class="itinerary-info">
+                  {{time.time_zone_code}}
+                    <span *ngIf="i+1 !=poiData.country.time_zones.length">,</span>
+                  </span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.country.climate_types">
+                  <p class="m-0 f-semibold">Climate</p>
+                  <span *ngFor="let climate of poiData.country.climate_types; let i=index" class="itinerary-info">
+                  {{climate.name}}<span *ngIf="i+1 !=poiData.country.climate_types.length">,</span></span>
+                </div>
+                <div class="basic-info-itinerary col-6">
+                  <p class="m-0 f-semibold">Type </p>
+                  <span class="itinerary-info">
+                  {{poiData.attraction_type}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.website">
+                  <p class="m-0 f-semibold">Website </p>
+                  <span class="itinerary-info">
+                <a href="https://{{poiData.website}}" target="_blank"> {{poiData.website}}</a></span>
+                </div>
+
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.opened">
+                  <p class="m-0 f-semibold">Opened </p>
+                  <span class="itinerary-info">
+                  {{poiData.opened}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.floors">
+                  <p class="m-0 f-semibold">Floors </p>
+                  <span class="itinerary-info">
+                  {{poiData.floors}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.width">
+                  <p class="m-0 f-semibold">Width </p>
+                  <span class="itinerary-info">
+                  {{poiData.width}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.length">
+                  <p class="m-0 f-semibold">Length </p>
+                  <span class="itinerary-info">
+                  {{poiData.length}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.depth">
+                  <p class="m-0 f-semibold">Depth </p>
+                  <span class="itinerary-info">
+                  {{poiData.depth}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.size">
+                  <p class="m-0 f-semibold">Size </p>
+                  <span class="itinerary-info">
+                  {{poiData.size}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.architects">
+                  <p class="m-0 f-semibold">Architects </p>
+                  <span class="itinerary-info">
+                  {{poiData.architects}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.architectural_style">
+                  <p class="m-0 f-semibold">Architectural Style </p>
+                  <span class="itinerary-info">
+                  {{poiData.architectural_style}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.established">
+                  <p class="m-0 f-semibold">Established </p>
+                  <span class="itinerary-info">
+                  {{poiData.established}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.completed">
+                  <p class="m-0 f-semibold">Completed </p>
+                  <span class="itinerary-info">
+                  {{poiData.completed}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.burials">
+                  <p class="m-0 f-semibold">Burials </p>
+                  <span class="itinerary-info">
+                  {{poiData.burials}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.average_stay">
+                  <p class="m-0 f-semibold">Average Stay </p>
+                  <span class="itinerary-info">
+                  {{poiData.average_stay}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.cities">
+                  <p class="m-0 f-semibold">Cities </p>
+                  <span class="itinerary-info">
+                  {{poiData.cities}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.inflows">
+                  <p class="m-0 f-semibold">Inflows </p>
+                  <span class="itinerary-info">
+                  {{poiData.inflows}}</span>
+                </div>
+                <div class="basic-info-itinerary col-6" *ngIf="poiData.outflow">
+                  <p class="m-0 f-semibold">Outflow </p>
+                  <span class="itinerary-info">
+                  {{poiData.outflow}}</span>
+                </div>
+
+              </div>
+              <hr>
+            </section>
+            <section id="pointofinterest-description" *ngIf="poiData.description">
+              <p class="m-0">{{poiData.description}}</p>
+            </section>
+            <section class="pt-2" id="pointofinterst-images" *ngIf="poiData.images && poiData.images.length > 0">
+              <div class="container-fluid">
+                <div class="row d-flex">
+                  <div *ngFor="let img of poiData.images; let i=index" class="figure text-center col-4">
+                    &lt;!&ndash; <figure><img src="{{image_path}}poi/{{img.image_path}}" alt=""></figure> &ndash;&gt;
+                    &lt;!&ndash; <figure><img src="{{img.image_path}}" alt=""></figure> &ndash;&gt;
+                    &lt;!&ndash; <figure><img src="{{image_path}}bing/{{img.image_name}}" alt=""></figure> &ndash;&gt;
+                    <figure><img src="{{img.image_path.trim()}}" alt=""></figure>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section id="experience-category-list">
+              <h6>Experiences</h6>
+              <ul class="list-unstyled m-0 columns2">
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/adventure.png" alt="" class="img-fluid"> Adventure</a></li>
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/wildlife-experience.svg" alt="" class="img-fluid"> Wildlife</a></li>
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/water-sports-experience.png" alt="" class="img-fluid"> Water Sports</a></li>
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/food-experience.png" alt="" class="img-fluid"> Foods</a></li>
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/night-lige-experience.png" alt="" class="img-fluid"> Nightlife</a></li>
+                <li><a href="javascript:void(0)"><img src="assets/img/pullit/fishing-experience.png" alt="" class="img-fluid"> Angling</a></li>
+              </ul>
+            </section>
+            <hr>
+            <section id="pointofinterest-address">
+              <p><strong>Address</strong>{{poiData.address}}</p>
+            </section>
+            <section id="pointofinterest-openinghours">
+              <div>
+                <img src="assets/img/pullit/alarm-clock.svg" alt="">
+                <span class="opening-hours"><strong>Open hours</strong></span>
+                <table class="table m-b-0">
+                  <tr>
+                    &lt;!&ndash; <td>Monday</td> &ndash;&gt;
+                    <td>{{poiData.openhours}}</td>
+                  </tr>
+
+                </table>
+              </div>
+              <hr>
+            </section>
+            <section id="pointofinterest-tickets" *ngIf="poiData.price_adult_foreigner">
+              <h6>Tickets</h6>
+              <div class="row">
+                <div class="col-6" *ngIf="poiData.price_adult_foreigner">
+                  <div class="text-center foreigners">
+                    <h6>Foreigners</h6>
+                    <img src="assets/img/pullit/ticket.svg" alt="" class="img-fluid">
+                    <p class="m-0">Adults: <span>${{poiData.price_adult_foreigner}}</span></p>
+                    <p class="m-0">Children: <span>${{poiData.price_child_foreigner}}</span></p>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="text-center locals" *ngIf="poiData.price_adult_local">
+                    <h6>Locals</h6>
+                    <img src="assets/img/pullit/ticket.svg" alt="" class="img-fluid">
+                    <p class="m-0">Adults: <span>${{poiData.price_adult_local}}</span></p>
+                    <p class="m-0">Children: <span>${{poiData.price_child_local}}</span></p>
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </section>
+            <section class="map-sec m-b-10" *ngIf="poiLat > 0">
+              <agm-map [latitude]="poiLat" [longitude]="poiLong" [zoom]="8">
+                <agm-marker [latitude]="poiLat" [longitude]="poiLong"></agm-marker>
+              </agm-map>
+              <hr>
+              <h6>360 View</h6>
+
+              <div id="streetview-container" *ngIf="poiLat > 0">
+                <div id="streetview-map" #streetviewMap></div>
+                <div id="streetview-pano" #streetviewPano></div>
+              </div>
+              <hr>
+            </section>
+
+
+            <section id="airport" *ngIf="poiData.airports.length">
+              <div class="row">
+                <img src="assets/img/pullit/airport-bg.png" alt="" class="img-fluid airport-bg">
+              </div>
+              <h6 class="text-capitalize">Airports</h6>
+              <ul class="list-unstyled">
+                <li><a href="javascript:void(0)" class="active" *ngFor="let air of poiData.airports; let i=index"><i class="fas fa-plane-departure"></i> {{air.dest_name}}</a>
+                </li>
+              </ul>
+              <hr>
+            </section>
+            <section id="socket-type" *ngIf="poiData.country.electrical_sockets">
+              <h6 class="text-capitalize">Socket Type</h6>
+              <div class="row">
+                <div class="col-md-2 text-center" *ngFor="let elect of poiData.country.electrical_sockets; let i=index">
+                  <img src="{{image_path}}sockets/{{elect.image}}" alt="" class="img-fluid">
+                  <br><strong>{{elect.name}}</strong>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="card-footer" *ngIf="pullit_country">
+          <div class="fix-footer">
+            <div class="row">
+              <ul class="list-inline m-0 d-flex">
+                <li class="list-inline-item">
+                  <a href="javascript:void(0)" (click)="scrollTodiv('flag')">
+                    <img src="assets/img/pullit/thailand.png" alt="" class="img-fluid">
+                  </a>
+                </li>
+                <li class="list-inline-item"><a href="javascript:void(0)" (click)="scrollTodiv('topdestinations')"><img src="assets/img/pullit/destination.png" alt="" class="img-fluid"></a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)" (click)="scrollTodiv('pointofinterest')"><img src="assets/img/pullit/pointofinterest.png" alt="" class="img-fluid"></a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)" (click)="scrollTodiv('travelexperience')"><img src="assets/img/pullit/experience.png" alt="" class="img-fluid"></a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)" (click)="scrollTodiv('visa')"><img src="assets/img/pullit/visa.png" alt="" class="img-fluid"></a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)" (click)="scrollTodiv('airport')"><img src="assets/img/pullit/airport.png" alt="" class="img-fluid"></a></li>
+                <li class="list-inline-item" id="limore" (click)="pullItExpendWidth()"><a href="javascript:void(0);"><img src="assets/img/pullit/more.png" alt="" class="img-fluid"></a></li>
+                <li class="list-inline-item li-hide" style="display: none"><a href="javascript:void(0)" (click)="scrollTodiv('travelexperience')"><img src="assets/img/pullit/experience.png" alt="" class="img-fluid"></a></li>
+                <li class="list-inline-item li-hide" style="display: none"><a href="javascript:void(0);"><img src="assets/img/pullit/visa.png" alt="" class="img-fluid"></a></li>
+                <li class="list-inline-item li-hide" style="display: none"><a href="javascript:void(0);"><img src="assets/img/pullit/airport.png" alt="" class="img-fluid"></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+              <ng-template #weather_report>
+                <section class="map-sec mb-2 mt-2 position-relative" *ngIf="weatherData && weatherData.main">
+<main class="region-main regionMain DaybreakLargeScreen--regionMain--1F19m" aria-label="Main Content">
+  <div id="WxuCurrentConditions-main-b3094163-ef75-4558-8d9a-e35e6b9b1034" class=" removeIfEmpty">
+    <div class="CurrentConditions--CurrentConditions--1swR9" data-testid="CurrentConditionsContainer">
+                  <section class="card Card--card--HiWPW CurrentConditions--card--3F6c0 CurrentConditions--imageCard--1FpON WeatherBackground--WeatherBackground--25CL8" style="height: 250px;background-image:url('assets/img/haze.jpg')" aria-label=" ">
+                    <div data-cq-observe="true" data-cq-breakpoints="{&quot;CurrentConditions--large--ouo8o&quot;:560}" class="CurrentConditions--large--ouo8o">
+                      <div class="CurrentConditions--header--27uOE"><h1 class="CurrentConditions--location--kyTeL" style="color:#fff"> {{weatherPlace}}</h1> 
+                      </div>
+                      <div class="CurrentConditions--body--8sQIV">
+                        <div class="CurrentConditions--columns--3KgfN">
+                          <div class="CurrentConditions--primary--2SVPh">
+                            <span data-testid="TemperatureValue" class="CurrentConditions--tempValue--3a50n">{{getTemp(weatherData.main.temp)}}&deg;C</span>
+                            <div data-testid="wxPhrase" class="CurrentConditions--phraseValue--2Z18W">{{weatherData.weather[0].description}} 
+                            </div>
+                            <!-- <div class="CurrentConditions--tempHiLoValue--3SUHy">Day &nbsp;<span data-testid="TemperatureValue">20°</span>  • Night &nbsp;<span data-testid="TemperatureValue">12°</span></div> -->
+                          </div>
+                          <div class="CurrentConditions--secondary--2J2Cx"> 
+
+                      <img src="http://openweathermap.org/img/w/{{weatherData.weather[0].icon}}.png" width="90">
+
+                     <!--  <div class="SunriseSunset--datesContainer--1a5tE"><div data-testid="SunriseValue" class="SunriseSunset--sunriseDateItem--3qqf7"><svg class="Icon--icon--3wCKh SunriseSunset--sunIcon--TG205" set="current-conditions" name="sunrise-line" theme="" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24"><title>Sun Rise</title><path d="M10.862 6.052v5.329a.75.75 0 0 0 1.5 0V6.036l1.772 1.534a.75.75 0 0 0 .982-1.134l-3.003-2.601a.75.75 0 0 0-.982 0L8.128 6.436A.75.75 0 0 0 9.11 7.57l1.752-1.518zM21 19.128a.75.75 0 0 0 0-1.5H3.167a.75.75 0 1 0 0 1.5H21z"></path></svg><p class="SunriseSunset--dateValue--N2p5B">{{getTime(weatherData.sys.sunrise) | date: 'hh:mm a'}}</p></div><div data-testid="SunsetValue" class="SunriseSunset--sunsetDateItem--34dPe SunriseSunset--sunriseDateItem--3qqf7"><svg class="Icon--icon--3wCKh SunriseSunset--sunIcon--TG205" set="current-conditions" name="sunset-line" theme="" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24"><title>Sunset</title><path d="M10.862 9.853L9.044 8.278a.75.75 0 1 0-.982 1.134l3.003 2.602a.75.75 0 0 0 .982 0l3.004-2.602a.75.75 0 0 0-.983-1.134l-1.706 1.478V4a.75.75 0 0 0-1.5 0v5.853zM21 19.075a.75.75 0 1 0 0-1.5H3.167a.75.75 0 1 0 0 1.5H21z"></path></svg><p class="SunriseSunset--dateValue--N2p5B">{{getTime(weatherData.sys.sunset) | date: 'hh:mm a'}}</p></div></div> -->
+                          </div>
+                        </div>
+                        <div class="CurrentConditions--messaging--14YdW"></div>
+
+                    </div>
+                  </div>
+                  </section>
+                </div>
+              </div>
+  </main>
+                  <h5 class="yellow blink_me">Weather Today in {{weatherPlace}}</h5>
+                  <div class="row d-flex">
+                    <div class="basic-info-itinerary col-6" *ngIf="weatherData.weather">
+                      <p class="m-0 f-semibold">{{weatherData.weather[0].main}}</p>
+                      <img src="http://openweathermap.org/img/w/{{weatherData.weather[0].icon}}.png">
+                      <a href="javascript:void(0);" class="text-capitalize"><span>{{weatherData.weather[0].description}}</span></a>
+                      
+                    </div> 
+                    <div class="basic-info-itinerary col-6">
+                      <p class="m-0 f-semibold">
+                      <svg class="WeatherIcon" set="current-conditions" name="temp" theme="dark" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24"><title>Temperature</title><path d="M10.333 15.48v.321c.971.357 1.667 1.322 1.667 2.456 0 1.438-1.12 2.604-2.5 2.604S7 19.695 7 18.257c0-1.134.696-2.099 1.667-2.456v-.322a2.084 2.084 0 0 1-1.25-1.91V5.583a2.083 2.083 0 1 1 4.166 0v7.986c0 .855-.514 1.589-1.25 1.91zM15.8 8.1a2.8 2.8 0 1 1 0-5.6 2.8 2.8 0 0 1 0 5.6zm0-1.85a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>
+                      Temperature</p> 
+                      <a href="javascript:void(0);"><span>{{getTemp(weatherData.main.temp)}}&deg;C</span></a>
+                    </div>
+                    <div class="basic-info-itinerary col-6">
+                      <p class="m-0 f-semibold">
+                      <svg class="WeatherIcon" set="current-conditions" name="humidity" theme="dark" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24" style="
+                      "><title>Humidity</title><path fill-rule="evenodd" d="M11.743 17.912a4.182 4.182 0 0 1-2.928-1.182 3.972 3.972 0 0 1-.614-4.962.743.743 0 0 1 .646-.349c.234 0 .476.095.66.275l4.467 4.355c.385.376.39.998-.076 1.275a4.216 4.216 0 0 1-2.155.588M11.855 4c.316 0 .61.14.828.395.171.2.36.416.562.647 1.857 2.126 4.965 5.684 4.965 8.73 0 3.416-2.85 6.195-6.353 6.195-3.505 0-6.357-2.78-6.357-6.195 0-3.082 2.921-6.406 4.854-8.605.242-.275.47-.535.673-.772A1.08 1.08 0 0 1 11.855 4"></path></svg>
+                      Humidity</p>
+                      <a href="javascript:void(0);"><span>{{weatherData.main.humidity}}%</span></a>
+                    </div>
+                    <div class="basic-info-itinerary col-6">
+                      <p class="m-0 f-semibold">
+                        <svg class="WeatherIcon" set="current-conditions" name="pressure" theme="dark" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24"><title>Pressure</title><path d="M8.462 18.293l-.29-.002c-.6-.004-1.043-.007-1.259-.007-1.119 0-1.182-1.015-.34-1.734l.196-.164.508-.425 1.543-1.292c1.014-.846 1.74-1.45 2.073-1.723.735-.601 1.305-.596 2.033.022.387.329.959.805 2.207 1.841a377.936 377.936 0 0 1 2.18 1.816c.796.67.742 1.66-.295 1.66h-2.382v1.77c0 .83-.393 1.223-1.258 1.223h-2.994c-.809 0-1.258-.42-1.258-1.207v-1.773l-.664-.005zm0-12.807l-.29.002c-.6.004-1.043.006-1.259.006-1.119 0-1.182 1.016-.34 1.734l.196.164.508.426 1.543 1.29a348.68 348.68 0 0 0 2.073 1.724c.735.601 1.305.596 2.033-.022.387-.328.959-.805 2.207-1.84a377.937 377.937 0 0 0 2.18-1.817c.796-.67.742-1.659-.295-1.659h-2.382v-1.77c0-.832-.393-1.224-1.258-1.224h-2.994c-.809 0-1.258.42-1.258 1.207V5.48l-.664.005z"></path></svg>
+                      Pressure</p>
+                      <a href="javascript:void(0);"><span>{{weatherData.main.pressure}}</span></a>
+                    </div>
+                    <div class="basic-info-itinerary col-6">
+                      <p class="m-0 f-semibold">
+                        <svg class="WeatherIcon" set="current-conditions" name="visibility" theme="dark" data-testid="Icon" aria-hidden="true" role="img" width="1024" height="1024" viewBox="0 0 1024 1024"><title>Visibility</title><path d="M491.856 879.808c-60.48-5.056-110.848-25.184-171.328-55.424-120.96-55.424-216.704-146.112-292.256-256.96-25.248-40.352-30.24-80.64 0-126.016 80.608-115.872 186.464-211.68 317.472-272.096 110.816-50.4 226.752-50.4 337.664 0 136 60.48 241.824 156.224 317.44 282.208 15.104 25.216 25.12 65.504 10.048 85.728-105.792 191.424-256.992 367.84-519.04 342.56zm292.256-377.92c0-151.168-120.96-272.064-272.096-272.064-146.144 0-272.128 126.016-272.128 272.064 0 151.232 120.96 277.216 272.128 277.216 151.104-.032 272.096-125.984 272.096-277.216z"></path><path d="M789.808 500.416c0 156.896-125.472 287.52-282.336 282.336-156.864 0-282.336-130.656-282.336-287.488 0-146.4 130.656-277.12 282.336-277.12 156.896-.032 287.584 125.376 282.336 282.272zM512.752 348.832c-83.68 0-151.584 67.968-151.584 151.584 0 88.864 67.968 156.896 151.584 156.896 83.648 0 156.832-73.216 156.832-156.896-5.184-83.648-73.152-151.584-156.832-151.584z"></path></svg>
+                      Visibility</p>
+                      <a href="javascript:void(0);"><span>{{weatherData.visibility}} meter</span></a>
+                    </div>
+                    <div class="basic-info-itinerary col-6">
+                      <p class="m-0 f-semibold"><svg class="WeatherIcon" set="current-conditions" name="wind" theme="dark" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24"><title>Wind</title><path d="M6 8.67h5.354c1.457 0 2.234-1.158 2.234-2.222S12.687 4.4 11.354 4.4c-.564 0-1.023.208-1.366.488M3 11.67h15.54c1.457 0 2.235-1.158 2.235-2.222S19.873 7.4 18.54 7.4c-.747 0-1.311.365-1.663.78M6 15.4h9.389c1.457 0 2.234 1.159 2.234 2.223 0 1.064-.901 2.048-2.234 2.048a2.153 2.153 0 0 1-1.63-.742" stroke-width="2" stroke="currentColor" stroke-linecap="round" fill="none"></path></svg>Wind Speed</p>
+                      <a href="javascript:void(0);"><span> {{weatherData.wind.speed}} m/s</span></a>
+                    </div>
+                  </div>
+                </section>
+             </ng-template> 
+<style type="text/css">
+
+  .container-loads {
+    position: relative;
+  }
+
+  #loader-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  #loader {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 100px;
+    height: 100px;
+    margin: -50px 0 0 -50px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #3498db;
+    -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+    animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+  }
+
+  #loader:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #e74c3c;
+    -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+    animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+  }
+
+  #loader:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #f9c922;
+    -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+    animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+  }
+
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg); /* Chrome, Opera 15+, Safari 3.1+ */
+      -ms-transform: rotate(0deg); /* IE 9 */
+      transform: rotate(0deg); /* Firefox 16+, IE 10+, Opera */
+    }
+    100% {
+      -webkit-transform: rotate(360deg); /* Chrome, Opera 15+, Safari 3.1+ */
+      -ms-transform: rotate(360deg); /* IE 9 */
+      transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg); /* Chrome, Opera 15+, Safari 3.1+ */
+      -ms-transform: rotate(0deg); /* IE 9 */
+      transform: rotate(0deg); /* Firefox 16+, IE 10+, Opera */
+    }
+    100% {
+      -webkit-transform: rotate(360deg); /* Chrome, Opera 15+, Safari 3.1+ */
+      -ms-transform: rotate(360deg); /* IE 9 */
+      transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
+    }
+  }
+
+  . dash-refresh {
+    z-index: 10;
+  }
+
+  .curser_pull {
+    cursor: pointer;
+  }
+
+  .lighting {
+    background: -webkit-linear-gradient(315deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .image_p_dest {
+    background-position: center;
+    background-size: cover;
+  }
+
+  /*.dest_img_Sec {
+    border: 2px #ccc solid;
+  }*/
+</style>

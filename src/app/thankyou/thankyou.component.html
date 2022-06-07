@@ -1,0 +1,24 @@
+<article class="ThankyouBackground">
+    <section class="thankyouContainer">
+        <div class="container">
+            <div class="row">
+                <div class="ThankyouContent col-12 text-center">
+                    <figure>
+                        <img src="assets/img/email-confirmation.svg" alt="Thank you for Registration" class="img-fluid" style="width: auto">
+                    </figure>
+                    <h3><small>Thank you for registering with</small><br> <a href="https://www.tutterflycrm.com/" class="w-100">TutterflyCRM</a></h3>
+
+                    <span class="text-success" *ngIf="sucessMsg">{{sucessMsg}}</span>
+                     <span class="text-error" *ngIf="errMsg">{{errMsg}}</span>
+                    <div class="text-center" style="display: inline-block;" *ngIf="loader">
+                        <mat-spinner class="dash-loader"  [diameter]="20"></mat-spinner>
+                    </div>
+                    <div class="mt20">
+                        <button class="btn btn-outline btn-round btn-blue-round" type="button" (click)="resend_mail()">Resend mail</button>
+                        <a href="javascript:void(0);" [routerLink]="['/login']" class="btn btn-outline btn-round">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</article>

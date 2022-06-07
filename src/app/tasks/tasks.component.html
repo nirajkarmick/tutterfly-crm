@@ -1,0 +1,458 @@
+<div class=" no-padding container-fixed-lg CRMTable">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Tasks</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card clientHeader">
+            <div class="card-header card-white-head topSec">
+                <div class="row">
+                    <div class="col-md-6 select-DataView">
+                        <div class="d-flex icon-module float-left mr-1">
+                            <!-- <img src="assets/new_assets/images/account-icon.png" alt="" width="" class="img-fluid"> -->
+                            <div class="timeline-icon bg-primary rounded-circle">
+                                <i
+                                    class="mdi mdi-clipboard-check-outline float-left m-0 h3 p-2 align-middle text-white"></i>
+                            </div>
+                        </div> 
+                        <div class="MainHeadCont">
+                            <div class="MainHead">Tasks</div>
+                            <div class="ClientViewDrop" *ngIf="exampleData.length>0 && !show_select2">
+                                <select2 [data]="exampleData" [value]="viewId" [options]="options" (valueChanged)="renderNewView($event.value)" width="100%"></select2>
+                            </div>
+
+                             <div class="ClientViewDrop" *ngIf="exampleData.length>0 && show_select2">
+                                <select2 [data]="exampleData" [value]="viewId" [options]="options"  (valueChanged)="renderNewView($event.value)" width="100%"></select2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-light" (click)="checkCurrentView()"><i
+                                    class="fa fa-refresh"></i></button>
+                            <button type="button" class="btn btn-light" [disabled]="viewId==undefined ||viewId==0"
+                                data-target="#FilterBox" data-toggle="modal" *ngIf="viewType"><i
+                                    class="fa fa-filter"></i></button>
+                        </div>
+                        <div class="dropdown dropdown-default pull-right">
+                            <button class="btn btn-secondary dropdown-toggle text-center ml-1" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" *ngIf="viewType">
+                                Settings
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#modalAddView">New View</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#modalRename"
+                                    *ngIf="viewId>0" (click)="get_view_name()">Rename</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#modalsharing"
+                                    *ngIf="viewId>0">Sharing Settings</a>
+                                <a class="dropdown-item" href="javascript:void(0)" data-target="#FilterBox"
+                                    data-toggle="modal" *ngIf="viewId>0">Edit List Filters</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#modalFieldisp"
+                                    *ngIf="viewId>0">Select Fields to display</a>
+                                <a class="dropdown-item" href="javascript:void(0)" *ngIf="viewId>0"
+                                    (click)="delete_view(viewId)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="dropdown dropdown-light button-list pull-right">
+                            <button class="btn btn-secondary dropdown-toggle text-center" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> View
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" (click)="tableViewShow()">Table</a>
+                                <a class="dropdown-item" (click)="splitViewShow()">Split </a>
+                            </div>
+                            <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal"
+                                data-target="#modalAdd" (click)="openNewAccountPop()">
+                                <span class="pull-left"><i class="pg-plus"></i></span>
+                                <span class="btn-label"><i class="fas fa-plus"></i></span>
+                                <span>New</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div *ngIf="!viewType && tableData!=undefined">
+                    <app-task-split-view [taskData]="tableData" [clientDetails]="task" [users]="users"
+                        (updateEvent)="recieveEvent($event)"></app-task-split-view>
+                </div>
+                <div *ngIf="viewType && tableData!=undefined">
+                    <app-task-grid-view [taskData]="tableData" [displayColumns]="displayColumns" [users]="users"
+                        (updatVieweGrid)="recieveEvent($event)"></app-task-grid-view>
+
+                    
+                </div>
+                <div style="text-align: center;">
+                <button *ngIf="totalCurrent < totalData && viewId == 0" 
+                            class="btn btn-small tfc-load-more btn-view-blue" (click)="loadMoreData(0)">Load More</button>
+                        <button *ngIf="totalCurrent < totalData && viewId > 0"
+                            class="btn btn-small tfc-load-more btn-view-blue" (click)="loadMoreData(viewId)">Load More</button>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade slide-down disable-scroll" style="margin:0 auto;" id="modalAddView" tabindex="-1" role="dialog"
+    aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <h5>Add New <span class="semi-bold">List View</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- <form role="form"> -->
+                    <div class="form-group-attached">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>List Name</label>
+                                    <input type="text" class="form-control" [(ngModel)]="sviewName">
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="margin-top:10px;">
+                                <p>Who sees this list view?</p>
+                                <div class="radio radio-success">
+                                    <input type="radio" [value]="0" id="male2" aria-invalid="false"
+                                        [(ngModel)]="sviewVisibility" name="optionyev">
+                                    <label for="male2">Only I can see this list view</label>
+                                    <input type="radio" [value]="1" name="optionyev" class="ml-3" id="female2"
+                                        [(ngModel)]="sviewVisibility">
+                                    <label for="female2">All users can see this list view</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- </form> -->
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-12 m-t-10 sm-m-t-10">
+                            <button type="button" class="btn btn-primary m-t-5 pull-right ml-1" data-dismiss="modal"
+                                (click)="createView()">Add
+                            </button>
+                            <button type="button" class="btn btn-secondary m-t-5 m-r-5 pull-right"
+                                data-dismiss="modal">Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+<!-- Rename View Modal -->
+<div class="modal fade slide-down disable-scroll" style="margin:0 auto;" id="modalRename" tabindex="-1" role="dialog"
+    aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <h5>Rename <span class="semi-bold">List View</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- <form role="form"> -->
+                    <div class="form-group-attached">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>List Name</label>
+                                    <input type="text" class="form-control" [(ngModel)]="sviewName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- </form> -->
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-12 m-t-10 sm-m-t-10">
+                            <button type="button" class="btn btn-primary m-t-5 pull-right ml-1" data-dismiss="modal"
+                                (click)="updateViewName()">Save
+                            </button>
+                            <button type="button" class="btn btn-secondary m-t-5 m-r-5 pull-right"
+                                data-dismiss="modal">Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<!-- /.Rename end-->
+<!-- Sharing View Modal -->
+<div class="modal fade slide-down disable-scroll" style="margin:0 auto;" id="modalsharing" tabindex="-1" role="dialog"
+    aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <h5>Sharing <span class="semi-bold">Settings</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- <form role="form"> -->
+                    <div class="form-group-attached">
+                        <div class="row">
+                            <div class="col-md-12" style="margin-top:10px;">
+                                <p>Who sees this list view?</p>
+                                <div class="radio radio-success">
+                                    <div class="radio radio-success radio-single mb-2">
+                                        <input type="radio" [value]="0" id="male" aria-invalid="false" name="optionyex"
+                                            [(ngModel)]="sviewVisibility">
+                                        <label for="male">Only I can see this list view</label>
+                                    </div>
+                                    <div class="radio radio-success radio-single mb-2">
+                                        <input type="radio" [value]="1" name="optionyex" id="female"
+                                            [(ngModel)]="sviewVisibility">
+                                        <label for="female">All users can see this list view</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- </form> -->
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-12 m-t-10 sm-m-t-10">
+                            <button type="button" class="btn btn-primary m-t-5 pull-right ml-1" data-dismiss="modal"
+                                (click)="updateViewVisibility()">Save
+                            </button>
+                            <button type="button" class="btn btn-secondary m-t-5 m-r-5 pull-right"
+                                data-dismiss="modal">Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<!-- /.Sharing end-->
+
+<!-- MODAL STICK UP SMALL ALERT -->
+<div class="modal fade slide-right1 fixed-left" id="FilterBox" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-aside">
+        <!-- <div class="modal-content-wrapper"> -->
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <div class="col-md-12 col-sm-12 p0">
+                        <button type="button" class="btn btn-light pull-left" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"
+                            (click)="saveFilter()">Save
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <!--Default filter-->
+                    <div class="FilterBlock">
+                        <div class="btn btn-light btn-block pull-left defaultBtn">
+                            <!-- <div (click)="AllFilterShowHide()"> -->
+                            <div>
+                                <div class="col-md-12 p0 BtnHead">Show me</div>
+                                <div class="col-md-12 p0 BtnContent">All Tasks</div>
+                            </div>
+                            <div class="FilterSmallpop" *ngIf="AllFilter">
+                                <div class="col-md-12" style="margin-top:10px;">
+                                    <p>Who sees this list view?</p>
+                                    <div class="radio radio-success">
+                                        <div class="col-md-12 p0">
+                                            <input type="radio" value="allAccount" name="optionyes" id="allAccount"
+                                                aria-invalid="false">
+                                            <label for="allAccount">All Tasks</label>
+                                        </div>
+                                        <div class="col-md-12 p0">
+                                            <input type="radio" checked="checked" value="myAccount" name="optionyes"
+                                                id="myAccount">
+                                            <label for="myAccount">My Tasks</label>
+                                        </div>
+
+                                        <div class="col-md-12 p0 mt5">
+                                            <button type="button" class="btn btn-light pull-right">Done</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="arrowFilter"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--New filter-->
+                    <!-- <div class="FilterBlock"> -->
+                    <div class="clear-both position-relative">
+                        <div class="btn btn-light btn-block float-left NewBtn" *ngIf="AllFilterNew"
+                            style="border: 0;height: 0; padding: 0;">
+                            <div class="FilterSmallpopNew topArrow">
+                                <div class="col-md-12 p0">
+                                    <div class="form-group">
+                                        <label>Fields</label>
+                                        <select class="form-control" [(ngModel)]="filterElement.column_id"
+                                            (change)="filterValChange()">
+                                            <option *ngFor="let col of allColumn" [value]="col.id">{{col.alias_name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 p0 mt5">
+                                    <div class="form-group">
+                                        <label>Operator</label>
+                                        <select class="form-control" [(ngModel)]="filterElement.operator_id">
+                                            <option *ngFor="let op of allOperators" [value]="op.id">{{op.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 p0 mt5">
+                                    <div class="form-group">
+                                        <label>value</label>
+                                        <input *ngIf="!date_format && !picklist_select" [(ngModel)]="filterElement.value" type="text"
+                                            class="form-control">
+                                        <div *ngIf="date_format && !picklist_select">
+                                            <input matInput [matDatepicker]="picker" class="form-control"
+                                                [(ngModel)]="filterElement.value" placeholder="Choose a date" disabled>
+                                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                                <i class="fa fa-calendar"></i>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                        </div>
+                                    <div *ngIf="!date_format && picklist_select">
+                                        <select class="form-control" [(ngModel)]="filterElement.value">
+                                            <option *ngFor="let dt of  filter_picklist " [value]="dt.name" >{{dt.name}}</option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="date_range" class="date_rng"> 
+                                        <a href="javascript:void(0)"  class="mb-1 ml-1 date_rng_dt" (click)="loadDate('PREVIOUS MONTH')">Previous Month</a>
+                                        <a href="javascript:void(0)"  class="mb-1 ml-1 date_rng_dt" (click)="loadDate('CURRENT MONTH')">Current Month</a>
+                                        <a href="javascript:void(0)"  class="mb-1 ml-1 date_rng_dt" (click)="loadDate('YESTERDAY')">Yesterday</a>
+                                        <a href="javascript:void(0)"  class="mb-1 ml-1 date_rng_dt" (click)="loadDate('TODAY')">Today</a>
+                                        <a href="javascript:void(0)"  class="mb-1 ml-1 date_rng_dt" (click)="loadDate('TOMORROW')">TOMORROW</a>
+                                        <a href="javascript:void(0)"  class="mb-1 ml-1 date_rng_dt" (click)="loadDate('custom')"><i class="fas fa-calendar"></i></a>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mt5 p0">
+                                    <button type="button" class="btn btn-light pull-right"
+                                        (click)="AddFilterElement()">Done
+                                    </button>
+                                </div>
+
+                                <div class="arrowFilter"></div>
+                            </div>
+
+                        </div>
+                        <div *ngFor="let f of filterArray;let i =index">
+                            <div class="btn btn-light btn-block pull-left NewBtn"  (click)="fetchFilterData(i)">
+                                <button type="button" class="close" (click)="removeFilter(i)">&times;</button>
+                                <div>
+                                    <div class="col-md-12 p0 BtnHead">{{colMap[f.column_id]}}</div>
+                                    <div class="col-md-12 p0 BtnContent">{{opMap[f.operator_id]}} {{f.value}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Add Remove filter-->
+                    <div class="col-md-12 col-sm-12 p0 mt5">
+                        <a (click)="NewFilterShowHide()" class="pull-left">Add Filter</a>
+                        <a (click)="filterArray=[]" class="pull-right">Remove All</a>
+                    </div>
+                </div>
+            </div>
+        <!-- </div> -->
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- END MODAL STICK UP SMALL ALERT -->
+
+
+<!-- Add View Modal -->
+<div class="modal fade slide-down disable-scroll" id="modalFieldisp" tabindex="-1" role="dialog"
+    aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <h5>Select Fields to Display</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" *ngIf="allColumn!=undefined && columns!=undefined">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Available Fields</label>
+                                <select class="form-control" multiple size="7" [(ngModel)]="aFields">
+                                    <option *ngFor="let col of getAvailableFields()" [value]="col">{{col.alias_name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 ">
+                        <div class="button-list mt-3">
+                            <button type="button" (click)="moveToVisisble()"
+                                class="btn btn-success waves-effect waves-light"><i
+                                    class="fas fa-arrow-right"></i></button>
+                            <button type="button" (click)="moveToAvailable()"
+                                class="btn btn-danger waves-effect waves-light"><i
+                                    class="fas fa-arrow-left"></i></button>
+                            <button type="button" (click)="moveUp()" class="btn btn-info waves-effect waves-light"><i
+                                    class="fas fa-arrow-up"></i></button>
+                            <button type="button" (click)="moveDown()"
+                                class="btn btn-warning waves-effect waves-light"><i
+                                    class="fas fa-arrow-down"></i></button>
+                                </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Visible Fields</label>
+                                <select class="form-control" multiple size="7" [(ngModel)]="visiFields">
+                                    <option *ngFor="let col of getVisibleFields()" [value]="col">{{col.alias_name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MOdal Footer -->
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-12 m-t-10 sm-m-t-10">
+                            <button type="button" class="btn btn-primary m-t-5 pull-right ml-1" data-dismiss="modal"
+                                (click)="updateColumns()">Add
+                            </button>
+                            <button type="button" class="btn btn-secondary m-t-5 m-r-5 pull-right"
+                                data-dismiss="modal">Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- MOdal Footer -->
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+
+<style type="text/css">
+    .date_rng_dt{
+        font-size: 12px;
+    }
+</style>

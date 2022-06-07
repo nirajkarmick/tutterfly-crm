@@ -1,0 +1,192 @@
+#modalEdit select {
+    -webkit-appearance: button !important;
+}
+#modalOwner select {
+    -webkit-appearance: button !important;
+}
+   .comp-selectbx  .select2-container  {
+  z-index: 5000 !important; 
+}
+#modalOwner .modal-dialog{
+	margin-top: 8%;
+
+}
+#modalOwner .modal-body{
+	/*min-height: 200px;
+	margin-top: 34px;*/
+
+}
+::ng-deep .mat-standard-chip{
+    padding: 3px 8px !important;
+    margin: 4px !important;
+}
+
+.form-group.autocomplete { 
+    z-index: 1;
+}
+
+
+/*
+
+.sendBtn{
+  width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: auto;
+  border: 1px solid #6db5ce;
+  border-radius: 50%;
+  padding: 9px;
+  margin-left: 5px;
+  color: #006dcc;
+  background: #92cfe4;
+  cursor: pointer;
+}
+.whatapp_body{min-height:200px;position: relative;z-index: 1;flex: 1 1 0;overflow-y: scroll;}
+.whatappContainer{
+  box-shadow: 0 1px 7px 0 #ddd;
+  padding: 5px;
+  background: #e5ddd5;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: background-color .3s ease;
+  transform-origin: left top;
+  position: relative;
+}
+.whatsap_bg{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 85%;
+  opacity:.06;
+}
+
+.mb-12{margin-bottom:12px;}
+.message-in{align-items: flex-start;}
+.mb-12{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+.msgBox {
+  border-radius: 7.5px;
+}
+.msgBox_C {
+  position: relative;
+  flex: none;
+  font-size: 14.2px;
+  line-height: 19px;
+  color: #303030;
+}
+.Bubblearrow {
+  position: absolute;
+  top: 0;
+  z-index: 100;
+  display: block;
+  width: 8px;
+  height: 13px;
+}
+.message-in .Bubblearrow {
+  color: #fff;
+}
+.message-in .Bubblearrow, .tail-override-left .Bubblearrow {
+  left: -8px;
+}
+.message-in .msgBox_C .Nm1g1 {
+  border-top-left-radius: 0;
+}
+.message-in .Nm1g1 {
+  background-color: #fff;
+}
+._22AX6 {
+  box-shadow: 0 1px .5px #000,.13);
+}
+._22Msk {
+  padding:6px 7px 18px 9px;
+}
+._1beEj {
+  position: relative;
+  z-index: 10;
+}
+._1beEj {
+  float: right;
+  margin: 0 0 -5px 4px;
+}
+._15K2I {
+  height: 15px;
+  font-size: 11px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, .45);
+  white-space: nowrap;
+}
+._2NDV3, .kOrB_ {
+  display: inline-block;
+}
+.kOrB_ {
+  vertical-align: top;
+}
+._1Gy50 {
+  position: relative;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+.i0jNr {
+  visibility: visible;
+}
+.selectable-text {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+svg {
+  display: block;
+  pointer-events: none;
+}
+.message-out {
+  align-items: flex-end;
+}
+.message-out .Bubblearrow {
+  color: #dcf8c6;
+}
+.message-out .Nm1g1 {
+  background-color: #dcf8c6;
+}
+.message-out .msgBox_C .Nm1g1, .message-in .msgBox_C .Nm1g1 {
+  border-top-right-radius: 0;
+}
+.message-out .Bubblearrow{
+  right: -8px;
+}
+.mb-12, .mb-12 {
+  padding-right: 2%;
+  padding-left: 2%;
+}
+.whatappHead{
+  background: #ededed;
+  padding: 10px;
+}
+.input-group{padding: 0 20px 0 5px;}
+.whatappHead .form-control{
+  /*background: transparent;
+  margin-right: 15px;
+}
+@media screen and (min-width: 1301px) {
+  .msgBox_w {
+    max-width: 65%;
+  }
+}
+@media screen and (min-width: 1201px) {
+  .msgBox_w {
+    max-width: 70%;
+  }
+}
+
+*/

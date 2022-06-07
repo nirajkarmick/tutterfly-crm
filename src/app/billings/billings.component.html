@@ -1,0 +1,111 @@
+<!--<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Billing Overview</h4>
+        </div>
+    </div>
+</div>-->
+<div class="row mt20 d-flex">
+    <div class="col-md-10 m-auto">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box ">
+                    <h4 class="page-title">Billing Overview</h4>
+                    <p class="m-0" > 
+                            <span class="pull-right" style="position: absolute; bottom: 10%; right: 2%;">
+                                <button class="btn btn-warning btn-sm text-blue mb-2" 
+                                *ngIf="UpgradePlanStatus" 
+                                [routerLink]="['/subscription-list']">
+                                    <i class="fas fa-crown"></i>&nbsp;Upgrade</button>
+                            </span>
+                        </p>
+                </div>                          
+            </div>
+            <div class="col-md-6 mb-3 d-flex">
+                <div class="card-box mb-0 w-100 card pay_cards">
+                    <mat-spinner color="accent" style="margin: auto;" *ngIf="!billing_estimate"></mat-spinner>
+                    <div class="bill-estimate mb-1 d-flex justify-content-between" *ngIf="billing_estimate">
+                        <h5><i class="fa fa-money-bill mr-1"></i>Bill estimate</h5> 
+                    </div>
+                    <div class="estimate_data" >
+                        <p class="plan_price m-0" *ngIf="billing_estimate && billing_estimate.currency_code">
+                            <span *ngIf="billing_estimate.total_amount!='0'">
+                                    <i class="fas fa-rupee-sign" *ngIf="billing_estimate.currency_code=='INR'"></i> 
+                                     <i class="fas fa-dollar-sign" *ngIf="billing_estimate.currency_code!='INR'"></i> 
+                                {{billing_estimate.total_amount}} 
+                            </span> 
+                            <small  *ngIf="billing_estimate.total_amount!='0'">
+                                (tax inclusive)
+                            </small>
+                            <strong class="d-block">{{billing_estimate.product_name}} <small>{{billing_estimate.plan_name}}</small></strong>
+                        </p>
+                        <p class="m-0 pt-2" *ngIf="billing_estimate && billing_estimate.product_name">Next Charge: 
+                            <span>  
+                            {{billing_estimate.next_due_date | date: 'dd MMM yyyy'}}
+                            </span> 
+                        </p>   
+               
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3 d-flex">
+                <div class="card-box mb-0 w-100 card pay_cards" >
+                    <mat-spinner color="accent" style="margin: auto;" *ngIf="!billing_history"></mat-spinner>
+                    <div class="bill-estimate mb-2 d-flex justify-content-between" *ngIf="billing_history">
+                        <h5><i class="fa fa-th-list mr-1"></i>Bill history</h5>
+                        <p class="mb-0"><a href="javascript:void(0);" [routerLink]="['/adminMain',{ outlets: { adminSection: ['billing-history'] }}]"><i class="fas fa-eye"></i></a></p>
+                    </div>
+                    <div class="estimate_data" *ngIf="billing_history">
+                        <ul class="list-unstyled">
+                            <li class="d-flex justify-content-between" *ngFor="let plan of billing_history">
+                                <span *ngIf="plan.amount">
+                                {{plan.starts_at | date: 'dd MMM yyyy'}} 
+                                <span>
+                                <i class="fas fa-rupee-sign" *ngIf="plan.currency_symbol=='₹'"></i>
+                                <i class="fas fa-dollar-sign" *ngIf="plan.currency_symbol!='₹'"></i>
+                                 {{plan.amount*plan.quantity}}</span>
+                            </span>
+                             </li>
+                        </ul>
+                        <p class="mb-0"><a href="javascript:void(0);" [routerLink]="['/adminMain',{ outlets: { adminSection: ['billing-history'] }}]" *ngIf="billing_history_count>4">View All </a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3 d-flex">
+                <div class="card-box mb-0 w-100 card pay_cards">
+                    <mat-spinner color="accent"  style="margin: auto;" *ngIf="!billing_user"></mat-spinner>
+                    <div class="bill-estimate mb-2 d-flex justify-content-between" *ngIf="billing_user">
+                        <h5><i class="fa fa-users mr-1"></i>Users details</h5>
+                        <p class="mb-0"><a href="javascript:void(0);" [routerLink]="['/adminMain',{ outlets: { adminSection: ['users'] }}]"><i class="fas fa-eye"></i></a></p>
+                    </div>
+                    <div class="estimate_data"  *ngIf="billing_user">
+                        <p class="mb-0"><Strong>Purchased users license:</Strong>{{billing_user.total_license}}</p>
+                        <p class="mb-0"><Strong>Total Users:</Strong>{{billing_user.total_user}}</p>
+                        <p class="mb-0"><Strong>Active Users:</Strong>{{billing_user.total_active_user}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3 d-flex">
+                <div class="card-box mb-0 w-100 card pay_cards">
+                    <mat-spinner color="accent" style="margin: auto;" *ngIf="!billing_contact"></mat-spinner>
+                    <div class="bill-estimate mb-2 d-flex justify-content-between" *ngIf="billing_contact">
+                        <h5><i class="fa fa-id-card mr-1"></i>Billing contacts</h5>
+                       <!--  <p class="mb-0"><a href="javascript:void(0);"><i class="fas fa-edit"></i></a></p> -->
+                    </div>
+                    <div class="estimate_data" *ngIf="billing_contact">
+                        <div class="d-flex">
+                            <picture class="billingprofile mr-2">
+                                <img src="{{userImage}}" alt="" width="50" class="rounded-circle mr-2" onError="this.src='assets/img/tfc-user-avatar.png'">
+                            </picture>
+                            <div class="billingId">
+                                <strong class="mb-0">{{billing_contact.billing_address.attention}}</strong>
+                                <p class="mb-0"><i class="fa fa-envelope mr-1"></i>{{billing_contact.email_id}}</p>
+                                 <p class="mb-0"><i class="fa fa-map-marker mr-1"></i>{{billing_contact.billing_address.street1}} {{billing_contact.billing_address.city}} {{billing_contact.billing_address.state}} {{billing_contact.billing_address.country}} {{billing_contact.billing_address.zip_code}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

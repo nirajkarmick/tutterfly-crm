@@ -1,0 +1,10 @@
+.contactListcont {
+    overflow: auto;
+    overflow-x: auto;
+    min-height: 60vh;
+    height: 60vh;
+}
+.oppcons .content_{
+	overflow: visible;
+    margin-top: 12px;
+}

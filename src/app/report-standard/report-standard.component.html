@@ -1,0 +1,113 @@
+<div class=" no-padding container-fixed-lg bg-white123 ClientDetails fileMainCont">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right" id="export_rep_btn">
+                        <button type="button" class="btn btn-primary" [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reports-standard-list'] }}]"
+                                [queryParams]="{ 'type':report_type }">Back</button>
+                                <!-- <a class="btn btn-secondary pull-right ml-2" 
+                                   (click)="exportReport()" href="javascript:void(0)" *ngIf="reportData && reportData.report_results && reportData.report_results.length>0 && totalCurrent >= totalData" title="Export To Csv">Export
+                                    <i class="fas fa-file-import" *ngIf="not_exported"></i>
+                                    <i class="fa fa-refresh fa-spin" *ngIf="!not_exported"></i>
+                               </a> -->
+                                <a class="btn btn-secondary pull-right ml-2" 
+                                   (click)="exportReport()" href="javascript:void(0)" *ngIf="reportData && reportData.report_results && reportData.report_results.length>0" title="Export To Csv">Export
+                                    <i class="fas fa-file-import" *ngIf="not_exported"></i>
+                                    <i class="fa fa-refresh fa-spin" *ngIf="!not_exported"></i>
+                               </a>
+                    </div>
+                    <h4 class="page-title"> Standard Report</h4>
+
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex" *ngIf="reportData">
+            <div class="col-xl-12 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="header-title mb-0 text-capitalize">{{report_type.replace('_', ' ')}} <span *ngIf="reportData && reportData.total">({{reportData.total}})</span>
+                         <span class="float-right" *ngIf="reportName">{{reportName}}</span></h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="st_rep_section" *ngIf="reportData.closed_sum">
+                            <h5> <strong>Total Closed</strong>- {{reportData.closed_sum}}</h5> 
+                            <h5 style="display:none;"> <strong>Total Passengers</strong>- {{reportData.closed_sum}}</h5> 
+                            
+                        </div>
+                        <div class="reportsNewDesign" id="oppTablereport" *ngIf="oppChartreport==true" >
+                           
+                            <div class="tab-content1">
+                                
+                                <div class="tab-pane active" id="reportweekly"  (scroll)="onScroll($event)" style="overflow-y: scroll;height: 600px;">
+                                    <table class="table table-hover table-centered mb-0">
+                                        <thead  class="reportTabHead">
+                                        <tr>
+                                            <th *ngFor="let obj of reportData.display_columns" class="head_sticky_r">{{obj.alias_name}}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                <tr  *ngFor="let o of reportData.report_results">
+                                    <!-- <td>ASOS Ridley High Waist</td> -->
+                                    <td  *ngFor="let o1 of getKeys(o)" title="{{o[o1]}}">
+                                            <span *ngIf="isEmptyObject(o[o1])=='s'"> 
+                                            	<span *ngIf="o1=='first_name' || o1=='last_name' || o1=='name'" >
+                                            		<a href="javascript:void(0)"  (click)="navigate(o1,o)">{{o[o1]}}</a>
+                                            	</span>
+                                            	<span *ngIf="o1!='first_name' && o1!='last_name' && o1!= 'name'">
+                                                
+                                                
+                                                     <span *ngIf="o1!='created_at' && o1!='updated_at'  && o1!='dob'   && o1!='close_date'   && o1!='travel_date'"> {{o[o1]}}</span>
+                                                 <span *ngIf="o1=='created_at' || o1=='updated_at' || o1=='dob'   || o1=='close_date'  || o1=='travel_date'">{{o[o1] | date: 'dd MMM yyyy'}}</span>
+                                            </span>
+                                            
+                                            </span>
+                                            <span *ngIf="isEmptyObject(o[o1])=='o'"> {{o[o1].name}}</span>
+                                            <span *ngIf="isEmptyObject(o[o1])=='a'">
+                                                <span *ngFor="let col of o[o1]; let i=index">
+                                                  <span *ngIf="i >0">{{col.name}},</span>
+                                                  <span *ngIf="i == 0">{{col.name}}</span>
+                                                </span>
+                                            </span>
+                                    </td>
+                                   
+                                </tr>   
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div id="oppChartreport" *ngIf="oppChartreport==false" class="">
+                            <div id="combine-chart" data-colors="#e3eaef,#3283f6,#44cf9c" class="flot-chart mt-5" style="height: 350px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<style type="text/css">
+.head_sticky_r{
+  position: sticky;
+    top: -2px;
+    background: #fff;
+}
+
+#export_rep_btn .buttonload {
+  background-color: #4CAF50;
+  /*border: none; */
+  color: white; 
+  font-size: 16px; 
+  margin-left: 10px;
+}
+
+/* Add a right margin to each icon */
+#export_rep_btn .fa {
+  /*margin-left: -12px;
+  margin-right: 8px;*/
+}
+
+</style>

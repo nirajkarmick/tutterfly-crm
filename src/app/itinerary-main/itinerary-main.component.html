@@ -1,0 +1,29 @@
+
+<!--<div class="fixed-header dashboard menu-pin menu-behind  windows desktop  pace-done pace-done">
+    <app-header [users]="users" id="adminHeaderFixed"></app-header>
+</div>
+<div class="mainitinary-container container-fluid">
+    <div class="row">
+        <div class="rightside-maincontainer" >
+            <div class="page-content-wrapper content-page">
+                <spinner [backgroundColor]="'#006dcc'" [spinner]="spinkit.skThreeBounce"></spinner>
+                <div class="content adminWrapperContent">
+                    <div class="AdminSec">
+                        <router-outlet name="itinerarySection"></router-outlet>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+
+
+<div id="wrapper">
+    <app-header id="mainCRMheader" [users]="users" ></app-header>
+    <article class="bodyContainer-content1 content-page">
+        <spinner class="app-spin-loader"  [backgroundColor]="'#006dcc'" [spinner]="spinkit.skThreeBounce"></spinner>
+        <router-outlet name="itinerarySection"></router-outlet>        
+        <app-footer id="footerCRM"></app-footer>
+    </article>
+</div>

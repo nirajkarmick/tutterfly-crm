@@ -1,0 +1,898 @@
+<div class="newviewitinerarymodal" id="previewModal" style="display: none">
+  <button class="closebtn-newCreateitinerarymodal" (click)="close_pre_modal()" style="z-index: 99;"><i class="fa fa-close"></i></button>
+  <div class="itin_cont_prev" *ngIf="itineraryData!=undefined">
+    <a *ngIf="itineraryData.pdf_file" class="btn btn-blue  btn-default pull-right ml-1 mt-1"
+       [attr.href]="s3_pdf+itineraryData.pdf_file" title="View PDF" target="_blank" style="
+      position: absolute;
+      z-index: 99;padding: 9px;
+      font-size: 14px;
+      "><i _ngcontent-eld-c17="" class="fas fa-file-pdf-o mr-1"></i>View PDF</a>
+    <a class="btn btn-warning tn-default pull-right ml-1 mt-1" href="javascript:void(0);"
+       (click)="download_itin('itin_cont_prev')" title="Download" style="
+         position: absolute;
+         z-index: 99;padding: 9px;
+         font-size: 14px; left:10%;display: none"> <i class="fa fa-download mr-1"></i> Download</a>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <title>{{itineraryData.name}}</title>
+      <link href='https://fonts.googleapis.com/css?family=Raleway:400,500,700,800,900,300 | Lato:400,700,300italic| Playfair+Display:400,700,900,400italic,700italic,900italic' rel='stylesheet' type='text/css'/>
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+      <style>
+        *, ::after, ::before {
+          box-sizing: border-box;
+        }
+
+        * {
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          font-family: sans-serif;
+        }
+
+        h1 {
+          font-family: 'Lobster', cursive;
+        }
+
+        h2 {
+          color: #f58b07;
+          margin-bottom: 8px;
+        }
+
+        h3 {
+          color: #f58b07;
+          margin-bottom: 8px;
+        }
+
+        body {
+          font-family: sans-serif;
+        }
+
+        div#container-basic {
+          background: white;
+          display: block;
+          margin: 0 auto;
+        }
+
+        div#container-basic {
+          width: 210mm;
+          height: 297mm;
+          overflow: hidden;
+        }
+
+        #container-basic .company-name h1 {
+          color: #044177;
+          text-align: center;
+          font-size: 42px;
+        }
+
+        #container-basic .company-name p {
+          font-size: 18px;
+        }
+
+        #container-basic .company-name p span {
+          font-size: 20px;
+          font-weight: 600;
+          color: #F16A25;
+        }
+
+        #container-basic .destination li {
+          margin-right: 18px;
+          display: flex;
+          align-items: center;
+        }
+
+        #container-basic .destination li:before {
+          content: '';
+          border: 2px solid #044177;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          margin-right: 6px;
+          display: inline-block;
+        }
+
+        /*===================================days style==========================================*/
+        div.container-days {
+          background: white;
+          display: block;
+          margin: 0 auto;
+        }
+
+        div.container-days {
+          width: 210mm;
+          height: 297mm;
+          overflow: hidden;
+        }
+
+        .container-days .company-name h1 {
+          color: #044177;
+          text-align: center;
+          font-size: 42px;
+        }
+
+        .container-days .company-name p {
+          font-size: 18px;
+        }
+
+        .container-days .company-name p span {
+          font-size: 20px;
+          font-weight: 600;
+          color: #F16A25;
+        }
+
+        .container-days .destination li {
+          margin-right: 18px;
+          display: flex;
+          align-items: center;
+        }
+
+        .container-days .destination li:before {
+          content: '';
+          border: 2px solid #044177;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          margin-right: 6px;
+          display: inline-block;
+        }
+
+        .container-days h2 {
+          color: #f58b07;
+          margin-bottom: 4px;
+        }
+
+        .container-days h3 {
+          color: #f58b07;
+          margin-bottom: 4px;
+        }
+
+        /*.container-days .poi-location .poi-int-flx .poi-flx:nth-child(even){padding-left:10px;}
+        .container-days .poi-location .poi-int-flx .poi-flx:nth-child(odd){padding-right:10px;}
+        .container-days .poi-location .poi-int-flx .poi-flx-nxt{width: 100%;margin-bottom: 4px;}*/
+        .container-days .poi-location > div:nth-child(even) {
+          padding-left: 10px;
+        }
+
+        .container-days .poi-location > div:nth-child(odd) {
+          padding-right: 10px;
+        }
+
+        .container-days .poi-location > div > div {
+          width: 100%;
+          margin-bottom: 4px;
+        }
+
+        .container-days .transport-detial {
+          margin-bottom: 4px;
+        }
+
+        .container-days .poi-location h3, .container-days .transport-detial h3 {
+          color: #2277ba;
+          font-size: 15px;
+          margin-bottom: 3px;
+        }
+
+        .container-days .transport-detial p, .container-days .poi-location p {
+          font-size: 13px;
+          color: #777;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+
+        .no_activity_desc p {
+          font-size: 13px;
+          color: #777;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 6 !important;
+          -webkit-box-orient: vertical;
+        }
+
+        /*=============flight style===================*/
+        div.container-flight {
+          background: white;
+          display: block;
+          margin: 0 auto;
+        }
+
+        div.container-flight {
+          width: 210mm;
+          height: 297mm;
+          overflow: hidden;
+        }
+
+        .container-flight .company-name h1 {
+          color: #044177;
+          text-align: center;
+          font-size: 42px;
+        }
+
+        .container-flight .company-name p {
+          font-size: 18px;
+        }
+
+        .container-flight .company-name p span {
+          font-size: 20px;
+          font-weight: 600;
+          color: #F16A25;
+        }
+
+        .container-flight .destination li {
+          margin-right: 18px;
+          display: flex;
+          align-items: center;
+        }
+
+        .container-flight .destination li:before {
+          content: '';
+          border: 2px solid #044177;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          margin-right: 6px;
+          display: inline-block;
+        }
+
+        .container-flight h2 {
+          color: #f58b07;
+          margin-bottom: 8px;
+        }
+
+        .container-flight .poi-location > div:nth-child(even) {
+          padding-left: 10px;
+        }
+
+        .container-flight .poi-location > div:nth-child(odd) {
+          padding-right: 10px;
+        }
+
+        .container-flight .poi-location > div > div {
+          margin-bottom: 4px;
+        }
+
+        .container-flight .transport-detial {
+          margin-bottom: 4px;
+        }
+
+        .container-flight .poi-location h3, .container-flight .transport-detial h3 {
+          color: #2277ba;
+          font-size: 15px;
+          margin-bottom: 3px;
+        }
+
+        .container-flight .transport-detial p, .container-flight .poi-location p {
+          font-size: 13px;
+          color: #777;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+
+        .container-flight .o-flight {
+          position: relative;
+          border-radius: 8px;
+          box-shadow: rgb(0 0 0 / 20%) 0 1px 3px 1px;
+          background-color: #fff;
+          padding: 8px;
+        }
+
+        .container-flight .flight {
+          position: relative;
+          border-radius: 8px;
+          box-shadow: rgb(0 0 0 / 20%) 0 1px 3px 1px;
+          background-color: #fff;
+          margin-top: 10px;
+          padding: 16px 8px;
+        }
+
+        .basic-flight {
+          position: relative;
+          border-radius: 8px;
+          box-shadow: rgb(0 0 0 / 20%) 0 1px 3px 1px;
+          background-color: #fff;
+          margin-top: 10px;
+          padding: 16px 8px;
+        }
+
+        .basic-flight > div {
+          display: flex;
+          align-items: center;
+        }
+
+        .basic-flight .flight-name {
+          margin-left: 8px;
+          font-size: 12px;
+        }
+
+        .basic-flight .flight-name, h4 {
+          color: #777;
+        }
+
+        .basic-flight h4 {
+          font-size: 16px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          padding: 3px;
+        }
+
+        .basic-flight .flight-name small {
+          display: block;
+          margin-top: 3px;
+        }
+
+        .basic-flight .font12 {
+          fill: #90949c;
+        }
+
+        .basic-flight .day-flight {
+          margin: 12px 0 0;
+        }
+
+        .basic-flight .transform-flight {
+          border-top: 1px dashed #ddd;
+          padding-top: 13px;
+        }
+
+        .basic-flight-sec h3 {
+          color: #2277ba;
+          font-size: 15px;
+          margin-bottom: 3px;
+        }
+
+        .container-flight .flight > div {
+          display: flex;
+          align-items: center;
+        }
+
+        .container-flight .flight-name {
+          margin-left: 8px;
+          font-size: 12px;
+        }
+
+        .container-flight .flight-name, h4 {
+          color: #777;
+          display:block;
+        }
+
+        .container-flight h4 {
+          font-size: 16px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          padding: 3px;
+        }
+
+        .container-flight .flight-name small {
+          display: block;
+          margin-top: 3px;
+        }
+
+        .container-flight .font12 {
+          fill: #90949c;
+        }
+
+        .container-flight .day-flight {
+          margin: 12px 0 0;
+        }
+
+        .container-flight .transform-flight {
+          border-top: 1px dashed #ddd;
+          padding-top: 13px;
+        }
+
+        /*===================================inclusion style==========================================*/
+        div.container-incl {
+          background: white;
+          display: block;
+          margin: 0 auto;
+        }
+
+        body {
+          font-family: sans-serif;
+        }
+
+        div.container-incl {
+          width: 210mm;
+          height: 297mm;
+          overflow: hidden;
+        }
+
+        .container-incl .company-name h1 {
+          color: #044177;
+          text-align: center;
+          font-size: 42px;
+        }
+
+        .container-incl .company-name p {
+          font-size: 18px;
+        }
+
+        .container-incl .company-name p span {
+          font-size: 20px;
+          font-weight: 600;
+          color: #F16A25;
+        }
+
+        .container-incl .destination li {
+          margin-right: 18px;
+          display: flex;
+          align-items: center;
+        }
+
+        .container-incl .destination li:before {
+          content: '';
+          border: 2px solid #044177;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          margin-right: 6px;
+          display: inline-block;
+        }
+
+        .container-incl h2 {
+          color: #f58b07;
+          margin-bottom: 8px;
+        }
+
+        .container-incl .poi-location > div:nth-child(even) {
+          padding-left: 10px;
+        }
+
+        .container-incl .poi-location > div:nth-child(odd) {
+          padding-right: 10px;
+        }
+
+        .container-incl .poi-location > div > div {
+          margin-bottom: 4px;
+        }
+
+        .container-incl .transport-detial {
+          margin-bottom: 4px;
+        }
+
+        .container-incl .poi-location h3, .container-incl .transport-detial h3 {
+          color: #2277ba;
+          font-size: 15px;
+          margin-bottom: 3px;
+        }
+
+        .container-incl .transport-detial p, .container-incl.poi-location p {
+          font-size: 13px;
+          color: #777;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+      </style>
+    </head>
+    <body>
+    <div size="A4" style="position: relative" id="container-basic">
+      <div class="company-placeholder" style="position: absolute;z-index: 3;">
+        <p style="background-color: rgba(0,0,0, .3);display: flex;align-items: center;padding: 16px 38px 16px 16px;color: #fff;font-size: 22px;border-bottom-right-radius: 56px;">
+                     <span>
+                     <img src="assets/img/pdfimages/tutterfly-logo.png" *ngIf="company_logo=='' || !company_logo" alt="" style="width:36px;margin-right:16px;">
+                     <img src="{{company_logo}}" *ngIf="company_logo && company_logo!=''" alt="" style="width:36px;margin-right:16px;">
+                     </span>
+          <span *ngIf="company_name==''">TutterflyCRM</span>
+          <span *ngIf="company_name!=''">{{company_name}}</span>
+        </p>
+      </div>
+      <img src="{{itineraryData.banner_image}}" alt="" style="height:500px;position: absolute;z-index: 1;">
+      <img src="assets/img/pdfimages/basic-detail.png" alt="" style="width:100%;height:100%;position: absolute;z-index: 2;">
+      <!-- <img src="assets/img/pdfimages/tutterfly-logo.png" alt="" style="position: absolute;z-index: 2;bottom: 70px;width: 73%;right: 0;opacity: .1;pointer-events: none;"> -->
+      <div style="position: relative;z-index: 3;">
+        <div class="company-name" style="padding-top:520px;">
+          <h1>{{itineraryData.name}}</h1>
+          <div style="display:flex;flex-wrap: wrap;padding: 20px;">
+            <p *ngIf="itineraryData && itineraryData.number_of_days" style="display:flex;align-items:center;width:50%;float:left;margin-bottom:10px;">
+              <img src="assets/img/pdfimages/time.png" style="width:30px;margin-right:10px;"><span>Duration:</span>&nbsp;{{itineraryData.number_of_days - 1}}N/{{itineraryData.number_of_days}}D</p>
+            <p style="display:flex;align-items:center;width:50%;float:left;margin-bottom:10px;" *ngIf="itineraryData && itineraryData.destinations">
+              <img src="assets/img/pdfimages/route.png" style="width:30px;margin-right:10px;">
+              <span *ngIf="itineraryData.destinations && itineraryData.destinations.length">Start From:</span>&nbsp;{{itineraryData.destinations[0].name}}</p>
+          </div>
+        </div>
+        <div class="basic-flight-sec" *ngIf="(flights && flights.originating_flights &&  (flights.originating_flights.length==1 || flights.originating_flights.length==0)) && (flights && flights.returning_flights && (flights.returning_flights.length==1 || flights.returning_flights.length==0))">
+
+          <div style="padding:10px 20px 0;">
+            <div class="poi-location" style="display: flex;flex-wrap: wrap;margin-bottom: 13px;">
+
+              <div style="margin-bottom:10px;width: 48%;" *ngIf="(flights && flights.originating_flights && flights.originating_flights.length>0)">
+                <h3 style="margin-bottom: 5px;">Originating Flight:</h3>
+                <div class="day-flight" *ngFor="let ob_flight of flights.originating_flights">
+                  <div class="flight basic-flight">
+                    <div>
+                      <div style="display:flex;align-items:center;">
+                        <div style="min-width: 30px;width: 30px;height: 30px;margin: 3px;padding: 3px;box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);border-radius: 4px;background-color: #f9f9fa;"><img src="assets/img/pdfimages/airlineLogo/{{ob_flight.airline_code}}.jpg" alt="" style="width:30px;"></div>
+                        <h5 class="flight-name">{{ob_flight.airline}} <small>{{ob_flight.airline_code}}-{{ob_flight.flight_number}}</small></h5>
+                      </div>
+                      <div style="display: flex;align-items: center;flex:2;margin-left: 24px;">
+                        <h4>{{ob_flight.dep_time}} <small>{{ob_flight.dep_iata}}</small></h4>
+                        <div style="display: flex;align-items: center;width: 100%;">
+                          <svg _ngcontent-bpw-c19="" class="font12 flex-fill-0 bg-fill-grey" height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <path _ngcontent-bpw-c19="" d="M9.442 13.886l-5.488-.491-1.358 2.632a.5.5 0 0 1-.436.27l-1.318.022a.5.5 0 0 1-.494-.616l.97-4.064-.975-4.07a.5.5 0 0 1 .479-.617l1.325-.021a.5.5 0 0 1 .453.274l1.415 2.787 5.44-.52-2.22-7.753A.8.8 0 0 1 8.006.7h.857a.8.8 0 0 1 .672.367l5.33 8.269h4.83a4 4 0 0 1 1.8.427l1.485.748a1.308 1.308 0 0 1-.003 2.338l-1.486.744a4 4 0 0 1-1.79.422h-4.858L9.534 22.33a.8.8 0 0 1-.674.37h-.858a.8.8 0 0 1-.77-1.018l2.21-7.795z"></path>
+                          </svg>
+                          <div style="position: relative;width: 100%;">
+                            <span style="position: absolute;width: 95%;height: 2px;-webkit-transform: translateY(-50%);transform: translateY(-50%);background-color: #ddd;margin: 0 4px;"></span>
+                            <span style="width: 8px;height: 8px;display: block;position: absolute;border-radius: 5px;transform: translate(-50%,-50%);background-color: #fff;border: 2px solid #ddd;left:40%"></span>
+                          </div>
+                          <svg _ngcontent-bpw-c19="" xmlns:xlink="http://www.w3.org/1999/xlink" class="bg-fill-grey flex-fill-0 font12" height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <defs _ngcontent-bpw-c19="">
+                              <path _ngcontent-bpw-c19="" d="M12.974 22.67a1.5 1.5 0 0 1-2.115-.166C5.96 16.767 3.5 12.46 3.5 9.5a8.5 8.5 0 0 1 17 0c0 2.96-2.46 7.267-7.36 13.004a1.5 1.5 0 0 1-.166.166zM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" id="pin-line-filled_24px-a"></path>
+                            </defs>
+                            <use _ngcontent-bpw-c19="" xlink:href="#pin-line-filled_24px-a"></use>
+                          </svg>
+                        </div>
+                        <h4>{{ob_flight.arr_time}} <small>{{ob_flight.arr_iata}}</small></h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:10px;width: 48%; margin-left: 3%;" *ngIf="(flights && flights.returning_flights && flights.returning_flights.length>0)">
+                <h3 style="margin-bottom: 5px;">Returning Flight:</h3>
+                <div class="day-flight" *ngFor="let ob_flight of flights.returning_flights">
+                  <div class="flight basic-flight">
+                    <div>
+                      <div style="display:flex;align-items:center;">
+                        <div style="min-width: 30px;width: 30px;height: 30px;margin: 3px;padding: 3px;box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);border-radius: 4px;background-color: #f9f9fa;"><img src="assets/img/pdfimages/airlineLogo/{{ob_flight.airline_code}}.jpg" alt="" style="width:30px;"></div>
+                        <h5 class="flight-name">{{ob_flight.airline}} <small>{{ob_flight.airline_code}}-{{ob_flight.flight_number}}</small></h5>
+                      </div>
+                      <div style="display: flex;align-items: center;flex:2;margin-left: 24px;">
+                        <h4>{{ob_flight.dep_time}} <small>{{ob_flight.dep_iata}}</small></h4>
+                        <div style="display: flex;align-items: center;width: 100%;">
+                          <svg _ngcontent-bpw-c19="" class="font12 flex-fill-0 bg-fill-grey" height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <path _ngcontent-bpw-c19="" d="M9.442 13.886l-5.488-.491-1.358 2.632a.5.5 0 0 1-.436.27l-1.318.022a.5.5 0 0 1-.494-.616l.97-4.064-.975-4.07a.5.5 0 0 1 .479-.617l1.325-.021a.5.5 0 0 1 .453.274l1.415 2.787 5.44-.52-2.22-7.753A.8.8 0 0 1 8.006.7h.857a.8.8 0 0 1 .672.367l5.33 8.269h4.83a4 4 0 0 1 1.8.427l1.485.748a1.308 1.308 0 0 1-.003 2.338l-1.486.744a4 4 0 0 1-1.79.422h-4.858L9.534 22.33a.8.8 0 0 1-.674.37h-.858a.8.8 0 0 1-.77-1.018l2.21-7.795z"></path>
+                          </svg>
+                          <div style="position: relative;width: 100%;">
+                            <span style="position: absolute;width: 95%;height: 2px;-webkit-transform: translateY(-50%);transform: translateY(-50%);background-color: #ddd;margin: 0 4px;"></span>
+                            <span style="width: 8px;height: 8px;display: block;position: absolute;border-radius: 5px;transform: translate(-50%,-50%);background-color: #fff;border: 2px solid #ddd;left:40%"></span>
+                          </div>
+                          <svg _ngcontent-bpw-c19="" xmlns:xlink="http://www.w3.org/1999/xlink" class="bg-fill-grey flex-fill-0 font12" height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <defs _ngcontent-bpw-c19="">
+                              <path _ngcontent-bpw-c19="" d="M12.974 22.67a1.5 1.5 0 0 1-2.115-.166C5.96 16.767 3.5 12.46 3.5 9.5a8.5 8.5 0 0 1 17 0c0 2.96-2.46 7.267-7.36 13.004a1.5 1.5 0 0 1-.166.166zM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" id="pin-line-filled_24px-a"></path>
+                            </defs>
+                            <use _ngcontent-bpw-c19="" xlink:href="#pin-line-filled_24px-a"></use>
+                          </svg>
+                        </div>
+                        <h4>{{ob_flight.arr_time}} <small>{{ob_flight.arr_iata}}</small></h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:0 20px;">
+          <h2>Places to Visit:</h2>
+          <ul class="destination" style="list-style: none;display: flex;align-items: center;margin-top: 12px;">
+            <li *ngFor="let des of itineraryData.destinations;let i=index;">
+              {{des.name}}
+            </li>
+          </ul>
+          <h2 style="margin-top:16px;">Description:</h2>
+          <p style="line-height: 24px;color:#777;margin-bottom: 16px;    -webkit-line-clamp: 7 ; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;">{{itineraryData.description}}</p>
+        </div>
+      </div>
+      <div style="position: absolute;z-index: 3;bottom: 0;left: 20px;">
+        <p style="font-size: 18px;padding:6px 0;display: flex;align-items: center;color:#fff;"><span><img src="assets/img/pdfimages/website.png" alt="" style="width:24px;margin-right:8px;"></span>powered by TutterflyCRM</p>
+      </div>
+    </div>
+    <div style="position: relative" size="A4" *ngFor="let dd of itinerary_days" class="container-days mt-1">
+      <div class="company-placeholder" style="position: absolute;z-index: 3;">
+        <p style="background-color: rgba(0,0,0, .3);display: flex;align-items: center;padding: 16px 38px 16px 16px;color: #fff;font-size: 22px;border-bottom-right-radius: 56px;">
+                     <span>
+                     <img src="assets/img/pdfimages/tutterfly-logo.png" *ngIf="company_logo=='' || !company_logo" alt="" style="width:36px;margin-right:16px;">
+                     <img src="{{company_logo}}" *ngIf="company_logo && company_logo!=''" alt="" style="width:36px;margin-right:16px;">
+                     </span>
+          <span *ngIf="company_name==''">TutterflyCRM</span>
+          <span *ngIf="company_name!=''">{{company_name}}</span>
+        </p>
+      </div>
+      <span *ngIf="dd.poi_items && dd.poi_items.length>0 && dd.no_activity_items && dd.no_activity_items.length==0 && dd.poi_items[0].banner_image">
+               <img src="{{dd.poi_items[0].banner_image}}" alt="" style="position: absolute;z-index: 1;right: 45px;width: 303px;height: 301px;top: 60px;object-fit: cover;">
+               </span>
+      <span *ngIf="dd && dd.no_activity_items && dd.no_activity_items.length>0 && dd.no_activity_items[0].banner_image">
+               <img src="{{dd.no_activity_items[0].banner_image}}" alt="" style="position: absolute;z-index: 1;right: 45px;width: 303px;height: 301px;top: 60px;object-fit: cover;">
+               </span>
+      <span *ngIf="dd.poi_items && dd.poi_items.length==0 && dd.no_activity_items.length==0 && dd.hotels && dd.hotels.length>0 && dd.hotels[0].image">
+               <img [src]="s3_url+'itinerary/hotel/'+dd.hotels[0].image" alt="" style="position: absolute;z-index: 1;right: 45px;width: 303px;height: 301px;top: 60px;object-fit: cover;">
+               </span>
+      <img src="assets/img/pdfimages/daywise-detail.png" alt="" style="width:100%;height:100%;position: absolute;z-index: 2;">
+      <!-- <img src="assets/img/pdfimages/tutterfly-logo.png" alt="" style="position: absolute;z-index: 2;bottom: 70px;width: 73%;right: 0;opacity: .1;pointer-events: none;"> -->
+      <div style="position: relative;z-index: 3;">
+        <div class="company-name" style="position: absolute;top:75px; left:35px;">
+          <h1 style="text-align: left;margin-bottom: 8px;">{{dd.day_name | titlecase}}</h1>
+          <p style="line-height:24px;font-size: 22px;color: #fff;">
+                        <span *ngFor="let des of dd.destinations;let i=index;">
+                        {{des.name}},
+                        </span>
+          </p>
+        </div>
+        <div style="padding:400px 20px 0;">
+          <div *ngIf="dd.no_activity_items && dd.no_activity_items.length==0 && dd.poi_items && dd.poi_items.length ">
+            <h3>Point of Interest:</h3>
+            <div class="poi-location" style="display: flex;flex-wrap: wrap;">
+              <div style="display: flex;align-items: center;margin-bottom:10px;width: 50%;" class="poi-flx" *ngFor="let sched of dd.poi_items;let i=index;">
+                <div *ngIf="i<6">
+                  <img src="{{sched.banner_image}}" style="width:50px;height:50px;object-fit:cover;border-radius:50%;float:left;margin-right:15px;" onError="this.src='assets/img/no-image-banner.png'">
+                  <div>
+                    <h3>{{sched.name}}</h3>
+                    <!-- <div style="margin-bottom: 4px; display: flex;align-items: center;"><span><img src="assets/img/pdfimages/description-1.png" alt="" style="width:16px;margin-right:6px;"></span>
+                       <p [innerHTML]="sched.description"></p></div> -->
+                    <div style="margin-bottom:4px; display: flex;align-items: center;">
+                      <span><img src="assets/img/pdfimages/pin-place.png" alt="" style="width:16px;margin-right:6px;"></span>
+                      <p>{{sched.poi_name}}</p>
+                    </div>
+                    <p style=" display: flex;align-items: center;"><span><img src="assets/img/pdfimages/time-start-1.png" alt="" style="width:16px;margin-right: 6px;"></span>{{sched.start_date | date:'HH:mm'}} - {{sched.end_date | date:'H:mm'}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="dd.no_activity_items && dd.no_activity_items.length">
+            <h3>No Activity:</h3>
+            <div class="poi-location" style="display: flex;flex-wrap: wrap;">
+              <div style="display: flex;align-items: center;margin-bottom:10px;width: 100%;" class="poi-flx" *ngFor="let sched of dd.no_activity_items;let i=index;">
+                <div *ngIf="i<1">
+                  <div>
+                    <h3>{{sched.name}}</h3>
+                    <div style="margin-bottom: 4px; display: flex;align-items: center;" class="no_activity_desc">
+                      <!-- <span><img src="assets/img/pdfimages/description-1.png" alt="" style="width:16px;margin-right:6px;"></span> -->
+                      <p [innerHTML]="sched.description"></p>
+                    </div>
+                    <!-- <div style="margin-bottom:4px; display: flex;align-items: center;"><span><img src="assets/img/pdfimages/pin-place.png" alt="" style="width:16px;margin-right:6px;"></span><p>{{sched.poi_name}}</p></div>
+                       <p style=" display: flex;align-items: center;"><span><img src="assets/img/pdfimages/time-start-1.png" alt="" style="width:16px;margin-right: 6px;"></span>{{sched.start_date | date:'HH:mm'}} - {{sched.end_date | date:'H:mm'}}</p> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex">
+            <div style="width: 50%;padding-right: 10px;" *ngIf="dd.trans_items && dd.trans_items.length">
+              <h3 style="margin-top:16px;">Transport:</h3>
+              <div class="transport-detial" *ngFor="let trans of dd.trans_items;let i=index;">
+                <div *ngIf="i<3">
+                  <h3>{{trans.name}}</h3>
+                  <!-- <div style="margin-bottom: 4px; display: flex;align-items: center;" *ngIf="trans.description">
+                     <span><img src="assets/img/pdfimages/description-1.png" alt="" style="width:16px;margin-right:6px;"></span>
+                     <p [innerHTML]="trans.description"></p>
+                     </div> -->
+                  <div style="display: flex;align-items: center;">
+                                 <span>
+                                 <img src="assets/img/pdfimages/car.png" alt="" style="width:22px;margin-right:6px;">
+                                 </span>
+                    <p>{{trans.from_poi_name}}</p>
+                    <p *ngIf="trans.to_poi_name"> - {{trans.to_poi_name}}  </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="width: 50%;padding-left: 10px;" *ngIf="dd.hotels && dd.hotels.length>0" class="mt-1">
+              <h3 style="margin-top:16px;">Accommodations:</h3>
+              <div class="poi-location" style="display: flex;flex-wrap: wrap;">
+                <div style="display: flex;align-items: center;margin-bottom:10px;width: 100%;padding: 0;" *ngFor="let hotl of dd.hotels;let i=index;">
+                  <div *ngIf="i<2">
+                    <img [src]="s3_url+'itinerary/hotel/'+hotl.image" style="width:50px;height:50px;object-fit:cover;border-radius:50%;float:left;margin-right:15px;">
+                    <div>
+                      <h3>{{hotl.name}}</h3>
+                      <p>{{hotl.address}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:5px;margin-bottom:0;" *ngIf="dd.description && dd.no_activity_items && dd.no_activity_items.length==0">
+            <h4 style="margin:0;color: #f58b07;">Description</h4>
+            <p style="margin:0;font-size:13px;color:#777;display: -webkit-box;-webkit-line-clamp:10;-webkit-box-orient:vertical;overflow: hidden;" [innerHTML]="dd.description"></p>
+          </div>
+          <div *ngIf="dd.no_activity_items && dd.no_activity_items.length>0">
+            <img src="{{dd.no_activity_items[0].banner_image}}" style="height:300px; width: 100%; margin-top:10px;">
+          </div>
+        </div>
+      </div>
+      <div style="position: absolute;z-index: 3;bottom: 0;left: 20px;">
+        <p style="font-size: 18px;padding:6px 0;display: flex;align-items: center;color:#fff;"><span><img src="assets/img/pdfimages/website.png" alt="" style="width:24px;margin-right:8px;"></span>powered by TutterflyCRM</p>
+      </div>
+    </div>
+    <div size="A4" style="position: relative" class="mt-1 container-flight" id="container-flight" *ngIf="(flights && flights.originating_flights &&  flights.originating_flights.length>1) || (flights && flights.returning_flights && flights.returning_flights.length>1)">
+      <div class="company-placeholder" style="position: absolute;z-index: 3;">
+        <p style="background-color: rgba(0,0,0, .3);display: flex;align-items: center;padding: 16px 38px 16px 16px;color: #fff;font-size: 22px;border-bottom-right-radius: 56px;">
+                     <span>
+                     <img src="assets/img/pdfimages/tutterfly-logo.png" *ngIf="company_logo=='' || !company_logo" alt="" style="width:36px;margin-right:16px;">
+                     <img src="{{company_logo}}" *ngIf="company_logo && company_logo!=''" alt="" style="width:36px;margin-right:16px;">
+                     </span>
+          <span *ngIf="company_name==''">TutterflyCRM</span>
+          <span *ngIf="company_name!=''">{{company_name}}</span>
+        </p>
+      </div>
+      <img src="https://adm.dookinternational.com/dook/images/country/4eagar1619521054.png" alt="" style="position: absolute;z-index: 1;right: 45px;width: 303px;height: 301px;top: 60px;object-fit: cover;">
+      <img src="assets/img/pdfimages/inclusion-bg.png" alt="" style="width:100%;height:100%;position: absolute;z-index: 2;">
+      <!-- <img src="assets/img/pdfimages/tutterfly-logo.png" alt="" style="position: absolute;z-index: 2;bottom: 70px;width: 73%;right: 0;opacity: .1;pointer-events: none;"> -->
+      <div style="position: relative;z-index: 3;">
+        <div class="company-name" style="position: absolute;top:101px; left:35px;">
+          <h1 style="text-align: left;margin-bottom: 8px;">Flight Details</h1>
+        </div>
+        <div style="padding:400px 20px 0;">
+          <div class="poi-location" style="display: flex;flex-wrap: wrap;margin-bottom: 13px;">
+            <div style="margin-bottom:10px;width: 50%;" *ngIf="(flights && flights.originating_flights && flights.originating_flights.length>0)">
+              <h3 style="margin-bottom: 12px;">Originating Flight:</h3>
+              <div class="day-flight" *ngFor="let ob_flight of flights.originating_flights">
+                <div class="flight">
+                  <div>
+                    <div style="display:flex;align-items:center;">
+                      <div style="min-width: 30px;width: 30px;height: 30px;margin: 3px;padding: 3px;box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);border-radius: 4px;background-color: #f9f9fa;"><img src="assets/img/pdfimages/airlineLogo/{{ob_flight.airline_code}}.jpg" alt="" style="width:30px;"></div>
+                      <h5 class="flight-name">{{ob_flight.airline}} <small>{{ob_flight.airline_code}}-{{ob_flight.flight_number}}</small></h5>
+                    </div>
+                    <div style="display: flex;align-items: center;flex:2;margin-left: 24px;">
+                      <h4>{{ob_flight.dep_time}} <small>{{ob_flight.dep_iata}}</small></h4>
+                      <div style="display: flex;align-items: center;width: 100%;">
+                        <svg _ngcontent-bpw-c19="" class="font12 flex-fill-0 bg-fill-grey" height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg">
+                          <path _ngcontent-bpw-c19="" d="M9.442 13.886l-5.488-.491-1.358 2.632a.5.5 0 0 1-.436.27l-1.318.022a.5.5 0 0 1-.494-.616l.97-4.064-.975-4.07a.5.5 0 0 1 .479-.617l1.325-.021a.5.5 0 0 1 .453.274l1.415 2.787 5.44-.52-2.22-7.753A.8.8 0 0 1 8.006.7h.857a.8.8 0 0 1 .672.367l5.33 8.269h4.83a4 4 0 0 1 1.8.427l1.485.748a1.308 1.308 0 0 1-.003 2.338l-1.486.744a4 4 0 0 1-1.79.422h-4.858L9.534 22.33a.8.8 0 0 1-.674.37h-.858a.8.8 0 0 1-.77-1.018l2.21-7.795z"></path>
+                        </svg>
+                        <div style="position: relative;width: 100%;">
+                          <span style="position: absolute;width: 95%;height: 2px;-webkit-transform: translateY(-50%);transform: translateY(-50%);background-color: #ddd;margin: 0 4px;"></span>
+                          <span style="width: 8px;height: 8px;display: block;position: absolute;border-radius: 5px;transform: translate(-50%,-50%);background-color: #fff;border: 2px solid #ddd;left:40%"></span>
+                        </div>
+                        <svg _ngcontent-bpw-c19="" xmlns:xlink="http://www.w3.org/1999/xlink" class="bg-fill-grey flex-fill-0 font12" height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg">
+                          <defs _ngcontent-bpw-c19="">
+                            <path _ngcontent-bpw-c19="" d="M12.974 22.67a1.5 1.5 0 0 1-2.115-.166C5.96 16.767 3.5 12.46 3.5 9.5a8.5 8.5 0 0 1 17 0c0 2.96-2.46 7.267-7.36 13.004a1.5 1.5 0 0 1-.166.166zM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" id="pin-line-filled_24px-a"></path>
+                          </defs>
+                          <use _ngcontent-bpw-c19="" xlink:href="#pin-line-filled_24px-a"></use>
+                        </svg>
+                      </div>
+                      <h4>{{ob_flight.arr_time}} <small>{{ob_flight.arr_iata}}</small></h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-bottom:10px;width: 50%;" *ngIf="(flights && flights.returning_flights && flights.returning_flights.length>0)">
+              <h3 style="margin-bottom: 12px;">Returning Flight:</h3>
+              <div class="day-flight" *ngFor="let ob_flight of flights.returning_flights">
+                <div class="flight">
+                  <div>
+                    <div style="display:flex;align-items:center;">
+                      <div style="min-width: 30px;width: 30px;height: 30px;margin: 3px;padding: 3px;box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);border-radius: 4px;background-color: #f9f9fa;"><img src="assets/img/pdfimages/airlineLogo/{{ob_flight.airline_code}}.jpg" alt="" style="width:30px;"></div>
+                      <h5 class="flight-name">{{ob_flight.airline}} <small>{{ob_flight.airline_code}}-{{ob_flight.flight_number}}</small></h5>
+                    </div>
+                    <div style="display: flex;align-items: center;flex:2;margin-left: 24px;">
+                      <h4>{{ob_flight.dep_time}} <small>{{ob_flight.dep_iata}}</small></h4>
+                      <div style="display: flex;align-items: center;width: 100%;">
+                        <svg _ngcontent-bpw-c19="" class="font12 flex-fill-0 bg-fill-grey" height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg">
+                          <path _ngcontent-bpw-c19="" d="M9.442 13.886l-5.488-.491-1.358 2.632a.5.5 0 0 1-.436.27l-1.318.022a.5.5 0 0 1-.494-.616l.97-4.064-.975-4.07a.5.5 0 0 1 .479-.617l1.325-.021a.5.5 0 0 1 .453.274l1.415 2.787 5.44-.52-2.22-7.753A.8.8 0 0 1 8.006.7h.857a.8.8 0 0 1 .672.367l5.33 8.269h4.83a4 4 0 0 1 1.8.427l1.485.748a1.308 1.308 0 0 1-.003 2.338l-1.486.744a4 4 0 0 1-1.79.422h-4.858L9.534 22.33a.8.8 0 0 1-.674.37h-.858a.8.8 0 0 1-.77-1.018l2.21-7.795z"></path>
+                        </svg>
+                        <div style="position: relative;width: 100%;">
+                          <span style="position: absolute;width: 95%;height: 2px;-webkit-transform: translateY(-50%);transform: translateY(-50%);background-color: #ddd;margin: 0 4px;"></span>
+                          <span style="width: 8px;height: 8px;display: block;position: absolute;border-radius: 5px;transform: translate(-50%,-50%);background-color: #fff;border: 2px solid #ddd;left:40%"></span>
+                        </div>
+                        <svg _ngcontent-bpw-c19="" xmlns:xlink="http://www.w3.org/1999/xlink" class="bg-fill-grey flex-fill-0 font12" height="1em" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg">
+                          <defs _ngcontent-bpw-c19="">
+                            <path _ngcontent-bpw-c19="" d="M12.974 22.67a1.5 1.5 0 0 1-2.115-.166C5.96 16.767 3.5 12.46 3.5 9.5a8.5 8.5 0 0 1 17 0c0 2.96-2.46 7.267-7.36 13.004a1.5 1.5 0 0 1-.166.166zM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" id="pin-line-filled_24px-a"></path>
+                          </defs>
+                          <use _ngcontent-bpw-c19="" xlink:href="#pin-line-filled_24px-a"></use>
+                        </svg>
+                      </div>
+                      <h4>{{ob_flight.arr_time}} <small>{{ob_flight.arr_iata}}</small></h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="position: absolute;z-index: 3;bottom: 0;left: 20px;">
+        <p style="font-size: 18px;padding:6px 0;display: flex;align-items: center;color:#fff;"><span><img src="assets/img/pdfimages/website.png" alt="" style="width:24px;margin-right:8px;"></span>powered by TutterflyCRM</p>
+      </div>
+    </div>
+    <div size="A4" class="mt-1 container-incl" style="position: relative" id="container-incl" *ngIf="user_itinerary_inclusion && user_itinerary_inclusion.user_inclusion_lists && user_itinerary_inclusion.user_inclusion_lists.length">
+      <div class="company-placeholder" style="position: absolute;z-index: 3;">
+        <p style="background-color: rgba(0,0,0, .3);display: flex;align-items: center;padding: 16px 38px 16px 16px;color: #fff;font-size: 22px;border-bottom-right-radius: 56px;">
+                     <span>
+                     <img src="assets/img/pdfimages/tutterfly-logo.png" *ngIf="company_logo=='' || !company_logo" alt="" style="width:36px;margin-right:16px;">
+                     <img src="{{company_logo}}" *ngIf="company_logo && company_logo!=''" alt="" style="width:36px;margin-right:16px;">
+                     </span>
+          <span *ngIf="company_name==''">TutterflyCRM</span>
+          <span *ngIf="company_name!=''">{{company_name}}</span>
+        </p>
+      </div>
+      <img src="https://adm.dookinternational.com/dook/images/country/4eagar1619521054.png" alt="" style="position: absolute;z-index: 1;right: 45px;width: 303px;height: 301px;top: 60px;object-fit: cover;">
+      <img src="assets/img/pdfimages/inclusion-bg.png" alt="" style="width:100%;height:100%;position: absolute;z-index: 2;">
+      <!-- <img src="assets/img/pdfimages/tutterfly-logo.png" alt="" style="position: absolute;z-index: 2;bottom: 70px;width: 73%;right: 0;opacity: .1;pointer-events: none;"> -->
+      <div style="position: relative;z-index: 3;">
+        <div class="company-name" style="position: absolute;top:101px; left:35px;">
+          <h1 style="text-align: left;margin-bottom: 8px;">Inclusions</h1>
+        </div>
+        <div style="padding:400px 20px 0;" *ngIf="user_itinerary_inclusion">
+          <h2 style="margin-bottom: 12px;">Highlights Points:</h2>
+          <div class="poi-location" style="display: flex;flex-wrap: wrap;padding: 0;">
+            <div style="display: flex;margin-bottom:10px;width: 100%;padding: 0;" *ngFor="let inc of user_itinerary_inclusion.user_inclusion_lists">
+              <div><img src="assets/img/pdfimages/check-items.png" alt="" style="width: 24px;"></div>
+              <div style="margin-left: 16px;">
+                <h3>{{inc.name}}</h3>
+                <p>{{inc.description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div style="padding:50px 20px 0;" *ngIf="user_itinerary_inclusion && user_itinerary_inclusion.exclusion_description">
+           <h2 style="margin-bottom: 12px;">Exclusions:</h2>
+           <div class="poi-location" style="display: flex;flex-wrap: wrap;padding: 0;">
+               <div style="display: flex;margin-bottom:10px;width: 100%;padding: 0;"  >
+                   <div style="margin-left: 16px;">
+             <p [innerHTML]="user_itinerary_inclusion.exclusion_description"></p>
+                   </div>
+               </div>
+           </div>
+           </div> -->
+      </div>
+      <div style="position: absolute;z-index: 3;bottom: 0;left: 20px;">
+        <p style="font-size: 18px;padding:6px 0;display: flex;align-items: center;color:#fff;"><span><img src="assets/img/pdfimages/website.png" alt="" style="width:24px;margin-right:8px;"></span>powered by TutterflyCRM</p>
+      </div>
+    </div>
+    <div size="A4" class="mt-1 container-incl" style="position: relative" id="container-incl" *ngIf="user_itinerary_inclusion && user_itinerary_inclusion.exclusion_description">
+      <div class="company-placeholder" style="position: absolute;z-index: 3;">
+        <p style="background-color: rgba(0,0,0, .3);display: flex;align-items: center;padding: 16px 38px 16px 16px;color: #fff;font-size: 22px;border-bottom-right-radius: 56px;">
+                     <span>
+                     <img src="assets/img/pdfimages/tutterfly-logo.png" *ngIf="company_logo=='' || !company_logo" alt="" style="width:36px;margin-right:16px;">
+                     <img src="{{company_logo}}" *ngIf="company_logo && company_logo!=''" alt="" style="width:36px;margin-right:16px;">
+                     </span>
+          <span *ngIf="company_name==''">TutterflyCRM</span>
+          <span *ngIf="company_name!=''">{{company_name}}</span>
+        </p>
+      </div>
+      <img src="https://adm.dookinternational.com/dook/images/country/4eagar1619521054.png" alt="" style="position: absolute;z-index: 1;right: 45px;width: 303px;height: 301px;top: 60px;object-fit: cover;">
+      <img src="assets/img/pdfimages/inclusion-bg.png" alt="" style="width:100%;height:100%;position: absolute;z-index: 2;">
+      <!-- <img src="assets/img/pdfimages/tutterfly-logo.png" alt="" style="position: absolute;z-index: 2;bottom: 70px;width: 73%;right: 0;opacity: .1;pointer-events: none;"> -->
+      <div style="position: relative;z-index: 3;">
+        <div class="company-name" style="position: absolute;top:101px; left:35px;">
+          <h1 style="text-align: left;margin-bottom: 8px;">Exclusions</h1>
+        </div>
+        <div style="padding:400px 20px 0;" *ngIf="user_itinerary_inclusion">
+          <h2 style="margin-bottom: 12px;">Exclusions:</h2>
+          <div class="poi-location" style="display: flex;flex-wrap: wrap;padding: 0;">
+            <div style="display: flex;margin-bottom:10px;width: 100%;padding: 0;">
+              <div style="margin-left: 16px;">
+                <p [innerHTML]="user_itinerary_inclusion.exclusion_description"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--
+           <div style="padding:50px 20px 0;" *ngIf="user_itinerary_inclusion && user_itinerary_inclusion.exclusion_description">
+
+               <h2 style="margin-bottom: 12px;">Exclusions:</h2>
+               <div class="poi-location" style="display: flex;flex-wrap: wrap;padding: 0;">
+                   <div style="display: flex;margin-bottom:10px;width: 100%;padding: 0;"  >
+                       <div style="margin-left: 16px;">
+                 <p [innerHTML]="user_itinerary_inclusion.exclusion_description"></p>
+                       </div>
+                   </div>
+               </div>
+           </div> -->
+      </div>
+      <div style="position: absolute;z-index: 3;bottom: 0;left: 20px;">
+        <p style="font-size: 18px;padding:6px 0;display: flex;align-items: center;color:#fff;"><span><img src="assets/img/pdfimages/website.png" alt="" style="width:24px;margin-right:8px;"></span>powered by TutterflyCRM</p>
+      </div>
+    </div>
+    </body>
+    </html>
+  </div>
+</div>

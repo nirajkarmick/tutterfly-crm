@@ -1,0 +1,21 @@
+.onlineStatus{
+  width: 15px;
+  height: 15px;
+  background: #1e9301;
+  border-radius: 50%;
+  margin-bottom: 0;
+  margin-right:.3rem;
+}
+.offlineStatus{
+  width: 15px;
+  height: 15px;
+  background: #d70000;
+  border-radius: 50%;
+  margin-bottom: 0;
+  margin-right:.3rem;
+}
+.userloginStatus{
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}

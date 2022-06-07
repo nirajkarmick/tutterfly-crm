@@ -1,0 +1,92 @@
+<div *ngIf="extraFields && extraFields.length > 0">
+    <div class="col-md-12 mt10 popHead mt10">Additional Information</div>
+    <div class="row mt10"> 
+        <div class="col-md-6" *ngFor="let fld of extraFields;let i=index">
+            <div class="form-group" *ngIf="fld.type=='textbox'">
+                <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                <input type="text" class="form-control" [(ngModel)]="fld.value" id="{{fld.name}}" name="fld.name">
+            </div>
+            <div class="form-group" *ngIf="fld.type=='textarea'">
+                <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                <textarea class="form-control" [(ngModel)]="fld.value" id="{{fld.name}}" name="fld.name"></textarea>
+            </div>
+            <div class="form-group" *ngIf="fld.type=='number'">
+                <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                <input type="number" [(ngModel)]="fld.value" class="form-control" id="{{fld.name}}" name="fld.name">
+            </div>
+            <div class="form-group" *ngIf="fld.type=='selectbox'">
+                <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                <select class="form-control" [(ngModel)]="fld.value" id="{{fld.name}}">
+                    <option value="">Select</option>
+                    <option *ngFor="let a of fld.type_value" [value]="a">{{a}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group" *ngIf="fld.type=='multiselect'">
+                <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                <select class="form-control" [(ngModel)]="fld.value" size="4" id="{{fld.name}}" multiple>
+                    <option *ngFor="let a of fld.type_value" [value]="a">{{a}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group" *ngIf="fld.type=='checkbox'" id="{{fld.name}}_check">
+                <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                <div *ngFor="let a of fld.type_value;let k=index;" class="form-check form-check-inline">
+
+                    <input type="checkbox" [value]="a" class="{{fld.name}} form-check-input ml-0"
+                        [checked]="fld.value?(fld.value.indexOf(a)>-1?'true':false):false" name="{{fld.name}}_{{a}}">
+
+                    <label style="" class="form-check-label">{{a}}</label>
+                </div>
+            </div>
+            <div class="" *ngIf="fld.type=='radio'" id="{{fld.name}}_radio">
+                <label class="">{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                <div *ngFor="let a of fld.type_value" class="form-check form-check-inline">
+
+                    <input type="radio" [value]="a" class="{{fld.name}} form-check-input ml-0" name="radio_fetch"
+                        [checked]="fld.value==a?'true':false">
+                    <label style="vertical-align: top;" class="form-check-label">{{a}}</label>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="fld.type=='picklist'">
+                <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                <select class="form-control" id="{{fld.name}}" [(ngModel)]="fld.value">
+                    <option value="">Select</option>
+                    <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                    </option>
+                </select>     
+            </div>
+            <!--   <div class="form-group custom_calender_c" *ngIf="fld.type=='calender'">
+                                        <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label> 
+                                    <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>                            
+                                            <input matInput  id="{{fld.name}}" [(ngModel)]="fld.value" [matDatepicker]="picker_c" class="form-control"
+                                           > 
+                                    <mat-datepicker-toggle matSuffix [for]="picker_c"><i class="fa fa-calendar"></i>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker_c></mat-datepicker>                            
+                                       
+                                </div> -->
+        </div>
+        <div class="col-md-6" *ngFor="let fld of calender_data;let i=index">
+            <div class="form-group custom_calender_c">
+                <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                <input matInput id="{{fld.name}}" [(ngModel)]="fld.date_val" [matDatepicker]="picker_c"
+                    class="form-control"  (input)="validate_date($event)">
+                <mat-datepicker-toggle matSuffix [for]="picker_c"><i class="fa fa-calendar"></i>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker_c></mat-datepicker>
+
+            </div>
+        </div>
+    </div>
+
+</div>

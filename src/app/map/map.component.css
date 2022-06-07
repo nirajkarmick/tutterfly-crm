@@ -1,0 +1,6 @@
+agm-map {
+    height: 200px; 
+  }
+  #companySettingMap div agm-map {
+    height: 410px !important;
+  }

@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <h4 class="page-title">Email footer</h4>
+    </div>
+  </div>
+</div>
+<div class=" no-padding container-fixed-lg bg-white CRMTable">
+  <div class="container-fluid p0">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title col-md-9">
+          <div class="MainHeadCont">
+            <div class="MainHead">
+              <h5 class="MainHead">Email footer</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 pull-left">
+          <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal" data-target="#modalAdd"
+            (click)="AddNewShow(undefined)">
+            <span class="pull-left"><i class="pg-plus"></i></span>
+            <span>New</span>
+          </button>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="displayTable">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped" datatable [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Name</th>
+                <th>Footer Content</th>
+                <th>Active</th>
+                <th>Created Date</th>
+                <th>Updated Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let element of emailFooter;let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{element.name}}</td>
+                <td [innerHTML]="element.footer_content.slice(0, 150)">{{element.description}}</td>
+                <td>{{element.single_active==1?'Active':'Inactive'}}</td>
+                <td>{{element.created_at | date: 'dd MMM yyyy'}}</td>
+                <td>{{element.updated_at | date: 'dd MMM yyyy'}}</td>
+                <td>
+                  <span style="margin-right:10px;" data-toggle="modal" data-target="#modalAdd"
+                    (click)="AddNewShow(element)"><i aria-hidden="true" class="fas fa-edit"></i></span>
+                  <span><i aria-hidden="true" class="fas fa-trash text-danger" (click)="deleteEmailFooter(element.id)"></i></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Modal -->
+<div id="cusFormModelPop" class="modal fixed-left fade" id="modalAdd" tabindex="-1" role="dialog"
+  aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4>{{buttonLable}} <span class="semi-bold">Email Footer</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row mt10">
+          <div class="col-md-8">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.name">
+            </div>
+          </div>
+
+          <div class="col-md-4 mt20" (click)="active()">
+            <input type="checkbox" [checked]="active_checked" [(ngModel)]="newElement.single_active" id="singlAct"
+              style="margin-top: 5px">
+            <label style="line-height: 5px;padding-left: 5px;" for="singlAct">Active</label>
+          </div>
+        </div>
+        <div class="row mt10">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Footer</label>
+              <div class="col-lg-12 col-md-12 p0">
+                <div class="wysiwyg5-wrapper b-a b-grey">
+                  <app-quil-editor [(description_html)]="newElement.footer_content_html"></app-quil-editor>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="create()" data-dismiss="modal">{{buttonLable}}</button>
+      </div>
+    </div>
+  </div>
+</div>

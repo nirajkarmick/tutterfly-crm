@@ -1,0 +1,125 @@
+@import url('../../assets/tfc/css/bootstrap.min.css');
+@import url('../../assets/tfc/css/tutterfly.css');
+
+.mat-form-field{
+	width: 100%;
+}
+
+#loginsignup form#loginform .mat-form-field-appearance-legacy .mat-form-field-label{
+    color: #fff !important; 
+}
+.mat-form-field-appearance-legacy .mat-form-field-infix{
+	border-bottom: 1px solid #fff !important;
+}
+.mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: #fff !important;
+  }
+
+  .mat-form-field-label {
+    color: white !important;
+}
+.mat-form-field-underline {
+    background-color: white !important;;
+}
+.mat-form-field-ripple {
+    background-color: white !important;
+}
+
+.floating-label {
+position:relative;
+margin-bottom:20px;
+}
+.floating-input , .floating-select {
+font-size:12px;
+/*padding:4px 4px;*/
+display:block;
+width:100%;
+/*height:calc(2em + .35rem + 2px);*/
+/*background-color: transparent;
+border:none;
+border-bottom:1px solid #757575;*/
+}
+.floating-input:focus , .floating-select:focus {
+outline:none;
+/*border-bottom:2px solid #5264AE;*/
+}
+.floating-label label {
+color:#fff;
+font-size:12px; 
+font-weight:bold;
+position:absolute;
+pointer-events:none;
+left:0px;
+top:calc(2em - 12px);
+transition:0.2s ease all;
+-moz-transition:0.2s ease all;
+-webkit-transition:0.2s ease all;
+}
+.form-control.floating-input, .form-control.floating-select{
+border-radius: 0;
+}
+.floating-input:focus ~ label, .floating-input:not(:placeholder-shown) ~ label {
+top: -2px;
+    left: 0; 
+    color: #ffffff; 
+    padding: 0;
+    font-weight: 500;
+    transition: top 0.7s ease, opacity 0.7s ease;
+    margin: 0;
+    line-height: 1;
+    font-size: 10px;
+}
+.floating-select:focus ~ label , .floating-select:not([value=""]):valid ~ label {
+top: -2px;
+    left: 0; 
+    color: #ffffff; 
+    padding: 0;
+    font-weight: 500;
+    transition: top 0.7s ease, opacity 0.7s ease;
+    margin: 0;
+    line-height: 1; 
+    font-size: 10px;
+}
+.floating-input:focus ~ .bar:before, .floating-input:focus ~ .bar:after, .floating-select:focus ~ .bar:before, .floating-select:focus ~ .bar:after {
+width:50%;
+}
+
+*, *:before, *:after {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+.floating-textarea {
+min-height:calc(2em + .75rem + 2px);
+max-height: 260px;
+overflow:hidden;
+overflow-x: hidden;
+padding: 4px 10px;
+}
+.highlight {
+position:absolute;
+height:50%;
+width:100%;
+top:15%;
+left:0;
+pointer-events:none;
+opacity:0.5;
+}
+.floating-input:focus ~ .highlight , .floating-select:focus ~ .highlight {
+-webkit-animation:inputHighlighter 0.3s ease;
+-moz-animation:inputHighlighter 0.3s ease;
+animation:inputHighlighter 0.3s ease;
+}
+@-webkit-keyframes inputHighlighter {
+from { background:#7B401D; }
+to { width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+from { background:#7B401D; }
+to { width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+from { background:#7B401D; }
+to { width:0; background:transparent; }
+}

@@ -1,0 +1,359 @@
+<div class=" no-padding container-fixed-lg CRMTable">
+  <div *ngIf="isLoading" class="flight_loader"> 
+  <img src="assets/img/hotelLoder.gif" />
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-flex justify-content-between align-items-center">
+                <h4 class="page-title">Accommodations</h4>
+                    <div class="text-right button-list">
+                        <button class=" btn btn-danger btn-rounded1 waves-effect waves-light"[routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itinerary-details'] }}]" [queryParams]="{ 'id': id}">
+                            <span class="pull-left"><i class="mdi mdi-map-marker-path float-lefttext-white"></i></span><span class="ml-1">Day Wise Itinerary</span>
+                        </button> 
+                    </div>
+            </div>
+        </div> 
+    </div>
+    <div class="card" id="hotel-itn-sect">
+        <div class="card-header card-white-head">
+            <div class="card-title m-0 w-100">
+                <div class="row  ml-md-0 mr-md-0 justify-content-between">
+                    <div class="select-DataView">
+                        <div class="d-flex icon-module float-left mr-1">
+                            <div class="timeline-icon bg-primary rounded-circle">
+                                <i class="mdi mdi-office-building float-left m-0 h3 p-2 align-middle text-white"></i>
+                            </div>
+                        </div>
+                        <div class="select-DataViewml-2 d-flex align-items-end">
+                            <div class="form-group m-0 float-left">
+                                <h3 class="d-block text-left">
+                                  <span *ngIf="editable_id==0">Add</span> 
+                                  <span *ngIf="editable_id>0">Edit</span>
+                                Accommodations</h3>
+                            </div> 
+                        </div>
+                    </div> 
+                    <div class="form-inline">
+                        <div class="ml-2">
+                            <button type="button" class="btn btn-info btn-rounded waves-effect waves-light" [routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itineraries'] }}]">
+                                <span class="btn-label"><i class="mdi mdi-arrow-left-thick"></i></span> Back to itinerary list
+                            </button>
+                        </div>
+                        <div class="ml-2">
+                            <button type="button" class="btn btn-success btn-rounded waves-effect waves-light" [routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itinerary-details'] }}]" [queryParams]="{ 'id': id}">
+                               Next <span class="btn-label-right"><i class="mdi mdi-arrow-right-thick"></i></span> 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="card-body bg-pattern-bottom">
+        <div class="row">
+        	<div class="col-md-12 ribbon-box">
+                        <div class="ribbon ribbon-pink float-left"><h4 class="text-white"><i class="mdi mdi-access-point mr-1"></i> Accommodations Detail</h4></div>
+                        <div class="add_btn_sect  float-right" *ngIf="editable_id>0"><button class="btn btn-success pull-right" (click)="enableAddForm()"><i class="fa fa-plus"></i></button></div>
+                    
+                    </div>
+                    <div class="col-md-12 ribbon-box" *ngIf="hotelErr && hotelErr.length>0">
+                        <div *ngFor="let err of hotelErr">
+                            <div class="alert alert-warning" role="alert" *ngIf="err!=''">
+                                <!-- <strong>Customize </strong> --> {{err}}
+                            </div>
+                        </div>
+                    </div>
+            <div class="col-lg-12 col-md-12 " [ngClass]="{'col-lg-8 col-md-8': hotelList.length>0,'col-lg-12 col-md-12': hotelList.length==0}">
+                <div class="newCreateitinerarymodal" id="newCreateitinerarymodal">
+                    <div class="newCreateitinerarymodal-container">
+                        <div class="newCreateitinerarymodal-wrapper">
+                            
+                           
+                            <div class="card originate_flights" id="addflightmanully" >
+                               
+                                <div class="card-body">
+                                       <div class="hotelSecAct" id="hotelSecAct">
+                   
+					                    <div class="form-group" >
+					                        <label>Accommodation Name*</label>
+					                        <div style="position: relative"> 
+					                            <div class="input-group">
+					                                <div class="input-group-prepend">
+					                                    <div class="input-group-text"><i class="mdi mdi-bed-outline"></i></div>
+					                                </div>
+					                                <input type="text" [(ngModel)]="newActivity.name" class="form-control typeahead" id="myInput" placeholder="Enter a hotel's name &amp; find out details..."  (input)="search_hotels()">
+					                            </div>
+					                        </div>
+					             
+					                        <div id="myInputautocomplete-list2" class="autocomplete-items" *ngIf="hotel_list.length >0" style="text-align: left">
+
+					                            <div *ngFor="let hotel of hotel_list" class="auto-itm">
+					                                <div (click)="fetch_hotel_details(hotel)">
+					                                    <strong>
+					                                        <i class="fa fa-map-marker"></i>
+					                                        <span style="margin-left: 5px">{{hotel.fullName}}
+					                                    </span></strong>
+					                                </div>
+					                            </div>
+					                        </div>
+					                    </div>
+					                    <div class="form-group" *ngIf="editable_id==0">
+					                        <label>Select Days*</label>
+					                        <div style="position: relative"> 
+					                            <div class="checkbox form-check-inline" *ngFor="let dy of itinerary_days">
+					                                <input type="checkbox" [value]="dy.id" (click)="set_days($event)" id="{{dy.id}}_checkday">
+					                                <label for="{{dy.id}}_checkday" style="text-transform: capitalize;"> {{dy.day_name}} </label>
+					                            </div>
+					                        </div>
+					                    </div>
+                              <div class="row">
+                                <div class="col-md-4 form-group">
+                                  <label>Accommodation Star</label>
+                                    <div id="full-stars-example">
+                                        <div class="rating-group formStar "> 
+                                            <input disabled="" checked="" class="rating__input rating__input--none" name="rating3" id="rating3-none" value="0" type="radio" (click)="set_rating(1)">
+                                            <label aria-label="1 star" class="rating__label" for="rating3-1"><i class="rating__icon rating__icon--star fa fa-star" [ngClass]="newActivity.rating >= 1 ? '' : 'not_checked'"></i></label>
+                                            <input class="rating__input" name="rating3" id="rating3-1" value="1" type="radio" (click)="set_rating(1)" [checked]="newActivity.rating >= 1 ? true : false">
+
+                                            <label aria-label="2 stars" class="rating__label" for="rating3-2"><i class="rating__icon rating__icon--star fa fa-star" [ngClass]="newActivity.rating >= 2 ? '' : 'not_checked'"></i></label>
+                                            <input class="rating__input" name="rating3" id="rating3-2" value="2" type="radio" (click)="set_rating(2)"  [checked]="newActivity.rating >= 2 ? true : false">
+
+                                            <label aria-label="3 stars" class="rating__label" for="rating3-3"><i class="rating__icon rating__icon--star fa fa-star" [ngClass]="newActivity.rating >= 3 ? '' : 'not_checked'"></i></label>
+                                            <input class="rating__input" name="rating3" id="rating3-3" value="3" type="radio" (click)="set_rating(3)" [checked]="newActivity.rating >= 3 ? true : false" >
+
+                                            <label aria-label="4 stars" class="rating__label" for="rating3-4"><i class="rating__icon rating__icon--star fa fa-star" [ngClass]="newActivity.rating >= 4 ? '' : 'not_checked'"></i></label>
+                                            <input class="rating__input" name="rating3" id="rating3-4" value="4" type="radio" (click)="set_rating(4)"  [checked]="newActivity.rating >= 4 ? true : false">
+
+                                            <label aria-label="5 stars" class="rating__label" for="rating3-5"><i class="rating__icon rating__icon--star fa fa-star" [ngClass]="newActivity.rating >= 5 ? '' : 'not_checked'"></i></label>
+                                            <input class="rating__input" name="rating3" id="rating3-5" value="5" type="radio" (click)="set_rating(5)" [checked]="newActivity.rating >= 5 ? true : false" >
+                                            <h6 class="mt-2 ml-2" *ngIf="newActivity.rating>0">{{newActivity.rating}} Star </h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                               <div class="col-md-8">
+                                  <div class="floating-label" style="margin-bottom: 3px;">
+                                      <label>Accommodation Type*</label>
+                                      <select name="location" class="form-control location" id="location" class="form-control" [(ngModel)]="newActivity.type">
+                                      <option value="">Select Accommodation Type</option>
+                                      <option *ngFor="let acc of accom_types" [value]="acc">{{acc}}</option>
+                                  </select>
+                                  </div>
+                              </div> 
+                              </div>
+					                    <div class="row">
+                            <div class="col-md-4">
+                                  <div class="floating-label">
+                                      <label>Country<sup>*</sup></label> 
+                                     <input name="country" id="country" class="floating-input form-control" type="text" placeholder=" " [(ngModel)]="newActivity.country" >
+                                  </div>
+                              </div>
+                              <div class="col-md-4">
+                                  <div class="floating-label">
+                                      <label>Region</label>
+                                     <input name="state" id="state" class="floating-input form-control" type="text" placeholder=" " [(ngModel)]="newActivity.region" >
+                                  </div>
+                              </div>  
+                               <div class="col-md-4">
+                                  <div class="floating-label" style="margin-bottom: 3px;">
+                                      <label>Destination*</label>
+                                      <select name="location" class="form-control location" id="location" class="form-control" [(ngModel)]="newActivity.destination">
+                                      <option value="">Select Location</option>
+                                      <option *ngFor="let des of destinationsList" [value]="des.id">{{des.name}}</option>
+                                  </select>
+                                  </div>
+                              </div>   
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+					                    <div class="form-group ">
+					                        <label>Address*</label>
+					                        <textarea name="address" id="address" class="form-control" placeholder=" " style="height: 100px;" [(ngModel)]="newActivity.address"></textarea>
+					                    </div>
+					                </div>
+					                <div class="col-md-12">
+					                    <div class="form-group ">
+					                        <label>Description</label> 
+                         <textarea name="desccc" id="desccc" class="form-control" placeholder=" " rows="4" [(ngModel)]="newActivity.description"></textarea>
+					                      <!--   <app-quil-editor [(description_html)]="newActivity.description"></app-quil-editor> -->
+					                    </div>
+					                </div>
+					            </div>
+					                  
+					                    <div class="row">
+                            <div class="col-md-12 headings">
+                              <h4 >Accommodation Amenities</h4>
+                              <hr>
+                            </div> 
+                            <div class="col-md-3" *ngFor="let amen of this.newActivity.amenities; let i=index">
+                                <div class="form-group">
+                                	<div class="checkbox form-check-inline">
+	                                  
+	                                    <input type="checkbox" name="amenities_{{i}}" [(ngModel)]="amen.checked" value="1" id="amenities_{{i}}"  (change)="setAmenities()">
+                                      <label class="kt-checkbox d-block amenities-checkbox"  for="amenities_{{i}}">
+                                       <img src="assets/img/amenity/{{amen.icon}}" style="width: 22px">&nbsp;{{amen.name}}
+	                                    <span></span>
+	                                  </label>
+                                     </div>
+                            </div>
+                              </div>
+                                                         
+                                        
+					                   
+					                    <div class="form-group row">
+					                    	<div class="col-md-12 headings">
+                              <h4 >Accommodations Image</h4>
+                              <hr>
+                            </div>
+					                        
+					                        <div class="col-sm-9 text-left">
+
+					                            <div class="file-upload">
+					                                <div class="file-select">
+					                                    <span class="error err_span">{{errPhoto}}</span>
+					                                    <span class="error err_span">{{errImage}}</span>
+					                                   <!--  <div class="file-select-name" id="noFile" *ngIf="photo_name==''">Choose Image</div> -->
+					                                    <div class="file-select-name" id="noFile" *ngIf="photo_name">{{photo_name}}</div><label class="chooseFileLabel" for="chooseFile"><button class="btn btn-light border rounded"><i class="fa fa-upload mr-1" aria-hidden="true"></i>Choose Image</button></label>
+					                                    <input type="file" name="chooseFile" id="chooseFile" (change)="addFIle($event)" #banner>
+					                                </div> 
+					                            </div>
+					                        </div>
+					                    </div>
+					                   
+					                </div>
+			                     <div class="row" *ngIf="all_images">
+                              <div *ngFor="let img_url of all_images;let i=index;">
+                                <div class="selectHotelimgCheckbox">
+                                  <label for="htl_chk_{{i}}"></label>
+                                  <input type="radio" name="hotelimg" class="hotelImgcheck" id="htl_chk_{{i}}" (click)="set_hotel_img(img_url,i)">
+                                  <div class="selectHotelimgCheckbox-container">
+                                    <img src="{{img_url}}" class="selectHotelimgCheckbox-img">
+                                  </div>
+                                </div>
+                              </div>    
+                           </div>            
+                         <!--   <div class="row" *ngIf="hotel_image">
+					                    	
+				                    	<div class='imfMap'><img [src]='hotel_image' onError="this.src='assets/img/no-image-banner.png'" id='hotel_img'>
+                                <button type='button' *ngIf="img_nxt" value='change' class='next' (click)='change_hotel_image()'><i class='fa fa-chevron-right'></i></button>
+                                <button *ngIf="img_bck" type='button' value='Back' class='back' (click)='back_image()'><i class='fas fa-chevron-left'></i></button></div>
+					                    </div> -->
+                                  
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-danger width-xl waves-effect waves-light mr-2 float-right mt-2"  (click)="add_hotel_to_itin()" *ngIf="editable_id==0">Save</button>
+                                            <button class="btn btn-danger width-xl waves-effect waves-light mr-2 float-right mt-2"  (click)="edit_hotel()" *ngIf="editable_id>0">Update </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-md-4 col-lg-4" *ngIf="hotelList.length>0">
+            	 <div class="card originate_flights"  *ngFor="let ht of hotelList" >
+                                
+        <div class="card-horizontal">
+        <div class="img-square-wrapper" style="width: 45%;  margin: 8px;">
+          <h6 class="mb-2 text-uppercase"><u>{{ht.day_name}}</u></h6>
+            <img class="" [src]="s3_url+ht.image" alt="{{ht.name}}" onError="this.src='assets/img/no-image-banner.png'"  style="width: 100%;height: 75px" >
+        </div>
+        <div class="card-body row">
+        	<i class="mdi mdi-square-edit-outline mt-1" style="position: absolute; right: 7%; top: 4%; cursor: pointer;" (click)="openHtelEdit(ht.id)"></i>
+          <i class="mdi mdi-delete mt-1"  style="position: absolute; right: 3%; top: 4%; cursor: pointer;" data-toggle="modal" data-target="#close" (click)="open_delete_modal(ht.id)" ></i>
+            <h6 class="card-title mt-2">{{ht.name}}</h6>
+            <div class="card-text col-12 col-md-12" *ngIf="ht.rating">
+              <p class="rating mb-0 rating-group" *ngIf="ht.rating"  id="full-stars-example">
+                        <span *ngFor="let rate of format_rating(ht.rating)" style="float: left;">                      
+                          <input disabled="" checked="" class="rating__input rating__input--none" name="rating3" id="rating3-none" value="0" type="radio">
+                          <label aria-label="1 star" class="rating__label" for="rating3-1"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                          <input class="rating__input" name="rating3" id="rating3-1" value="1" type="radio"  checked=""> 
+                        </span>
+                </p>  
+             </div>
+            <div class="card-text col-12 col-md-12" *ngIf="ht.type">
+              <p class="rating mb-0 rating-group" >
+                <strong>Type: </strong>{{ht.type}} 
+              </p>  
+             </div>
+        </div>
+    </div>
+    <div class="card-footer" style="padding: 2% 3%;">
+        <small class="text-muted">{{ht.address}}</small>
+    </div>
+                  </div>
+
+
+            </div>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="close" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-filled bg-danger">
+            <div class="modal-body p-4">
+                <div class="text-center">
+                    <h4><span class="mt-2 text-white">Are you sure you want to delete the hotel?</span></h4>
+                    <div class="form-group button-list">
+                        <button type="button" class="btn btn-light waves-effect waves-light" (click)=delete_hotel();  data-dismiss="modal"
+                            >Yes</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light"
+                            data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" style="margin:0 auto;" id="crop_model" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog" style="max-width: 650px">
+        <div class="modal-content">
+            <div class="modal-body" style="padding: 10px; max-height: 650px;overflow: auto;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="close_crop()">&times;
+                </button>
+                <div class="form-group-attached">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <image-cropper
+                                [imageChangedEvent]="imageChangedEvent"
+                                [maintainAspectRatio]="true"
+                                [containWithinAspectRatio]="containWithinAspectRatio"
+                                [aspectRatio]="4 / 2"
+                                [resizeToWidth]="1200"
+                                [cropperMinWidth]="720"
+                                [onlyScaleDown]="true"
+                                [roundCropper]="false"
+                                [canvasRotation]="canvasRotation"
+                                [transform]="transform"
+                                [alignImage]="'left'"
+                                [style.display]="showCropper ? null : 'none'"
+                                format="png"
+                                (imageCropped)="imageCropped($event)"
+                                (imageLoaded)="imageLoaded()"
+                                (cropperReady)="cropperReady($event)"
+                                (loadImageFailed)="loadImageFailed()"
+                            ></image-cropper>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 m-t-10 sm-m-t-10">
+                            <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'"/>
+                        </div>
+                        <div class="col-md-6 mt-5">
+                            <button type="button" class="btn btn-warning m-t-5 pull-right" data-dismiss="modal" (click)="done_cropping()">Done Cropping</button>
+                            <button type="button" class="btn btn-secondary m-t-5 ml-5 pull-right1" data-dismiss="modal" (click)="close_crop()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,245 @@
+.userProfileBanner {
+    background-size: 100% auto !important;
+    background-position: top center !important;
+    height: 200px;
+    width: 100%;
+    position: relative;
+    background-repeat: no-repeat !important;
+}
+
+.uploadBanner {
+    position: absolute;
+    right: 30px;
+    top: 130px;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.uploadBanner i {
+    font-size: 15px;
+    padding-top: 9px;
+    margin-left: 8px;
+}
+
+.userProfileSec {
+    background: #fff;
+    margin: 0;
+    border-radius: 5px;
+    margin-top: -20px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+.userProfileAvatar {
+    /*position: relative;*/
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    border: 2px solid #ddd;
+    background-size: 100% 100% !important;
+    background-position: center center !important;
+    top: -100px;
+    left: 30px;
+}
+
+.uploadAvatar {
+    position: absolute;
+    right: 10px;
+    top: 150px;
+    width: 28px;
+    height: 28px;
+    border-radius: 16px;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #bbb;
+}
+
+.uploadAvatar i {
+    font-size: 15px;
+    padding-top: 6px;
+    margin-left: 5px;
+}
+
+.userInfoSec {
+    padding-left: 10px;
+    padding-top: 10px;
+    text-align: left;
+}
+
+.userInfoSec .userName {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.userInfoSec .userTitle {
+    font-size: 16px; /*margin-top:5px;*/
+    color: #999;
+}
+
+.userInfoSec .userEmail {
+    font-size: 16px;
+    color: #999;
+}
+
+#DetailsCont {
+    background: #fff;
+    border-radius: 5px;
+    padding-top: 20px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+#modaluploadPhoto .modal-dialog {
+    margin-top: 7%
+}
+
+.popProfilePhoto {
+    width: 110px;
+    height: 150px;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    background-size: cover !important;
+    background-position: center center !important;
+    margin: 0 auto;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+#modaluploadBanner .modal-dialog {
+    margin-top: 6%;
+    width: 1000px;
+    max-width: 1000px;
+}
+
+.popProfileBanner {
+    width: 100%;
+    height: 200px;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    background-size: cover !important;
+    background-position: center center !important;
+    margin: 0 auto;
+}
+
+button.btn-edit {
+    border: none;
+    padding: 0;
+}
+
+button.btn-edit:hover {
+    color: #006dcc;
+    background: transparent;
+}
+
+#DetailsCont .row {
+    margin: 0
+}
+
+#DetailsCont ul li span {
+    width: 100px;
+    position: relative;
+    float: left;
+    font-weight: 600;
+}
+#DetailsCont ul{
+    margin: 0;
+}
+#DetailsCont ul li:not(:last-child) {
+    margin-bottom: 10px;
+}
+.userProfileAvatarContainer{
+    position: relative;
+    float: left;
+    width: 100%;
+    clear: both;
+}
+@media (min-width: 992px) {
+    .userProfileAvatar{
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        top: -70px;
+        left: calc(50% - 70px);
+    }
+    .uploadAvatar{top:100px}
+}
+@media (min-width: 1024px) {
+    .userProfileAvatar{
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        top: -75px;
+        left: calc(50% - 75px);
+    }
+    .uploadAvatar{top:110px}
+}
+@media (min-width: 1200px) {
+    .userProfileAvatar{
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        top: -90px;
+        left: calc(50% - 90px);
+    }
+    .uploadAvatar{top:135px}
+}
+@media (min-width: 1600px) {
+    .userProfileAvatar{
+        position: absolute;
+    }
+}
+@media (max-width: 991px) {
+    .userProfileAvatar{
+        position: relative;
+        width: 150px;
+        height: 150px;
+        left: calc(50% - 75px);
+        top: -75px;
+    }
+    .userProfileSec{height: 95px;}
+    .uploadAvatar{top:110px}
+}
+@media (max-width: 767px) {
+    .userProfileAvatar{
+        position: relative;
+        width: 150px;
+        height: 150px;
+        left: calc(50% - 75px);
+        top: -75px;
+    }
+    .userProfileSec{height: auto;}
+    .uploadAvatar{top:110px}
+    .userInfoSec{text-align: center}
+    .userProfileAvatarContainer{height: 80px;}
+    .userProfileSec div button.btn-edit{float: none !important;text-align: center;}
+}
+
+#DetailsCont ul li span{
+    width: 100% !important;
+} 
+#DetailsCont ul li span.col-sm-10{
+    font-weight: normal;
+} 
+.pac-container {
+    z-index: 10420 !important;
+}
+#modalEdit {
+    z-index: 1000;
+}

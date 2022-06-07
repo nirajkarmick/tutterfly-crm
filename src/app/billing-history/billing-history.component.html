@@ -1,0 +1,53 @@
+<!--<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <h4 class="page-title">Billing History</h4>
+    </div>
+  </div>
+</div>-->
+<div class="row mt20 d-flex">
+    <div class="col-md-10 m-auto">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="page-title-box d-flex justify-content-between">
+                    <h4 class="page-title">Billing History</h4>
+                    <div class="">
+                        <a href="javascript:void(0);" class="btn btn-primary" [routerLink]="['/adminMain',{ outlets: { adminSection: ['billings'] }}]"><i class="fas fa-arrow-left"></i> Back</a>
+                    </div>
+                </div>
+                <div class="card-box">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Transaction ID</th>
+                            <th>Subscription</th>
+                            <th>Amount</th>
+                            <!-- <th>Action</th> -->
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!billing_history">
+                                <td  colspan="4">
+                                <mat-spinner color="accent" style="margin: auto;" *ngIf="!billing_history"></mat-spinner></td></tr>
+                            <tr  *ngFor="let plan of billing_history">
+                                <td>{{plan.starts_at | date: 'dd MMM yyyy'}}</td>
+                                <td>{{plan.id }}</td>
+                                <td>{{plan.plan.plan_name}} <span [innerHTML]="plan.plan.plan_description"></span></td>
+                                <td>
+
+                                <span *ngIf="plan.amount">
+                                    <i class="fas fa-rupee-sign" *ngIf="plan.currency_symbol=='₹'"></i>
+                                    <i class="fas fa-dollar-sign" *ngIf="plan.currency_symbol!='₹'"></i>
+                                     {{plan.amount*plan.quantity}}
+                                  </span>
+                                 </td> 
+                            </tr>
+                       
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

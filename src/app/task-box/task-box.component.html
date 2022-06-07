@@ -1,0 +1,54 @@
+<div class="text-center" style="font-size: 18px;
+">
+
+    {{data.replace('"', '').replace('"', '')}}
+    <a href="javascript:void(0);" (click)="onNoClick()" class="close-rightBar"
+                            style="float: right;color: #fff;"><i class="fas fa-times-circle"></i></a>
+</div>
+<button class="btn btn-primary btn-sm btn-block" style="width: 100px;margin: 0 auto;" mat-raised-button (click)="onNoClick()">OK</button>
+
+<!-- <div id="snackbar">{{data.replace('"', '').replace('"', '')}}</div> -->
+
+<style>
+    #snackbar {
+      /* visibility: hidden; */
+      min-width: 550px;
+      margin-left: -125px;
+      background-color: #006dcc;
+      color: #fff;
+      text-align: center;
+      border-radius: 2px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      left: 20%;
+      bottom: 30px;
+      font-size: 17px;
+    }
+    
+    #snackbar.show {
+      visibility: visible;
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    
+    @-webkit-keyframes fadein {
+      from {bottom: 0; opacity: 0;} 
+      to {bottom: 30px; opacity: 1;}
+    }
+    
+    @keyframes fadein {
+      from {bottom: 0; opacity: 0;}
+      to {bottom: 30px; opacity: 1;}
+    }
+    
+    @-webkit-keyframes fadeout {
+      from {bottom: 30px; opacity: 1;} 
+      to {bottom: 0; opacity: 0;}
+    }
+    
+    @keyframes fadeout {
+      from {bottom: 30px; opacity: 1;}
+      to {bottom: 0; opacity: 0;}
+    }
+    </style>

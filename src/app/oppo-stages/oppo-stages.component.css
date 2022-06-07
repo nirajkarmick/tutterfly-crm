@@ -1,0 +1,3 @@
+.oppoStage ul.nav-tabs{overflow-x: auto; overflow-y: hidden;}
+.oppoStage .navbar-nav{flex-direction: inherit;}
+.oppoStage .nav-tabs{border: none}

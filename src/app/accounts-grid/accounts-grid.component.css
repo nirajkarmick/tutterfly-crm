@@ -1,0 +1,28 @@
+table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  .pac-container {
+    z-index: 10420 !important;
+}
+#modalAdd{
+	z-index: 1000 !important;
+}
+.preview_sec{
+	min-height: 300px;
+}
+.imported_msg{
+	padding: 25px;
+    font-weight: bold;
+    color: green;
+    font-size: 18px;
+}
+.error {
+  font-size: 12px;
+  color: #f94816;
+  display: block;
+}

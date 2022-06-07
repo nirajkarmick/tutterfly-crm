@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Dashboard</h4>
+        </div>
+    </div>
+</div>
+<div class="row mt20">
+    <div class="col-md-4">
+        <div class="adminDash_box" [routerLink]="['/adminMain',{ outlets: { adminSection: ['oppoDesti'] }}]">
+            <div class="adminDash-img">
+                <img src="assets/img/adminDash-img1.png" alt="Total Destination" class="img-fluid">
+            </div>
+            <div class="adminData">
+                <h4>Total Destination</h4>
+                <span class="adminData_number">
+                    {{stats.total_destinations}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="adminDash_box" [routerLink]="['/adminMain',{ outlets: { adminSection: ['adminProfile'] }}]">
+            <div class="adminDash-img">
+                <img src="assets/img/adminDash-img2.png" alt="Total Destination" class="img-fluid">
+            </div>
+            <div class="adminData">
+                <h4>Total Profiles</h4>
+                <span class="adminData_number">
+                    {{stats.total_roles}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="adminDash_box" [routerLink]="['/adminMain',{ outlets: { adminSection: ['users'] }}]">
+            <div class="adminDash-img">
+                <img src="assets/img/adminDash-img3.png" alt="Total Destination" class="img-fluid">
+            </div>
+            <div class="adminData">
+                <h4>Total Users</h4>
+                <span class="adminData_number" *ngIf="stats.total_users">
+                    {{stats.total_users}}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

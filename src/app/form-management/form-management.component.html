@@ -1,0 +1,410 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <div class="page-title-right">
+      </div>
+      <!-- <h4 class="page-title">Custom Form </h4> -->
+    </div>
+  </div>
+</div>
+<div class=" no-padding container-fixed-lg bg-white CRMTable customFormTable">
+  <div class="container-fluid p0">
+    <!-- START card -->
+    <div class="card card-transparent">
+      <div class="card-header">
+        <div class="card-title col-md-9">
+          <div class="MainHeadCont">
+            <div class="MainHead"><strong> 
+                <h5> Fields Management - 
+                  <span *ngIf="form_type!='Personal Account'">{{form_type}}</span>
+                  <span *ngIf="form_type=='Personal Account'">Person Account</span>
+                </h5>
+              </strong></div>
+          </div>
+        </div>
+        <div class="col-md-3 pull-left">
+          <!-- <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal"
+            data-target="#cusFormModelPop" (click)="openNewForm()">
+            <span class="pull-left"><i class="pg-plus"></i></span>
+            <span>New Custom Field</span>
+          </button> -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cusFormModelPop" (click)="openNewForm()" ><span class="btn-label"><i class="fas fa-plus"></i></span>New Custom Field</button> 
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" data-toggle="tab" role="tab" data-target="#StForm" *ngIf="isStandard">Standard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="tab" role="tab" data-target="#custForm"
+              >Custom</a>
+          </li>
+          
+        </ul>
+
+        <div class="tab-content p-0" id="form-mngm-st" >
+          <div class="tab-pane active" id="StForm">
+            <div *ngIf="standardFields &&  standardFields.length>0" class="mt-0">              
+                <ngx-sortable [items]="standardFields" [listStyle]="listStyle" [name]="'Standard Fields'" (listSorted)="colSorted($event)"> 
+                   
+                    <ng-template let-fld>
+                        <table class="table mb-0">
+                          <tbody>
+                           <!--  <tr>
+                              <td>Name</td>
+                              <td>Mandatory</td>
+                              <td>Active</td>
+                              <td>Action</td>
+                            </tr> -->
+                            <tr >
+                              <td class="shrink_width_td"> 
+                                <img [src]="get_field_image(fld.type)" width="30">
+                                <span class="custom-frm-text">{{fld.label}}</span></td>
+                              <td class="shrink_width_td"> 
+                                                  <label class="switch" *ngIf="fld.mandatory==0">
+                                                      <input type="checkbox" (change)="set_mandatory_st_field(fld.id,1)">
+                                                      <span class="slider round"  matTooltipClass="user-custom-tooltip" matTooltip="Make {{fld.label}}  mandatory"></span>
+                                                  </label> 
+                                                  <label class="switch" *ngIf="fld.mandatory==1">
+                                                      <input type="checkbox" checked
+                                                          (change)="set_mandatory_st_field(fld.id,0)">
+                                                      <span class="slider round" matTooltipClass="user-custom-tooltip" matTooltip="Make {{fld.label}} not mandatory"></span>
+                                                  </label>
+                              </td>
+                              <td class="shrink_width_td">
+                                                <label class="switch" *ngIf="fld.status==0">
+                                                    <input type="checkbox" (change)="active_inactive_st_field(fld.id,1)">
+                                                    <span class="slider round"  matTooltipClass="user-custom-tooltip" matTooltip="Activate {{fld.label}}"></span>
+                                                </label> 
+                                                <label class="switch" *ngIf="fld.status==1">
+                                                    <input type="checkbox" checked
+                                                        (change)="active_inactive_st_field(fld.id,0)">
+                                                    <span class="slider round" matTooltipClass="user-custom-tooltip" matTooltip="Deactivate {{fld.label}}"></span>
+                                                </label>
+
+                              </td>
+                              <td>
+                                <a href="JavaScript:void(0);" (click)="showstandardPop(fld.id)" data-toggle="modal" data-target="#stFormModelPop" matTooltip="Edit" *ngIf="fld.name!='address'"><i class="fas fa-edit"></i></a>
+                              </td> 
+                            </tr>
+                          </tbody>
+                          </table>
+                      </ng-template>
+                  </ngx-sortable>
+                
+            </div>
+            
+          </div>
+          <div class="tab-pane" id="custForm">
+            <div *ngIf="allFieldList &&  allFieldList.length>0" class="mt-0"> 
+                <ngx-sortable [items]="allFieldList" [listStyle]="listStyle" [name]="'Custom Fields'" (listSorted)="colSortedAdd($event)"> 
+                     <ng-template let-fld>
+                        <table class="table mb-0">
+                          <tbody> 
+                            <tr>
+                              <td>
+                                <img [src]="get_field_image(fld.type)" width="30">
+                                <span class="custom-frm-text">{{fld.label}}</span></td>
+                              <td>
+                                                  <label class="switch" *ngIf="fld.mandatory==0">
+                                                      <input type="checkbox" (change)="set_mandotaory_add_field(fld.id,1)">
+                                                      <span class="slider round"  matTooltipClass="user-custom-tooltip" matTooltip="Make {{fld.label}}  mandatory"></span>
+                                                  </label> 
+                                                  <label class="switch" *ngIf="fld.mandatory==1">
+                                                      <input type="checkbox" checked
+                                                          (change)="set_mandotaory_add_field(fld.id,0)">
+                                                      <span class="slider round" matTooltipClass="user-custom-tooltip" matTooltip="Make {{fld.label}} not mandatory"></span>
+                                                  </label>
+
+                               <!--  <span *ngIf="fld.mandatory==1">Yes</span>
+                                <span *ngIf="fld.mandatory==0">No</span> -->
+                              </td>
+                              <td>
+                                       <label class="switch" *ngIf="fld.status==1">
+                                                    <input type="checkbox" (change)="active_inactive_add_field(fld.id,1)">
+                                                    <span class="slider round"  matTooltipClass="user-custom-tooltip" matTooltip="Show {{fld.label}}"></span>
+                                                </label> 
+                                                <label class="switch" *ngIf="fld.status!=1">
+                                                    <input type="checkbox" checked
+                                                        (change)="active_inactive_add_field(fld.id,0)">
+                                                    <span class="slider round" matTooltipClass="user-custom-tooltip" matTooltip="Hide {{fld.label}}"></span>
+                                                </label>
+
+                               <!--  <span *ngIf="fld.status==1" class="" style="margin-right:48%">Inactive</span>
+                                <span *ngIf="!fld.status" class="" style="margin-right:48%">Active</span> -->
+
+                              </td>
+                              <td>
+                                <a href="JavaScript:void(0);" (click)="showeditPop(fld.id)" data-toggle="modal"
+                                  data-target="#cusFormModelPop" matTooltip="Edit"><i class="fas fa-edit"></i></a>
+                              </td> 
+                            </tr>
+                          </tbody>
+                      </table>
+                    </ng-template>
+                </ngx-sortable>
+               
+            </div>
+          </div>
+          <div class="tab-pane" id="accuntForm">
+            <h3>Account</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="cusFormModelPop" class="modal fixed-left fade" tabindex="-1" role="dialog" *ngIf="cusFormModel">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4><span class="semi-bold"><span *ngIf="cuurent_category!='Personal Account'">{{cuurent_category}}</span>
+                  <span *ngIf="cuurent_category=='Personal Account'">Person Account</span></span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h5 class="addNew-form-Subhead">Custom Field</h5>
+        <div class="row mt10">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Field label *</label>
+              <input type="text" [ngClass]="name_error ? 'frm-danger':''" class="form-control"
+                [(ngModel)]="formData.label" placeholder="Give a name for your field">
+            </div>
+          </div>
+        </div>
+        <h5 class="addNew-form-Subhead">Select Field Type</h5>
+        <div class="row mt-2">
+          <div class="col-md-4 chk_label" *ngFor="let field of fieldTypeArray"
+            (click)="select_field_type(field[0])">
+            <label class="checkbox checkbox-primary">
+              <input type="radio" name="f_type" value="{{field[0]}}" id="{{field[0]}}"
+                [(ngModel)]="frm_type" />
+              <img src="{{field[1]}}" width="30">
+              <label for="{{field[0]}}" class="text-uppercase btn">{{field[0]}}</label>
+            </label>
+          </div>
+        </div>
+        <div class="row mt10" *ngIf="option_field">
+          <div class="col-md-12 frm_add_option">
+            <div class="form-group" id="frm_opts">
+              <label class="d-block">Add option value
+              </label>
+              <div class="frm_op mt10 input-group" id="frm_op_1"
+                *ngFor="let opt of fr_options; let i = index;">
+                <input type="text" [(ngModel)]="opt.value" class="form-control" />
+
+                <div class="add_frm_button1  input-group-append" id="opt_1" matTooltip="Remove options"
+                  (click)="remove_option(i)" *ngIf="i!=0"><i
+                    class="fas fa-minus input-group-text btn-danger"></i></div>
+                <div class="add_frm_button1  input-group-append" id="opt_1" matTooltip="Remove options"
+                  (click)="add_option(1)" *ngIf="i==0"><i
+                    class="fas fa-plus btn-primary input-group-text"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt10" *ngIf="picklist_field">
+          <div class="col-md-12 frm_add_option"> 
+            <div class="form-group" id="frm_picks">
+              <label class="d-block">Select Picklist *
+              </label>
+              <select name="pick_name" [(ngModel)]="picklist_selected" class="form-control" (change)="choose_picklist()">
+                <option value="">Select </option>
+                <option *ngFor="let pc of pickListData" [value]="pc.name">{{pc.label}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-12 frm_add_option" *ngIf="picklist_d"> 
+            <div class="form-group" id="frm_picks_d">
+              <label class="d-block">Select Picklist Default Value
+              </label>
+              <select name="pick_name" [(ngModel)]="picklist_default_value" class="form-control" (change)="set_default_val()">
+                <option value="">Select </option>
+                <option *ngFor="let pv of picklistAllValue" [value]="pv.id">{{pv.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row mt10">
+          <div class="col-md-6">
+            <div class="form-group" data-test-field-options-item="required">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [checked]="formData.mandatory" [(ngModel)]="formData.mandatory"
+                  id="singlAct" class="custom-control-input">
+                <label class="custom-control-label" for="singlAct">Make this a required
+                  field</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" data-test-field-options-item="required">
+              <div class="custom-control custom-checkbox">
+                <label class="switch1">
+                  <input type="radio" [value]="1" name="cust_status" [(ngModel)]="formData.status">
+                  <span style="margin-right: 10px;margin-left:5px;font-weight: bold">Inactive</span>
+                </label>
+                <label class="switch1">
+                  <input type="radio" [checked]="formData.status==1?false:true" [value]="0"
+                    name="cust_status" [(ngModel)]="formData.status">
+                  <span style="margin-right: 10px;margin-left:5px;font-weight: bold">Active</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="createNew()" *ngIf="editable_id==0">Add</button>
+        <button type="button" class="btn btn-primary" (click)="updateForm()" *ngIf="editable_id>0">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="stFormModelPop" class="modal fixed-left fade" tabindex="-1" role="dialog" *ngIf="stFormModel">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4><span class="semi-bold"><span *ngIf="cuurent_category!='Personal Account'">{{cuurent_category}}</span>
+                  <span *ngIf="cuurent_category=='Personal Account'">Person Account</span></span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h5 class="addNew-form-Subhead">{{cuurent_category}} Standard Field</h5>
+        <div class="row mt10">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Field label *</label>
+              <input type="text" [ngClass]="st_name_error ? 'frm-danger':''" class="form-control"
+                [(ngModel)]="stFormData.label" placeholder="Give a name for your field">
+            </div>
+          </div>
+        </div>
+        <div class="row mt10">
+          <div class="col-md-6">
+            <div class="form-group" data-test-field-options-item="required">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [checked]="stFormData.mandatory" [(ngModel)]="stFormData.mandatory"
+                  id="singlAct" class="custom-control-input">
+                <label class="custom-control-label" for="singlAct">Make this a required
+                  field</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" data-test-field-options-item="required">
+              <div class="custom-control custom-checkbox">
+                <label class="switch1">
+                  <input type="radio" [value]="0" name="cust_status" [(ngModel)]="stFormData.status">
+                  <span style="margin-right: 10px;margin-left:5px;font-weight: bold">Inactive</span>
+                </label>
+                <label class="switch1">
+                  <input type="radio" [checked]="stFormData.status==0?false:true" [value]="1"
+                    name="cust_status" [(ngModel)]="stFormData.status">
+                  <span style="margin-right: 10px;margin-left:5px;font-weight: bold">Active</span>
+                </label>
+              </div>
+            </div>
+          </div> 
+        </div>
+      </div>
+      <div class="modal-footer"> 
+        <button type="button" class="btn btn-primary" (click)="updateStForm()" *ngIf="editable_id>0">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  .chk_label label {
+    display: inline-block
+  }
+
+  .chk_label label>input {
+    /* HIDE RADIO */
+    visibility: hidden;
+    /* Makes input not-clickable */
+    position: absolute;
+    /* Remove input from document flow */
+  }
+
+  .chk_label label>input+img {
+    /* IMAGE STYLES */
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+
+  .chk_label label>input:checked+img {
+    /* (RADIO CHECKED) IMAGE STYLES */
+    border: 2px solid #006dcc;
+  }
+
+  /* .form-group label {
+    float: left;
+  } */
+
+  table .dropdown-toggle:after {
+    display: none;
+  }
+
+  /* #frm_opts .form-control {
+    width: 90%;
+  } */
+
+  .frm_op {
+    position: relative;
+  }
+
+  .add_frm_button {
+    position: absolute;
+    /* display: inline-block; */
+    top: 6px;
+    right: 5%;
+  }
+
+  .customFormTable .nav-tabs~.tab-content {
+    overflow: unset;
+  }
+
+  .add_mr_button1 {
+    border: 1px solid blue;
+    border-radius: 100%;
+
+    float: right;
+    background: transparent;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    color: #3283f6;
+  }
+
+  .add_frm_button1.input-group-append .fa-minus {
+    padding-top: 12px;
+  }
+
+  .add_frm_button1.input-group-append .fa-plus {
+    padding-top: 12px;
+  }
+
+  .frm-danger {
+    border: 1px solid red;
+  }
+
+  .chk_label .checkbox label::before {
+    display: none;
+  }
+  .shrink_width_td{
+    width: 24%;
+  }
+  .sortable-container .sortable-list .active table td{
+    color: #fff;
+
+  }
+  .sortable-container .sortable-header.sortable-name{
+    font-size: 20px;
+  }
+</style>

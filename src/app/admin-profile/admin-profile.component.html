@@ -1,0 +1,301 @@
+<!--<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <h4 class="page-title">Admin Profile</h4>
+    </div>
+  </div>
+</div>-->
+<div class=" no-padding container-fixed-lg CRMTable mt-4">
+  <div class="container-fluid p0">
+    <div class="row" *ngIf="all_roles && all_roles.length > 0">
+      <div class="col-md-12"> 
+        <div class="card">
+          <div class="card-header d-flex align-items-center justify-content-between m-0">
+            <div class="card-title">
+              <h5> Profiles & Permissions</h5>
+            </div>
+            <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal" data-target="#modalAdd" (click)="AddNewShow()">
+              <i class="fas fa-plus mr-1"></i> <span> New</span>
+            </button>
+          </div>
+          <div class="card-body" *ngIf="all_roles && all_roles.length > 0">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <select name="" id="" class="form-control" [(ngModel)]="profileId" (change)="SlidePermisionShow()">
+                    <option value="0">Select Profile</option>
+                    <option [value]="data.id" *ngFor="let data of all_roles">{{data.name}}
+                      <span *ngIf="data.user_count">
+                        <a [routerLink]="['/adminMain',{ outlets: { adminSection: ['adminProfileDetails'] }}]" [queryParams]="{ 'id': data.id}">({{data.user_count}})</a>
+                      </span>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="permissiionDiv">
+              <div class="col-12" *ngIf="profileNamee">
+                <h4>Permission List for {{profileNamee}}
+                  <span *ngIf="profileUsercount">
+                  <a [routerLink]="['/adminMain',{ outlets: { adminSection: ['adminProfileDetails'] }}]" [queryParams]="{ 'id': profileId}">({{profileUsercount}})</a>
+                </span>
+                </h4>
+              </div>
+              <div class="col-sm-12 col-md-12 permissiionCont1">
+                <table class="table table-striped table-hover"   datatable [dtOptions]="dtOptions">
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Role</th>
+                    <th>View</th>
+                    <th>Create</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Upload</th>
+                    <th>Download</th>
+                    <th>Share</th>
+                    <th>Public Link</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let key of getObjectKeys(all_permissions)">
+                    <td>
+                      <div class="checkbox form-check-inline">
+                        <input type="checkbox" [checked]="AllChecked(all_permissions[key])" (click)="checkAllPerm(key,$event)" id="{{key}}">
+                        <label for="{{key}}">&nbsp;</label>
+                      </div>
+                    </td>
+                    <td><strong>{{key}}</strong></td>
+                    <td *ngFor="let data of all_permissions[key]">
+                      <div class="permissiionCheck checkbox form-check-inline">
+                        <input type="checkbox" class="checked_{{key}}" [value]="data.id" [checked]="checkPermission(data.id)" (click)="AddToNewPermission(data.id)" id="id+{{data.id}}">
+                        <label for="id+{{data.id}}">{{get_permissionName(data.name)}}</label>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-12 text-right">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="update()">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" *ngIf="all_roles && all_roles.length == 0 && profileUsers">
+      <div class="card-header d-flex align-items-center justify-content-between m-0">
+        <div class="card-title">
+          <h5><i class="fas fa-user"></i>&nbsp; &nbsp;Users Under {{profileName}} </h5>
+        </div>
+        <div class="">
+          <button type="button" [routerLink]="['/adminMain',{ outlets: { adminSection: ['adminProfile'] }}]" class="btn btn-secondary ">
+            <i class="fas fa-angle-left mr-2"></i> <span> Back</span>
+          </button>
+          <button type="button" class="btn btn-primary newBtn ml-2" data-toggle="modal" data-target="#modalAddUser" (click)="AddNewUserShow()">Add User</button>
+        </div>
+      </div>
+      <div *ngIf="profileUsers && profileUsers.length == 0">No User Found</div>
+      <div class="card-body" *ngIf="profileUsers && profileUsers.length > 0">
+        <table class="table table-hover table-bordered table-striped table-hover col-md-12 col-sm-12">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Created At</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of profileUsers">
+            <td><a [routerLink]="['/adminMain',{ outlets: { adminSection: ['user-details'] }}]"
+                   [queryParams]="{ 'id': data.id}">{{data.name}}</a></td>
+            <td>{{data.created_at}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- END card -->
+  </div>
+</div>
+
+
+<!-- Add Modal -->
+<div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header clearfix text-left">
+        <h4><span class="semi-bold">Add Profile</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="AddNewHide()">&times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="">
+          <div class="row mt10">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" [(ngModel)]="name">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer text-right">
+        <button class="btn btn-primary" (click)="save()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.modal-dialog end-->
+
+
+<div id="cusFormModelPop" class="modal fixed-left fade" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="false"
+     *ngIf="modalEdit">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4><span class="semi-bold">Edit Permission</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row mt10">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" [(ngModel)]="profileObj.name">
+            </div>
+          </div>
+        </div>
+        <div class="row mt10">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Select permissions</label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="update()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="cusFormModelPop" class="modal fixed-left fade" id="modalAddUser" tabindex="-1" role="dialog" *ngIf="modalAddUser"
+     aria-hidden="false">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4>Add<span class="semi-bold">User</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="card card-transparent  col-sm-12" *ngIf="create_error!=''">
+            <div class="card-block">
+              <div class="col-xs-12 alert alert-warning">
+                <div class="glyphicon glyphicon-exclamation-sign"></div>
+                <div><i class="fas fa-exclamation-triangle mr-1"></i>{{create_error}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.first_name">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.last_name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Email</label>
+              <span id="acc_em_id_err" class="error">{{email_error_msg}}</span>
+              <input type="text" class="form-control" (input)="validateEmail($event);" [(ngModel)]="newElement.email">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.phone" (input)="validate_phone($event)">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.title">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Mobile</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.mobile" (input)="validate_phone($event)">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Company</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.company">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Profile</label>
+              <select class="form-control" [(ngModel)]="newElement.roles">
+                <option [label]="roles.name" [value]="roles.id" selected>{{roles.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="show_role">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Roles</label>
+              <select class="form-control" [(ngModel)]="newElement.role_hierarchy_id">
+                <option *ngFor="let role of role_hierarchies" [label]="role.name" [value]="role.id">{{role.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Signature</label>
+              <div class="col-lg-12 col-md-12 p0">
+                <div class="wysiwyg5-wrapper b-a b-grey">
+                  <app-quil-editor [(description_html)]="newElement.signature_html">
+                  </app-quil-editor>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="create()"
+        >Add
+        </button>
+        <button type="button" class="btn btn-secondary"
+                data-dismiss="modal">Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

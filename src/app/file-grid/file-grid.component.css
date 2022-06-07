@@ -1,0 +1,26 @@
+::ng-deep .table.tableFile thead tr{display: inline-table;display: flex;width:100%;}
+::ng-deep .table.tableFile thead tr th{/*display: inline-table;*//*line-height: 28px;height: 28px;*/flex:2;}
+::ng-deep .table.tableFile tbody{/*overflow-y: scroll; height: auto; min-height: 300px; max-height: 330px; width: 100%; position: absolute;*/}
+::ng-deep .table.tableFile tbody tr{/*display: inline-table;*/display: flex;width:100%;}
+::ng-deep .table.tableFile tbody tr td.mat-cell{/*display: inline-table;line-height: 17px !important;height: 31px;*/flex:2;}
+::ng-deep .table.tableFile tbody tr td .spanMAin{display: block;padding: 7px 10px;}
+::ng-deep .table.tableFile tbody tr td .spanMAinFile{display: block;padding: 2px 10px; /*height: 32px;*/}
+::ng-deep .table.tableFile tbody tr td .spanMAinFile span.extIcon{width:25px;height:25px;}
+::ng-deep .table.tableFile tbody tr td .fileTxt{line-height: 25px;}
+::ng-deep .table.tableFile thead tr th .spanMAin{display: block;padding: 7px 10px;}
+::ng-deep .tableFilePage .mat-paginator-container{ bottom: -62px; position: absolute; right: 0;}
+
+.breadcrumbs{/*padding:2px 0 0 10px;*//*height: 22px;*/}
+.breadcrumbs a{float:left;padding:10px;}
+tr.mat-footer-row, tr.mat-row {
+    height: auto !important; 
+}
+.new_upld{
+	/*color: #fff;*/
+}
+.modal{
+	/*display: block;*/
+}
+.display_blk{
+	display: block !important;
+}

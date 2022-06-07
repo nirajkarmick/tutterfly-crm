@@ -1,0 +1,254 @@
+<div id="add_new_opp_stn" class="modal fixed-left fade" tabindex="-1" role="dialog" style="padding-right: 0 !important;" [ngClass]="popUpClass ? 'modelOpenNew':''" *ngIf="newStAccPop">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">{{formTitle}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body addNew-form" *ngIf="createData">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="addNew-form-Subhead">{{st_formType}} Information</h5>
+                    </div>
+                </div>
+              <div *ngIf="standardFields && standardFields.length>0"> 
+                  <div class="row">
+
+                      <div class="col-md-6" *ngFor="let fld of standardFields;let i=index">
+                          <div class="form-group" *ngIf="fld.name=='name'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}" name="fld.name" [(ngModel)]="newopportunity.name">
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='amount'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}" name="fld.name"  [(ngModel)]="newopportunity.amount">
+                          </div>
+
+
+                          <div class="form-group" *ngIf="fld.type=='search_account' && AccountCont">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}" name="fld.name" (keydown)="search_acc($event)" [(ngModel)]="account_nameSearch" name="auto_acc_name"
+                                        placeholder="Search Account">
+
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoAccList.length >0">
+
+                                        <div *ngFor="let acc of autoAccList" class="auto-itm">
+                                            <div (click)="selectAccId(acc.id)">
+                                                <strong>{{acc.name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                          </div>
+                          <div class="form-group" *ngIf="fld.type=='search_contact' && AccountCont">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}" [(ngModel)]="newopportunity.contact_id">
+                                    <option *ngFor="let a of accounts_client" [value]="a.id">
+                                        {{a.first_name}} {{a.middle_name}} {{a.last_name}}
+                                    </option>
+                              </select>
+                          </div>
+                          <div class="form-group" *ngIf="fld.type=='search_per_account' && PerAccountCont" >
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="text" class="form-control" id="{{fld.name}}" name="fld.name" [(ngModel)]="per_account_nameSearch" 
+                                        (keydown)="search_per_acc($event)" 
+                                        placeholder="Search Account">
+
+                                    <div id="myInputautocomplete-list" class="autocomplete-items"
+                                        *ngIf="autoPerAccList.length >0">
+
+                                        <div *ngFor="let acc of autoPerAccList" class="auto-itm">
+                                            <div (click)="selectPerAccId(acc.id)">
+                                                <strong>{{acc.first_name}} {{acc.last_name}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                          </div>
+                          <div class="form-group" *ngIf="fld.name == 'description'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <textarea class="form-control" id="{{fld.name}}" name="fld.name"   [(ngModel)]="newopportunity.description"></textarea>
+                          </div>
+
+                          <!-- number fields -->
+                          <div class="form-group" *ngIf="fld.name=='no_of_nights'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}" min="1" name="fld.name"  [(ngModel)]="newopportunity.no_of_nights">
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='no_of_pax'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}" min="1" name="fld.name"  [(ngModel)]="newopportunity.no_of_pax">
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='no_of_adults'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}" min="1" name="fld.name"  [(ngModel)]="newopportunity.no_of_adults">
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='no_of_childs'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}" min="1" name="fld.name"  [(ngModel)]="newopportunity.no_of_childs">
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='no_of_infants'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <input type="number" class="form-control" id="{{fld.name}}" min="1" name="fld.name"  [(ngModel)]="newopportunity.no_of_infants">
+                          </div>
+
+                         <!--  <div class="form-group" *ngIf="fld.type=='selectbox'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}">
+                                   <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a">{{a}}
+                                  </option>
+                              </select>
+                          </div> -->
+                          <!-- <div class="form-group" *ngIf="fld.type=='multiselect'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" size="4" id="{{fld.name}}" multiple>
+                                  <option *ngFor="let a of fld.type_value" [value]="a">{{a}}
+                                  </option>
+                              </select>
+                          </div> -->
+                          <div class="form-group" *ngIf="fld.name=='key_deal'" id="{{fld.name}}_check">
+                              <label class="key_check_label">{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <div *ngFor="let a of fld.type_value" class="form-check form-check-inline key_check">
+
+                                  <input type="checkbox" value="{{a}}" class="{{fld.name}} form-check-input ml-0" [(ngModel)]="newopportunity.key_deal">
+                                  <label class="form-check-label"></label>
+                              </div>
+                          </div>
+                          <div class="" *ngIf="fld.type=='radio' && fld.name=='opportunitable_type'" id="{{fld.name}}_radio">
+                              <label class="">{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <div *ngFor="let a of fld.type_value" class="form-check form-check-inline" style="cursor:pointer;"> 
+                                    <label style="vertical-align: top;" *ngIf="a=='Account'" class="form-check-label">{{a}}
+                                     <input type="radio"  value="{{a}}" class="{{fld.name}} form-check-input ml-0" name="radio_fetch" checked  (click)="AccountContShow()" ></label> 
+                                  <label style="vertical-align: top;" *ngIf="a!='Account'"  class="form-check-label">{{a}}
+                                      <input type="radio"  value="{{a}}" class="{{fld.name}} form-check-input ml-0" name="radio_fetch"  (click)="PerAccountContShow()">
+                                  </label> 
+                              </div>
+                          </div>
+                          <!-- <div class="" *ngIf="fld.type=='radio' && fld.name!='opportunitable_type'" id="{{fld.name}}_radio">
+                              <label class="">{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <div *ngFor="let a of fld.type_value" class="form-check form-check-inline">
+                                <input type="radio" value="{{a}}" class="{{fld.name}} form-check-input ml-0" name="radio_fetch">
+                                  <label style="vertical-align: top;" class="form-check-label">{{a}}</label>
+                              </div>
+                          </div> -->
+                          <div class="form-group" *ngIf="fld.name=='probability'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                                <input type="text" class="form-control" [(ngModel)]="newopportunity.probability" [disabled]="true"> 
+                               
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='expected_revenue'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                                <p *ngIf="newopportunity.probability>0 && newopportunity.amount>0">
+                                    {{newopportunity.probability * newopportunity.amount/100}}</p>
+                               
+                          </div>
+                          <div class="form-group custom_calender_c" *ngIf="fld.name=='travel_date'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <input matInput [matDatepicker]="picker2" class="form-control form-control1"  [(ngModel)]="newopportunity.travel_date">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"><i class="fas fa-calendar"></i>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+
+                          </div> 
+                          
+                          <div class="form-group custom_calender_c" *ngIf="fld.name=='close_date'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <input matInput [matDatepicker]="picker_opp" class="form-control form-control1"
+                                    [(ngModel)]="newopportunity.close_date">
+                                <mat-datepicker-toggle matSuffix [for]="picker_opp"><i class="fas fa-calendar"></i>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker_opp></mat-datepicker>
+
+                          </div> 
+                          <div class="form-group" *ngIf="fld.name=='experience_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}" [(ngModel)]="newopportunity.experience_id">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='inclusion_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}" [(ngModel)]="newopportunity.inclusion_id" multiple="">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='sales_stage_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}" [(ngModel)]="newopportunity.sales_stage_id" (change)="selectStage($event.target.value)"> 
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option> 
+                              </select>     
+                          </div>
+                          <div class="form-group" *ngIf="fld.name=='tag_id'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                                <select type="text" class="form-control select2 opp-tag-select" size="4" multiple
+                                    [(ngModel)]="newopportunity.tag_id">
+                                    <option *ngFor="let a of createData.opportunity_tags" [value]="a.id">&#xf02b; &nbsp; {{a.name}}
+                                    </option>
+                                </select>
+                          </div>
+                          <div class="form-group" *ngIf="fld.type=='select2'">
+                              <label>{{fld.label}}<span *ngIf="fld.mandatory">*</span></label>
+                              <span class="error err_span cust_err_frm" id="{{fld.name}}_err_sp"></span>
+                              <select class="form-control" id="{{fld.name}}" [(ngModel)]="fld.default_value">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let a of fld.type_value" [value]="a.id">{{a.name}}
+                                  </option>
+                              </select>     
+                          </div>
+                      </div>
+               
+                  </div>
+              </div>
+
+              <!-- <app-addform [(extraFields)]="extraFields"></app-addform> -->
+           </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary float-right" type="button" (click)="createnewStOpportunity()">Save
+                    Opportunity</button>
+            </div>
+</div>
+</div>
+</div> 
+<style type="text/css">
+  
+  .key_check{
+    position: revert;
+  }
+  .key_check input{
+    position: absolute;
+    left: 0;
+    top: 19%;
+  }
+  .key_check_label{
+    margin-left: 10%;
+  }
+</style>

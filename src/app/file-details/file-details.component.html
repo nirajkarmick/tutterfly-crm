@@ -1,0 +1,166 @@
+<div class="no-padding container-fixed-lg CRMTable fileMainCont">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right button-list">
+                        <div class="btn-group pull-right">
+                            <button type="button button-list" class="btn btn-primary waves-effect waves-light" *ngIf="download_file"
+                                (click)="download()">Download</button>
+                            <button type="button button-list" class="btn btn-dark waves-effect waves-light" *ngIf="share_file"
+                                (click)="publicLinkDisplay(1)">Share</button>
+                            <button type="button button-list" class="btn btn-info waves-effect waves-light" *ngIf="share_file"
+                                (click)="publicLinkDisplay(2)">Public Link
+                            </button>
+                        </div>
+                    </div>
+                    <h4 class="page-title">File Details</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header card-white-head">
+                <div class="card-title m-0 w-100">
+                    <div class="row">
+                        <div class="col-md-6 select-DataView">
+                            <div class="d-flex icon-module float-left mr-1">
+                                <!-- <img src="assets/new_assets/images/account-icon.png" alt="" width="" class="img-fluid"> -->
+                                <div class="timeline-icon bg-primary rounded-circle">
+                                    <i class="mdi mdi-file-outline float-left m-0 h3 p-2 align-middle text-white"></i>
+                                </div>
+                            </div>
+                            <div class="MainHeadCont">
+                                <div class="MainHeadClinetname">File Details</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="float-right">
+                                <div class="col-md-4 col-sm-4 pull-left">
+                                    <div class="text-cont">
+                                        <div class="text-label">Size</div>
+                                        <div class="text-value">{{clientDetails.file_size}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 pull-left">
+                                    <div class="text-cont">
+                                        <div class="text-label">File Extension</div>
+                                        <div class="text-value">{{clientDetails.file_extension}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 pull-left">
+                                    <div class="text-cont">
+                                        <div class="text-label">Owner</div>
+                                        <div class="text-value"><a>{{getOwner(clientDetails.owner_id)}}</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ClientInfo">
+            <div class="row">
+                <div class=" col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                    <div class="card-box">
+                        <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab"
+                                    data-target="#preview" href="#">Preview</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" data-toggle="tab" role="tab"
+                                    data-target="#DetailsCont">Details</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="preview" *ngIf="dataUrl!=undefined">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <object height="500" [data]="dataUrl" webkitallowfullscreen mozallowfullscreen
+                                            allowfullscreen></object>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane " id="DetailsCont">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group required">
+                                                    <label>Title</label>
+                                                    <div class="formReadonly form-control">{{clientDetails.title}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Description</label>
+                                                    <div class="formReadonly form-control">
+                                                        {{clientDetails.description}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                    <div class="card-box">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <h5>Share with</h5>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 button-list">
+                                <button type="button"
+                                    class="button-list btn btn-primary waves-effect waves-light">user</button>
+                                <button type="button"
+                                    class="button-list btn btn-info waves-effect waves-light">Owner</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div id="publicLink" *ngIf="publicLink" aria-labelledby="modalSlideUpLabel" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" *ngIf="clientDetails.open==1">Share Files</h5>
+                <h5 class="modal-title" *ngIf="clientDetails.open==2">Public Link</h5>
+                <button type="button" class="close" (click)="publicLinkDisplay(clientDetails.open)">
+                    &times;</button>
+            </div>
+            <div class="modal-body " style="padding-top: 20px;">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <span *ngIf="clientDetails.open==1">
+                            <!-- <input  class="form-control" value="{{row | json}}"> -->
+                            <select multiple [(ngModel)]="shareFileObj.share_to_ids" class="form-control">
+                                <option *ngFor="let u of users" [value]="u.id">{{u.name}}</option>
+                            </select>
+                            <br>
+                            <select [(ngModel)]="shareFileObj.share_type" class="form-control">
+                                <option [value]="0">Viewer</option>
+                                <option [value]="1">Colaborator</option>
+                            </select>
+                        </span>
+                        <span *ngIf="clientDetails.open==2"><input class="form-control" value="{{link}}"
+                                style="width: 92%">
+                            <i class="fa fa-copy" style="cursor: pointer; font-size: 20px; width: 4%; position: absolute; right: 6px;
+                                  top: 10px;" matTooltip="Copy Link" (click)="copyMessage()"></i><br>
+                            <p class="text-warning">{{copysuccess}}</p>
+                        </span>
+                    </div>
+                    <button type="button" class="btn btn-primary float-right" (click)="publicLinkDisplay(clientDetails.open)">Close</button>
+                    <button type="button" class="btn btn-secondary float-right" *ngIf="clientDetails.open==1"
+                        (click)="shareFile(clientDetails.open)">Share</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

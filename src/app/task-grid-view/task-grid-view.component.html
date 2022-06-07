@@ -1,0 +1,83 @@
+<div class="card-block" >
+    <table class="table-responsive">
+  <!-- <mat-form-field class="MatSearch">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field> -->
+<!--  <table mat-table [dataSource]="taskSource" class="table-responsive table nowrap w-100 table-striped table-bordered" matSort> -->
+      <table mat-table [dataSource]="taskSource" class="table table-hover" matSort>
+          <ng-container *ngFor="let obj of displayColumns" [matColumnDef]="obj.name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="elips"> {{obj.alias_name}}</th>
+              <td mat-cell *matCellDef="let row"  style="position: relative;">
+                  <span class="elips" *ngIf="obj.id == 1   ">
+                      <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['taskDetails'] }}]" [queryParams]="{ 'id': row | json} ">{{row[obj.name]}}</a>
+                  </span>
+                <span class="elips" *ngIf="(obj.id == 2 ) && (row[obj.name]!=null)">{{row[obj.name] | slice:0:45}}</span>
+                  <span class="elips" *ngIf="(obj.id == 5) && (row[obj.name]!=null) && obj.id != 2 ">{{row[obj.name].name}}</span>
+                  <span class="elips" *ngIf="( obj.id == 8 ) && (row[obj.name]!=null) && obj.id != 2 ">
+
+                   <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['contactDetails'] }}]" [queryParams]="{ 'id': row[obj.name].id} ">{{row[obj.name].name}}</a>
+                  </span>
+                  <span class="elips" *ngIf="(obj.id == 9  || obj.id == 10 || obj.id == 11)">
+                     <span *ngFor="let u of users">
+                        <span class="elips" *ngIf="u.id == row[obj.name]">
+
+                          <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                                        [queryParams]="{ 'id': u.id}">{{u.name}}</a>
+                         </span>
+                     </span>
+                    </span>
+                  <span class="elips" *ngIf="obj.id != 5 && obj.id != 1   && obj.id != 8 && obj.id != 9  && obj.id != 10 && obj.id != 11  && obj.id != 2  && obj.id != 12   && obj.id != 4 && obj.id != 3">{{row[obj.name]}}
+ 
+                  </span>
+                  <!-- <span *ngIf="obj.id==4" class="elips" >{{row[obj.name].replace('App', '') }}</span> -->
+                  <span *ngIf="obj.id==4" class="elips" >
+                        <span *ngIf="row[obj.name]=='App\\Account'">Accounts</span>
+                        <span *ngIf="row[obj.name]=='App\\Opportunity'">Opportunity</span>
+                        <span *ngIf="row[obj.name]=='App\\Lead'">Lead</span>
+                        <span *ngIf="row[obj.name]=='App\\Contact'">Account</span>
+                        <span *ngIf="row[obj.name]=='App\\PersonalAccount'">Person Account</span>
+                        <!-- {{row[obj.name]}} -->
+                </span>  
+                  <span *ngIf="obj.id==3" class="elips" >{{row[obj.name] | date: 'dd MMM yyyy  | hh:mm a'}}</span>
+                  <span *ngIf="obj.id==12" class="elips" >{{row[obj.name] | date: 'dd MMM yyyy'}}</span>
+                  <a *ngIf="obj.editable_flag==1" class="editBtn" (click)="EditPopShow(row.id,obj.id,row[obj.name])"><i class="fas fa-edit"></i></a>
+                  <a *ngIf="obj.editable_flag!=1" class="lockBtn"><i class="fas fa-lock"></i></a>
+                  <div class="Editpop" *ngIf="Editpop && openEditRow==row.id && openEditCol==obj.id">
+                      <div class="col-md-9 col-sm-9 pull-left p0" *ngIf="obj.id != 6  && obj.id != 7 && obj.id != 9  && obj.id != 10 && obj.id != 11 && (obj.id != 3)">
+                          <input type="text"  [(ngModel)]="updateValue"/>
+                      </div>
+                      <div class="col-md-9 col-sm-9 pull-left p0" *ngIf="(obj.id == 6 )">
+                            <select [(ngModel)]="updateValue" class="form-control">
+                                <option *ngFor="let obj of priority" [value]="obj.name" [selected]="row[obj.name]==obj.name">{{obj.name}}</option>
+                            </select>
+                      </div>
+                      <div class="col-md-9 col-sm-9 pull-left p0" *ngIf="(obj.id == 7)">
+                            <select [(ngModel)]="updateValue" class="form-control">
+                                <option *ngFor="let obj of statusList" [value]="obj.name" [selected]="row[obj.name]==obj.name">{{obj.name}}</option>
+                            </select>
+                      </div>
+                      <span class="col-md-9 col-sm-9 p0 pull-left" *ngIf="(obj.id == 3)">
+                        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" class="form-control" [value]="updateValue" [(ngModel)]="updateValue"
+                placeholder="Date Time"  [min]="todayDate">
+              <owl-date-time #dt1  style="position: absolute; top: -3px; right: 0px;">
+                <i class="fas fa-calendar"></i>
+              </owl-date-time>
+                        <!-- <input matInput [matDatepicker]="picker" class="form-control" [value]="updateValue" [(ngModel)]="updateValue">
+                            <mat-datepicker-toggle matSuffix [for]="picker"  style="position: absolute; top: -3px; right: 0px;"><i class="fas fa-calendar"></i></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker> -->
+                      </span>
+                      <div class="col-md-3 col-sm-3 pull-right p0" >
+                          <a class="btn btn-sm btn-primary pull-right"  (click)="EditPopHide()"><i class="fas fa-times"></i></a>
+                          <a class="btn btn-sm btn-primary pull-right" style="margin-right:3px" (click)="updateColumn(row)"><i class="fas fa-save"></i></a>
+                      </div> 
+                  </div> 
+              </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="keys"></tr>
+                <tr mat-row *matRowDef="let row; columns: keys;"></tr>
+      </table>  
+    <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
+
+</table>
+</div>

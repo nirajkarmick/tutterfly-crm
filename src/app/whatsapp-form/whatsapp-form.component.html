@@ -1,0 +1,273 @@
+<div class="row" *ngIf="countryLoaded">
+  <div class="col-md-12">
+    <div class="whatappHead">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="form-group required">
+            <label>Phone number with country Code *</label>
+            <div class="input-group">
+              <div class="input-group-prepend mr-1">
+                <span class="input-group-text p-0" id="basic-addon1">
+                    <select2 placeholder="select" [options]="countryOptions" [data]="countryData" [value]="select_country" class="form-control1" (valueChanged)="getPhoneCode($event.value)" width="100%"></select2>
+                </span>
+              </div>
+              <input type="text" class="form-control" [(ngModel)]="watsapp.recipient_no"><span style="cursor:pointer;" (click)="renderChange()" matTooltip="Refresh"><i class="fa fa-refresh mt-2"  style=" font-size: 20px; "></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="whatappContainer">
+      <div class="whatsap_bg"></div>
+      <div class="whatapp_body" id="wats_bdy">
+        <div *ngFor="let wp of clientData.whatsapp_activites">
+          <div class="whatsapp_grp_date" *ngIf="wp.message"><span class="date_bgwhatapp">{{wp.created_at | date:'dd MMM yyyy'}}</span></div>
+          <div tabindex="-1" class="mb-12 message-in msgBox-div mt-1" *ngIf="wp.direction=='incoming'">
+            <div class="msgBox msgBox_w msgBox_C">
+              <span class="Bubblearrow">
+                <svg viewBox="0 0 8 13" width="8" height="13" class="">
+                  <path opacity=".13" fill="#0000000" d="M1.533 3.568L8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
+                  <path fill="currentColor" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
+                </svg>
+              </span>
+              <div class="Nm1g1 _22AX6">
+                <div class="HoverDownArrow">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-angle-down"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item"  href="javascript:void(0);" (click)="reply_to_msg(wp)">Reply</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="_22Msk">
+                  <div class="copyable-text">
+                    <div class="_1Gy501">
+                      <span class="i0jNr selectable-text copyable-text" *ngIf="wp.type=='text'">
+                        <span class="replyFromBox d-block" *ngIf="wp.reply_against" [ngClass]="wp.reply_against_msg.type == 'text'?'d-block':'onlyreplyICon'">
+                          <span class="replyFromNo">+{{wp.reply_from_no}}
+                            <span class="iconType" *ngIf="wp.reply_against_msg.type != 'text'">Doc</span>
+                          </span>
+                          <small *ngIf="wp.reply_against_msg.type == 'text'">{{wp.reply_against_msg.message}}</small>
+                          <span *ngIf="wp.reply_against_msg.type != 'text'" class="replyMgsIcon">
+                            <span (click)=getwhatsappMedia(wp.reply_against_msg.id) class="d-block">
+                              <span *ngIf="wp.reply_against_msg.type == 'gif' || wp.reply_against_msg.type == 'GIF'" class="icongif extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'xls' || wp.reply_against_msg.type == 'xlsx'" class="iconxls extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'png' || wp.reply_against_msg.type == 'PNG'" class="iconpng extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'ppt' || wp.reply_against_msg.type == 'pptx'" class="iconppt extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'pdf'" class="iconpdf extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'doc'  || wp.reply_against_msg.type == 'docx'    || wp.reply_against_msg.type == 'vnd.openxmlformats-officedocument.wordprocessingml.document'"
+                                    class="icondoc extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'csv'" class="iconcsv extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'jpg' || wp.reply_against_msg.type == 'JPG' || wp.reply_against_msg.type == 'JEPG' || wp.reply_against_msg.type == 'jpeg'"
+                                    class="iconjpg extIcon d-block"></span>
+                            </span>
+                          </span>
+                        </span>
+                        <span class="replyWPmessage">{{wp.message}}</span>
+                      </span>
+                      <span class="i0jNr selectable-text copyable-text media_cursor" *ngIf="wp.type!='text'">
+                        <span (click)=getwhatsappMedia(wp.id) class="d-block">
+                          <span *ngIf="wp.type == 'gif' || wp.type == 'GIF'" class="icongif extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'xls' || wp.type == 'xlsx'" class="iconxls extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'png' || wp.type == 'PNG'" class="iconpng extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'ppt' || wp.type == 'pptx'" class="iconppt extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'pdf'" class="iconpdf extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'doc'  || wp.type == 'docx'    || wp.type == 'vnd.openxmlformats-officedocument.wordprocessingml.document'" class="icondoc extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'csv'" class="iconcsv extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'jpg' || wp.type == 'JPG' || wp.type == 'JEPG' || wp.type == 'jpeg'" class="iconjpg extIcon d-block"></span>
+                          <span class="d-block" *ngIf="wp.reply_against">
+                            <h2>{{wp.reply_against_msg.message}}</h2>
+                          </span>
+                        </span>
+                        <span class="d-block">{{wp.message}}</span>
+                      </span>
+                      <span class="_20bHr"></span>
+                    </div>
+                  </div>
+                  <div class="_1beEj">
+                    <div class="_15K2I">
+                      <span class="kOrB_" *ngIf="wp.message">{{wp.created_at | date:'h:mm a'}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div tabindex="-1" class="mb-12 message-out focusable-list-item  mt-1">
+            <div class="msgBox msgBox_w msgBox_C" *ngIf="wp.direction=='outgoing'">
+              <span class="Bubblearrow">
+                <svg viewBox="0 0 8 13" width="8" height="13" class="">
+                  <path opacity=".13" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z"></path>
+                  <path fill="currentColor" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path>
+                </svg>
+              </span>
+              <div class="Nm1g1 _22AX6">
+                <div class="HoverDownArrow">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_outgoing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-angle-down"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton_outgoing">
+                      <a class="dropdown-item" href="javascript:void(0);" (click)="reply_to_msg(wp)">Reply</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="_22Msk">
+                  <div class="copyable-text">
+                    <div class="_1Gy501">
+                     <span class="i0jNr selectable-text copyable-text" *ngIf="wp.type=='text'">
+                       <span class="replyFromBox d-block" *ngIf="wp.reply_against" [ngClass]="wp.reply_against_msg.type == 'text'?'d-block':'onlyreplyICon'">
+                          <span class="replyFromNo">+{{wp.reply_from_no}}
+                            <span class="iconType" *ngIf="wp.reply_against_msg.type != 'text'">Doc</span>
+                          </span>
+                          <small *ngIf="wp.reply_against_msg.type == 'text'">{{wp.reply_against_msg.message}}</small>
+                          <span *ngIf="wp.reply_against_msg.type != 'text'" class="replyMgsIcon">
+                            <span (click)=getwhatsappMedia(wp.reply_against_msg.id) class="d-block">
+                              <span *ngIf="wp.reply_against_msg.type == 'gif' || wp.reply_against_msg.type == 'GIF'" class="icongif extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'xls' || wp.reply_against_msg.type == 'xlsx'" class="iconxls extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'png' || wp.reply_against_msg.type == 'PNG'" class="iconpng extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'ppt' || wp.reply_against_msg.type == 'pptx'" class="iconppt extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'pdf'" class="iconpdf extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'doc'  || wp.reply_against_msg.type == 'docx'    || wp.reply_against_msg.type == 'vnd.openxmlformats-officedocument.wordprocessingml.document'"
+                                    class="icondoc extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'csv'" class="iconcsv extIcon d-block"></span>
+                              <span *ngIf="wp.reply_against_msg.type == 'jpg' || wp.reply_against_msg.type == 'JPG' || wp.reply_against_msg.type == 'JEPG' || wp.reply_against_msg.type == 'jpeg'"
+                                    class="iconjpg extIcon d-block"></span>
+                            </span>
+                          </span>
+                        </span>
+                        <span class="replyWPmessage">{{wp.message}}</span>
+                     </span>
+                      <span class="i0jNr selectable-text copyable-text  media_cursor" *ngIf="wp.type!='text'">
+                        <span (click)=getwhatsappMedia(wp.id) class="d-block">
+                          <span *ngIf="wp.type == 'gif' || wp.type == 'GIF'" class="icongif extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'xls' || wp.type == 'xlsx'" class="iconxls extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'png' || wp.type == 'PNG'" class="iconpng extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'ppt' || wp.type == 'pptx'" class="iconppt extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'pdf'" class="iconpdf extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'doc'  || wp.type == 'docx'    || wp.type == 'vnd.openxmlformats-officedocument.wordprocessingml.document'" class="icondoc extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'csv'" class="iconcsv extIcon d-block"></span>
+                          <span *ngIf="wp.type == 'jpg' || wp.type == 'JPG' || wp.type == 'JEPG' || wp.type == 'jpeg'" class="iconjpg extIcon"></span>
+                        </span>
+                        <span class="d-block">{{wp.message}}</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="_1beEj">
+                    <div class="_15K2I" role="button">
+                      <span class="kOrB_" dir="auto" *ngIf="wp.message">{{wp.created_at | date:'h:mm a'}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <div class="sendMsgBox" *ngIf="whatsapp_thread_exist">
+        <div class="replyMsgtypingContainer" *ngIf="reply_to_span">
+          <div class="a-HbF">
+            <div class="_1IN0t">
+              <div class="_3hPBO">
+                <div class="_3o5fT _3XUNQ"><span class="bg-color-1 _3jrlM"></span>
+                  <div class="-gKwI" dir="ltr">
+                    <div class="E_Te0">
+                      <div class="hooVq color-1" role=""><span dir="auto" class="i0jNr">+{{reply_d_no}}</span></div>
+                      <div class="eWQsx _2fkyH" dir="ltr"><span dir="auto" class="quoted-mention i0jNr">{{reply_d_msg}}</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="_1Hccy">
+              <div role="button" (click)="remove_reply_msg()">
+                <span class="">
+                <svg viewBox="0 0 24 24" width="24" height="24" class="">
+                  <path fill="currentColor" d="m19.1 17.2-5.3-5.3 5.3-5.3-1.8-1.8-5.3 5.4-5.3-5.3-1.8 1.7 5.3 5.3-5.3 5.3L6.7 19l5.3-5.3 5.3 5.3 1.8-1.8z"></path>
+                </svg>
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="input-group">
+            <div class="whatsapp_attach input-group-prepend" data-toggle="modal" data-target="#add_attachment" (click)="openAttachModeal()" matTooltip="Add Attachment">
+              <div class="input-group-text">
+                <i class="fa fa-paperclip mr-21"></i>
+              </div>
+            </div>
+            <input type="text" class="form-control" placeholder="Type a message" [(ngModel)]="watsapp.message">
+          </div>
+          <div class="sendBtn" (click)="sendWatsapp()"><i class="fas fa-send"></i></div>
+        </div>
+      </div>
+      <div class="whatapp_msgSender row" *ngIf="!whatsapp_thread_exist">
+        <div class="error col-md-8">
+          <span class="mt-3 position-absolute">This number is not connected with us on whatsapp.Connect by sending a welcome template.</span>
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-primary btn-cons m-b-10 float-right mt-2" type="button" (click)="sendWhatsappTemplate()">
+            <span class="bold"><i class="fas fa-send mr-1"></i>Send Template</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<app-whatsapp-attachment [(whatsapp_attachment)]="whatsapp_attachment" [(whatsapp_documentData)]="whatsapp_documentData" [(w_attachModalOpen)]="w_attachModalOpen" [(form_body)]="form_body" *ngIf="w_attachModalOpen"
+                         (sendAttach)="sendAttach()"></app-whatsapp-attachment>
+
+<div id="media_modal" aria-labelledby="modalSlideUpLabel" class="modal fade" role="dialog">
+  <div class="modal-dialog  modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Document View</h5>
+        <button type="button" class="close" (click)="media_modal_close()">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body " style="padding-top: 20px;">
+        <div class="col-md-12 col-sm-12" *ngIf="dataUrl">
+
+          <div class="row">
+            <div class="col-lg-12">
+              <object height="500" width="100%" [data]="dataUrl" webkitallowfullscreen mozallowfullscreen allowfullscreen></object>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+
+  .whatsapp_attach {
+    cursor: pointer;
+
+  }
+
+  .whatsapp_grp_date {
+    display: flex;
+    justify-content: center;
+  }
+
+  .date_bgwhatapp {
+    background: #fff;
+    line-height: 1;
+    padding: 5px 13px;
+    border-radius: 20px;
+  }
+
+  .media_cursor {
+    cursor: pointer;
+    display: grid;
+  }
+</style>

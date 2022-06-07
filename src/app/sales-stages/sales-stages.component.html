@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <div class="page-title-right">
+      </div>
+      <h4 class="page-title">Sales Process - Stages </h4>
+    </div>
+  </div>
+</div>
+<!-- START card -->
+<div class="no-padding container-fixed-lg bg-white CRMTable">
+  <div class="container-fluid p0">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title col-md-9">
+          <div class="MainHeadCont">
+            <h5 class="MainHead">Sales</h5>
+          </div>
+        </div>
+        <div class="col-md-3 pull-left">
+          <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal" data-target="#modalAdd"
+            (click)="AddNewShow(undefined)">
+            <span class="pull-left"><i class="pg-plus"></i></span>
+            <span>New</span>
+          </button>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="displayTable">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped"  datatable [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Name</th>
+                <!-- <th>Description</th> -->
+                <th>Position</th>
+                <th>Probability</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let element of sales;let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{element.name}}</td>
+                <!-- <td>{{element.description}}</td> -->
+                <td>{{element.position}}</td>
+                <td>{{element.probability}}</td>
+                <td><span style="margin-right:10px;" data-toggle="modal" data-target="#modalAdd"
+                    (click)="AddNewShow(element)" *ngIf="element.name!='Close Won' && element.name!='Close Lost'"><i aria-hidden="true" class="fas fa-edit"></i></span>
+                    <span *ngIf="element.name!='Close Won' && element.name!='Close Lost'"><i aria-hidden="true" class="fas fa-trash text-danger"
+                      (click)="deleteStage(element.id)"></i></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add Modal -->
+<div class="modal fade slide-down disable-scroll" id="modalAdd" tabindex="-1" role="dialog"
+  aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header clearfix text-left">
+          <h5>{{buttonLable}} <span class="semi-bold">Stage</span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Name*</label>
+                <input type="text" class="form-control" [(ngModel)]="newElement.name">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Description</label>
+                <input type="text" class="form-control" [(ngModel)]="newElement.description">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Probability</label>
+                <input type="text" class="form-control" [(ngModel)]="newElement.probability">
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="positions && buttonLable!='Add'">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Stage Position</label>
+                <select [(ngModel)]="newElement.position" class="form-control">
+                  <option *ngFor="let p of positions" [label]="p" [value]="p"></option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary float-right" (click)="create()"
+            data-dismiss="modal">{{buttonLable}}</button>
+        </div>
+      </div>
+  </div>
+</div>
+<!-- /.modal-dialog end-->

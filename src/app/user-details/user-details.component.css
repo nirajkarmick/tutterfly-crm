@@ -1,0 +1,41 @@
+.UserProfileInfo ul li label{
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    float: left;
+    width: 100%;
+}
+.UserProfileInfo ul{
+    float: left;
+    width: 100%;
+    margin-top: 20px;
+}
+.UserProfileInfo ul li span{
+    /*width: 100px;
+    position: relative;
+    float: left;*/
+    font-weight: 600;
+    display: block;
+}
+@media (min-width: 768px) {
+    .UserProfileInfo ul li{
+        /*-webkit-columns: 2;
+        -moz-columns: 2;
+        columns: 2;
+        list-style-position: inside;*/
+        float: left;
+        width: 50%;
+        padding: 0 10px;
+    }
+}
+@media (min-width: 1200px) {
+    .UserProfileInfo ul li{
+        /*-webkit-columns: 3;
+        -moz-columns: 3;
+        columns: 3;
+        list-style-position: inside;*/
+
+    }
+}
+.UserProfileInfo ul li label{
+    height: 40px;
+}

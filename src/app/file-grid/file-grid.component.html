@@ -1,0 +1,262 @@
+<div class="card-block p0 CRMTable FileCont" (click)="close_popup()">
+    <!-- {{displayColumns |json}}
+  <div *ngFor="let obj of displayColumns">{{obj.Name}}</div> -->
+    <div class="breadcrumbs fileBreadcrumbs">
+        <a *ngFor="let b of breadCrumbs;let i = index">
+            <span (click)="selectFolder(b.id,b.Name,i)"
+                [ngClass]="breadCrumbs.length == i+1 ? 'active':''">{{getRead(b)}} &nbsp;</span><i
+                class="fas fa-angle-right"></i></a>
+    </div>
+    <div class="clearfix"></div>
+    <table class="table-responsive table-bordered table-striped">
+        <mat-form-field class="MatSearch" style="display:none;">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+
+        <table mat-table [dataSource]="_source" class="table tableFile table-hover m0" matSort style="min-height: 350px;">
+            <ng-container *ngFor="let obj of displayColumns" [matColumnDef]="obj.name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{obj.alias_name}}</th>
+                <td mat-cell *matCellDef="let row" style="position: relative;">
+                    <!-- <span   style="visibility: hidden;">{{row[obj.name]}} {{obj.name}}</span> -->
+                    <a *ngIf="obj.name=='title' || (row[obj.name]==undefined && obj.name=='name') " class="spanMAinFile"
+                        (click)="openPreviewImage(row)">
+                        <span *ngIf="row.file_extension == 'gif'" class="icongif extIcon"></span>
+                        <span *ngIf="row.file_extension == 'xls' || row.file_extension == 'xlsx'" class="iconxls extIcon"></span>
+                        <span *ngIf="row.file_extension == 'png'" class="iconpng extIcon"></span>
+                        <span *ngIf="row.file_extension == 'ppt' || row.file_extension == 'pptx'" class="iconppt extIcon"></span>
+                        <span *ngIf="row.file_extension == 'pdf'" class="iconpdf extIcon"></span>
+                        <span *ngIf="row.file_extension == 'doc' || row.file_extension == 'docx'" class="icondoc extIcon"></span>
+                        <span *ngIf="row.file_extension == 'csv'" class="iconcsv extIcon"></span>
+                        <span *ngIf="row.file_extension == 'jpg' || row.file_extension == 'JPG'" class="iconjpg extIcon"></span>
+                        <span class="pull-left fileTxt" title="{{row[obj.name]}}" *ngIf="row[obj.name]">
+                            {{(row[obj.name].length>20)? (row[obj.name] | slice:0:20)+'..':(row[obj.name])}}
+                            <!-- {{row[obj.name]}} -->
+                        </span>
+                        <span class="pull-left fileTxt"
+                            *ngIf="obj.name=='name' && row.title!=undefined">{{row.title}}</span>
+                    </a>
+                    <span *ngIf="obj.name=='updated_at'" class="spanMAin">
+                        {{row[obj.name] | date: 'dd MMM yyyy'}}
+                    </span>
+                    <a *ngIf="obj.name=='name' && row[obj.name]!=undefined" (click)="selectFolder(row.id,row[obj.name])"
+                        class="spanMAin">
+                        <span class="fileIcon_folder pull-left"></span>
+                        <span class="pull-left fileTxt">{{row[obj.name]}}</span>
+                    </a>
+
+                    <a *ngIf="obj.name=='folder_detail' && row[obj.name]!= null && row[obj.name]!=undefined && row[obj.name].name!=undefined"
+                        class="spanMAin" (click)="selectFolder(row[obj.name].id,row[obj.name].name)">
+                        <span class="fileIcon_folder pull-left"></span>
+                        <span class="pull-left fileTxt">{{row[obj.name].name}}</span>
+                    </a>
+                    <span *ngIf="obj.name=='created_by'" class="spanMAin">
+                        <span *ngFor="let u of users">
+                            <span *ngIf="u.id == row[obj.name]">{{u.name}} </span>
+                        </span>
+                    </span>
+                    <span *ngIf="obj.name=='id'" class="spanMAin">
+
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle pull-right" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false"> </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" *ngIf="checkType() && download_file"
+                                    (click)="download(row.id,row.file_name,row.file_mime)">{{row[obj.name].file_name}}Download</a>
+                                <a class="dropdown-item" *ngIf="checkType() && share_file"
+                                    (click)="publicLinkDisplay(row,1)" data-toggle="modal"
+                                    data-target="#publicLink">Share</a>
+                                <!--   <a class="dropdown-item" *ngIf="checkType() && share_file"
+                                    (click)="publicLinkDisplay2(row,1)">Share2</a> -->
+                                <a class="dropdown-item" data-toggle="modal" data-target="#publicLink"
+                                    *ngIf="checkType() && public_link_file" (click)="publicLinkDisplay(row,2)">Public
+                                    Link</a>
+                                <a class="dropdown-item" *ngIf="checkType()"
+                                    [routerLink]="['/maindashboard',{ outlets: { bodySection: ['fileDetails'] }}]"
+                                    [queryParams]="{ 'id': row.id}">View File Details</a>
+                                <!-- <a class="dropdown-item" *ngIf="checkType()" (click)="EditFileDetailsShow(row,1)">View File Details</a> -->
+                                <a class="dropdown-item" *ngIf="checkType()  && edit_file"
+                                    (click)="EditFileDetailsShow(row,2)">Edit File Details</a>
+                                <a class="dropdown-item editSingleItem  && edit_file" *ngIf="!checkType()"
+                                    (click)="EditFileDetailsShow(row,2)">Edit</a>
+                                <a class="dropdown-item" *ngIf="checkType()  && upload_new_file"
+                                    (click)="openUploadNewVersion(row)">Upload New Version</a>
+                            </div>
+                        </div>
+                    </span>
+                    <!-- <a *ngIf="obj.editable_flag==1" class="editBtn" (click)="EditPopShow(row.id,obj.id )"><i class="fas fa-edit"></i></a> -->
+                    <!-- <a *ngIf="obj.editable_flag!=1" class="lockBtn"><i class="fas fa-lock"></i></a> -->
+
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="keys"></tr>
+            <tr mat-row *matRowDef="let row; columns: keys;"></tr>
+        </table>
+        <!-- <mat-paginator class="tableFilePage" [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
+
+    </table>
+</div>
+
+<div id="EditFileDetails" *ngIf="EditFileDetails" aria-labelledby="modalSlideUpLabel" class="modal fade slide-down"
+    role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" *ngIf="row.open==1">View File Details</h5>
+                <h5 class="modal-title" *ngIf="row.open==2 && !checkType()">Edit Folder Details</h5>
+                <h5 class="modal-title" *ngIf="row.open==2 && checkType()">Edit File Details</h5>
+                <button type="button" class="close" (click)="EditFileDetailsHide()">&times;</button>
+
+            </div>
+            <div *ngIf="row.open==1" class="modal-body " style="padding-top: 20px;text-align: left;">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label class="text-left" *ngIf="!checkType()">Folder Title</label>
+                        <label class="text-left" *ngIf="checkType()">File Title</label>
+                        <input class="form-control" [value]="row.title" disabled>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 mt10" *ngIf="checkType()">
+                    <div class="form-group">
+                        <!-- <label class="text-left" *ngIf="!checkType()">Folder Description</label> -->
+                        <label class="text-left">File Description</label>
+                        <input class="form-control" [value]="row.description" *ngIf="row.description !=null" disabled />
+                        <input class="form-control" value="" *ngIf="row.description == null" disabled />
+                    </div>
+                </div>
+            </div>
+            <!--View Start-->
+            <div *ngIf="row.open==2" class="modal-body " style="padding-top: 20px;text-align: left;">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label class="text-left" *ngIf="!checkType()">Folder Title</label>
+                        <label class="text-left" *ngIf="checkType()">File Title</label>
+                        <input class="form-control" [placeholder]="row.title" *ngIf="checkType()"
+                            [(ngModel)]="editFile.title">
+                        <input class="form-control" [placeholder]="row.name" *ngIf="!checkType()"
+                            [(ngModel)]="editFile.name">
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 mt10" *ngIf="checkType()">
+                    <div class="form-group">
+                        <!-- <label class="text-left" *ngIf="!checkType()">Folder Description</label> -->
+                        <label class="text-left">File Description</label>
+                        <input class="form-control" [placeholder]="row.description" *ngIf="row.description !=null"
+                            [(ngModel)]="editFile.description">
+                        <input class="form-control" placeholder="" *ngIf="row.description == null"
+                            [(ngModel)]="editFile.description">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateFileProp()"
+                *ngIf="row.open==2">Save
+            </button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="EditFileDetailsHide()">
+                Cancel
+            </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div id="publicLink" *ngIf="publicLink" aria-labelledby="modalSlideUpLabel" style="display: block;"
+    class="modal fade slide-down" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" *ngIf="row.open==1">Share Files</h5>
+                <h5 class="modal-title" *ngIf="row.open==2">Public Link</h5>
+                <button type="button" class="close" (click)="publicLinkDisplayClose({},row.open)">&times;</button>
+            </div>
+            <div class="modal-body " style="padding-top: 20px;">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <span *ngIf="row.open==1">
+                            <select multiple [(ngModel)]="shareFileObj.share_to_ids" class="form-control">
+                                <option *ngFor="let u of users" [value]="u.id">{{u.name}}</option>
+                            </select>
+                            <br>
+                            <select [(ngModel)]="shareFileObj.share_type" class="form-control">
+                                <option [value]="0">Viewer</option>
+                                <option [value]="1">Colaborator</option>
+                            </select>
+                        </span>
+                        <span *ngIf="row.open==2"><input class="form-control" value="{{link}}" style="width: 92%">
+                            <i class="fas fa-copy"
+                                style="cursor: pointer; font-size: 20px; width: 4%;position: absolute; right: 6px; top: 10px;"
+                                matTooltip="Copy Link" (click)="copyMessage()"></i><br>
+                            <p class="text-warning">{{copysuccess}}</p>
+                        </span>
+                    </div>
+                    <button type="button" class="btn btn-primary waves-effect waves-light float-right ml-2"
+                        *ngIf="row.open==1" (click)="shareFile(row,row.open)">Share</button>
+                    <button type="button" class="btn btn-danger waves-effect waves-light float-right"
+                        (click)="publicLinkDisplayClose({},row.open)">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="previewImage" *ngIf="previewImage" aria-labelledby="modalSlideUpLabel"
+    class="modal fade slide-down disable-scroll" role="dialog">
+    <div class="modal-dialog" *ngIf="dataUrl!=undefined">
+
+        <!-- Modal content-->
+        <div class="modal-content-wrapper">
+            <!-- <iframe [src]="dataUrl" frameborder="0"> -->
+            <!-- </iframe> -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"> File Preview</h4>
+                    <!-- <button type="button" class="close"  data-dismiss="modal" (click)="closePreviewImage()">&times;</button> -->
+                    <button type="button" class="close new_upld" style="right: 2%"
+                        (click)="closePreviewImage()">&times;</button>
+                </div>
+                <div class="modal-body ">
+                    <object width="700" height="500" [data]="dataUrl" webkitallowfullscreen mozallowfullscreen
+                        allowfullscreen></object>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="uploadNewVersion" *ngIf="uploadNewVersion" aria-labelledby="modalSlideUpLabel"
+    class="modal fade slide-down disable-scroll" role="dialog">
+    <div class="modal-dialog">
+        <!---->
+
+        <!-- Modal content-->
+        <div class="modal-content-wrapper">
+            <!-- <iframe [src]="dataUrl" frameborder="0"> -->
+            <!-- </iframe> -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title new_upld">Upload New Version</h4>
+
+                    <button type="button" class="close new_upld" style="right: 2%"
+                        (click)="closePreviewImage()">&times;</button>
+                </div>
+                <div class="modal-body" style="margin-top:20px;">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <input class="btn btn-light" [(ngModel)]="upFile" type="file" id="updateFile"
+                                (change)="uploadNewFile($event.target.files)">
+                            <label type="button" class="btn btn-light custom-file-upload"
+                                for="updateFile">Upload</label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var styleNode = document.createElement('style');
+    styleNode.type = "text/css";
+    document.getElementsByTagName('head')[0].appendChild(styleNode);
+    document.getElementsByName('object').contents().find("head").append($("<style type='text/css'>pre{font-size:32px;}</style>"));
+</script>

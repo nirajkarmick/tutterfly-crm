@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <div class="page-title-right">
+      </div>
+      <h4 class="page-title">Task Priority</h4>
+    </div>
+  </div>
+</div>
+<!-- START card -->
+<div class=" no-padding container-fixed-lg bg-white CRMTable">
+  <div class="container-fluid p0">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title col-md-9">
+          <div class="MainHeadCont">
+            <h5 class="MainHead">Task Priority</h5>
+          </div>
+        </div>
+        <div class="col-md-3 pull-left">
+          <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal" data-target="#modalAdd"
+            (click)="AddNewShow(undefined)">
+            <span class="pull-left"><i class="pg-plus"></i></span>
+            <span>New</span>
+          </button>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="displayTable">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped"  datatable [dtOptions]="dtOptions" >
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Name</th>
+                <!-- <th>Created Date</th> -->
+                <!-- <th>Status</th> -->
+                <th>Action</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let element of taskpriorities;let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{element.name}}</td>
+                <!-- <td><span class="elips">{{element.created_at | date: 'dd MMM yyyy'}} </span></td> -->
+                <!-- <td>{{element.status}}</td> -->
+                <td>
+                  <span style="margin-right:10px;" data-toggle="modal" data-target="#modalAdd"
+                    (click)="AddNewShow(element)"><i aria-hidden="true" class="fas fa-edit"></i></span>
+                  <span><i aria-hidden="true" class="fas fa-trash text-danger"
+                      (click)="deleteTaskPr(element.id)"></i></span>
+                </td>
+                <td>
+                    <span class="btn btn-primary btn-sm mr-1" matTooltip="Move Up" *ngIf="i>0" (click)="sortData('u',i )"><i class="fa fa-arrow-up"></i></span>
+                    <span class="btn btn-danger btn-sm" matTooltip="Move Down" *ngIf="i < taskpriorities.length-1"  (click)="sortData('d',i )"><i class="fa fa-arrow-down"></i></span>    
+                    </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add Modal -->
+<div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel"
+  aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header clearfix text-left">
+        <h4>{{buttonLable}}<span class="semi-bold">&nbsp;Task Priority</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row mt10">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Status Name</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement">
+            </div>
+          </div>
+          <div class="col-md-12 text-right">
+            <button type="button" class="btn btn-primary" (click)="create()"
+              data-dismiss="modal">
+              <span *ngIf="buttonLable=='Add'">Add</span>
+              <span *ngIf="buttonLable!='Add'">Save</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

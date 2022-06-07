@@ -1,0 +1,196 @@
+<div class="row">
+	<div class="col-12">
+		<div class="page-title-box">
+			<div class="page-title-right">
+			</div>
+			<h4 class="page-title">Lead Capture API</h4>
+		</div>
+	</div>
+</div>
+<div class=" no-padding container-fixed-lg bg-white CRMTable customFormTable">
+	<div class="container-fluid p0">
+		<!-- START card -->
+		<div class="card card-transparent">
+			<div class="card-header">
+				<div class="card-title col-md-9">
+					<div class="MainHeadCont">
+						<div class="MainHead"><strong>
+								<h5>Lead Capture from Web Forms
+								</h5>
+							</strong></div>
+					</div>
+				</div>
+				<div class="col-md-3 pull-left">
+					 
+				</div>
+			</div>
+				<div class="card-body">
+					<p >You can capture lead from your website contact/enquiry/register form submission to <b>TutterflyCRM</b> lead module in one go.</p>
+					<h5 class="mb-2"> Sample code | Curl </h5>
+					<div class="snip_highlight">
+					<p class="snip_code snip_space">curl -H "Content-Type: application/json" -d '{{sample_code | json }}' -X POST '{{current_url}}/tfc/api/capture_lead'</p>
+					<a class="snip_code_expand " *ngIf="isExpand" href="javascript:void(0)" (click)="expand_code()">EXPAND ↓</a>
+					<a class="snip_code_expand " *ngIf="!isExpand" href="javascript:void(0)" (click)="shrink_code()">SHRINK</a>
+				    </div>
+
+				</div>
+			<div class="card-body">
+				<p class="lead-note-text ">
+					    <b>Note:</b><br>
+					    <span class="text-warning">Do Not Change token key and domain name as given above.</span><br> <br>
+
+					    Your API Token key is <strong>{{user_token}}</strong> and domain for the API is <strong>{{current_url}}</strong>
+ 				 </p>
+				<p class="lead-note-text">
+					    <b>Date Fields:</b><br>
+					    Input for date fields is expected to be in following format:<br>
+					    YYYY-MM-DD HH:MM:SS <br> <br>
+
+					    A few Examples of valid date fields - 2021-06-24 09:55:51 , &nbsp;&nbsp; 2021-06-24 00:00:00, &nbsp;&nbsp; 2003-06-29
+ 				 </p>
+
+				<p class="lead-note-text">
+					    <b>Custom  Fields Instructions:</b><br>
+					    Option values should be same as used in custom fields (selectbox/multiselect/checkbox/radio) in website forms <br> <br>
+					     Picklist values should be same (case sensetive)<br> <br>
+
+ 				 </p>
+				 
+			</div>
+		</div>
+	</div>
+</div>
+
+<style type="text/css">
+	.chk_label label {
+		display: inline-block
+	}
+
+	.chk_label label>input {
+		/* HIDE RADIO */
+		visibility: hidden;
+		/* Makes input not-clickable */
+		position: absolute;
+		/* Remove input from document flow */
+	}
+
+	.chk_label label>input+img {
+		/* IMAGE STYLES */
+		cursor: pointer;
+		border: 2px solid transparent;
+	}
+
+	.chk_label label>input:checked+img {
+		/* (RADIO CHECKED) IMAGE STYLES */
+		border: 2px solid #006dcc;
+	}
+
+	/* .form-group label {
+		float: left;
+	} */
+
+	table .dropdown-toggle:after {
+		display: none;
+	}
+
+	/* #frm_opts .form-control {
+		width: 90%;
+	} */
+
+	.frm_op {
+		position: relative;
+	}
+
+	.add_frm_button {
+		position: absolute;
+		/* display: inline-block; */
+		top: 6px;
+		right: 5%;
+	}
+
+	.customFormTable .nav-tabs~.tab-content {
+		overflow: unset;
+	}
+
+	.add_mr_button1 {
+		border: 1px solid blue;
+		border-radius: 100%;
+
+		float: right;
+		background: transparent;
+		width: 30px;
+		height: 30px;
+		padding: 5px;
+		color: #3283f6;
+	}
+
+	.add_frm_button1.input-group-append .fa-minus {
+		padding-top: 12px;
+	}
+
+	.add_frm_button1.input-group-append .fa-plus {
+		padding-top: 12px;
+	}
+
+	.frm-danger {
+		border: 1px solid red;
+	}
+
+	.chk_label .checkbox label::before {
+		display: none;
+	}
+	.snip_space{
+
+		white-space: normal;  
+	}
+	.snip_space_expand{
+
+		white-space: pre;  
+	}
+	.snip_code{
+		font-family: "Source Code Pro";
+		font-size: 16px;
+		display: inline-block;
+		font-weight: 400;
+		/*color: #666;*/
+		padding: 4px 15px;
+	}
+	.snip_highlight {
+	    border-left: 1px solid #f5f5f5;
+	    border-right: 1px solid #f5f5f5;
+	    font-size: 14px;
+	    padding: 0;
+	    -webkit-border-radius: 4px;
+	    -moz-border-radius: 4px;
+	    border-radius: 4px;
+	    line-height: 23px;
+	    /*max-height: 233px;*/
+	    white-space: pre;
+	    overflow-x: auto;
+	    overflow-y: hidden;
+	    word-break: inherit;
+	    word-wrap: inherit;
+	    background-color: #f2f2f2;
+	    position: relative;
+    }
+    .snip_code_expand{
+		background-color: #f9f9f9;
+		-webkit-border-top-left-radius: 4px;
+		-webkit-border-bottom-right-radius: 4px;
+		-moz-border-radius-topleft: 4px;
+		-moz-border-radius-bottomright: 4px;
+		border-top-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		width: 80px;
+		position: absolute;
+		right: 0px;
+		bottom: 0; 
+		font-size: 12px;
+		margin-left: 14px;
+		text-align: center;
+		height: 25px;
+		font-weight: bold;
+
+}
+    }
+</style>

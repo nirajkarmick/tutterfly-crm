@@ -1,0 +1,452 @@
+<div class="container-fluid" *ngIf="profile">
+    <div class="row">
+        <div class="col-12  no-padding">
+            <div class="userProfileBanner mt-2"  [style.background]="'url('+profile_banner+')'" style="border:2px solid #ccc; box-shadow: inset 0 0 5px 2px #282a2d;">
+                <a class="uploadBanner" data-toggle="modal" data-target="#modaluploadBanner" *ngIf="show_pass" matTooltip="Upload Banner" >
+                    <i class="fas fa-camera"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" *ngIf="profile">
+        <div class="col-md-12 col-sm-12">
+            <div class="userProfileSec row">
+                <div class="col-md-3 col-sm-12 ">
+                    <div class="userProfileAvatarContainer">
+                        <div class="userProfileAvatar" [style.background]="'url('+profile_avatar+')'" style="box-shadow: inset 0 0 5px 2px #282a2d;">
+                            <div class="uploadAvatar" *ngIf="show_pass" data-toggle="modal"
+                                data-target="#modaluploadPhoto" matTooltip="Upload Profile Image" >
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 userInfoSec ">
+                    <div class="col-md-12 col-sm-12 userName">{{profile.name}}</div>
+                    <div class="col-md-12 col-sm-12 userTitle">{{profile.title}}</div>
+                    <div class="col-md-12 col-sm-12 userEmail">{{profile.email}}</div>
+                </div>
+                <div class="col-md-5 col-sm-12 mt20" *ngIf="show_pass">
+
+                    <button type="button" class="btn btn-light pull-right btn-edit right-bar-toggle" data-toggle="modal" data-target="#modalEdit" (click)="editProPopShow()" matTooltip="Edit Profile"><i class="fas fa-edit fa-2x"></i>
+                    </button>
+                </div> 
+            </div>
+            <div class="clearfix"></div>
+            <div class="" id="DetailsCont">
+                <div class="row margin-0">
+                    <div class="col-md-6 col-sm-12 pd20">
+                        <ul class="list-unstyled text-left">
+                            <li>
+                                <span class="col-md-2 col-sm-2">Name</span>
+                                <span class="col-md-10 col-sm-10">{{profile.name}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">Email</span>
+                                <span class="col-md-10 col-sm-10">{{profile.email}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">Company</span>
+                                <span class="col-md-10 col-sm-10">{{profile.company}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">Phone</span>
+                                <span class="col-md-10 col-sm-10">{{profile.phone}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">Mobile</span>
+                                <span class="col-md-10 col-sm-10">{{profile.mobile}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">Phone Extension</span>
+                                <span class="col-md-10 col-sm-10">{{profile.extension}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">TimeZone</span>
+                                <span class="col-md-10 col-sm-10">{{profile.timezone}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">CC Recipients</span>
+                                <span class="col-md-10 col-sm-10">{{profile.mail_email}}
+                                    <i class="mdi mdi-content-copy text-warning" style="cursor: pointer;"  matTooltip="Copy Mail Id" (click)="copyMessage(profile.mail_email)"></i>&nbsp;<i  style="cursor: pointer;" class="mdi mdi-help-circle-outline text-info" matTooltip="To make sure that all CC recipients on incoming replies receive a forwarded email, use Reply Address Translation in Marketing Cloud Reply Mail Management. All To and CC recipients with addresses in Reply Address Translation are forwarded a copy of the email. Internet service providers process replies differently, so multiple forwards are possible depending on the provider. BCC recipients don’t receive forwarded emails."></i></span>
+                            </li> 
+
+                            <li *ngIf="show_pass">
+                                <span class="col-md-2 col-sm-2"><i class="fas fa-user-secret"></i></span>
+                                <span class="col-md-10 col-sm-10">
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modalEditPass"
+                                        (click)="editPassShow()">Change Password</a>
+                                </span></li>
+                            <!-- <li *ngIf="show_pass">
+                                <span class="col-md-2 col-sm-2"><i class="fas fa-envelop"></i></span>
+                                <span class="col-md-10 col-sm-10">
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modalEditFooter"
+                                        (click)="editFooterShow()">Email Footer</a>
+                                </span>
+                            </li> -->
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-sm-12 pd20">
+                        <ul class="list-unstyled text-left">
+                            <li>
+                                <span class="col-md-2 col-sm-2"> Street</span>
+                                <span class="col-md-10 col-sm-10">{{profile.address_street}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">City</span>
+                                <span class="col-md-10 col-sm-10">{{profile.address_city}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">State</span>
+                                <span class="col-md-10 col-sm-10">{{profile.address_state}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">Zip Code</span>
+                                <span class="col-md-10 col-sm-10">{{profile.address_zip}}</span>
+                            </li>
+                            <li>
+                                <span class="col-md-2 col-sm-2">Country</span>
+                                <span class="col-md-10 col-sm-10">{{profile.address_country}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="row" *ngIf="!profile">
+        <div class="col-md-12 col-sm-12 mt-4" *ngIf="notfound">
+            <div class="userProfileSec row" style="min-height: 500px">
+                <div class="col-md-12 col-sm-12 mt-4" style="text-align:center;">
+                    <h3><i class="fas fa-user mr-1"></i>{{notfound}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+
+
+<!-- Add Modal -->
+<div class="right-bar right-bar-500" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false"
+    *ngIf="editProPop">
+    <div class="modal-body p-0">
+        <div class="card mb-0">
+            <div class="card-header cardHeader-orange sticky-top">
+                <div class="card-title mb-0">
+                    <h3 class="m-0">Edit profile
+                        <a href="javascript:void(0);" (click)="closeRightpanel()" data-dismiss="modal"
+                            aria-hidden="true" class="close-rightBar" style="float: right;color: #fff;"><i
+                                class="fas fa-times-circle"></i></a>
+                    </h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.first_name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.last_name">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.title">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label>Company</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.company">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Phone Extension</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.extension">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.phone">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Mobile</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.mobile">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt10 comp-selectbx">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Time Zone</label>
+                            <div *ngIf="timeZoneData!=null && timeZoneData!=undefined && timeZoneData.length!=0"
+                                (click)="selectBox()">
+                                <select2 [data]="timeZoneData" class="select2" [value]="profileCopy.timezone"
+                                    (valueChanged)="renderNewView($event.value)" [options]="timeZonesOptions"
+                                    width="100%"></select2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt10">
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <label>Address</label>
+                            <input placeholder="search for location" autocorrect="off" autocapitalize="off"
+                                spellcheck="off" type="text" class="form-control" #search
+                                [(ngModel)]="profileCopy.address_street" [formControl]="searchControl">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt10">
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label>City</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.address_city">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Mailing Country</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.address_country">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt10">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Mailing State</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.address_state">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Mailing Zip</label>
+                            <input type="text" class="form-control" [(ngModel)]="profileCopy.address_zip">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt10">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label>Signature</label>
+                      <div class="col-lg-12 col-md-12 p0">
+                        <div class="wysiwyg5-wrapper b-a b-grey">
+                          <app-quil-editor [(description_html)]="profileCopy.signature_html">
+                          </app-quil-editor>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-right mt-2">
+                    <button class="btn btn-primary float-right" type="button" (click)="updateProfile()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+
+
+<!-- Add Upload Profile Image Modal --> 
+<div class="modal fade slide-down disable-scroll" id="modaluploadPhoto"  tabindex="-1" role="dialog"
+    aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <h5>Upload <span class="semi-bold">Profile Photo</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">You can upload a JPG, GIF or PNG file. Maximum file size is 16 MB.</p>
+                    <div class="upload-btn-wrapper" style="width: 100%">
+                        <button class="btn btn-outline-primary"  style="width: 100%"><i class="fas fa-upload"></i> Upload Image</button>
+                        <input type="file" name="myfile" (change)="addFIle($event.target.files,true)" />
+                    </div>
+                    <div class="text-center"><strong>{{photo_name}}</strong></div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 p0">
+                        <div class="col-md-9 col-sm-9 p0 pull-left">
+                        </div>
+                        <div class="col-md-3 col-sm-3 m-t-10 sm-m-t-10 p0 pull-right">
+                            <button type="button" class="btn btn-primary btn-block m-t-5 pull-right"
+                                data-dismiss="modal" (click)="updateAvatar()">Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+
+
+<!-- Add Upload Profile Image Modal -->
+<div class="modal fade slide-down disable-scroll" id="modaluploadBanner" tabindex="-1" role="dialog"
+    aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <h5>Upload <span class="semi-bold">Banner</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">You can upload a JPG, GIF or PNG. For best results, use a panoramic image
+                        that is at least 1280x200 pixels.</p>
+                    <div class="upload-btn-wrapper"  style="width: 100%">
+                        <button class="btn btn-outline-primary"  style="width: 100%"><i class="fas fa-upload"></i> Upload Image</button>
+                        <input type="file" name="myfile" (change)="addFIle($event.target.files,false)" />
+                    </div>
+                    <div class="text-center"><strong>{{photo_name}}</strong></div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 p0">
+                        <div class="col-md-10 col-sm-10 p0 pull-left">
+                        </div>
+                        <div class="col-md-2 col-sm-2 m-t-10 sm-m-t-10 p0 pull-right">
+                            <button type="button" class="btn btn-primary btn-block m-t-5 pull-right"
+                                data-dismiss="modal" (click)="updateBanner()">Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+
+<div class="modal fade slide-down disable-scroll" id="modalEditPass" tabindex="-1" role="dialog"
+    aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="editPass">
+    <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <h5>Change <span class="semi-bold">Password</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Old Password</label>
+                                <input type="password" class="form-control" [(ngModel)]="profilePass.current_password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" class="form-control" [(ngModel)]="profilePass.new_password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>New Confirm Password</label>
+                                <input type="password" class="form-control" [(ngModel)]="profilePass.new_conf_pass">
+                            </div><span *ngIf="pass_error" class="error">{{pass_error}}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- </form> -->
+                <div class="modal-footer">
+                    <div class="col-md-12 p0">
+                        <div class="col-md-9 col-sm-9 p0 pull-left">
+                        </div>
+                        <div class="col-md-3 col-sm-3 m-t-10 sm-m-t-10 p0 pull-right">
+                            <button type="button" class="btn btn-primary btn-block m-t-5 pull-right"
+                                (click)="updatePassword()">Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+
+<div class="modal fade slide-down disable-scroll" id="modalEditFooter" tabindex="-1" role="dialog"
+    aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="editFooter">
+    <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <h5>Change <span class="semi-bold">Email Footer</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                              <label>Email Footer</label>
+                                  <div class="col-lg-12 col-md-12 p0">
+                                    <div class="wysiwyg5-wrapper b-a b-grey">
+                                      <app-quil-editor [(description_html)]="user_footer.footer_content_html"></app-quil-editor>
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                       <div class="col-md-4 mt20" (click)="active()">
+            <input type="checkbox" [checked]="active_checked" [(ngModel)]="user_footer.active" id="singlAct"
+              style="margin-top: 5px">
+            <label style="line-height: 5px;padding-left: 5px;" for="singlAct">Active</label>
+          </div>
+                    </div>
+                </div>
+                <!-- </form> -->
+                <div class="modal-footer">
+                    <div class="col-md-12 p0">
+                        <div class="col-md-9 col-sm-9 p0 pull-left">
+                        </div>
+                        <div class="col-md-3 col-sm-3 m-t-10 sm-m-t-10 p0 pull-right">
+                            <button type="button" class="btn btn-primary btn-block m-t-5 pull-right"
+                                (click)="updateUserFooter()">Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

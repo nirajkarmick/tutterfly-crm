@@ -1,0 +1,96 @@
+
+ 	
+<div id="toolbar-container" *ngIf="loadQuil">
+          <quill-editor [(ngModel)]="description_html"  (onEditorCreated)="EditorCreated($event)"  (onContentChanged)="onEditorChange($event)"   [preserveWhitespace]="true" >
+            <div quill-editor-toolbar>    
+                    <select class="ql-header">
+                      <option value="1">Heading 1</option>
+                      <option value="2">Heading 2</option>
+                      <option value="3">Heading 3</option>
+                      <option value="">Normal</option>
+                    </select>
+              	  	<select class="ql-size">
+
+                      <option value="10px">Small</option>
+                      <option selected>Normal</option>
+                      <option value="18px">Large</option>
+                      <option value="32px">Huge</option> 
+              	  	</select> 
+                     <span class="ql-formats">
+                    <select class="ql-align" [title]="'Aligment'">
+                      <option selected></option>
+                      <option value="center"></option>
+                      <option value="right"></option>
+                      <option value="justify"></option>
+                    </select>
+                  </span>
+                  <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                  </span>
+                <span class="ql-formats">
+                  <select class="ql-color">
+                    <option selected></option>
+                    <option value="red"></option>
+                    <option value="orange"></option>
+                    <option value="yellow"></option>
+                    <option value="green"></option>
+                    <option value="blue"></option>
+                    <option value="purple"></option>
+                  </select>
+                  <select class="ql-background">
+                    <option selected></option>
+                    <option value="red"></option>
+                    <option value="orange"></option>
+                    <option value="yellow"></option>
+                    <option value="green"></option> 
+                    <option value="blue"></option>
+                    <option value="purple"></option>
+                  </select>
+                </span>
+                <span class="ql-formats">
+                          <select class="ql-font"> 
+                              <option selected value="sans serif">Sans Serif</option>
+                              <option value="serif">Serif</option>
+                              <option value="monospace">Monospace</option>
+                              <option value="garamond">Garamond</option>
+                              <option value="comic sans ms">Comic Sans MS</option> 
+                              <option value="georgia">Georgia</option> 
+                              <option value="tahoma">Tahoma</option> 
+                              <option value="trebuchet ms">Trebuchet MS</option> 
+                              <option value="verdana">Verdana</option> 
+                              <option value="times new roman">Times New Roman</option> 
+                              <option value="arial">Arial</option> 
+                          </select>
+                </span>
+                <button class="ql-bold" data-toggle="tooltip" data-placement="bottom" title="Bold"></button>
+                <button class="ql-italic" data-toggle="tooltip" data-placement="bottom" title="Add italic text <cmd+i>"></button>
+                <button class="ql-underline"></button>
+              	<button type="button" title="Add link"  class="ql-link"></button>
+                <button type="button" title="Add Image" class="ql-image"></button> 
+                    <!-- <button type="button" class="ql-video"></button>  -->
+                <button type="button" title="Add video link" ><i class="fas fa-youtube-play" (click)="addVideo()"></i></button>
+                <button type="button" title="Add Image link" ><i class="fas fa-file-image-o" (click)="addImage()"></i></button>
+
+          </div>
+          <div class="border-none capital" id="editor-container" style="white-space: normal;">
+           
+          </div>
+        </quill-editor>
+</div>
+<div id="toolbar-container" *ngIf="!loadQuil">
+  
+ <angular-editor [placeholder]="'Enter text here..'" [(ngModel)]="description_html"  (ngModelChange)="onChangeHtml($event)"  [config]="editorConfig" ></angular-editor>
+
+</div>
+<style type="text/css">
+  
+  .text-quill-tool{
+    white-space: normal !important;
+  }
+  .ql-editor {
+     white-space: normal !important; 
+
+    white-space: -moz-pre-wrap !important;
+}
+</style>

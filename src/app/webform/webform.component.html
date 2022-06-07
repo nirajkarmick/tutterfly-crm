@@ -1,0 +1,200 @@
+<form (ngSubmit)="onSubmit(Employee1.value)" #Employee1="ngForm">
+<div class="main-panel">
+   <!--<script src="http://localhost:8081/application/webform/26898.js" crossorigin='anonymous' id='fs_26898'></script>-->
+   <div class="content-overlay"></div>
+   <div class="content-wrapper">
+      <!-- Taskboard Starts -->
+      <section [hidden]="isShowDiv3" id="titlediv" class="app-taskboard border-2 mt-2 p-4 pl-lg-5" >
+         <div class="row form-group">
+            <div class="col-sm-6">
+               <label>Title </label>
+               <input type="text" ngModel name="ftitle" id="ftitle" class="form form-control"/>
+            </div>
+            <div class="col-sm-6">
+               <label>Notify via email when the form is submitted and a record is created </label>
+               <input type="text" ngModel name="notifyemail" id="notifyemail" class="form form-control"/>
+            </div>
+         </div>
+         <div class="row form-group">
+            <div class="col-sm-9">
+               <label>Include opt-in checkbox at the end of the form to get consent from the users for further communication </label>
+            </div>
+         </div>
+         <div class="row form-group">
+            <div class="col-sm-3">
+               <select ngModel id="optchk" class="form form-control" name="optchk">
+                  <option value="1">Don't include opt in checkbox
+                  </option>
+                  <option value="2">Include opt-in checkbox
+                  </option>
+               </select>
+            </div>
+            <div class="col-sm-6">
+               <input ngModel type="text" name="opttxt" id="opttxt" value="I agree to receive communication on newsletters, promotional content, offers and events." class="form form-control"/>
+            </div>
+         </div>
+         <div class="row form-group">
+            <div class="col-sm-9">
+               <label>Choose the action to perform after the form is submitted  </label>
+            </div>
+         </div>
+         <div class="row form-group">
+            <div class="col-sm-3">
+               <select ngModel id="messagetype" class="form form-control" name="messagetype">
+                  <option value="1">Display custom message
+                  </option>
+                  <option value="2">Redirect to a URL
+                  </option>
+               </select>
+            </div>
+            <div class="col-sm-6">
+               <input ngModel type="text" name="messagetxt" id="messagetxt" value="" class="form form-control"/>
+            </div>
+         </div>
+      </section>
+      <section  [hidden]="isShowDiv"   id="taskboard" class="app-taskboard border-2 p-4 pl-lg-5">
+         <div class="row">
+            <div class="col-12">
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-xl-4 col-sm-6 col-12">
+               <h5 class="mt-2 mb-0">
+                  <span class="d-flex align-items-center">
+                  <i class="ft-cast mr-2"></i>
+                  <span>Field List</span>
+                  </span>
+               </h5>
+               <div class='dragdrop-container border-2 p-3 h-100' id='drag-todos'>
+                  <div *ngFor="let fdata of formdata" class="row form-group">
+                     <label>{{ fdata.display_name }}
+                     <input [(ngModel)]="fdata.selected" type="checkbox"  name="{{  fdata.field_name }}" value="{{ fdata.field_name }}" />
+                     </label>
+                  </div>
+               </div>
+            </div>
+            <div class="col-xl-1 col-sm-6 col-12">
+               <a class="mt-4 mb-0">
+               <span style="margin-top: 189px;font-size: 23px;" class="d-flex align-items-center">
+               <i style="margin-right: 0rem !important;" class="fas fa-chevron-right mr-2"></i> <i style="margin-right: 0rem !important;" class="fas fa-chevron-right mr-2"></i> <i style="margin-right: 0rem !important;" class="fas fa-chevron-right mr-2"></i>
+               </span>
+               </a>
+            </div>
+            <div class="col-xl-4 col-sm-6 col-12">
+               <h5 class="mt-2 mb-0">
+                  <span class="d-flex align-items-center">
+                  <i class="fa fa-codepen mr-2"></i>
+                  <span>Selected Field</span>
+                  </span>
+               </h5>
+               <div class='dragdrop-container border-2 p-3 h-100' id='drag-in-progress'>
+               </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 col-12">
+               <a class="btn btn-warning" (click)="processnext();">Proceed Next</a>
+            </div>
+         </div>
+      </section>
+      <section [hidden]="isShowDiv1"  id="taskboard2" class="app-taskboard border-2 p-4 pl-lg-5 mt-2" >
+         <input type="hidden" [(ngModel)]="user_token" name="user_token" value="12345678990" />
+         <input type="hidden" [(ngModel)]="form_id" name="form_id" value="12345678990" />
+         <div class="row">
+            <div class="col-5 border-2 p-4" id="taskboard21" [innerHTML]="taskboard">
+            </div>
+            <div class="col-4 border-2 " id="colordiv" >
+               <div class="row form-group">
+                  <div class="col-sm-12">
+                     <label>Background Color</label>
+                     <input [(ngModel)]="back_color" type="color" class="form form-control" id="back_color" name="back_color" value="#f3f3ff9e">
+                  </div>
+               </div>
+               <div class="row form-group">
+                  <div class="col-sm-12">
+                     <label>Form Background Color</label>
+                     <input ngModel type="color" class="form form-control" id="form_back_color" name="form_back_color" value="#f3f3ff9e">
+                  </div>
+               </div>
+               <div class="row form-group">
+                  <div class="col-sm-12">
+                     <label>Form label Color</label>
+                     <input ngModel type="color" class="form form-control" id="field_color" name="field_color" value="#ff0000">
+                  </div>
+               </div>
+               <div class="row form-group">
+                  <div class="col-sm-12">
+                     <label>Form Header Color</label>
+                     <input ngModel type="color" class="form form-control" id="form_title_color" name="form_title_color" value="#ff0000">
+                  </div>
+               </div>
+               <div class="row form-group">
+                  <div class="col-sm-12">
+                     <label>Form Submit Button Color</label>
+                     <input ngModel type="color" class="form form-control" id="submit_btn_color" name="submit_btn_color" value="#ff0000">
+                  </div>
+               </div>
+               <div class="row form-group">
+                  <div class="col-sm-12">
+                     <label>Font</label>
+                     <select ngModel class="form form-control" id="font" name="font">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Tahoma">Tahoma</option>
+                        <option value="Trebuchet MS">Trebuchet MS</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Garamond">Garamond</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Brush Script MT">Brush Script MT</option>
+                     </select>
+                  </div>
+               </div>
+            </div>
+            <div class="col-3">
+               <div class="row form-group">
+                  <div class="col-sm-12 form-group">
+                     <button type="submit"  class="btn btn-success">Preview</button>
+                  </div>
+                  <div class="col-sm-12 form-group">
+                     <button type="button" (click)="viewcode();" class="btn btn-success">View Code</button>
+                     <textarea [hidden]="divcodenone" >{{ codeview }}</textarea>
+                  </div>
+                  <div class="col-sm-12 form-group">
+                     <button type="button" (click)="back2();" class="btn btn-info">Back</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section [hidden]="isShowDiv4"  style="margin-top:20px;">
+         <div *ngFor="let fdata2 of formdata2" style="margin:0 auto ;width:35%;background-color:{{  fdata2.back_color }};padding: 20px;position: inherit;z-index: 100000;">
+            <form style="font-family:{{  fdata2.font }};margin:0 auto ;background-color:{{  fdata2.form_back_color }};padding: 20px;position: inherit;z-index: 100000;" method="POST" action="" id="contactform">
+               <input type="hidden" name="token" value="" />
+               <h2 class="txt" style="text-align:center;color:{{  fdata2.form_title_color }}">{{  fdata2.ftitle }}</h2>
+               <div class="row form-group"  *ngFor="let fdata3 of formdata3">
+                  <div class="col-sm-12">
+                     <label class="txt" style="color:{{  fdata2.field_color }}">{{ fdata3.display_name }}</label>
+                     <input class="form form-control txt" placeholder="{{ fdata3.display_name }}" type="text"  />
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-sm-9">
+                     <input type="button" name="submit" value="Submit" style="background-color:{{ fdata2.submit_btn_color }}" class="btn btn-success txt" />
+                  </div>
+                  <div class="col-sm-3">
+                     <a (click)="back1();" class="btn btn-info">Back</a>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </section>
+      <!-- Taskboard Ends -->
+   </div>
+</div>
+<!-- END : End Main Content-->
+<!-- BEGIN : Footer-->
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+</form>
+<!-- END Notification Sidebar-->
+<!-- END: Custom CSS-->
+<!-- END : Body-->

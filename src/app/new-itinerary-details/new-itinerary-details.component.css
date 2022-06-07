@@ -1,0 +1,532 @@
+/*.scheduleDayitinerary{display:flex;}*/
+/*.scheduleDaylist{align-content: flex-start;display: flex;flex-wrap: wrap;overflow-x:auto}*/
+.scheduleDaylist .scheduledays{
+    width: 260px;
+    height:auto;
+    float:left;display: flex} 
+.scheduledays .card.shadow{margin-bottom:5px;width: 100%}
+.scheduleDaylist{
+    width: 100%;
+    display: -webkit-inline-box;
+    flex-direction: row;
+}
+.card-body{
+    /*overflow: auto;*/
+}
+.scheduleDaylist{
+    overflow: auto;
+}
+.lrbtn{position:absolute;top:8px;z-index:9;left:-1.5rem;right:auto;padding: 8px;}
+.lrbtn.lrbtn-r{right:-1.5rem;left: auto;}
+/*.scheduleDayitinerary {
+  
+  overflow-x: hidden;
+      overflow-y: hidden;
+
+}
+
+.scheduleDaylist {
+  display: flex;
+  transition: transform .4s ease-in;
+}*/
+
+
+/*.itinry_loader{
+  display:flex;align-items:center;justify-content:center; 
+  position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:18em;
+    margin-top: -9em; 
+    margin-left: -15em;  
+    z-index: 99; 
+}*/
+
+#timeline-container {
+  /*background: #00112e;
+  background: linear-gradient(171deg, #00112e 0%, #1d1594 100%);
+  overflow: auto;
+  padding: 60px 0;*/
+}
+#timeline-container .inner-container { 
+  /*max-width: 1000px;
+  margin: 0 auto;*/
+}
+#timeline-container .inner-container .heading {
+  text-align: center;
+  font-family: var(--font-family-1);
+  font-weight: 700;
+  font-size: 3rem;
+  color: white;
+  margin-top: 0;
+}
+
+.timeline {
+  margin: 0 auto;
+  position: relative;
+  left: 120px;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 16px;
+  margin-left: 5%;
+}
+.timeline:before {
+    background-color: #386dcc;
+    bottom: 0;
+    content: "";
+    left: -6px;
+    position: absolute;
+    top: -5px;
+    width: 2px;
+    z-index: 0;
+}
+.timeline-item {
+  /*color: #ffffff;
+  font-family: var(--font-family-2);
+  text-align: center;
+  font-size: 1.4rem;
+  padding: 1rem 1.5rem 1rem 1.5rem;*/
+  /*border-left: 4px solid #fff;*/
+  /*border-bottom: 1px solid #ffffff;*/
+  position: relative;
+  list-style-type: none;
+  --item-width: calc(100%);
+  padding-top: 5px;
+}
+.timeline-item::after {
+  content: attr(data-date);
+  position: absolute;
+  left: 5px;
+  top: -20px;
+  float: right;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.timeline-item .card-box{margin-bottom: 2rem;position:relative;}
+.timeline-item::before {
+  content: "";
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background-color:#386dcc;
+  position: absolute;
+  left: -10px;
+  top: -14px;
+}
+.timeline{
+    margin: 0 auto;
+    position: relative;
+    left: 0;
+    width:100%; 
+    max-width: 900px;
+    margin-top: 16px;
+    margin-left: 0%; 
+}
+.timeline-item:last-child {
+  border-bottom: none;
+}
+
+@media only screen and (max-width: 800px) {
+  .timeline {
+    margin: 0 auto;
+    position: relative;
+    left: 85px;
+  }
+  .timeline .timeline-item {
+    font-size: 1.1rem;
+  }
+  .timeline .timeline-item::after {
+    right: calc(var(--item-width) + 30px);
+  }
+  .timeline-item {
+    display: block;
+	}
+}
+@media only screen and (max-width: 800px) {
+  .timeline-item {
+    padding: 1rem 1.5rem 1rem 0.5rem;
+  }
+  .timeline-item::after {
+    right: calc(var(--item-width) + 20px);
+  }
+}
+@media (min-width: 768px){
+.timeline-item {
+    display: block;
+}}
+.editDeletebtn{
+	position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff; 
+}
+.editDeletebtn i.fas{
+	padding:3px;
+    cursor:pointer;    
+    /*background: #0000003d;*/
+    background: #4D4D4D;
+    margin-right: 4px;
+    border-radius: 4px;
+    margin-top: 4px;
+}
+.scheduledays .timeline-item .card-box::hover .editDeletebtn{display:block;}
+
+  .itinerary_inclusions_check {
+        margin-bottom: 10px
+    }
+
+    .itinerary_inclusions_check input[type="radio"][_ngcontent-c16], .itinerary_inclusions_check input[type="checkbox"][_ngcontent-c16] {
+        top: 4px;
+    }
+
+    .itinerary_inclusions_check .form-check label {
+        display: inline-block;
+        padding-left: 6px;
+    }
+
+    .itinerary_inclusions_check .form-check {
+        margin-bottom: 0;
+        float: left;
+        top: 4px;
+    }
+
+     .fix-height-pnl {
+        min-height: 700px;
+    }
+
+    .poi_fix_div {
+        /* max-height: 600px;
+         overflow: scroll;*/
+    }
+
+    .select2-dropdown {
+        z-index: 10000 !important;
+    }
+
+    .newCreateitinerarymodal {
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        z-index: 1001;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow-y: auto;
+    }
+
+    .closebtn-newCreateitinerarymodal {
+        position: absolute;
+        right: 20px;
+        top: 10px;
+        background: transparent;
+        border: 0;
+        color: #ff0000;
+        opacity: .5;
+        font-size: 20px;
+
+    }
+
+    .newCreateitinerarymodal-wrapper {
+        position: relative;
+        top: calc(100vh - 95vh);
+    }
+
+    .inputtextdisblelabel {
+        background: transparent;
+        border: transparent;
+        cursor: text;
+    }
+
+    @media (min-width: 992px) {
+        .newCreateitinerarymodal-container.container .newCreateitinerarymodal-wrapper {
+            width: 85%;
+            margin: auto
+        }
+    }
+
+    #itinerarydatepiker.ite_date_picker .mat-datepicker-toggle {
+        top: 16px
+    }
+
+    .file-upload {
+        display: block;
+        text-align: center;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 12px;
+    }
+
+    .file-upload .file-select {
+        display: block;
+        border: 2px solid #dce4ec;
+        color: #34495e;
+        cursor: pointer;
+        height: 40px;
+        line-height: 40px;
+        text-align: left;
+        background: #ffffff;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .file-upload .file-select .file-select-button {
+        background: #dce4ec;
+        padding: 0 10px;
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .file-upload .file-select .file-select-name {
+        line-height: 40px;
+        display: inline-block;
+        padding: 0 10px;
+    }
+
+    .file-upload .file-select:hover {
+        border-color: #34495e;
+        transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -webkit-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+    }
+
+    .file-upload .file-select:hover .file-select-button {
+        background: #34495e;
+        color: #ffffff;
+        transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -webkit-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+    }
+
+    .file-upload.active .file-select {
+        border-color: #3fa46a;
+        transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -webkit-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+    }
+
+    .file-upload.active .file-select .file-select-button {
+        background: #3fa46a;
+        color: #ffffff;
+        transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -webkit-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+    }
+
+    .file-upload .file-select input[type="file"] {
+        z-index: 100;
+        cursor: pointer;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .file-upload .file-select.file-select-disabled {
+        opacity: 0.65;
+    }
+
+    .file-upload .file-select.file-select-disabled:hover {
+        cursor: default;
+        display: block;
+        border: 2px solid #dce4ec;
+        color: #34495e;
+        cursor: pointer;
+        height: 40px;
+        line-height: 40px;
+        margin-top: 5px;
+        text-align: left;
+        background: #ffffff;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .file-upload .file-select.file-select-disabled:hover .file-select-button {
+        background: #dce4ec;
+        color: #666666;
+        padding: 0 10px;
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .file-upload .file-select.file-select-disabled:hover .file-select-name {
+        line-height: 40px;
+        display: inline-block;
+        padding: 0 10px;
+    }
+
+    .itinerary-daywise-list-item {
+        margin: 0;
+        padding: 5px;
+        background: #f5f5f5;
+        margin-bottom: 10px;
+    }
+
+    .itinerary-daywise-list-item a {
+        color: #333;
+    }
+
+    .itinerary-daywise-list-item-img a {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        max-width: 180px;
+        overflow: hidden
+    }
+
+    .itinerary-daywise-list-item-img a img {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* remove the original arrow */
+    select.input-lg {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -o-appearance: none;
+        /* no standardized syntax available, no ie-friendly solution available */
+    }
+
+    select.input-lg + i.fa {
+        float: right;
+        margin-top: -33px;
+        font-size: 22px;
+        margin-right: 5px;
+        pointer-events: none;
+        background-color: #fff;
+        padding-right: 5px;
+    }
+
+    select.input-lg:not([size]):not([multiple]) {
+        height: auto;
+    }
+
+    div.gallery_poi {
+        margin: 5px;
+        border: 1px solid #ccc;
+        float: left;
+        width: 180px;
+    }
+
+    div.gallery_poi:hover {
+        border: 1px solid #777;
+    }
+
+    div.gallery_poi img {
+        width: 100%;
+        height: auto;
+    }
+
+    div.desc {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .newviewitinerarymodal {
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        z-index: 10000;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow-y: auto;
+    }
+
+    .newCreateitinerarymodal-wrapper {
+        border: 1px solid #ccc;
+        padding: 10px;
+        box-shadow: 1px 0.5px 9px 0px rgba(161, 161, 161, 0.3686274509);
+    }
+
+    .poi_thumb {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        /*padding-bottom: 10px;*/
+        margin-bottom: 10px;
+    }
+    .poi_thumb picture{height:150px;overflow:hidden;display: block}
+    .line-50 {
+        position: relative;
+        -webkit-box-pack: center;
+        justify-content: center;
+        max-width: 150px;
+        width: 100%;
+        height: 1px;
+        background-color: rgb(206, 207, 207);
+        margin: 9px 16px;
+    }
+
+    .line-50::before, .line-50::after {
+        position: absolute;
+        top: -2px;
+        content: "";
+        height: 5px;
+        width: 5px;
+        background-color: rgb(206, 207, 207);
+        border-radius: 50%;
+    }
+
+    .line-50::before {
+        left: 0px;
+    }
+
+    .line-50::after {
+        right: 0px;
+    }
+
+    .line-50 div.line-text {
+        position: absolute;
+        white-space: nowrap;
+        top: -20px;
+        font-size: 11px;
+        color: rgb(158, 159, 160);
+    }
+.item_edit_img{
+    width: 70%;
+    position: absolute;
+    top: -15%; 
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/*select#veh_mode option[value="Car"]   { background-image:url(https://image.flaticon.com/icons/png/128/109/109612.png);   }
+select#veh_mode option[value="Van"] { background-image:url(https://image.flaticon.com/icons/png/128/109/109612.png); }
+select#veh_mode option[value="Train"] { background-image:url(https://image.flaticon.com/icons/png/128/109/109612.png); }*/
+
+
+.selectHotelimgCheckbox{position: relative;margin-right: 10px;overflow: hidden;border-radius: 5px;}
+.hotelImgcheck{position:absolute;top:0;left:0;z-index:1;opacity:0;width:100%;height:100%;cursor:pointer;}
+.selectHotelimgCheckbox-container{width:100px;height:75px;overflow:hidden;}
+.selectHotelimgCheckbox-container img{width:100%;height:100%;object-fit:cover;}
+.selectHotelimgCheckbox label{position:absolute;top:0;left:0;width:100%;height:100%;margin-bottom:0}
+.selectHotelimgCheckbox input[type="radio"]:checked+label{border:4px solid #000;z-index:2;padding: 1px;}
+.htl-brder{border:2px solid #f63131}
+
+
+  
+#chooseFile{ 
+  opacity: 0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    position: absolute;
+    cursor: pointer;
+}
+.no_cat_active{
+    border-color: transparent transparent #006dcc !important;
+    color: #6c757d !important;
+}
+
+.cat_active {
+
+    color: #006dcc;
+    background-color: #ffffff;
+    border-color: #006dcc #006dcc #006dcc;
+}

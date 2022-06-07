@@ -1,0 +1,102 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <div class="page-title-right">
+      </div>
+      <h4 class="page-title">Itinerary Inclusions</h4>
+    </div>
+  </div>
+</div>
+<!-- START card -->
+<div class="no-padding container-fixed-lg bg-white CRMTable">
+  <div class="container-fluid p0">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title col-md-9">
+          <div class="MainHeadCont">
+            <h5 class="MainHead">Itinerary Inclusions</h5>
+          </div>
+        </div>
+        <div class="col-md-3 pull-left">
+          <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal" data-target="#modalAdd1"
+            (click)="AddNewShow(undefined)">
+            <span class="pull-left"><i class="pg-plus"></i></span>
+            <span>New</span>
+          </button>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="displayTable">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped" datatable [dtOptions]="dtOptions" >
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Name</th>
+                <th>Active </th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let element of itinerary;let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{element.name}}</td>
+                <td><span *ngIf="element.status">Active</span>
+                  <span *ngIf="!element.status">Inactive</span>
+                </td>
+                <td>
+                  <span style="margin-right:10px;" data-toggle="modal" data-target="#modalAdd1"
+                    (click)="AddNewShow(element)"><i aria-hidden="true" class="fas fa-edit"></i></span>
+                  <span><i aria-hidden="true" class="fa fa-trash text-danger"
+                      (click)="deleteItin(element.id)"></i></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add Modal -->
+<div class="modal fade" id="modalAdd1" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel"
+  aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header clearfix text-left">
+        <h4>{{buttonLable}}<span class="semi-bold">&nbsp;Inclusion</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row mt10">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.name">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Description</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.description">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group" (click)="active()">
+              <input type="checkbox" [checked]="active_checked" [(ngModel)]="newElement.status" id="singlAct"
+                style="margin-top: 5px">
+              <label style="line-height: 5px;padding-left: 5px;" for="singlAct">Active</label>
+            </div>
+          </div>
+          <div class="col-md-12 text-right">
+            <button type="button" class="btn btn-primary" (click)="create()"
+              data-dismiss="modal">
+              <span *ngIf="buttonLable=='Add'">Add</span>
+              <span *ngIf="buttonLable!='Add'">Save</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

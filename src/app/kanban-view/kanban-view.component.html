@@ -1,0 +1,39 @@
+<div class="kanban-cont">
+    <!--Section-->
+    <div class="kanban-sec-cont" *ngFor="let kan of kanban">
+      
+      <button type="button" class="btn btn-lg btn-info btn-arrow-right kanbon-Btn">
+        <span title="{{kan.name}}f">{{kan.name}}</span>
+      </button>
+      <div class="kanban-sec">
+        <div class="kanban-sec-cost">{{kan.total_amount}}</div>
+        <div class="kanban-sec-items items-scroll" >
+            <div class="kanban-sec-item" *ngFor="let op of kan.opportunities; let i=index">
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle pull-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Edit</a>
+                      <a class="dropdown-item" href="#">Delete</a>
+                      <a class="dropdown-item" href="#">Change Owner</a>
+                    </div>
+                  </div>
+              <div class="col-md-12 col-sm-12 opporName" title="{{op.name}}"><a href="javascript:void(0)" [routerLink]="['/maindashboard',{ outlets: { bodySection: ['oppoDetails'] }}]" [queryParams]="{ 'id': op.id}">{{op.name}}</a></div>
+              <div class="col-md-12 col-sm-12 accountName"  title="{{op.account_name}}">
+                <strong>{{op.account_name}}</strong></div>
+              <div class="col-md-12 col-sm-12 accountName">{{op.amount}}</div>
+              <!-- <div class="col-md-12 col-sm-12 QueryDate">{{op.}}</div> -->
+            </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!--Section-->
+    
+
+</div>
+
+
+
+
+

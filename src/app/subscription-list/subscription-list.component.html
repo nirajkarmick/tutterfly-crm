@@ -1,0 +1,842 @@
+<div class="navbar-custom">
+    <div class="container-fluid">
+
+        <ul class="list-unstyled topnav-menu float-right mb-0">
+
+           <!--  <li _ngcontent-sve-c2="" class="" *ngIf="isAdmin">
+                <button class="btn btn-danger mt-2" [routerLink]="['/subscription-list']">Upgrade</button>
+            </li> -->
+            <li class="dropdown notification-list topbar-dropdown">
+                <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown"
+                   href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <img src="{{userImage}}" alt="user-image" class="rounded-circle" onError="this.src='assets/img/tfc-user-avatar.png'"/>
+                    <span class="pro-user-name ml-1">
+                        {{users}}
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                    <div class="dropdown-header noti-title">
+                        <h6 class="text-overflow m-0">Welcome !</h6>
+                    </div>
+
+                     <a *ngIf="isAdmin" target="_blank"
+                         [routerLink]="['/adminMain',{ outlets: { adminSection: ['dashboard'] }}]"
+                         class="dropdown-item notify-item">
+                         <i class="fe-settings"></i>
+                         <span>Admin Panel</span>
+                     </a>
+                    <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['Dashboard'] }}]"
+                       class="dropdown-item notify-item">
+                        <i class="fe-user"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="javascript:void(0);" (click)="logout()" class="dropdown-item notify-item">
+                        <i class="fe-log-out"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <div class="logo-box">
+            <div class="logo logo-light text-center">
+                <span class="logo-sm">
+                    <img src="assets/img/tutterfly_icon.png" alt="" height="52">
+                </span>
+                <span class="logo-lg">
+                    <img src="assets/img/logo.png" alt="" height="50">
+                </span>
+            </div>
+        </div>
+         
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+
+<article class="bodyContainer-content content-page">
+    <div class="container-fixed-lg ClientDetails OppoDetails">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <div class="page-title-box"><h4 class="page-title">Choose your subscription plan</h4></div>
+                    <!-- <button class="btn btn-primary mt-2" [routerLink]="['/proceed-payment']" style="/*position: absolute;top: 72px;*/">Next</button> -->
+                </div>
+            </div>
+           
+            <div class="row mt-3 justify-content-center">
+                <div class="d-flex ml-2 compare_price_box" *ngFor="let pln of all_plans;let i=index"  >
+                    <div class="w-100">
+                        <div class="px-3 pt-4">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <div>
+                                    <h4 class="m-0">{{pln.product_name}}</h4>
+                                </div>
+                                <div>
+                                    <h5 class="text-right tab-color m-0">
+                                        <span class="d-block" style="font-size:13px;margin-bottom:2px;">
+                                            Starts at <s>
+                                                <i class="fas fa-rupee-sign" *ngIf="pln.plans[0].type=='D'"></i>
+                                                <i class="fas fa-dollar-sign" *ngIf="pln.plans[0].type=='I'"></i>
+                                                <span id="cut_first_price">{{pln.plans[0].start_price}}</span></s>
+                                        </span>
+                                        <i class="fas fa-rupee-sign" *ngIf="pln.plans[0].type=='D'"></i>
+                                        <i class="fas fa-dollar-sign" *ngIf="pln.plans[0].type=='I'"></i>
+                                        <span id="final_price_mon_{{i}}" class="final_month">{{pln.plans[2].price/12}}</span>/mo
+                                        <span class="d-block mt-1" style="font-size:13px;margin-top:6px;">billed at
+                                        <s>
+                                            <i class="fas fa-rupee-sign"  *ngIf="pln.plans[0].type=='D'"></i>
+                                                <i class="fas fa-dollar-sign" *ngIf="pln.plans[0].type=='I'"></i>
+                                            <span id="final_billed_at">{{pln.plans[0].start_price*12}}</span>
+                                        </s>
+                                     <b> 
+                                        <i class="fas fa-rupee-sign" *ngIf="pln.plans[0].type=='D'"></i>
+                                        <i class="fas fa-dollar-sign" *ngIf="pln.plans[0].type=='I'"></i>
+                                         <span id="final_price_{{i}}">{{pln.plans[2].price}}</span>
+                                     </b>
+                                 </span></h5>
+                                </div>
+                            </div> 
+                            <ul class="nav d-flex justify-content-center nav-tab-user mb-3 mt-4">
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name" href="#fqtr" data-toggle="tab" (click)="set_quarter_price(i,pln.plans[0])">Quarterly</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name" href="#fhalf" data-toggle="tab" (click)="set_half_price(i,pln.plans[1])">
+                                    <span><small class="d-block">Save {{pln.plans[1].discount}}%</small>
+                                    Half yearly</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name active" href="#fyr" data-toggle="tab" (click)="set_yearly_price(i,pln.plans[2])">
+                                    <span><small class="d-block">Save {{pln.plans[2].discount}}%</small>
+                                    Yearly</span></a>
+                                </li>
+                            </ul>
+                            <a href="javascript:void(0)" class="btn btn-primary py-2 w-100 btn-round text-white mb-4 mt-2 buy-plan" (click)="buyNow(pln.product_id,i)">Buy Now</a>
+
+                        </div>
+                        <div class="feature-box px-3">
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Account Management (For B2B)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Contact Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Person Account Management (For B2C)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Lead Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Opportunity Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Sales Process Definition</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Task Management</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Email</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Itinerary Builder</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Unlimited List Views</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Opportunity Kanban View</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Dashboard</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Activity Feeds</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Sales Target Setting</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Key Deals Tagging</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Standard Reports</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">User Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Profile Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Customised Fields</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Import Records</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Alerts and Notification</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4" *ngIf="i==2 || i==1">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Accounts Duplicate Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Content Management (Unlimited storage Drive)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Account Recievable Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Proforma Invoice</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Role Hierarchy</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Customized Email Templates</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Customized Reports</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Web Integration</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4" *ngIf="i==2">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Pull-IT</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">WhatsApp integration</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Facebook Integration</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">TAT Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Sales Objection Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Supplier Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Departure Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Mass Mail</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               <!--  <div class="d-flex mr-2 compare_price_box">
+                    <div class="w-100">
+                        <div class="px-3 pt-4">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <div>
+                                    <h4 class="m-0">Economy Class</h4>
+                                </div>
+                                <div>
+                                    <h5 class="text-right tab-color m-0">
+                                        <span class="d-block" style="font-size:13px;margin-bottom:2px;">
+                                            Starts at <s><i class="fas fa-rupee-sign"></i>
+                                                <span id="cut_eco_price">800</span></s>
+                                        </span>
+                                        <i class="fas fa-rupee-sign"></i>
+                                        <span id="eco_price_mon">700</span>/mo
+                                        <span class="d-block mt-1" style="font-size:13px;margin-top:6px;">billed at
+                                        <s>
+                                            <i class="fas fa-rupee-sign"></i>
+                                            <span id="eco_billed_at">9600</span>
+                                        </s>
+                                     <b>
+                                        <i class="fas fa-rupee-sign"></i>
+                                         <span id="eco_billed_at_dis">8400</span>
+                                     </b>
+                                 </span></h5>
+                                </div>
+                            </div>  
+
+                            <ul class="nav d-flex justify-content-center nav-tab-user mb-3 mt-4">
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name" href="#eqtr" (click)="get_eco_price('quarter')" data-toggle="tab">Quarterly</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name" href="#ehalf" data-toggle="tab" (click)="get_eco_price('half')">
+                                    <span><small class="d-block">Save 5%</small>
+                                    Half yearly</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name active" href="#eyr" data-toggle="tab" (click)="get_eco_price('full')">
+                                    <span><small class="d-block">Save 12.5%</small>
+                                    Yearly</span></a>
+                                </li>
+                            </ul>
+                            <a href="javascript:void(0)" [routerLink]="['/proceed-payment']" [queryParams]="{plan: selected_plan,type: selected_month}" class="btn btn-primary py-2 w-100 btn-round text-white mb-4 mt-2 buy-plan">Buy Now</a>
+
+                        </div>
+                        <div class="feature-box px-3">
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Account Management (For B2B)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Contact Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Person Account Management (For B2C)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Lead Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Opportunity Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Sales Process Definition</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Task Management</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Email</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Itinerary Builder</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Unlimited List Views</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Opportunity Kanban View</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Dashboard</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Activity Feeds</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Sales Target Setting</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Key Deals Tagging</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Standard Reports</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">User Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Profile Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Customised Fields</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Import Records</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Alerts and Notification</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mx-2 compare_price_box">
+                    <div class="w-100">
+                        <div class="px-3 pt-4">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <div>
+                                    <h4 class="m-0">Business Class</h4>
+                                </div>
+                                <div>
+                                    <h5 class="text-right tab-color m-0">
+                                        <span class="d-block" style="font-size:13px;margin-bottom:2px;">
+                                            Starts at <s><i class="fas fa-rupee-sign"></i>
+                                                <span id="cut_buss_price">1200</span></s>
+                                        </span>
+                                        <i class="fas fa-rupee-sign"></i>
+                                        <span id="buss_price_mon">1000</span>/mo
+                                        <span class="d-block mt-1" style="font-size:13px;margin-top:6px;">billed at
+                                        <s>
+                                            <i class="fas fa-rupee-sign"></i>
+                                            <span id="buss_billed_at">14400</span>
+                                        </s>
+                                     <b>
+                                        <i class="fas fa-rupee-sign"></i>
+                                         <span id="buss_billed_at_dis">12000</span>
+                                     </b>
+                                 </span></h5>
+                                </div>
+                            </div> 
+                            <ul class="nav d-flex justify-content-center nav-tab-user mb-3 mt-4">
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name" href="#bqtr" data-toggle="tab" (click)="get_buss_price('quarter')">Quarterly</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name" href="#bhalf" data-toggle="tab" (click)="get_buss_price('half')">
+                                    <span><small class="d-block">Save 8%</small>
+                                    Half yearly</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name active" href="#byr" data-toggle="tab" (click)="get_buss_price('full')">
+                                    <span><small class="d-block">Save 16.6%</small>
+                                    Yearly</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <a href="javascript:void(0)" [routerLink]="['/proceed-payment']" [queryParams]="{plan: selected_plan,type: selected_month}" class="btn btn-primary py-2 w-100 btn-round text-white mb-4 mt-2 buy-plan">Buy Now</a>
+
+                        </div>
+                        <div class="feature-box px-3">
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Account Management (For B2B)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Contact Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Person Account Management (For B2C)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Lead Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Opportunity Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Sales Process Definition</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Task Management</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Email</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Itinerary Builder</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Unlimited List Views</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Opportunity Kanban View</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Dashboard</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Activity Feeds</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Sales Target Setting</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Key Deals Tagging</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Standard Reports</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">User Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Profile Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Customised Fields</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Import Records</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Alerts and Notification</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Accounts Duplicate Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Content Management (Unlimited storage Drive)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Account Recievable Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Proforma Invoice</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Role Hierarchy</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Customized Email Templates</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Customized Reports</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Web Integration</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+               <!--  <div class="d-flex ml-2 compare_price_box">
+                    <div class="w-100">
+                        <div class="px-3 pt-4">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <div>
+                                    <h4 class="m-0">First Class</h4>
+                                </div>
+                                <div>
+                                    <h5 class="text-right tab-color m-0">
+                                        <span class="d-block" style="font-size:13px;margin-bottom:2px;">
+                                            Starts at <s><i class="fas fa-rupee-sign"></i>
+                                                <span id="cut_first_price">1800</span></s>
+                                        </span>
+                                        <i class="fas fa-rupee-sign"></i>
+                                        <span id="first_price_mon">1575</span>/mo
+                                        <span class="d-block mt-1" style="font-size:13px;margin-top:6px;">billed at
+                                        <s>
+                                            <i class="fas fa-rupee-sign"></i>
+                                            <span id="first_billed_at">21600</span>
+                                        </s>
+                                     <b>
+                                        <i class="fas fa-rupee-sign"></i>
+                                         <span id="first_billed_at_dis">18900</span>
+                                     </b>
+                                 </span></h5>
+                                </div>
+                            </div> 
+
+                            <ul class="nav d-flex justify-content-center nav-tab-user mb-3 mt-4">
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name" href="#fqtr" data-toggle="tab" (click)="get_first_price('quarter')">Quarterly</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name" href="#fhalf" data-toggle="tab" (click)="get_first_price('half')">
+                                    <span><small class="d-block">Save 5%</small>
+                                    Half yearly</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link1 plan_name active" href="#fyr" data-toggle="tab" (click)="get_first_price('full')">
+                                    <span><small class="d-block">Save 12.5%</small>
+                                    Yearly</span></a>
+                                </li>
+                            </ul>
+                            <a href="javascript:void(0)" [routerLink]="['/proceed-payment']" class="btn btn-primary py-2 w-100 btn-round text-white mb-4 mt-2 buy-plan">Buy Now</a>
+
+                        </div>
+                        <div class="feature-box px-3">
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Account Management (For B2B)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Contact Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Person Account Management (For B2C)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Lead Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Opportunity Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Sales Process Definition</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Task Management</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Email</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Itinerary Builder</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Unlimited List Views</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Opportunity Kanban View</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Dashboard</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Activity Feeds</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Sales Target Setting</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Key Deals Tagging</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Standard Reports</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">User Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Profile Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Customised Fields</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Import Records</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Alerts and Notification</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Accounts Duplicate Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Content Management (Unlimited storage Drive)</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Account Recievable Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Proforma Invoice</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Role Hierarchy</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Customized Email Templates</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Customized Reports</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Web Integration</p>
+                                </div>
+                            </div>
+                            <div class="feature-categories mb-4">
+                                <h6 class="feature-category bottom_line"></h6>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Pull-IT</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">WhatsApp integration</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Facebook Integration</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">TAT Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Sales Objection Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Supplier Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Departure Management</p>
+                                </div>
+                                <div class="d-flex align-items-center my-1">
+                                    <p class="m-0 mr-2"><span class="check">✓</span></p>
+                                    <p class="m-0">Mass Mail</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                Copyright &copy;
+                <script>document.write(new Date().getFullYear())</script>
+                <a href="https://www.tutterflycrm.com/" target="_blank">TutterflyCRM</a> | All Rights Reserved.
+            </div>
+            <div class="col-md-6">
+                <div class="text-md-right footer-links d-none d-sm-block">
+                    <a href="https://www.tutterflycrm.com/terms-of-use/" target="_blank">Terms of use</a>
+                    <a href="https://www.tutterflycrm.com/privacy-policy/" target="_blank">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

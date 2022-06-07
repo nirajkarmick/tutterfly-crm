@@ -1,0 +1,202 @@
+<div class=" no-padding container-fixed-lg bg-white123 ClientDetails fileMainCont">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                    </div>
+                    <h4 class="page-title">Reports</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card clientHeader">
+            <div class="card-header card-white-head topSec">
+                <div class="row ">
+                    <div class="col-md-6">
+                        <div class="select-DataView">
+                            <div class="d-flex icon-module float-left mr-1">
+                                <img src="assets/new_assets/images/account-icon.png" alt="" width="" class="img-fluid">
+                            </div>
+                            <div class="select-DataViewml-2">
+                                <div class="form-group m-0">
+                                    <!-- <label class="m-0 text-primary">
+                                        <small>Total Reports <span>({{totalData}})</span></small>
+                                    </label> -->
+                                    <div class="MainHeadClinetname">{{selectedTab | titlecase}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="btn-group pull-right">
+                            <form class="form-inline">
+                                <div class="button-list pull-right">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light"
+                                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['addReports'] }}]"
+                        [queryParams]="{ 'id': report_type_id,'name': report_type}">New Report</button>
+                                    <!-- <button type="button" class="btn btn-primary waves-effect waves-light"
+                                        data-toggle="modal" data-target="#FileUploadPop">New Report</button> -->
+                                    <button type="button" class="btn btn-info waves-effect waves-light"
+                                        data-toggle="modal" data-target="#newFolder">New Folder</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- <div class="btn-group pull-right" style="margin-right: 10px;">
+                            <div id="newFolder" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Create New Folder</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body" style="padding-top: 20px;">
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <input class="form-control" [(ngModel)]="folderName" placeholder="Enter New Folder Name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 text-right">
+                                                <button type="button" class="btn btn-primary" (click)="createFolder()" data-dismiss="modal">Create Folder</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <!--</div>-->
+            <div class="card-body ClientInfo filesSec">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 pull-left p0 fileleftSec">
+                        <ul class="list-group flex-column" style="clear:both;" role="tablist"
+                            data-init-reponsive-tabs="dropdownfx">
+                            <div class="col-md-12 col-sm-12 repoHead">REPORTS</div>
+                            <li class="list-group-item">
+                                <a class="active" data-toggle="tab" role="tab" data-target="#recent"
+                                    href="javascript:void(0);" (click)="changeTab(0)">Recent</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="javascript:void(0);" data-toggle="tab" role="tab" data-target="#creatByMe"
+                                    (click)="changeTab(1)">Created by me</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="javascript:void(0);" data-toggle="tab" role="tab" data-target="#publicReport"
+                                    (click)="changeTab(2)">Public Reports</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="javascript:void(0);" data-toggle="tab" role="tab" data-target="#privateReport"
+                                    (click)="changeTab(3)">Private Reports</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="javascript:void(0);" data-toggle="tab" role="tab" data-target="#allReport"
+                                    (click)="changeTab(4)">All Reports</a>
+                            </li>
+
+                            <div class="col-md-12 col-sm-12 repoHead">FOLDERS</div>
+                            <li class="list-group-item">
+                                <a href="javascript:void(0);" data-toggle="tab" role="tab" data-target="#allFolder"
+                                    (click)="changeTab(5)">All Folders</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-10 col-sm-10 p0 pull-left filerightSec">
+                        <div class="tab-content p0" *ngIf="gridData">
+                            <div class="tab-pane" id="creatByMe">
+                                <app-report-grid [grid]="gridData" [colSetting]="displayCol" class="app-report-grid"
+                                    [users]="users" [isFolder]="isFolder" (changeBread)="changeBread($event)">
+                                </app-report-grid>
+                            </div>
+                            <div class="tab-pane" id="publicReport">
+                                <app-report-grid [grid]="gridData" [colSetting]="displayCol" [users]="users"
+                                    [isFolder]="isFolder" (changeBread)="changeBread($event)"></app-report-grid>
+                            </div>
+                            <div class="tab-pane" id="privateReport">
+                                <app-report-grid [grid]="gridData" [colSetting]="displayCol" class="app-report-grid"
+                                    [users]="users" [isFolder]="isFolder" (changeBread)="changeBread($event)">
+                                </app-report-grid>
+                            </div>
+                            <div class="tab-pane" id="allReport">
+                                <app-report-grid [grid]="gridData" [colSetting]="displayCol" class="app-report-grid"
+                                    [users]="users" [isFolder]="isFolder" (changeBread)="changeBread($event)">
+                                </app-report-grid>
+                            </div>
+
+                            <div class="tab-pane" id="publicRallFoldereport">
+                                <app-report-grid [grid]="gridData" [colSetting]="displayCol" class="app-report-grid"
+                                    [users]="users" [isFolder]="isFolder" (changeBread)="changeBread($event)">
+                                </app-report-grid>
+                            </div>
+                            <div class="tab-pane" id="createByMe">
+                                <app-report-grid [grid]="gridData" [colSetting]="displayCol" class="app-report-grid"
+                                    [users]="users" [isFolder]="isFolder" (changeBread)="changeBread($event)">
+                                </app-report-grid>
+                            </div>
+                            <div class="tab-pane" id="FolSharByme">
+                                <app-report-grid [grid]="gridData" [colSetting]="displayCol" class="app-report-grid"
+                                    [users]="users" [isFolder]="isFolder" (changeBread)="changeBread($event)">
+                                </app-report-grid>
+                            </div>
+                            <div class="tab-pane active" id="recent">
+                                <app-report-grid [grid]="gridData" [colSetting]="displayCol" class="app-report-grid"
+                                    [users]="users" [isFolder]="isFolder" (changeBread)="changeBread($event)">
+                                </app-report-grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="FileUploadPop" class="modal fade" role="dialog" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">New Report</h4>
+                <button type="button" class="close" data-dismiss="modal" (click)="newRepoPopClose()">&times;</button>
+            </div>
+            <div class="modal-body " style="padding-top: 20px;">
+                <div class="col-md-12 col-sm-12 p0">
+                    <div class="form-group">
+                        <label>Choose Report Type</label>
+                        <select class="form-control " [(ngModel)]="reportType">
+                            <option *ngFor="let type of reportTypeList" [ngValue]="type">
+                                {{type.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <a class="btn btn-primary"
+                        [routerLink]="['/maindashboard',{ outlets: { bodySection: ['addReports'] }}]"
+                        [queryParams]="reportType">Continue</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="newFolder" class="modal fade" role="dialog" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create New Folder</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="padding-top: 20px;">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <input class="form-control" [(ngModel)]="folderName" placeholder="Enter New Folder Name">
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button type="button" class="btn btn-primary" (click)="createFolder()">Create
+                        Folder</button>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>

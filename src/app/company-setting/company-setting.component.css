@@ -1,0 +1,341 @@
+.CRMTable .card .card-block {
+  padding: 0px; /*height: 600px;*/
+  padding: 10px;
+}
+
+/*#modalAdd .modal-content {
+  height: 500px
+}*/
+
+.card-block .form-group {
+  text-align: left;
+}
+
+.profileSecHead {
+  height: 45px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 0 0 0;
+  text-align: left;
+}
+
+.profileSec {
+  border-bottom: 1px solid #ddd;
+  min-height: 25px;
+  margin-bottom: 10px;
+}
+
+.profileSec .attrName {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.profileSec .attrDesc {
+  font-size: 13px;
+  text-align: left;
+  padding-left: 20px !important;
+}
+
+agm-map {
+  height: 350px;
+}
+
+.comp-selectbx .select2-container {
+  z-index: 5000 !important;
+}
+
+.pac-container {
+  z-index: 10420 !important;
+}
+
+#modalAdd {
+ /* z-index: 1000 !important;*/
+}
+
+.AdminSec .card .card-header {
+  background-color: #5fb4ff;
+  padding: 1.38rem 1.5rem;
+  color: #fff;
+  border-radius: 0;
+}
+
+#companySettingMap div agm-map {
+  height: 410px !important;
+}
+
+.CRMTable .card .card-block {
+  padding: 0px; /*height: 600px;*/
+  padding: 10px;
+}
+
+/*#modalAdd .modal-content {
+  height: 500px
+}*/
+
+.card-block .form-group {
+  text-align: left;
+}
+
+.profileSecHead {
+  height: 45px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 0 0 0;
+  text-align: left;
+}
+
+.profileSec {
+  border-bottom: 1px solid #ddd;
+  min-height: 25px;
+  margin-bottom: 10px;
+}
+
+.profileSec .attrName {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.profileSec .attrDesc {
+  font-size: 13px;
+  text-align: left;
+  padding-left: 20px !important;
+}
+
+agm-map {
+  height: 350px;
+}
+
+.comp-selectbx .select2-container {
+  z-index: 5000 !important;
+}
+
+.pac-container {
+  z-index: 10420 !important;
+}
+
+#modalAdd {
+  /*z-index: 1000 !important;*/
+}
+
+
+.userProfileBanner {
+  background-size: 100% auto !important;
+  background-position: top center !important;
+  height: 200px;
+  width: 100%;
+  position: relative;
+  background-repeat: no-repeat !important;
+}
+
+.uploadBanner {
+  position: absolute;
+  right: 30px;
+  top: 130px;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.uploadBanner i {
+  font-size: 15px;
+  padding-top: 8px;
+}
+
+.userProfileSec {
+  background: #fff;
+  margin: 0;
+  border-radius: 5px;
+  margin-top: -20px;
+  padding-bottom: 20px;
+  width: 100%;
+}
+
+.userProfileAvatar {
+  /*position: relative;*/
+  width: 70px;
+  height: 70px;
+  border-radius: 100px;
+  border: 2px solid #ddd;
+  background-size: 100% 100% !important;
+  background-position: center center !important;
+  top: -100px;
+  left: 30px;
+}
+.adminProfile{display:inline-block}
+.uploadAvatar {
+  position: absolute;
+  bottom: 5px;
+  right: -10px;
+  width: 25px;
+  height: 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #bbb;
+  text-align: center;
+  margin: auto;
+}
+
+.uploadAvatar i {
+  /*font-size: 15px;
+  padding-top: 5px;
+  padding-left: 6px;*/
+}
+
+.userInfoSec {
+  padding-left: 10px;
+  padding-top: 10px;
+  text-align: left;
+}
+
+.userInfoSec .userName {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.userInfoSec .userTitle {
+  font-size: 16px; /*margin-top:5px;*/
+  color: #999;
+}
+
+.userInfoSec .userEmail {
+  font-size: 16px;
+  color: #999;
+}
+
+#DetailsCont {
+  background: #fff;
+  border-radius: 5px;
+  padding-top: 20px;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  width: 100%;
+}
+
+#modaluploadPhoto .modal-dialog {
+  margin-top: 7%
+}
+
+.popProfilePhoto {
+  width: 110px;
+  height: 150px;
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  background-size: cover !important;
+  background-position: center center !important;
+  margin: 0 auto;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+#modaluploadBanner .modal-dialog {
+  margin-top: 6%;
+  width: 1000px;
+  max-width: 1000px;
+}
+
+.popProfileBanner {
+  width: 100%;
+  height: 200px;
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  background-size: cover !important;
+  background-position: center center !important;
+  margin: 0 auto;
+}
+
+button.btn-edit {
+  border: none;
+  padding: 0;
+}
+
+button.btn-edit:hover {
+  color: #006dcc;
+  background: transparent;
+}
+
+#DetailsCont .row {
+  margin: 0
+}
+
+#DetailsCont ul li span {
+  width: 100px;
+  position: relative;
+  float: left;
+  font-weight: 600;
+}
+
+#DetailsCont ul {
+  margin: 0;
+}
+
+#DetailsCont ul li:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.userProfileAvatarContainer {
+  position: relative;
+  float: left;
+  width: 100%;
+  clear: both;
+}
+
+@media (min-width: 992px) {
+
+  /*.uploadAvatar{top:100px}*/
+}
+
+
+@media (max-width: 767px) {
+
+  .userProfileSec {
+    height: auto;
+  }
+
+  /*.uploadAvatar{top:110px}*/
+  .userInfoSec {
+    text-align: center
+  }
+
+  .userProfileAvatarContainer {
+    height: 80px;
+  }
+
+  .userProfileSec div button.btn-edit {
+    float: none !important;
+    text-align: center;
+  }
+}
+
+#DetailsCont ul li span {
+  width: 100% !important;
+}
+
+#DetailsCont ul li span.col-sm-10 {
+  font-weight: normal;
+}
+
+.pac-container {
+  z-index: 10420 !important;
+}
+
+#modalEdit {
+  /*z-index: 1000;*/
+}

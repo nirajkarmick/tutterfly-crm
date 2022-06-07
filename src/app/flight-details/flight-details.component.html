@@ -1,0 +1,703 @@
+<div class=" no-padding container-fixed-lg CRMTable">
+    
+<div *ngIf="isLoading" class="flight_loader">
+  <img src="assets/img/flightloader.gif" />
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-flex justify-content-between align-items-center">
+                <h4 class="page-title">Flight</h4>
+                    <div class="text-right button-list">
+                        <button class=" btn btn-danger btn-rounded1 waves-effect waves-light"[routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itinerary-details'] }}]" [queryParams]="{ 'id': itinerary_id}">
+                            <span class="pull-left"><i class="mdi mdi-map-marker-path float-lefttext-white"></i></span><span class="ml-1">Day Wise Itinerary</span>
+                        </button> 
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header card-white-head">
+            <div class="card-title m-0 w-100">
+                <div class="row  ml-md-0 mr-md-0 justify-content-between">
+                    <div class="select-DataView">
+                        <div class="d-flex icon-module float-left mr-1">
+                            <div class="timeline-icon bg-primary rounded-circle">
+                                <i class="mdi mdi-shield-airplane-outline float-left m-0 h3 p-2 align-middle text-white"></i>
+                            </div>
+                        </div>
+                        <div class="select-DataViewml-2 d-flex align-items-end">
+                            <div class="form-group m-0 float-left">
+                                <h3 class="d-block text-left">Add Flight</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="ml-2">
+                            <button type="button" class="btn btn-info btn-rounded waves-effect waves-light" [routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itineraries'] }}]">
+                                <span class="btn-label"><i class="mdi mdi-arrow-left-thick"></i></span> Back to itinerary list
+                            </button>
+                        </div>
+                        <div class="ml-2">
+                            <button type="button" class="btn btn-success btn-rounded waves-effect waves-light"  [routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itinerary-accommodations'] }}]" [queryParams]="{ 'id': itinerary_id}">
+                               Next <span class="btn-label-right"><i class="mdi mdi-arrow-right-thick"></i></span> 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="card-body bg-pattern-bottom">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 ">
+                <div class="newCreateitinerarymodal" id="newCreateitinerarymodal">
+                    <div class="newCreateitinerarymodal-container">
+                        <div class="newCreateitinerarymodal-wrapper">
+                            <div class="row align-items-center mb-3">
+                                <div class="col-md-3 ribbon-box">
+                                    <div class="ribbon ribbon-pink float-left"><h4 class="text-white"><i class="mdi mdi-access-point mr-1"></i> Flights</h4></div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="radio radio-info form-check-inline" >
+                                        <input type="radio" id="Originating" value="O" name="flight" checked=""  (change)="OriginatType()" [(ngModel)]="flight_type">
+                                        <label for="Originating"> Originating flight </label>
+                                    </div>
+                                    <div class="radio form-check-inline" >
+                                        <input type="radio" id="Returning" value="R" name="flight" (change)="returnType()"  [(ngModel)]="flight_type">
+                                        <label for="Returning"  > Returning flight </label>
+                                    </div>
+                                </div>    
+                                <!-- {{originateFlightData | json}} -->
+                            </div>
+                           
+                            <div class="card mt-3 originate_flights" id="addflightmanully" *ngIf="addflightmanully && flight_type=='O'">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 text-primary">Add Originating flight details</h5>
+                                    <button class="btn btn-outline-blue btn-sm btn-rounded waves-effect waves-light" (click)="addMoreoriginatingForm()">
+                                        <span class="btn-label"><i class="mdi mdi-plus-circle-outline"></i></span>Add more flight
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row" *ngFor="let ff of originatFormNo; let i = index; ">
+                                        <div class="col-md-12">
+                                            <hr *ngIf="i>0">
+                                        </div>
+                                           
+                                <div class="col-md-10" >
+                                    <div class="row" id="search_flght_org_{{i}}" style="width: 100%">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="airlinecode">Airline Code</label>
+                                                <input type="text" name="airline" id="airlinecode_serch_org_{{i}}" class="form-control"  >
+                                                <span class="errors_alls" id="error-airline"></span>
+                                                <p class="flt_exp_org_{{i}}">
+                                                    <small><span class="text-danger">Exp.</span>-:Code <strong class="text-grey">I5-748</strong>, <span class="text-primary">I5</span> is the Airline code</small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="flightno">Flight Number</label>
+                                                <input type="text" name="flight" id="flightno_serch_org_{{i}}" class="form-control floating-input" >
+                                                <span class="errors_alls" id="error-flight"></span>
+                                                <p  class="flt_exp_org_{{i}}">
+                                                    <small><span class="text-danger">Exp.</span>-:Code <strong class="text-grey">I5-748</strong>, <span class="text-primary">748</span> is the Flight No.</small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="firstDate_serch_org_{{i}}">Flight Date</label>
+                                               
+                                                <div class="input-group date">
+                                                    <input matInput [matDatepicker]="picker" class="form-control flt_date_control"  [owlDateTimeTrigger]="picker" placeholder="Choose a date" disabled id="firstDate_serch_org_{{i}}" [min]="todayDate">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker">
+                                                        <i class="fas fa-calendar"></i> 
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker disabled="false"></mat-datepicker> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 pd-withoutlabel_">
+                                                <label for="sub_org_{{i}}">&nbsp;</label>
+                                            <div class="form-group" style="margin-top: -10px">
+                                                <button type="button" id="sub_org_{{i}}" class="btn btn-primary" (click)="searchFlight('org',i)">
+                                                <i class="fa fa-search"></i> Search</button> 
+                                            </div>
+                                       </div> 
+
+                                    </div>
+                                </div>
+                                 <div class="col-md-2"> 
+                                    <button class="btn btn-warning float-right"  id="srch_org" (click)="toggleFltSearch('org',i)" matTooltipClass="user-custom-tooltip" matTooltip="Search Flight" *ngIf="!org_search_btn"><i class="fa fa-search"></i></button>
+
+                                    <button class="btn btn-danger float-right"  id="srch_org" (click)="toggleFltSearch('org',i)" matTooltipClass="user-custom-tooltip" matTooltip="Add Manually" *ngIf="org_search_btn"><span >Add Manually</span> 
+                                    </button>
+                                 </div>
+                            
+                                <div class="col-md-12" id="org_row_{{i}}" style="display: none" >
+                                    <div class="row" >
+                                    <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="airportname">Airport Name
+                                                    <small class="text-primary">(Departure)</small>
+                                                </label>
+                                                <div style="position: relative">
+                                                <input type="text" class="form-control" id="airport_org_frm_{{i}}" name="airportname"  (input)="searchAirport($event,'org_from',i)">
+                                                <div id="airport_org_from_{{i}}" class="autocomplete-items" *ngIf="airportDataDepFrom.length >0" style="text-align: left;display: none;">
+                                                
+                                
+                                                <div *ngFor="let poi of airportDataDepFrom" class="auto-itm" >
+                                                    <div (click)="fetch_airp(poi.id,'org_from',i)">
+                                                        <strong>
+                                                            <i class="fas fa-map-marker"></i>
+                                                            <span style="margin-left: 5px">{{poi.dest_name}},{{poi.country_name}}
+                                                    </span></strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                    </div>
+
+                                     <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="airportnameto">Airport Name
+                                                    <small class="text-primary">(arrival)</small>
+                                                </label>
+                                                              <div style="position: relative">
+                                                <input type="text" class="form-control" id="airportnameto_org_{{i}}" name="airportname"  (input)="searchAirport($event,'org_to',i)">
+                                                <div id="airport_org_to_{{i}}" class="autocomplete-items" *ngIf="airportDataDepTo.length >0" style="text-align: left;display: none;">
+                                                
+
+                                                <div *ngFor="let poi of airportDataDepTo" class="auto-itm"  id="">
+                                                    <div (click)="fetch_airp(poi.id,'org_to',i)">
+                                                        <strong>
+                                                            <i class="fas fa-map-marker"></i>
+                                                            <span style="margin-left: 5px">{{poi.dest_name}},{{poi.country_name}}
+                                                    </span></strong>
+                                                    </div>
+                                                </div></div>
+                                            </div>
+                                                            </div>
+                                     </div>
+                                    <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="airlinename">Airline Name</label>
+                                                <input type="text" class="form-control" id="airlinename_org_{{i}}" name="airlinename_org_{{i}}">
+                                            </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="airlinecode2">Airline Code</label>
+                                                <input type="text" class="form-control" id="airlinecode_org_{{i}}" name="airlinecode2">
+                                            </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="flightnumber">Flight Number</label>
+                                                <input type="text" class="form-control" id="flightnumber_org_{{i}}" name="flightnumber">
+                                            </div>
+                                    </div> 
+                                     <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="departuredate">Departure Time</label>
+
+                                                <input [owlDateTime]="orgDtFrm_1" [owlDateTimeTrigger]="orgDtFrm_1" class="form-control" id="departuredate_org_{{i}}"           placeholder="Time"  >
+                                                <owl-date-time [pickerType]="'timer'" #orgDtFrm_1></owl-date-time>
+
+
+                                            </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="arrialedate">Arrival Time</label>
+                                                <!-- <input type="text" class="form-control" id="arrialedate_org_{{i}}" name="arrialedate"> -->
+                                                <input [owlDateTime]="orgDtTo_1" [owlDateTimeTrigger]="orgDtTo_1" class="form-control" id="arrialedate_org_{{i}}"  placeholder="Time" >
+                                                 <owl-date-time [pickerType]="'timer'"  #orgDtTo_1></owl-date-time>
+                                            </div>
+                                    </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="org_date_{{i}}">Date</label>
+                                               
+                                                <div class="input-group date">
+                                                    <input matInput [matDatepicker]="picker_org" class="form-control flt_date_control"  [owlDateTimeTrigger]="picker_org" placeholder="Choose a date"  id="org_date_{{i}}" [min]="todayDate">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker_org">
+                                                        <i class="fas fa-calendar"></i> 
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker_org disabled="false"></mat-datepicker> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-3" style="padding-top:1.3rem"> 
+                                            <button class="btn btn-danger" *ngIf="i>0" (click)="removeMoreoriginatingForm(i)"> 
+                                            Remove</button>
+                                    </div>
+                                    
+                                </div> 
+                                </div>
+                                </div> 
+                                    <div class="col-md-12 text-right">
+                                            <button class="btn btn-success width-xl waves-effect waves-light" (click)="save_origination();">Save</button>
+                                    </div>
+ 
+                                    <!-- <div class="row">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-success width-xl waves-effect waves-light mr-2 float-right" (click)="save_origination();">Save</button></div>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="card mt-3" id="addflightmanully" *ngIf="addflightmanully && flight_type=='R'">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 text-primary">Add Return flight details</h5>
+                                    <button class="btn btn-outline-blue btn-sm btn-rounded waves-effect waves-light" (click)="addMorereturningForm()">
+                                        <span class="btn-label"><i class="mdi mdi-plus-circle-outline"></i></span>Add more flight
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row" *ngFor="let ff of returnFormNo; let i = index; ">
+                                        <div class="col-md-12">
+                                            <hr *ngIf="i>0">
+                                        </div>
+                                         <div class="col-md-10" >
+                                    <div class="row" id="search_flght_ret_{{i}}" style=" width: 100%">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="airlinecode">Airline Code</label>
+                                                <input type="text" name="airline" id="airlinecode_serch_ret_{{i}}" class="form-control" value="">
+                                                <span class="errors_alls" id="error-airline"></span>
+                                                <p class="flt_exp_ret_{{i}}">
+                                                    <small><span class="text-danger">Exp.</span>-:Code <strong class="text-grey">I5-748</strong>, <span class="text-primary">I5</span> is the Airline code</small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="flightno">Flight Number</label>
+                                                <input type="text" name="flight" id="flightno_serch_ret_{{i}}" class="form-control floating-input" value="">
+                                                <span class="errors_alls" id="error-flight"></span>
+                                                <p  class="flt_exp_ret_{{i}}">
+                                                    <small><span class="text-danger">Exp.</span>-:Code <strong class="text-grey">I5-748</strong>, <span class="text-primary">748</span> is the Flight No.</small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="firstDate">Flight Date</label>
+                                                <div class="input-group date">
+                                                    <input matInput [matDatepicker]="picker" class="form-control flt_date_control"  placeholder="Choose a date" disabled id="firstDate_serch_ret_{{i}}" [min]="todayDate">
+                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                            <i class="fas fa-calendar"></i> 
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       <div class="col-md-3 pd-withoutlabel">
+                                                <label for="sub_org_{{i}}">&nbsp;</label>
+                                            <div class="form-group" style="margin-top: -16px">
+                                            <button type="button" id="sub_ret" class="btn btn-primary" (click)="searchFlight('ret',i)"><i class="fa fa-search"></i> Search</button>
+                                        </div> 
+                                        </div>
+
+                                    </div> 
+                                </div>
+
+                                 <div class="col-md-2">
+                                    <button class="btn btn-warning float-right" id="srch_ret" (click)="toggleFltSearch('ret',i)" matTooltipClass="user-custom-tooltip" matTooltip="Search Flight" *ngIf="!ret_search_btn"><i class="fa fa-search"></i></button> 
+
+                                    <button class="btn btn-danger float-right"  id="srch_org" (click)="toggleFltSearch('ret',i)" matTooltipClass="user-custom-tooltip" matTooltip="Add Manually" *ngIf="ret_search_btn"><span >Add Manually</span> 
+                                    </button>
+                                 </div>
+                                  <div class="col-md-12" id="ret_row_{{i}}" style="display: none" >
+                                    <div class="row" >
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="airportname">Airport Name
+                                                    <small class="text-primary">(Departure)</small>
+                                                </label>
+                                                <div style="position: relative">
+                                                <input type="text" class="form-control" id="airport_ret_frm_{{i}}" name="airportname"  (input)="searchAirport($event,'ret_from',i)">
+                                                 <div id="airport_ret_from_{{i}}" class="autocomplete-items" *ngIf="airportDataRetFrom.length >0" style="text-align: left;display: none;">
+                                                
+
+                                            <div *ngFor="let poi of airportDataRetFrom" class="auto-itm"  id="">
+                                                <div (click)="fetch_airp(poi.id,'ret_from',i)">
+                                                    <strong>
+                                                        <i class="fas fa-map-marker"></i>
+                                                        <span style="margin-left: 5px">{{poi.dest_name}},{{poi.country_name}}
+                                                </span></strong>
+                                                </div>
+                                            </div></div>
+                                        </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="airportnameto">Airport Name
+                                                    <small class="text-primary">(arrival)</small>
+                                                </label>
+                                                <div style="position: relative">
+                                                <input type="text" class="form-control" id="airportnameto_ret_{{i}}" name="airportnameto"  (input)="searchAirport($event,'ret_to',i)">
+                                                <div id="airport_ret_to_{{i}}" class="autocomplete-items" *ngIf="airportDataRetTo.length >0" style="text-align: left;display: none;">
+                                                
+
+                                                <div *ngFor="let poi of airportDataRetTo" class="auto-itm"  id="">
+                                                    <div (click)="fetch_airp(poi.id,'ret_to',i)">
+                                                        <strong>
+                                                            <i class="fas fa-map-marker"></i>
+                                                            <span style="margin-left: 5px">{{poi.dest_name}},{{poi.country_name}}
+                                                    </span></strong>
+                                                    </div>
+                                                </div></div>
+                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="airlinename">Airline Name</label>
+                                                <input type="text" class="form-control" id="airlinename_ret_{{i}}" name="airlinename">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="airlinecode2">Airline Code</label>
+                                                <input type="text" class="form-control" id="airlinecode_ret_{{i}}" name="airlinecode2">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="flightnumber">Flight Number</label>
+                                                <input type="text" class="form-control" id="flightnumber_ret_{{i}}" name="flightnumber">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="departuredate">Departure Time</label> 
+                                                <input [owlDateTime]="retDtFrm_2" [owlDateTimeTrigger]="retDtFrm_2" class="form-control" id="departuredate_ret_{{i}}" placeholder="Time"  >
+                                                 <owl-date-time [pickerType]="'timer'" #retDtFrm_2></owl-date-time>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="arrialedate">Arrival Time</label> 
+                                                        <input [owlDateTime]="retDtFrm_3" [owlDateTimeTrigger]="retDtFrm_3" class="form-control" id="arrialedate_ret_{{i}}"  placeholder="Time"  >
+                                                       <owl-date-time [pickerType]="'timer'" #retDtFrm_3></owl-date-time>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="ret_date_{{i}}">Date</label>
+                                               
+                                                <div class="input-group date">
+                                                    <input matInput [matDatepicker]="picker_ret" class="form-control flt_date_control"  [owlDateTimeTrigger]="picker_ret" placeholder="Choose a date"  id="ret_date_{{i}}" [min]="todayDate">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker_ret">
+                                                        <i class="fas fa-calendar"></i> 
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker_ret disabled="false"></mat-datepicker> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" style="padding-top:1.3rem">
+                                            
+                                            <button class="btn btn-danger" *ngIf="i>0" (click)="removeMorereturningForm(i)">Remove</button>
+                                        </div>
+                                    </div>
+                                </div></div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-success width-xl waves-effect waves-light mr-2 float-right" (click)="save_returnFlights();">Save</button>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+<div class="flightsearchDetails mt-3" *ngIf="(itineraryOrgFlight && itineraryOrgFlight.length>0) || (itineraryRetFlight && itineraryRetFlight.length>0)">
+    <div class="flightsearchDetails-container">
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="card-box  mb-0" *ngIf="(itineraryOrgFlight && itineraryOrgFlight.length>0)">
+                    <h5> Originating Flight Details
+                        <!-- <span class="float-right" style="cursor: pointer;"  (click)="openFlightEdit('O')" matTooltip="Edit Outbond FLight">
+                            <i class="fa fa-edit" ></i>
+                        </span> -->
+                    </h5>
+                </div>
+                <div class="card-box flightsearchDetails-inner ribbon-box" *ngFor="let ob_flight of itineraryOrgFlight">
+                    <div class="ribbon-two ribbon-two-primary"><span>Originating</span></div>
+                    <div class="flightsearchDetails-detail">
+                        <div class="flight-card-slice">
+                             <div class="flightsearchDetails_slicecontainer">
+                                <div class="flightsearchDetails_slicecontainer_list">
+                                    <div class="flightsearchDetails_slicecontainer_item">
+                                        <div class="flightsearchDetails_flightlogo"> 
+                                            <img [src]="'assets/img/airlineLogo/'+ob_flight.airline_code+'.jpg'" onError="this.src='assets/img/pullit/help-grid-watermark.png'"/>
+                                        </div>
+                                        <div class="flightsearchDetails_flightname">
+                                          {{ob_flight.airline}}  
+                                            <small class="">
+                                                <span>{{ob_flight.airline_code}} -{{ob_flight.flight_number}}</span>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="flightsearchDetails_slicecontainer_item2">
+                                        <div class="flightsearchDetails-timefromandlocation">
+                                            <!-- <span class="flightformtime">{{toDateForm(ob_flight.dep_time,"h:m") | date : 'HH:mm'}}</span> -->
+                                            <span class="flightformtime">{{ob_flight.dep_time }}</span> 
+                                            <span class="flightformdest" matTooltip="{{ob_flight.dep_airport}}" *ngIf="ob_flight.dep_iata">{{ob_flight.dep_iata}}</span>
+                                            <span class="flightformdest" matTooltip="{{ob_flight.dep_airport}}" *ngIf="!ob_flight.dep_iata"> 
+                                              {{(ob_flight.dep_airport.length>10)? (ob_flight.dep_airport | slice:0:10)+'..':(ob_flight.dep_airport)}}
+                                            </span> 
+                                        </div>
+                                        <div class="flightsearchDetails-flightfromandstops">
+                                            <div class="flightsearchDetails-flightfromandstops-top">
+                                                <svg width="1em" height="1em" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 24 24" class="font12 flex-fill-0 bg-fill-grey">
+                                                    <path
+                                                        d="M9.442 13.886l-5.488-.491-1.358 2.632a.5.5 0 0 1-.436.27l-1.318.022a.5.5 0 0 1-.494-.616l.97-4.064-.975-4.07a.5.5 0 0 1 .479-.617l1.325-.021a.5.5 0 0 1 .453.274l1.415 2.787 5.44-.52-2.22-7.753A.8.8 0 0 1 8.006.7h.857a.8.8 0 0 1 .672.367l5.33 8.269h4.83a4 4 0 0 1 1.8.427l1.485.748a1.308 1.308 0 0 1-.003 2.338l-1.486.744a4 4 0 0 1-1.79.422h-4.858L9.534 22.33a.8.8 0 0 1-.674.37h-.858a.8.8 0 0 1-.77-1.018l2.21-7.795z"></path>
+                                                </svg>
+                                                <div class="flightsearchDetails-drawline twoDots">
+                                                    <span class="flightsearchDetails_line"></span>
+                                                    <span class="flightsearchDetails_dot"></span>
+                                                    <!-- <span class="flightsearchDetails_dot"></span> -->
+                                                </div>
+                                                <svg xmlns:xlink="https://www.w3.org/1999/xlink" width="1em" height="1em" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 24 24" class="bg-fill-grey flex-fill-0 font12">
+                                                    <defs>
+                                                        <path id="pin-line-filled_24px-a" d="M12.974 22.67a1.5 1.5 0 0 1-2.115-.166C5.96 16.767 3.5 12.46 3.5 9.5a8.5 8.5 0 0 1 17 0c0 2.96-2.46 7.267-7.36 13.004a1.5 1.5 0 0 1-.166.166zM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
+                                                    </defs>
+                                                    <use xlink:href="#pin-line-filled_24px-a"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="flightsearchDetails-flightfromandstops-bottom">
+                                                <span class="flightsearchDetails-flightfromandstops-duration">{{ob_flight.total_travel_time}}</span>&nbsp;
+                                                <!-- <span class="flightsearchDetails-flightfromandstops-stop" (click)="showFlighDetailbtn()">(2 stops)</span> -->
+                                            </div>
+                                        </div>
+                                        <div class="flightsearchDetails-timetoandlocation">
+                                            <!-- <span class="flighttotime">{{toDateForm(ob_flight.arr_time,"h:m") | date  : 'HH:mm'}}</span> -->
+                                            <span class="flighttotime">{{ ob_flight.arr_time }}</span>
+                                            <!-- <span class="flighttodest">{{ob_flight.arr_iata}}</span> -->
+                                            <span class="flightformdest" matTooltip="{{ob_flight.arr_airport}}" *ngIf="ob_flight.arr_iata">{{ob_flight.arr_iata}}</span>
+                                            <span class="flightformdest" matTooltip="{{ob_flight.arr_airport}}" *ngIf="!ob_flight.arr_iata"> 
+                                              {{(ob_flight.arr_airport.length>10)? (ob_flight.arr_airport | slice:0:10)+'..':(ob_flight.arr_airport)}}
+                                            </span> 
+                                        </div>
+                                    </div>
+                                    <div _ngcontent-aaw-c27="" class="ml-2" style="margin-left: 10px;"><span _ngcontent-aaw-c27="" style="position: absolute; top: 30%;" class=""><a _ngcontent-aaw-c27="" aria-expanded="false" aria-haspopup="true" class=" dropdown-toggle1" data-toggle="dropdown" href="javascript:void(0)" id="dropdownMenuButton"><i _ngcontent-aaw-c27="" class="fas fa-ellipsis-v fa-2x"></i></a><div _ngcontent-aaw-c27="" aria-labelledby="dropdownMenuButton" class="dropdown-menu" style=""><a _ngcontent-aaw-c27="" class="dropdown-item" data-target="#close" data-toggle="modal" href="javascript:void(0);"  (click)="open_delete_modal(ob_flight.id)"><i class="fas fa-trash mr-1"></i>Delete</a><a  class="dropdown-item" data-target="#editFlt" data-toggle="modal" href="javascript:void(0);"  (click)="openFlightEdit(ob_flight.id,'O',ob_flight)"><i class="fas fa-edit mr-1"></i>Edit</a></div></span></div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                     
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-box  mb-0" *ngIf="(itineraryRetFlight && itineraryRetFlight.length>0)">
+                    <h5> Returning Flight Details 
+                    </h5>
+                </div>
+                <div class="card-box flightsearchDetails-inner ribbon-box" *ngFor="let ret_flight of itineraryRetFlight">
+                    <div class="ribbon-two ribbon-two-danger"><span>Returning</span></div>
+                    <div class="flightsearchDetails-detail">
+                        <div class="flight-card-slice">
+                             <div class="flightsearchDetails_slicecontainer">
+                                <div class="flightsearchDetails_slicecontainer_list">
+                                    <div class="flightsearchDetails_slicecontainer_item">
+                                        <div class="flightsearchDetails_flightlogo">
+                                            <img [src]="'assets/img/airlineLogo/'+ret_flight.airline_code+'.jpg'" onError="this.src='assets/img/pullit/help-grid-watermark.png'"/>                                        </div>
+                                        <div class="flightsearchDetails_flightname">
+                                            {{ret_flight.airline}}
+                                            <small class="">
+                                                <span>{{ret_flight.airline_code}} - {{ret_flight.flight_number}} </span>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="flightsearchDetails_slicecontainer_item2">
+                                        <div class="flightsearchDetails-timefromandlocation">
+                                            <span class="flightformtime">{{ret_flight.dep_time}}</span>
+                                            <span class="flightformdest" matTooltip="{{ret_flight.dep_airport}}" *ngIf="ret_flight.dep_iata">{{ret_flight.dep_iata}}</span>
+                                            <span class="flightformdest" matTooltip="{{ret_flight.dep_airport}}" *ngIf="!ret_flight.dep_iata"> 
+                                              {{(ret_flight.dep_airport.length>10)? (ret_flight.dep_airport | slice:0:10)+'..':(ret_flight.dep_airport)}}
+                                            </span>
+                                        </div>
+                                        <div class="flightsearchDetails-flightfromandstops">
+                                            <div class="flightsearchDetails-flightfromandstops-top">
+                                                <svg width="1em" height="1em" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 24 24" class="font12 flex-fill-0 bg-fill-grey">
+                                                    <path
+                                                        d="M9.442 13.886l-5.488-.491-1.358 2.632a.5.5 0 0 1-.436.27l-1.318.022a.5.5 0 0 1-.494-.616l.97-4.064-.975-4.07a.5.5 0 0 1 .479-.617l1.325-.021a.5.5 0 0 1 .453.274l1.415 2.787 5.44-.52-2.22-7.753A.8.8 0 0 1 8.006.7h.857a.8.8 0 0 1 .672.367l5.33 8.269h4.83a4 4 0 0 1 1.8.427l1.485.748a1.308 1.308 0 0 1-.003 2.338l-1.486.744a4 4 0 0 1-1.79.422h-4.858L9.534 22.33a.8.8 0 0 1-.674.37h-.858a.8.8 0 0 1-.77-1.018l2.21-7.795z"></path>
+                                                </svg>
+                                                <div class="flightsearchDetails-drawline twoDots">
+                                                    <span class="flightsearchDetails_line"></span>
+                                                    <span class="flightsearchDetails_dot"></span>
+                                                    <!-- <span class="flightsearchDetails_dot"></span> -->
+                                                </div>
+                                                <svg xmlns:xlink="https://www.w3.org/1999/xlink" width="1em" height="1em" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 24 24" class="bg-fill-grey flex-fill-0 font12">
+                                                    <defs>
+                                                        <path id="pin-line-filled_24px-a" d="M12.974 22.67a1.5 1.5 0 0 1-2.115-.166C5.96 16.767 3.5 12.46 3.5 9.5a8.5 8.5 0 0 1 17 0c0 2.96-2.46 7.267-7.36 13.004a1.5 1.5 0 0 1-.166.166zM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
+                                                    </defs>
+                                                    <use xlink:href="#pin-line-filled_24px-a"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="flightsearchDetails-flightfromandstops-bottom">
+                                                <span class="flightsearchDetails-flightfromandstops-duration">{{ret_flight.total_travel_time}}</span>&nbsp;
+                                                <!-- <span class="flightsearchDetails-flightfromandstops-stop" (click)="showFlighDetailbtn()">(2 stops)</span> -->
+                                            </div>
+                                        </div>
+                                        <div class="flightsearchDetails-timetoandlocation">
+                                            <span class="flighttotime">{{ret_flight.arr_time}}</span>
+                                            <!-- <span class="flighttodest">{{ret_flight.arr_iata}}</span> -->
+                                            <span class="flightformdest" matTooltip="{{ret_flight.arr_airport}}" *ngIf="ret_flight.arr_iata">{{ret_flight.arr_iata}}</span>
+                                            <span class="flightformdest" matTooltip="{{ret_flight.arr_airport}}" *ngIf="!ret_flight.arr_iata"> 
+                                              {{(ret_flight.arr_airport.length>10)? (ret_flight.arr_airport | slice:0:10)+'..':(ret_flight.arr_airport)}}
+                                            </span> 
+                                        </div>
+                                    </div> 
+                                    <div _ngcontent-aaw-c27="" class="ml-2" style="margin-left: 10px;">
+                                        <span _ngcontent-aaw-c27="" style="position: absolute; top: 30%;" class=""><a _ngcontent-aaw-c27="" aria-expanded="false" aria-haspopup="true" class=" dropdown-toggle1" data-toggle="dropdown" href="javascript:void(0)" id="dropdownMenuButton"><i _ngcontent-aaw-c27="" class="fas fa-ellipsis-v fa-2x"></i></a>
+                                            <div _ngcontent-aaw-c27="" aria-labelledby="dropdownMenuButton" class="dropdown-menu" style=""><a _ngcontent-aaw-c27="" class="dropdown-item" data-target="#close" data-toggle="modal" href="javascript:void(0);"  (click)="open_delete_modal(ret_flight.id)"><i class="fas fa-trash mr-1"></i>Delete</a><a   class="dropdown-item" data-target="#editFlt" data-toggle="modal" href="javascript:void(0);"  (click)="openFlightEdit(ret_flight.id,'R',ret_flight)"><i class="fas fa-edit mr-1"></i>Edit</a></div>
+                                        </span></div> 
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="flight-card-expendbtn"></div>-->
+                    </div>
+                    <!--<div class="flightsearchDetails-expend"></div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="close" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-filled bg-danger">
+            <div class="modal-body p-4">
+                <div class="text-center">
+                    <h4><span class="mt-2 text-white">Are you sure you want to delete the flight?</span></h4>
+                    <div class="form-group button-list">
+                        <button type="button" class="btn btn-light waves-effect waves-light" data-dismiss="modal"
+                            (click)="delete_flight()">Yes</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light"
+                            data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="editFlt" class="modal fixed-left fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">Edit Flight</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="airportname">Airport Name
+                                                    <small class="text-primary">(Departure)</small>
+                                                </label>
+                                                <div style="position: relative">
+                                                <input type="text" class="form-control" id="edit_airport_from" name="airportname"  (input)="searchEditAirport($event,'from')"  >
+                                                 <div id="airport_r_edit" class="autocomplete-items" *ngIf="editFromAirport.length >0" >
+                                                
+
+                                            <div *ngFor="let airPort of editFromAirport" class="auto-itm"  id="edit_airport_from_auto">
+                                                <div (click)="fetch_edit_airp(airPort,'from')">
+                                                    <strong>
+                                                        <i class="fas fa-map-marker"></i>
+                                                        <span style="margin-left: 5px">{{airPort.dest_name}},{{airPort.country_name}}
+                                                </span></strong>
+                                                </div>
+                                            </div></div>
+                                        </div>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="airportnameto">Airport Name
+                                                    <small class="text-primary">(arrival)</small>
+                                                </label>
+                                                <div style="position: relative">
+                                                <input type="text" class="form-control" id="edit_airport_to" name="airportnameto"  (input)="searchEditAirport($event,'to')">
+                                                <div id="airport_re_edit" class="autocomplete-items" *ngIf="editToAirport.length >0"  >
+                                                
+
+                                                <div *ngFor="let poi of editToAirport" class="auto-itm"  id="edit_airport_to_auto">
+                                                    <div (click)="fetch_edit_airp(poi,'to')">
+                                                        <strong>
+                                                            <i class="fas fa-map-marker"></i>
+                                                            <span style="margin-left: 5px">{{poi.dest_name}},{{poi.country_name}}
+                                                    </span></strong>
+                                                    </div>
+                                                </div></div>
+                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="airlinename">Airline Name</label>
+                                                <input type="text" class="form-control" id="airlinename_edit" name="airlinename" [(ngModel)]="editableFlight.airline">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="airlinecode2">Airline Code</label>
+                                                <input type="text" class="form-control" id="airlinecode_edit" name="airlinecode2" [(ngModel)]="editableFlight.airline_code">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="flightnumber">Flight Number</label>
+                                                <input type="text" class="form-control" id="flightnumber_ret_edit" name="flightnumber" [(ngModel)]="editableFlight.flight_number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="departuredate">Departure Time</label> 
+                                                <input type="time" class="form-control" [(ngModel)]="editableFlight.dep_time">
+                                                <!-- <input [owlDateTime]="retDtFrm_2" [owlDateTimeTrigger]="retDtFrm_2" class="form-control" id="departuredate_edit" placeholder="Time"   [(ngModel)]="editableFlight.dep_time">
+                                                 <owl-date-time [pickerType]="'timer'" #retDtFrm_2></owl-date-time> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"> 
+                                            <div class="form-group">
+                                                <label for="arrialedate">Arrival Time</label>
+                                                <input type="time" class="form-control" [(ngModel)]="editableFlight.arr_time">  
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"> 
+                                            <div class="form-group">
+                                                <label for="edit_date">Date</label>
+                                               
+                                                <div class="input-group date">
+                                                    <input matInput [matDatepicker]="picker_edit" class="form-control flt_date_control"  [owlDateTimeTrigger]="picker_edit" placeholder="Choose a date"  id="edit_date" [min]="todayDate" [(ngModel)]="editableFlight.dep_date">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker_edit">
+                                                        <i class="fas fa-calendar"></i> 
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker_edit disabled="false"></mat-datepicker> 
+                                                </div>
+                                            </div>
+                                        </div> 
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary float-right" type="button" (click)="update_flight()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,253 @@
+<!-- <div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <h4 class="page-title">Roles</h4>
+    </div>
+  </div>
+</div> -->
+<div class="container-fluid mt-2" #template>
+  <div class="card">
+    <div class="card-header m-0 d-flex align-items-center justify-content-between">
+      <div class="card-title">
+        <h5><i class="fas fa-users"></i> &nbsp;Roles</h5>
+      </div>
+      <div class="">
+        <button type="button" class="btn btn-primary newBtn " data-toggle="modal" data-target="#modalAdd" (click)="AddNewShow()">Add New Role</button>
+       <!--  <button type="button" class="btn btn-secondary newBtn ml-2" *ngIf="query_param_id" (click)="backToHistory()"><i class="fas fa-arrow-left"></i> Back</button> -->
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 p-0">
+          <div class="tableRole_data" *ngFor="let data of all_roles;let i = index;">
+            <div class="d-flex align-items-center justify-content-between tableRole_data_row">
+              <a (click)="Showhidden_row(i)"> 
+                <h4 class="m-0">{{data.name}}</h4>
+              </a>
+              <p class="mb-0"><span class="mb-0 text-info d-block">Related Role <strong>{{data.related_role.length}}</strong></span>
+              <span *ngIf="data.users.length>0">Total User <a href="javascript:void(0)" data-toggle="modal" data-target="#roleUsers" (click)="showRoleUser(data.users,data.name)"><strong>({{data.users.length}})</strong></a>
+              </span>
+              <span *ngIf="data.users.length==0">No User</span>
+            </p>
+              <p class="m-0"><span class="text-muted d-block">Reports To:</span><strong>Super Admin</strong></p>
+              <div class="tableRole_data_action">
+                <a href="javascript:void(0)" class="pull-left btn btn-secondary btn-sm addUsrBtn" data-toggle="modal" data-target="#modalAdd" (click)="AddNewUnderRoleShow(data.id)">Add Role</a>
+                <a href="javascript:void(0)" class="pull-left btn btn-primary btn-sm addUsrBtn" data-toggle="modal" data-target="#modalAddUser" (click)="modalAddUserShow(data.id,data.name)">Add User</a>
+                <a href="javascript:void(0)" class="pull-left" data-toggle="modal" data-target="#modalEdit" (click)="modalEditShow(data.id,data.name)"><i class="fas fa-edit"></i></a>
+                <a href="javascript:void(0)" class="pull-left text-danger" data-toggle="modal" data-target="#close" style="margin-left:15px;" (click)="delete(data.id)"><i class="fas fa-trash"></i></a>
+              </div>
+            </div>
+            <div class=" tableRole_data_hidden pt-2 pl-2 hidden_row{{i}}" id="hidden_row{{i}}"> 
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!--<div class="table-responsive">
+        <table class="table table-hover table-striped">
+          &lt;!&ndash;<thead>
+          <tr>
+            <th>Role</th>
+            <th>Created At</th>
+            <th>Action</th>
+          </tr>
+          </thead>&ndash;&gt;
+          <tbody>
+          <tr *ngFor="let data of all_roles;let i = index;" >
+            &lt;!&ndash;<td><a [routerLink]="['/adminMain',{ outlets: { adminSection: ['adminRoleDetails'] }}]" [queryParams]="{ 'id': data.id}">{{data.name}}</a></td>&ndash;&gt;
+            <td><a (click)="Showhidden_row(i)">{{data.name}}</a></td>
+            <td>{{data.created_at | date: 'dd MMM yyyy'}}</td>
+            <td>
+              <a href="javascript:void(0)" class="pull-left btn btn-primary btn-sm addUsrBtn" data-toggle="modal" data-target="#modalAddUser" (click)="modalAddUserShow(data.id,data.name)">Add User</a>
+              <a href="javascript:void(0)" class="pull-left" data-toggle="modal" data-target="#modalEdit" (click)="modalEditShow(data.id,data.name)"><i class="fas fa-edit"></i></a>
+              <a href="javascript:void(0)" class="pull-left text-danger" data-toggle="modal" data-target="#close" style="margin-left:15px;" (click)="delete(data.id)"><i class="fas fa-trash"></i></a>
+            </td>
+          </tr>
+          &lt;!&ndash;<tr id="hidden_row{{i}}" >
+            <td>
+              <table>
+                <tr *ngFor="let data of all_roles;let i = index;" >
+                  &lt;!&ndash;<td><a [routerLink]="['/adminMain',{ outlets: { adminSection: ['adminRoleDetails'] }}]" [queryParams]="{ 'id': data.id}">{{data.name}}</a></td>&ndash;&gt;
+                  <td><a (click)="Showhidden_row()">{{data.name}}</a></td>
+                  <td>{{data.created_at | date: 'dd MMM yyyy'}}</td>
+                  <td>
+                    <a href="javascript:void(0)" class="pull-left btn btn-primary btn-sm addUsrBtn" data-toggle="modal" data-target="#modalAddUser" (click)="modalAddUserShow(data.id,data.name)">Add User</a>
+                    <a href="javascript:void(0)" class="pull-left" data-toggle="modal" data-target="#modalEdit" (click)="modalEditShow(data.id,data.name)"><i class="fas fa-edit"></i></a>
+                    <a href="javascript:void(0)" class="pull-left text-danger" data-toggle="modal" data-target="#close" style="margin-left:15px;" (click)="delete(data.id)"><i class="fas fa-trash"></i></a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>&ndash;&gt;
+          </tbody>
+        </table>
+      </div>-->
+    </div>
+
+    <div class="card-body" *ngIf="user_under_role && user_under_role.length > 0">
+      <h5 class="MainHead"><i class="fas fa-user"></i>&nbsp; &nbsp;Users </h5>
+      <div class="card-block" *ngIf="user_under_role && user_under_role.length > 0">
+        <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Created At</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of user_under_role">
+            <td>
+              <a [routerLink]="['/adminMain',{ outlets: { adminSection: ['user-details'] }}]" [queryParams]="{ 'id': data.id}">{{data.name}}</a>
+            </td>
+            <td>{{data.created_at | date: 'dd MMM yyyy'}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Modal -->
+<div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header clearfix text-left">
+        <h4><span class="semi-bold">Add Role</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="AddNewHide()">&times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mt10">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" [(ngModel)]="name">
+            </div>
+          </div>
+          <div class="col-md-12 text-right">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveNewRole()">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="modalEdit">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header clearfix text-left">
+        <h4><span class="semi-bold">Edit Role</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="AddNewHide()">&times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" [(ngModel)]="edit_role">
+              <input type="hidden" class="form-control" [(ngModel)]="edit_role_id">
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" (click)="update()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--edit modal ends -->
+
+<!-- Add Modal -->
+<div  class="modal fixed-left fade" id="modalAddUser" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="modalAddUser">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4><span class="semi-bold">Add Users in Role</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="modalAddUserhide()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" [(ngModel)]="selected_role" disabled>
+              <input type="hidden" class="form-control" [(ngModel)]="selected_role_id" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Select Users (Press CTRL and select multiple users)</label>
+              <select class="form-control" multiple [(ngModel)]="assign_users">
+                <option *ngFor="let user of allUsers" [ngValue]="user.id">{{ user.name }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" (click)="assignUsers()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fixed-left fade" id="roleUsers" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="roles_user_list && roles_user_list.length>0">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4><span class="semi-bold">Users under {{user_list_role}}</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="modalUserListhide()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Created At</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of roles_user_list">
+            <td>
+              <a [routerLink]="['/adminMain',{ outlets: { adminSection: ['user-details'] }}]" [queryParams]="{ 'id': data.id}" [ngClass]="data.status ? 'inactive_error':''">{{data.name}}</a>
+            </td>
+            <td>{{data.created_at | date: 'dd MMM yyyy'}}</td>
+          </tr>
+          </tbody>
+        </table>
+          </div>
+        </div>
+         
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" (click)="assignUsers()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="display: none;" >
+  <textarea id="hidden_users"></textarea>
+ <input type="text" name="" id="hidden_role_name">
+ <button (click)="trigger_userList()" id="trigger_userList"></button>
+ <button (click)="trigger_add_user()" id="trigger_add_user"></button>
+ <button (click)="trigger_edit_role()" id="trigger_edit_user"></button>
+ <button (click)="trigger_delete_role()" id="trigger_delete_role"></button>
+ <button (click)="trigger_add_role()" id="trigger_add_role"></button>
+</div>
+
+<style type="text/css">
+  .inactive_error{
+        /*font-size: 15px;*/
+    color: #f94816;
+    display: block;
+  }
+</style>

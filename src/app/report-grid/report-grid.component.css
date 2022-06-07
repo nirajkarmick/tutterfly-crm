@@ -1,0 +1,16 @@
+::ng-deep .table.tableRepo thead tr{/*display: inline-table;display: flex;width:100%;*/}
+::ng-deep .table.tableRepo thead tr th{/*display: inline-table;*//*line-height: 17px;*//*height: 32px;flex:2;*/}
+::ng-deep .table.tableRepo tbody{overflow-y: auto; /*height: auto; min-height: 350px; max-height: 385px; width: 100%; position: absolute;*/}
+::ng-deep .table.tableRepo tbody tr{/*display: inline-table;display: flex;width:100%;*/}
+::ng-deep .table.tableRepo tbody tr td{/*display: inline-table;*//*line-height: 17px !important;*//*height: 32px;flex:2;*/}
+::ng-deep .table.tableRepo tbody tr td .spanMAin{display: block;/*padding: 7px 10px;*/}
+::ng-deep .table.tableRepo thead tr th .spanMAin{display: block;/*padding: 7px 10px;*/}
+::ng-deep .tableRepoPage .mat-paginator-container{ bottom: -62px; position: absolute; right: 0;}
+
+/*.breadcrumbs{padding:2px 0 0 10px;height: 22px;;}*/
+/*.breadcrumbs a{float:left;padding:0 5px;}*/
+table.table tr.mat-header-row{height: auto;}
+table.table tr.mat-row, table.table tr.mat-footer-row{height: auto;}
+.CRMTable.FileCont .table.table-hover tbody tr td{padding: .85rem}
+.filerightSec .app-report-grid{display: block}
+.filerightSec .table-responsive{height: calc(50% - 20px);overflow: auto;}

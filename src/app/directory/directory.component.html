@@ -1,0 +1,70 @@
+<div class="container-fluid1 dashPage1 content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="page-title-box">
+          <div class="page-title-right">
+          </div>
+          <h4 class="page-title">Directory</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row directory_tbl">
+      <div class="col-xl-12 col-lg-12">
+        <div class="card container-loads">
+          <div class="card-header card-white-head">
+            <h4 class="header-title mb-0">User Directory</h4>
+          </div>
+          <div class="card-body pt-0c  mt-1" *ngIf="directory_data">
+            <table class="table table-striped table-hover"  datatable [dtOptions]="dtOptions">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Reports To</th>
+                <th>Phone
+                  <span class="d-block">Ext.</span>
+                </th>
+                <th>Mobile</th>
+                <th>Job title</th>
+                <th>Last login</th>
+                <th>Today's First login</th>
+                <th>Status</th>
+                <th>Login Status</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let data of directory_data;let i=index;">
+                <td>{{i + 1}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.email}}</td>
+                <td>{{data.report_to}}</td>
+                <td>{{data.phone}}
+                  <span class="d-block text-dark" style="font-size:90%">{{data.extension}}</span>
+                </td>
+                <td>{{data.mobile}}</td>
+                <td>{{data.title}}</td>
+                <td>{{data.last_login | date: 'd MMM y | h:mm a'}}</td>
+                <td>{{data.first_login | date: 'h:mm a'}}</td>
+                <td>
+                  <select name="" id="" class="form-control" *ngIf="data.current_user==true" [(ngModel)]="status" style="width:auto" (change)="statusSend()">
+                    <option [value]="type.id" *ngFor="let type of directory_dataType;" >
+                      {{type.name}}
+                    </option>
+                  </select>
+                  <span *ngIf="data.current_user==false">{{data.user_status}}</span>
+                </td>
+                <td>
+                  <span *ngIf="data.status == 'active'" class="userloginStatus"><label class="onlineStatus"></label> Online</span>
+                  <span *ngIf="data.status == 'inactive'" class="userloginStatus"><label class="offlineStatus"></label> Offline</span>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

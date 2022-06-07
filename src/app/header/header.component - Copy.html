@@ -1,0 +1,809 @@
+<div class="fixed-header horizontal-menu horizontal-app-menu dashboard">
+   <div class="header p-r-0 bg-primary">
+      <div class="header-inner header-md-height">
+         <a href="javascript:void(0);" id="nav-hamburger" (click)="hamburger()"
+            class="btn-link toggle-sidebar hidden-lg-up pg pg-menu1233 text-white" [ngClass]="hamburgerToggle?'open':''"
+            data-toggle="horizontal-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+         </a>
+         <a href="javascript:void(0);" id="MegamenuSearch" (click)="megamenusearch()"
+            class="btn-link toggle-sidebar hidden-lg-up pg pg-menu1233 text-white"
+            [ngClass]="MegamenuSearchToggle?'open':''" data-toggle="horizontal-menu">
+            <i class="fas fa-search"></i>
+         </a>
+         <div class="brand inline no-border hidden-xs-down pull-left">
+            <img src="assets/img/logo.png" alt="logo" data-src="assets/img/logo">
+         </div>
+
+         <div id="email_set" (click)="openEmail()" data-toggle="modal" data-target="#modalEmail"></div>
+         <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+         </button>-->
+         <!--<a href="javascript:void(0)" class="search-link hidden-md-down" data-toggle="search">
+          <i class="pg-search"></i>
+          Type anywhere to <span class="bold">search</span></a>-->
+         <div class="Megasearch" [ngClass]="MegamenuSearchToggle?'tfcMobileOpen':'tfcMobileClose'">
+            <form class="" (action)="enterText()">
+               <div class="input-group form-group" id="ctl00_menusearch">
+                  <div class="input-group-btn search-panel">
+                     <select class="form-control" name="search_module_id" [(ngModel)]="sQuery.search_module_id">
+                        <option *ngFor="let obj of searchModules" [label]="obj.name" [value]="obj.id">{{obj.name}}
+                        </option>
+                     </select>
+                  </div>
+                  <input tyle="text" class="form-control" placeholder="Search here" [(ngModel)]="sQuery.search_data"
+                     name="search_data">
+                  <span class="input-group-btn">
+                     <button class="btn btn-info searchSubmit">
+                        <i class="fas fa-search"></i>
+                     </button>
+                  </span>
+               </div>
+            </form>
+         </div>
+         <!--<div class="Megasearch pull-left">
+             <div class="col-md-3 col-lg-3 pull-left p0">
+                 <select class="form-control" [(ngModel)]="sQuery.search_module_id">
+                     <option *ngFor="let obj of searchModules" [label]="obj.name" [value]="obj.id">{{obj.name}}
+                     </option>
+                 </select>
+             </div>
+             <div class="col-md-8 col-lg-8 pull-left p0">
+                 <input tyle="text" class="form-control" placeholder="Search here" [(ngModel)]="sQuery.search_data">
+             </div>
+             <div class="col-md-1 col-lg-1 pull-left p0">
+                 <button class="btn btn-info searchSubmit" (click)="enterText()"><i class="fas fa-search"
+                                                                                    aria-hidden="true"></i></button>
+             </div>
+         </div>-->
+
+         <div class="d-flex align-items-center">
+            <!-- START User Info-->
+            <!-- <div class="pull-left p-r-10 fs-14 font-heading hidden-md-down text-white">
+                <span class="semi-bold">{{users}}</span>
+            </div> -->
+            <!--  <div class="header_mail m-r-10 m-b-15" >
+                 <span title="Mailbox" [routerLink]="['/maindashboard',{ outlets: { bodySection: ['mail'] }}]">
+                    <i class="fas fa-mail-bulk"></i>
+                 </span>
+             </div> -->
+            <a href="javascript:void(0);" class="btn-notification"><i class="fas fa-bell"></i></a>
+            <div class="dropdown pull-right">
+
+               <button class="profile-dropdown-toggle text-white" type="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <span class="thumbnail-wrapper d32 circular inline sm-m-r-5" style="margin-left: calc(50% - 16px)">
+                     <img src="{{userImage}}" alt="" class="img-fluid" style="border: 2px solid #006dcc;">
+                  </span><br>
+                  <span class="semi-bold">{{users}}</span>
+               </button>
+               <div class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
+                  <a *ngIf="isAdmin" target="_blank"
+                     [routerLink]="['/adminMain',{ outlets: { adminSection: ['dashboard'] }}]" class="dropdown-item"><i
+                        class="pg-settings_small"></i> Admin Panel</a>
+                  <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['userProfile'] }}]"
+                     class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+                  <a href="javascript:void(0);" (click)="logout()" class="clearfix bg-master-lighter dropdown-item"
+                     style="margin-top: 0;">
+                     <span class="pull-left">Logout</span>
+                     <span class="pull-right"><i class="pg-power"></i></span>
+                  </a>
+
+               </div>
+            </div>
+
+         </div>
+      </div>
+      <div class="bg-white tfcCRMmenu" [ngClass]="hamburgerToggle?'tfcMobileOpen':'tfcMobileClose'">
+         <div class="container-fluid">
+            <div class="menu-bar header-sm-height" data-pages-init='horizontal-menu' data-hide-extra-li="0">
+
+               <ul class="mr-auto">
+                  <li class="{{(currentTab==undefined)?'active':''}}" (click)="random_hash()">
+                     <a [routerLink]="[ '/maindashboard',{ outlets :{ bodySection: ['Dashboard'] } } ]">Dashboard</a>
+                  </li>
+
+                  <li class="{{(currentTab=='acc')?'active':''}} header_hvr" *ngIf="view_account"
+                     (click)="random_hash()">
+                     <a href="javascript:void(0)" class="primary_clr">
+
+                     </a>
+                     <a [routerLink]="[ '/maindashboard',{ outlets :{ bodySection: ['accountIndex'] } } ]">Accounts</a>
+
+
+                  </li>
+
+                  <li class="{{(currentTab=='contact')?'active':''}}" *ngIf="view_contact" (click)="random_hash()">
+                     <a [routerLink]="['/maindashboard', { outlets :{ bodySection: ['contactGrid'] } } ]">Contacts</a>
+                  </li>
+
+                  <li class="{{(currentTab=='person')?'active':''}}" *ngIf="view_personal_account"
+                     (click)="random_hash()">
+                     <a [routerLink]="[ '/maindashboard',{ outlets :{ bodySection: ['personalGrid'] } } ]">Person
+                        Accounts</a>
+                  </li>
+
+                  <li class="{{(currentTab=='lead')?'active':''}}" *ngIf="view_lead" (click)="random_hash()">
+                     <a [routerLink]="['/maindashboard', { outlets :{ bodySection: ['leaderGrid'] } } ]">Leads</a>
+                  </li>
+
+                  <li class="{{(currentTab=='oppo')?'active':''}}" *ngIf="view_opportunity" (click)="random_hash()">
+                     <a
+                        [routerLink]="[ '/maindashboard',{ outlets :{ bodySection: ['OpportunityGrid'] } } ]">Opportunities</a>
+                  </li>
+
+                  <li class="{{(currentTab=='task')?'active':''}}" *ngIf="view_task" (click)="random_hash()">
+                     <a [routerLink]="['/maindashboard', { outlets :{ bodySection: ['tasks'] } } ]">Tasks</a>
+                  </li>
+
+                  <li class="{{(currentTab=='file')?'active':''}}" *ngIf="view_file" (click)="random_hash()">
+                     <a [routerLink]="[ '/maindashboard',{ outlets :{ bodySection: ['files'] } } ]">Drive</a>
+                  </li>
+                  <li class="{{(currentTab=='itinerary')?'active':''}}" *ngIf="view_file" (click)="random_hash()">
+                     <a
+                        [routerLink]="[ '/itineraryMain',{ outlets :{ itinerarySection: ['itinerary'] } } ]">Itineraries</a>
+                  </li>
+                  <li class="{{(currentTab=='report')?'active':''}}" *ngIf="view_report" (click)="random_hash()">
+                     <a [routerLink]="[ '/maindashboard',{ outlets :{ bodySection: ['reports'] } } ]">Reports</a>
+                  </li>
+                  <li class="{{(currentTab=='mail')?'active':''}}" (click)="random_hash()">
+                     <a [routerLink]="[ '/maindashboard',{ outlets :{ bodySection: ['mail'] } } ]">Emails</a>
+                  </li>
+
+               </ul>
+
+               <!-- <ul class="float-right">
+                   <li>
+                   </li>
+               </ul> -->
+               <div style="padding: 7px;cursor: pointer;" (click)="composemail()"><img src="assets/img/compose_mail.png"
+                     alt="Compose Mail" class="composeMail" width="30"></div>
+               <app-pullit [oppo]="oppo"></app-pullit>
+               <!-- <app-pullit [showPullIt]="showPullIt"></app-pullit> -->
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- <div id="feedbackPanel" class="feedbackPanel quick-feedbackPanel">
+    <a href="javascript:void(0);" class="feedbackPanel-close" id="feedbackPanel-close-btn" (click)="closefeedbackPanel()">
+      <i class="flaticon2-delete"></i>
+    </a>
+
+   </div> -->
+   <div id="mailComposeModal" *ngIf="composeMail">
+      <div id="composemailModal" class="composemailModal modalBackdropIn"></div>
+      <div class="composeModal composeModal-md">
+         <div class="modalDialog">
+            <div id="loader-wrapper" *ngIf="compose_loader">
+               <div id="loader"></div>
+            </div>
+            <div class="modalContentWrapper">
+               <div class="modalContent">
+                  <div class="modalBody">
+                     <div class="email-address-wrap">
+                        <div id="composeMailHeadertop">
+                           <div class="ui-form-header">
+                              <span class="modal-title text-ellipsis">New mail</span>
+                              <button type="button" class="close" (click)="closecomposemail()">
+                                 <span class="icon-close">&times;</span>
+                              </button>
+                           </div>
+                           <div class="clearfix email-compose-group FromComposeMail collapse" aria-expanded="true"
+                              style="">
+                              <div id="compose4194" class="compose-view email-compose-group form-group">
+                                 <label class="email-address-label control-label">From</label>
+                                 <div class="col-md-12 email-select-from">
+                                    <div id="compose4212" role="button"
+                                       class="compose-power-select-trigger compose-view compose-basic-dropdown-trigger">
+                                       <span class="compose-power-select-selected-item">{{composeFrom}}</span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <!--  <div id="compose4237" class="compose-view email-compose-group form-group">
+                              <label class="email-address-label control-label">Reply to</label>
+                              <div class="col-md-12 email-select-from">
+                                 <div id="compose4247" role="button" class="compose-power-select-trigger compose-view compose-basic-dropdown-trigger">
+                                    <span class="compose-power-select-selected-item">jha+5ight5h@praneshksnr.freshsales.io</span>
+                                 </div>
+
+                              </div>
+                           </div> -->
+                           </div>
+                           <div class="clearfix email-compose-group email-to-address">
+                              <div id="ComposemailTo">
+                                 <label class="email-address-label">To</label>
+                                 <div class="email-mask js-reciepient-field compose-view">
+                                    <div class="selectize-input items not-full">
+                                       <input type="text" [(ngModel)]="mail.to_address" autocomplete="off" tabindex="0"
+                                          placeholder="Enter recipients">
+                                    </div>
+                                 </div>
+                              </div>
+                              <ul class="options-list email-address-actions">
+                                 <li class="options-list-item">
+                                    <ul class="options-list options-list-group">
+                                       <li class="options-list-item">
+                                          <a data-toggle="collapse" class="options-list-item-link"
+                                             data-target=".FromComposeMail" (click)="resizeemail()">From </a>
+                                       </li>
+                                    </ul>
+                                 </li>
+                                 <li class="options-list-item">
+                                    <ul class="options-list">
+                                       <li class="options-list-item">
+                                          <a data-toggle="collapse" class="options-list-item-link"
+                                             data-target=".CCcomposeMail" (click)="resizeemail()">CC</a>
+                                       </li>
+                                       <li class="options-list-item">
+                                          <a data-toggle="collapse" class="options-list-item-link"
+                                             data-target=".BCCcomposeMail" (click)="resizeemail()">BCC</a>
+                                       </li>
+                                    </ul>
+                                 </li>
+                              </ul>
+                           </div>
+                           <div class="clearfix email-compose-group CCcomposeMail collapse" aria-expanded="true">
+                              <div class="compose-view"><label class="email-address-label">CC</label>
+                                 <div class="email-mask compose-view">
+                                    <div class="selectize-input items not-full">
+                                       <input type="text" autocomplete="off" [(ngModel)]="mail.cc_address" tabindex="0"
+                                          placeholder="Enter recipients">
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="clearfix email-compose-group BCCcomposeMail collapse" aria-expanded="true">
+                              <div class="compose-view"><label class="email-address-label">BCC</label>
+                                 <div class="email-mask compose-view">
+                                    <div class="selectize-input items not-full">
+                                       <input type="text" autocomplete="off" tabindex="0" placeholder="Enter recipients"
+                                          [(ngModel)]="mail.bcc_address">
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="compose-view email-compose-group email-compose-subject">
+                              <input id="compose4413" autofocus="" placeholder="Write a subject line" name="subject"
+                                 [(ngModel)]="mail.subject" type="text"
+                                 class="form-control compose-view compose-text-field">
+                              <div class="compose-power-select-placeholder">
+                                 <!-- <select class="form-control">
+                                 <option>Templates</option>
+                                 <option>Templates 1</option>
+                                 <option>Templates 2</option>
+                                 <option>Templates 3</option>
+                                 <option>Templates 4 Templates 4</option>
+                              </select> -->
+                                 <select (change)="setUpEmailValue()" [(ngModel)]="emailTemplate" class="form-control">
+                                    <option value="">Select Template</option>
+                                    <option *ngFor="let o of email_templates" value="{{o.id}}">{{o.name}}</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                        <app-quil-editor [(description_html)]="mail.description_html" id="composemaileditor">
+                        </app-quil-editor>
+
+                        <div class="col-lg-12 col-md-12 mt5 pull-left" id="composebottomSendbtn">
+                           <button class="btn btn-primary btn-cons m-b-10 pull-right" type="button"
+                              (click)="sendEmail()"><span class="bold">Send</span>
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <style>
+      .compose-power-select-placeholder select.form-control {
+         padding-left: 10px;
+         line-height: 1;
+         cursor: pointer;
+      }
+
+      .composeModal #toolbar-container #composemaileditor.ql-editor.ql-blank {
+         min-height: 500px !important;
+         height: 500px !important;
+         overflow: auto !important;
+      }
+
+      .compose-power-select-placeholder select.form-control option,
+      .compose-power-select-placeholder select.form-control select {
+         text-align: right;
+      }
+
+      button.close {
+         padding: 0;
+         cursor: pointer;
+         background: 0 0;
+         border: 0;
+         -webkit-appearance: none;
+      }
+
+      button.close .icon-close {
+         font-size: 24px;
+         line-height: 1;
+         position: relative;
+         top: -5px;
+      }
+
+      .ui-form-header .close {
+         opacity: 1;
+         color: #333;
+         font-size: 10px;
+         height: auto;
+         margin-top: 2px;
+         position: absolute;
+         right: 20px;
+         top: 22px;
+      }
+
+      .composeModal .modal-title {
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+         display: block;
+         padding: 10px 0;
+         width: 96%;
+         text-align: left;
+      }
+
+      .ui-form-header {
+         padding: 10px 20px;
+         border-bottom: 1px solid #e5e5e5;
+      }
+
+      .ui-form-header {
+         background-color: #fdfdfd;
+         border-radius: 0;
+         font-weight: 500;
+         min-height: 50px;
+         position: relative;
+         text-transform: capitalize;
+         z-index: 10;
+      }
+
+      .email-compose-subject .compose-power-select-trigger {
+         height: 42px;
+      }
+
+      .email-compose-group {
+         border-radius: 0;
+         border-top: solid 1px #e5e5e5;
+         position: relative;
+      }
+
+      .power-select-small {
+         width: 100px;
+      }
+
+      .email-compose-group.form-group {
+         margin: 0;
+      }
+
+      .email-address-label.control-label {
+         padding-top: 2px;
+         max-width: 65px;
+         font-weight: 400;
+      }
+
+      .email-compose-group .email-select-from,
+      .email-compose-group .email-select-to {
+         padding-right: 70px;
+      }
+
+      .email-select-from .compose-power-select-trigger {
+         border: 1px solid #fff;
+         border-radius: 2px;
+         height: 42px;
+         margin-left: 65px;
+         width: 100%;
+         text-align: left;
+      }
+
+      .compose-power-select-trigger {
+         padding: 5px 25px 5px 10px;
+         height: 34px;
+         overflow-y: hidden;
+         white-space: nowrap;
+      }
+
+      .email-select-from .compose-power-select-selected-item {
+         padding-top: 3px;
+      }
+
+      .compose-power-select-placeholder,
+      .compose-power-select-selected-item {
+         margin-left: 0;
+      }
+
+      .compose-power-select-selected-item {
+         display: block;
+         overflow: hidden;
+         text-overflow: ellipsis;
+      }
+
+      .email-compose-group:first-child {
+         border-top: 0;
+      }
+
+      .email-compose-subject .compose-power-select-trigger .compose-power-select-placeholder {
+         padding-top: 4px;
+      }
+
+      .power-select-borderless-trigger .compose-power-select-placeholder {
+         color: #333;
+      }
+
+      .compose-power-select-placeholder,
+      .compose-power-select-selected-item {
+         margin-left: 0;
+      }
+
+      .compose-power-select-placeholder {
+         color: #ccc;
+         display: block;
+         overflow-x: hidden;
+         white-space: nowrap;
+         text-overflow: ellipsis;
+      }
+
+      .compose-power-select-trigger {
+         position: relative;
+         border-top: 1px solid #e5e5e5;
+         border-bottom: 1px solid #e5e5e5;
+         border-right: 1px solid #e5e5e5;
+         border-left: 1px solid #e5e5e5;
+         border-radius: 2px;
+         background-color: #fff;
+         line-height: 1.75;
+         overflow-x: hidden;
+         text-overflow: ellipsis;
+         min-height: 1.75em;
+         user-select: none;
+         -webkit-user-select: none;
+         color: #333;
+         font-weight: bold;
+      }
+
+      .form-control,
+      .selectize-input,
+      .tag-list .selectize-input {
+         -webkit-box-shadow: none;
+         box-shadow: none;
+         line-height: 1.5;
+         position: relative;
+      }
+
+      .email-compose-subject>input {
+         flex: 0 0 calc(100% - 121px);
+      }
+
+      .email-compose-group .form-control {
+         /*border: 0;*/
+         border-radius: 0;
+         height: 42px;
+         line-height: 30px;
+         padding-left: 30px;
+      }
+
+      .email-compose-group {
+         border-radius: 0;
+         border-top: solid 1px #e5e5e5;
+         position: relative;
+      }
+
+      .email-compose-subject,
+      .funl-card-header .context-menu-container .trigger {
+         display: -webkit-box;
+         display: -moz-box;
+         display: -ms-flexbox;
+         display: -webkit-flex;
+      }
+
+      .email-compose-subject {
+         display: flex;
+         -ms-flex-align: center;
+         -webkit-align-items: center;
+         align-items: center;
+      }
+
+      .email-address-wrap {
+         position: relative;
+      }
+
+      .email-compose-group {
+         border-radius: 0;
+         border-top: solid 1px #e5e5e5;
+         position: relative;
+      }
+
+      .composemailModal {
+         position: fixed;
+         top: 0;
+         right: 0;
+         bottom: 0;
+         left: 0;
+         z-index: 2040;
+         background-color: #000;
+      }
+
+      .composemailModal.modalBackdropIn {
+         opacity: .5;
+         filter: alpha(opacity=50);
+      }
+
+      .composeModal {
+         -webkit-transition: width 150ms linear;
+         -o-transition: width 150ms linear;
+         transition: width 150ms linear;
+         display: block !important;
+         overflow: visible;
+         z-index: 2041;
+         /*width: 40%;*/
+         left: auto;
+      }
+
+      .composeModal.composeModal-md {
+         /*width: 40%*/
+      }
+
+      .modalDialog {
+         background: #fff;
+         margin: 0;
+         right: -40%;
+         margin-left: auto;
+         height: 100vh;
+         -webkit-transition: left 0.3s ease, right 0.3s ease;
+         transition: left 0.3s ease, right 0.3s ease;
+      }
+
+      .composeModal .modalDialog {
+         animation: slide-modal 150ms ease-in;
+         bottom: 0;
+         left: auto;
+         position: fixed;
+         right: 0;
+         top: 0;
+         z-index: 2042;
+         -webkit-transform: translate(0, 0);
+         -ms-transform: translate(0, 0);
+         -o-transform: translate(0, 0);
+         transform: translate(0, 0);
+      }
+
+      .modalContent {
+         -webkit-box-shadow: none;
+         box-shadow: none;
+         border: 0;
+         border-radius: 0;
+         height: 100%;
+         background-color: #fff;
+         background-clip: padding-box;
+         outline: 0;
+      }
+
+      .email-address-label {
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+         position: absolute;
+         left: 20px;
+         top: 11px;
+         color: #999;
+         z-index: 2;
+      }
+
+      .email-compose-group .selectize-input {
+         border: 0;
+         border-radius: 0;
+         height: 42px;
+         line-height: 30px;
+         padding-left: 90px;
+      }
+
+      .email-compose-group .selectize-input {
+         padding-right: 90px;
+      }
+
+      .selectize-input>input {
+         display: inline-block !important;
+         padding: 0 !important;
+         min-height: 0 !important;
+         max-height: none !important;
+         max-width: 100% !important;
+         margin: 0 1px !important;
+         text-indent: 0 !important;
+         border: 0 !important;
+         background: 0 0 !important;
+         line-height: inherit !important;
+         -webkit-user-select: auto !important;
+         -webkit-box-shadow: none !important;
+         box-shadow: none !important;
+         width: 100%;
+      }
+
+      .email-compose-group .selectize-input>input {
+         height: 42px;
+         line-height: 42px !important;
+      }
+
+      .options-list {
+         display: inline-block;
+         list-style: none;
+         padding-left: 0;
+         margin-bottom: 0;
+      }
+
+      .email-address-actions {
+         position: absolute;
+         right: 0;
+         top: 15px;
+         z-index: 2;
+      }
+
+      .options-list-item {
+         float: left;
+         line-height: 1;
+      }
+
+      .options-list-item {
+         line-height: 1;
+      }
+
+      .options-list-item-link {
+         display: block;
+         padding: 12px;
+         margin: -12px 0 -2px;
+         position: relative;
+         font-size: 11px;
+      }
+
+      .options-list-item-link,
+      .options-list-item-link:visited {
+         color: #999;
+      }
+
+      .email-address-actions .options-list-item-link {
+         margin: 0;
+         padding: 2px 12px;
+      }
+   </style>
+   <div class="modal fade slide-down disable-scroll" id="modalEmail" role="dialog" aria-labelledby="modalSlideUpLabel"
+      aria-hidden="false" *ngIf="mailSetup">
+      <div class="modal-dialog ">
+         <div class="modal-content-wrapper">
+            <div class="modal-content">
+               <div class="modal-header clearfix text-left">
+                  <h5>Integrate Mail - <span class="semi-bold">TutterflyCRM</span></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                  </button>
+               </div>
+               <div class="modal-body">
+                  <article class="ThankyouBackground">
+                     <section class="thankyouContainer">
+                        <div class="container">
+                           <div class="row">
+                              <div class="ThankyouContent col-12 text-center">
+                                 <p class="mt-3">There are many variations of passages of Lorem Ipsum
+                                    available, but the majority have suffered alteration in some form,
+                                    by injected humour, or randomised words which don't look even slightly
+                                    believable.</p>
+                                 <figure>
+                                    <img src="assets/img/email-confirmation.svg" alt="Thank you for Registration"
+                                       class="img-fluid" style="width:200px;margin:20px auto;">
+                                 </figure>
+                                 <!-- <h3><small>Thank you for registering with</small><br> <a href="http://www.tutterflycrm.com/" class="w-100">TutterflyCRM</a></h3> -->
+
+                                 <div class="text-center" style="display: inline-block;" *ngIf="mail_loader">
+                                    <mat-spinner class="dash-loader" [diameter]="20"></mat-spinner>
+                                 </div>
+                                 <p>Lorem Ipsum is therefore always free from repetition, injected humour, or
+                                    non-characteristic words etc.</p>
+                              </div>
+                              <div class="col-12">
+                                 <button type="button" class="btn btn-primary" (click)="setupEmails()">Setup
+                                    Mail
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                     </section>
+                  </article>
+               </div>
+               <!--  <div class="modal-footer">
+                   <div class="col-md-12">
+                     <div class="col-md-9 col-sm-9 p0 pull-left">
+                     </div>
+                     <div class="col-md-3 col-sm-3 m-t-10 sm-m-t-10 p0 pull-right">
+                       <button type="button" class="btn btn-primary btn-block m-t-5 pull-right" (click)="update()" data-dismiss="modal">Setup Mail</button>
+                     </div>
+                   </div>
+                 </div> -->
+            </div>
+         </div>
+         <!-- /.modal-content -->
+      </div>
+   </div>
+</div>
+
+<!----------------------------------------
+               PULL IT START HERE
+   ------------------------------------------>
+
+<!--  -->
+
+<!-- <div id="pullit-expend" *ngIf="showPullIt"  style="background: url(assets/img/pullit/opportunities-screenshot.jpg) no-repeat;width: 100%;min-height: 650px;background-size: cover"> -->
+
+
+<!----------------------------------------
+               PULL IT END HERE
+   ------------------------------------------>
+<style type="text/css">
+   .header_hvr .primary_clr {
+      color: #006dcc !important;
+      visibility: hidden;
+   }
+
+   .header_hvr.active .primary_clr {
+      color: #fff !important;
+   }
+
+   .primary_clr i {
+      font-size: 14px;
+   }
+
+   .header_hvr:hover .primary_clr {
+      /*display: block; */
+      visibility: visible;
+   }
+
+   .tooltip {
+      position: relative;
+      /*display: inline-block;  */
+   }
+
+   /* Tooltip text */
+   .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: #006dcc;
+      opacity: 0.8;
+      color: #fff;
+      text-align: center;
+      padding: 5px 0;
+      border-radius: 6px;
+
+      /* Position the tooltip text - see examples below! */
+      position: absolute;
+      z-index: 1;
+   }
+
+   .tooltip-top {
+      top: 125%;
+      left: 50%;
+      margin-left: -60px;
+   }
+
+   .tooltip-top::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent #006dcc transparent;
+   }
+
+   /* Show the tooltip text when you mouse over the tooltip container */
+   .tooltip:hover .tooltiptext {
+      visibility: visible;
+   }
+</style>

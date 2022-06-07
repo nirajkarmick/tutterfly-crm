@@ -1,0 +1,165 @@
+<div class="row">
+	<div class="col-12">
+		<div class="page-title-box">
+			<div class="page-title-right">
+			</div>
+			<h4 class="page-title">Doc Header footer</h4>
+		</div>
+	</div>
+</div>
+<div class=" no-padding container-fixed-lg bg-white CRMTable">
+  <div class="container-fluid p0">
+    <!-- START card -->
+    <div class="card card-transparent">
+      <div class="card-header">
+        <div class="card-title col-md-9">
+          <div class="MainHeadCont">
+            <div class="MainHead"><h5>Doc Header footer</h5></div>
+          </div>
+        </div>
+        <div class="col-md-3 pull-left">
+          <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal" data-target="#modalAdd"
+            (click)="AddNewShow(undefined)">
+            <span class="pull-left"><i class="pg-plus"></i></span>
+            <span>New</span>
+          </button>
+        </div>
+
+      </div>
+      <div class="card-block">
+        <mat-table #table [dataSource]="dataSourceLinkInfo" class="col-md-12 col-sm-12 p0 searchTable" matSort>
+          <ng-container matColumnDef="sno">
+            <mat-header-cell *matHeaderCellDef class="header" mat-sort-header class="flex2">Sr. No.</mat-header-cell>
+            <mat-cell *matCellDef="let element;let i = index;" class="flex2 elips">
+              <span>{{i+1}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef class="header" class="flex3" mat-sort-header>Name</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="flex3 elips">
+              {{element.name}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="footer_content_html">
+            <mat-header-cell *matHeaderCellDef class="header" class="flex3" mat-sort-header>Footer Content
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="flex3 elips" title="{{element.footer_content}}">
+              <span class="elips" [innerHTML]="element.footer_content.slice(0, 150)"> </span>
+              <!--  {{element.footer_content}} -->
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="active">
+            <mat-header-cell *matHeaderCellDef class="header" class="flex3" mat-sort-header>Active </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="flex3 elips">
+              {{element.active}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="created_at">
+            <mat-header-cell *matHeaderCellDef class="header" class="flex4" mat-sort-header>Created Date
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="flex4 elips" title="{{element.created_at}}">
+              <span class="elips">{{element.created_at}} </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="updated_at">
+            <mat-header-cell *matHeaderCellDef class="header" class="flex4" mat-sort-header>Updated Date
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="flex4 elips" title="{{element.updated_at}}">
+              <span class="elips">{{element.updated_at}} </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef class="header" class="flex2" mat-sort-header>Action</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="flex2 elips">
+              <span style="margin-right:10px;" data-toggle="modal" data-target="#modalAdd"
+                (click)="AddNewShow(element)"><i aria-hidden="true" class="fas fa-edit"></i></span>
+              <span><i aria-hidden="true" class="fas fa-trash text-danger"></i></span>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumnsLinkInfo"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsLinkInfo;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+    <!-- END card -->
+  </div>
+</div>
+
+
+<!-- Add Modal -->
+
+<!-- /.modal-dialog end-->
+
+<div id="cusFormModelPop" class="modal fixed-left fade" id="modalAdd" tabindex="-1" role="dialog"
+aria-labelledby="modalSlideUpLabel" aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog modal-dialog-aside" role="document">
+    <div class="modal-content">
+      <div class="modal-header cardHeader-orange">
+        <h4>{{buttonLable}} <span class="semi-bold">Header Footer</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" [(ngModel)]="newElement.name">
+            </div>
+          </div>
+          <div class="col-md-4" (click)="active()">
+            <input type="checkbox" [checked]="active_checked" [(ngModel)]="newElement.active" id="singlAct"
+              style="margin-top: 5px">
+            <label style="line-height: 5px;padding-left: 5px;" for="singlAct">Active</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Type</label>
+              <div class="col-lg-12 col-md-12 p0">
+                <div class="wysiwyg5-wrapper b-a b-grey">
+                  <select class="form-control" name="type" [(ngModel)]="newElement.type">
+                    <option *ngFor="let type of template_type" value="{{type}}">{{type}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Header</label>
+              <div class="col-lg-12 col-md-12 p0">
+                <div class="wysiwyg5-wrapper b-a b-grey">
+                  <app-quil-editor [(description_html)]="newElement.header_content_html"></app-quil-editor>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Footer</label>
+              <div class="col-lg-12 col-md-12 p0">
+                <div class="wysiwyg5-wrapper b-a b-grey">
+                  <app-quil-editor [(description_html)]="newElement.footer_content_html"></app-quil-editor>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-md-12">
+        <div class="col-md-3 col-sm-3 m-t-10 sm-m-t-10 p0 pull-right">
+          <button type="button" class="btn btn-primary btn-block m-t-5 pull-right" (click)="create()"
+            data-dismiss="modal">{{buttonLable}}</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

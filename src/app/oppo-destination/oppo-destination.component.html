@@ -1,0 +1,147 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <div class="page-title-right">
+      </div>
+      <h4 class="page-title">Opportunity Destination</h4>
+    </div>
+  </div>
+</div>
+<!-- START card -->
+<div class="no-padding container-fixed-lg bg-white CRMTable">
+  <div class="container-fluid p0">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title col-md-9">
+          <div class="MainHeadCont">
+            <h5 class="MainHead">Opportunity Destination</h5>
+          </div>
+        </div>
+        <div class="col-md-3 pull-left">
+          <button type="button" class="btn btn-primary newBtn pull-right" data-toggle="modal" data-target="#modalAdd"
+            (click)="AddNewShow()">
+            <span class="pull-left"><i class="pg-plus"></i></span>
+            <span>New</span>
+          </button>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="displayTable">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"  >
+            <thead>
+             <!--  <tr><th colspan="4"><input type="text" class="sr-input" placeholder="Search Mail" [(ngModel)]="keyvalue" name="keywords"  (ngModelChange) = "search()">
+                                        <button class="btn sr-btn" type="submit" ><i class="fa fa-search"></i></button></th></tr> -->
+              <tr>
+                <th>Sr. No.</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Action</th>
+                <!-- <th></th> -->
+              </tr>
+            </thead>
+            <tbody *ngIf="destinations">
+              <tr *ngFor="let element of destinations; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{element.name}}</td>
+                <td><span *ngIf="element.country_id">{{element.country_id.name}}</span></td>
+                <td>
+                  <span style="margin-right:10px;" data-toggle="modal" data-target="#modalEdit"
+                    (click)="EditShow(element.id)"><i aria-hidden="true" class="fas fa-edit"></i></span>
+                  <span><i aria-hidden="true" class="fas fa-trash text-danger"
+                      (click)="deleteDestin(element.id)"></i></span>
+                </td>
+                <!-- <td>
+                    <span class="btn btn-primary btn-sm mr-1" matTooltip="Move Up" *ngIf="i>0" (click)="sortData('u',i )"><i class="fa fa-arrow-up"></i></span>
+                    <span class="btn btn-danger btn-sm" matTooltip="Move Down" *ngIf="i < destinations.length-1"  (click)="sortData('d',i )"><i class="fa fa-arrow-down"></i></span>    
+                    </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add Modal -->
+<div class="modal fade" id="modalAdd" role="dialog" aria-hidden="false" *ngIf="modalAdd">
+  <div class="modal-dialog opp-destt">
+    <div class="modal-content">
+      <div class="modal-header clearfix text-left">
+        <h4>Add <span class="semi-bold">Destination</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body ">
+        <!-- <form role="form"> -->
+        <div class="">
+          <div class="row mt10" (click)="selectBox()">
+            <div class="col-md-12">
+              <div class="form-group desti-selectbx">
+                <label>Country</label>
+                <select2 [data]="countryData" class="select2" [value]="select_country"
+                  (valueChanged)="getDestList($event.value)" width="100%"></select2>
+              </div>
+            </div>
+          </div>
+          <div class="row mt10" (click)="selectBox()">
+            <div class="col-md-12">
+              <div class="form-group desti-selectbx">
+                <label>Destination</label>
+                <select2 [data]="destinationData" multiple class="form-control1 select2" [value]="city_id"
+                  (valueChanged)="setDestination_add($event.value)" [options]="destinationOptions" multiple
+                  style="height: 100%" width="100%"></select2>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary pull-right" (click)="create('add')"
+            data-dismiss="modal">Add</button>
+          <button type="button" class="btn btn-secondary pull-right mr-2" (click)="create('save')">Add
+            &amp; Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEdit" role="dialog" aria-hidden="false" *ngIf="modalEdit">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header clearfix text-left">
+        <h4>Opportunity <span class="semi-bold">Destination</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group" (click)="selectBox()">
+              <label>Country</label>
+              <select2 [data]="countryData" class="select2" [value]="select_country_edit"
+                (valueChanged)="getDestList($event.value)" width="100%"></select2>
+            </div>
+          </div>
+        </div>
+        <div class="row" (click)="selectBox()">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Destination</label>
+              <select2 [data]="destinationData" class="select2" [value]="city_id_edit"
+                (valueChanged)="setDestination($event.value)" width="100%"></select2>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary pull-right" (click)="update()" data-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.modal-dialog end-->
+<style type="text/css">
+  .select2-container {
+    z-index: 5001 !important;
+  }
+
+  .opp-destt .select2-container {
+    z-index: 5000 !important;
+  }
+</style>

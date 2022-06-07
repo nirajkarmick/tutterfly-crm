@@ -1,0 +1,10 @@
+.CRMTable .card .card-block { padding: 0px; /*height: 400px;*/padding: 10px;}
+ */
+ .modal-body { 
+	/* height: 250px;  */
+	overflow-y: hidden; 
+}
+
+#modalAdd input{
+	border: none !important; 
+}

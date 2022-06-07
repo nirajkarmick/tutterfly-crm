@@ -1,0 +1,651 @@
+<div class=" no-padding container-fixed-lg ClientDetails fileMainCont">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                    </div>
+                    <h4 class="page-title">Reports</h4>
+                </div>
+            </div> 
+        </div> 
+        <div class="card clientHeader" (click)="closeAllfilter()">
+            <div class="card-body topSec">
+                <div class="row ">
+                    <div class="col-md-6" *ngIf="!isEdit">
+                        <div class="select-DataView">
+                            <!--<div class="Mainicon_account"></div>-->
+                            <div class="d-flex icon-module float-left mr-1">
+                                <img src="assets/new_assets/images/account-icon.png" alt="" width="" class="img-fluid">
+                            </div>
+                            <div class="select-DataViewml-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0 text-primary">
+                                        <div class="MainHead">Reports Type</div>
+                                    </label>
+                                    <div class="MainHeadClinetname">{{selectedTab | titlecase}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" *ngIf="isEdit && metaData">
+                        <div class="select-DataView">
+                            <!--<div class="Mainicon_account"></div>-->
+                            <div class="d-flex icon-module float-left mr-1">
+                                <img src="assets/new_assets/images/account-icon.png" alt="" width="" class="img-fluid">
+                            </div>
+                            <div class="select-DataViewml-2">
+                                <div class="form-group m-0">
+                                    <label class="m-0 text-primary">
+                                        <div class="MainHead">Report<small *ngIf="report_type_name"> ({{report_type_name}})</small></div> 
+                                    </label>
+                                    <div class="MainHeadClinetname" *ngIf="isEdit && newReportName ">
+                                        {{newReportName}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  <div class="col-md-6">
+                        <div class="btn-group pull-right">
+                            <form class="form-inline">
+                                <div class="button-list">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light" (click)="newRepoPopShow()">New
+                                        Report
+                                    </button>
+                                    <button type="button" class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#newFolder">New
+                                        Folder
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div> -->
+
+                    <div class="col-md-6">
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-primary waves-effect waves-light" *ngIf="!isEdit"
+                                (click)="openNamePopUpShow()" data-toggle="modal" data-target="#modalSave">Save</button>
+                            <button type="button" class="btn btn-info waves-effect waves-light" *ngIf="isEdit"
+                                (click)="openNamePopUpShow()" data-toggle="modal"
+                                data-target="#modalSave">Update</button>
+                            <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reports'] }}]"
+                                [queryParams]="{ 'type': selectedTab}" class="btn btn-secondary">Close</a>
+                            <button type="button" class="btn btn-primary waves-effect waves-light"
+                                (click)="createPreview()">Run</button>
+                        </div>
+                    </div>
+                    <div class="btn-group pull-right" style="margin-right: 10px;">
+                        <div id="newFolder1" class="modal fade slide-down disable-scroll" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content-wrapper">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Create New Folder</h5>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body" style="padding-top: 20px;">
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <input class="form-control" [(ngModel)]="folderName"
+                                                        placeholder="Enter New Folder Name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="padding-top: 20px;">
+                                            <button type="button" class="btn btn-secondary" *ngIf="!isEdit"
+                                                (click)="openNamePopUpShow()">Save
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" *ngIf="isEdit"
+                                                (click)="openNamePopUpShow()">Update
+                                            </button>
+                                            <a [routerLink]="['/maindashboard',{ outlets: { bodySection: ['reports'] }}]"
+                                                [queryParams]="{ 'type': selectedTab}"
+                                                class="btn btn-secondary">Close</a>
+                                            <button type="button" class="btn btn-primary"
+                                                (click)="createPreview()">Run</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="reportSec card-box">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 pull-left reportSecLeft">
+                    <ul class="nav nav-tabs nav-tabs-simple" (click)="closeAllfilter()" role="tablist"
+                        data-init-reponsive-tabs="dropdownfx">
+                        <li class="nav-item col-md-6">
+                            <a class="nav-link active" data-toggle="tab" role="tab" data-target="#outline"
+                                href="javascript:void(0);">
+                                <i class="fa fa-list"></i> Fields</a>
+                        </li>
+                        <li class="nav-item col-md-6">
+                            <a href="#" class="nav-link" data-toggle="tab" role="tab" data-target="#filter"
+                                id="filter_click"><i class="fa fa-filter"></i> Filter</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="outline">
+                            <div class="col-md-12 col-sm-12 p0"><b class="align-left">Columns</b></div>
+                            <div class="col-md-12 col-sm-12 p0">
+                                <select class="form-control rep_add_col" (change)="selectColumn()" [(ngModel)]="selectedCol">
+                                    <!-- <option [value]="undefined">Add Column</option> -->
+                                    <optgroup label="Standard Fields" *ngIf="metaData.all_columns && metaData.all_columns.length>0">
+                                    <option *ngFor="let col of metaData.all_columns" [value]="col | json"> {{col.alias_name}}</option></optgroup>
+                                    <optgroup label="Custom Fields" *ngIf="metaData.additional_columns && metaData.additional_columns.length>0">
+                                        <option *ngFor="let col of metaData.additional_columns" [value]="col | json"> {{col.alias_name}}</option>
+                                    </optgroup>
+                                    
+                                </select> 
+                            </div>
+                             <div class="col-md-12 col-sm-12 p0">
+                                Standard Fields
+                                <ngx-sortable [items]="metaData.display_columns" [listStyle]="listStyle" [name]="'Column'" (listSorted)="colSorted($event)">
+                                    <ng-template let-item>
+                                        <div class="sortable-list-item repoColmNam ng-star-inserted">
+                                            <span>{{item.alias_name}}</span>
+                                            <i class="float-right fas fa-times" (click)="removeDisplayColumn(item)"></i>
+                                        </div>
+                                    </ng-template>
+                                </ngx-sortable>  
+                                <div *ngIf="add_display_columns && add_display_columns.length>0">
+                                Additional Fields
+                                <ngx-sortable [items]="add_display_columns" [listStyle]="listStyle" [name]="'Column2'" (listSorted)="colSortedAdd($event)">
+                                    <ng-template let-item>
+                                        <div class="sortable-list-item repoColmNam ng-star-inserted">
+                                            <span>{{item.alias_name}}</span>
+                                            <i class="float-right fas fa-times" (click)="removeDisplayColumnAdd(item)"></i>
+                                        </div>
+                                    </ng-template>
+                                </ngx-sortable> 
+                               </div>
+                            </div>
+                            <div  *ngIf="isLocalSet">
+                              <div class="mt-2"><b class="align-left g-bby">Group By : </b></div>
+                                <div>
+                                    <select class="form-control " (change)="selectGroup($event)"
+                                        [disabled]="selectedGroup.length>=1">
+                                        <option [value]="undefined">Group By:</option>
+                                        <option *ngFor="let col of metaData.group_bys" [value]="col | json">
+                                            {{col.alias_name}}</option>
+                                    </select>
+                                </div>
+                                <div *ngIf="selectedGroup">
+                                    <div class="btn btn-light btn-block pull-left repoColmNam"
+                                        *ngFor="let col of selectedGroup">
+                                        <span>{{col.alias_name}}</span> <i class="pull-right fa fa-times"
+                                            (click)="removeGroup(col)"></i>
+                                    </div>
+                                </div>
+                        </div>
+
+        </div>
+        <div class="tab-pane" id="filter">
+            <div id="FilterBox">
+                <div class="FilterBlock">
+                    <div class="btn btn-light btn-block pull-left defaultBtn">
+                        <div (click)="AllFilterShowHide()">
+                            <div class="col-md-12 p0 BtnHead">Show me</div>
+                            <span *ngFor="let showTypeObj of metaData.report_show_types">
+                                <div class="col-md-12 p0 BtnContent"
+                                    *ngIf="showType.id==showTypeObj.id">
+                                    {{showTypeObj.name | titlecase}}</div>
+                            </span>
+                        </div> 
+                        <div class="FilterSmallpop" *ngIf="AllFilter">
+                            <div class="col-md-12" style="margin-top:10px;">
+                                <p>Who sees this list view?</p>
+                                <div class="radio radio-success">
+                                    <div class="col-md-12 p0"
+                                        *ngFor="let showTypeObj of metaData.report_show_types">
+                                        <a (click)="selectViewType(showTypeObj.id)">
+                                            <input type="radio" [value]="showTypeObj.id"
+                                                name="{{showTypeObj.id}}" id="{{showTypeObj.id}}"
+                                                aria-invalid="false"
+                                                [checked]="showTypeObj.id==showType.id">
+                                            <label
+                                                for="{{showTypeObj.id}}">{{showTypeObj.name | titlecase}}</label>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-12 p0 mt5">
+                                        <button type="button" class="btn btn-light pull-right"
+                                            (click)="AllFilterShowHide()">Done
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="arrowFilter"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Add Remove filter-->
+
+            <!-- <div class="btn btn-light btn-block pull-left NewBtn mt5" (click)="dateFilterNewShow()"
+                [ngClass]="dateFilterError?'date_err':''">
+                <div>
+                    <div class="col-md-12 p0 BtnHead" *ngIf="dateField">{{getDateType(dateField)}}</div>
+                    <div class="col-md-12 p0 BtnHead" *ngIf="!dateField">Select Date Type</div>
+                    <div class="col-md-12 p0 BtnContent"
+                        *ngIf="dateField && startDate.value && endDate.value">
+                        {{startDate.value | date :'yyyy-MM-dd'}} -
+                        {{endDate.value | date :'yyyy-MM-dd'}}
+                    </div>
+                </div>
+            </div> -->
+
+            <!--Date Default filter Start-->
+            <div class="btn btn-light btn-block pull-left NewBtn " *ngIf="dateFilterNew"
+                style="border: 0;height: 0; padding: 0;margin-top:5px;">
+                <div class="FilterSmallpopNew rangeDate topArrow">
+                    <div class="col-md-12 p0">
+                        <div class="form-group">
+                            <label class="">Select Date Field</label>
+                            <select [(ngModel)]="dateField" class="form-control">
+                                <option [value]="undefined">Select Date Field</option>
+                                <option *ngFor="let dateField of metaData.date_field_types"
+                                    label="{{dateField.name}}" value="{{dateField.id}}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 p0 mt5">
+                        <div class="form-group">
+                            <label>Start Date</label>
+                            <input matInput [matDatepicker]="EvtstartDate1" class="form-control"
+                                [formControl]="startDate" #EvtstartDate1>
+                            <mat-datepicker-toggle matSuffix [for]="EvtstartDate1">
+                                <i class="fa fa-calendar"></i>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #EvtstartDate1></mat-datepicker>
+                        </div>
+                    </div>
+                    <div class="col-md-12 p0 mt5">
+                        <div class="form-group">
+                            <label>End Date</label>
+                            <input matInput [matDatepicker]="endDate1" class="form-control"
+                                [formControl]="endDate" />
+                            <mat-datepicker-toggle matSuffix [for]="endDate1">
+                                <i class="fa fa-calendar"></i>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #endDate1></mat-datepicker>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt5 p0">
+                        <button type="button" class="btn btn-light pull-right"
+                            (click)="dateFilterNewShow()">Done
+                        </button>
+                    </div>
+
+                    <div class="arrowFilter"></div>
+                </div>
+
+            </div>
+            <!--Date Default filter End-->
+
+            <!--Add New Filter Start-->
+            <div class="btn btn-light btn-block pull-left NewBtn" *ngIf="AllFilterNew"
+                style="border: 0;height: 0; padding: 0;margin-top:5px;">
+                <div class="FilterSmallpopNew popDate topArrow">
+                    <div class="col-md-12 p0">
+                        <div class="form-group">
+                            <label>Filter In*</label>
+                            <select class="form-control" (change)="fieldFilterChange($event)"  id="filterColOp"
+                                [(ngModel)]="filterElement.column_id">
+                                <option *ngFor="let col of metaData.all_columns" [value]="col.id+'-st'">
+                                    {{col.alias_name}}</option>
+                                <option *ngFor="let col of metaData.display_columns" [value]="col.id+'-st'">
+                                    {{col.alias_name}}</option>
+                        <optgroup label="Custom Fields" *ngIf="allAdditinalColumn && allAdditinalColumn.length>0">
+                                <option *ngFor="let col of allAdditinalColumn" [value]="col.id+'-ad'">
+                                    {{col.alias_name}}</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 p0 mt5">
+                        <div class="form-group">
+                            <label>Select Operator*</label>
+                            <select class="form-control" [(ngModel)]="filterElement.operator_id" id="operator_list_select">
+                                <option *ngFor="let op of operatortList" [value]="op.id">{{op.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 p0 mt5"
+                        *ngIf="filterElement.operator_id && filterElement.column_id">
+                        <div class="form-group">
+                            <label>Value*</label>
+                            <br>
+                            <input *ngIf="!date_format && !picklist_select" [(ngModel)]="filterElement.value" type="text"
+                                class="form-control">
+                            <div *ngIf="date_format && !picklist_select">
+                                <input matInput [matDatepicker]="picker" class="form-control"
+                                    [(ngModel)]="filterElement.value" placeholder="Choose a date"
+                                    disabled>
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                    <i class="fa fa-calendar"></i>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker disabled="false"></mat-datepicker>
+                            </div>
+                            <div *ngIf="!date_format && picklist_select">
+                                <select class="form-control" [(ngModel)]="filterElement.value">
+                                    <option *ngFor="let dt of  filter_picklist " [value]="dt.name" >{{dt.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt5 p0" *ngIf="rep_filter_msg">
+                        <span class="text-danger">{{rep_filter_msg}}</span>
+                    </div>
+                    <div class="col-md-12 mt5 p0">
+                        <button type="button" class="btn btn-light pull-right"
+                            (click)="AddFilterElement()">Done
+                        </button>
+                    </div>
+                    <div class="arrowFilter"></div>
+                </div>
+
+            </div>
+           <div *ngIf="metaData">
+            <div *ngFor="let f of filterArray;let i =index" style="margin-top: 5px;height: 55px;">
+                <div class="btn btn-light btn-block pull-left NewBtn" (click)="fetchFilterData(i)">
+                    <button type="button" class="close" (click)="removeFilter(i)">&times;</button> 
+                    <div style="width: 85%"  >
+                        <div class="col-md-12 p0 BtnHead">{{getColumnName(f.column_id,f.is_additional)}}</div>
+                        <div class="col-md-12 p0 BtnContent"> {{getOperatorName(f.operator_id)}}
+                            {{f.value}}</div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-12 col-sm-12 p0 mt5">
+                <a (click)="NewFilterShowHide()" class="pull-left">Add Filter</a>
+                <a (click)="filterArray=[]" class="pull-right">Remove All</a>
+            </div>
+            <br>
+
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+            
+<div class="col-lg-9 col-md-9 pull-left p0 reportSecRight card-block">
+    
+<div class="table-responsive table nowrap w-100 table-striped table-bordered"  *ngIf="groupList ; else isArray_list">
+            <div class="card-block">
+                <div class="card-body">
+                    <div class="tableHead">
+                        <div *ngFor="let obj of reportData.group_by">{{obj.alias_name}}</div>
+                        <div *ngFor="let obj of reportData.display_columns">{{obj.alias_name}}</div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="divmain" >
+                        <div class="divmainSub" *ngFor="let obj of groupList">
+                            <div class="tdGroup pull-left" style="border-top: 1px solid #ccc;">
+                                <strong> {{obj}}</strong>
+                            </div>
+                            <div style="height:30px;border-top: 1px solid #ccc;">
+                                <div *ngFor="let o of reportData.report_results[obj];let i=index" class="tableRepeat"
+                                     [style.top.px]=i*pix>
+                                    <div *ngFor="let o1 of getKeysData(o)" (click)="navigate(o.name,obj)" class="elips pull-left">
+                                        <span *ngIf="isEmptyObject(o[o1])=='s'" matTooltip="{{o[o1]}}"> 
+                                        {{o[o1]}}
+                                        
+                                       
+                                    </span>
+                                        <span *ngIf="isEmptyObject(o[o1])=='o'" matTooltip="{{o[o1].name}}"> {{o[o1].name}}</span>
+                                        <span *ngIf="isEmptyObject(o[o1])=='a'">
+                                        <span *ngFor="let col of o[o1]; let i=index">
+                                             <span *ngIf="i != o[o1].length-1" matTooltip="{{col.name}}">{{col.name}}, </span>
+                                            <span *ngIf="i == o[o1].length-1">{{col.name}}</span> 
+                                        </span>
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #isArray>
+                        <div *ngFor="let o of reportData.report_results" class="tableSimple">
+                            <div class="elips" *ngFor="let o1 of getKeysData(o)" (click)="navigate(o.name,obj)" >
+                                <span *ngIf="isEmptyObject(o[o1])=='s'"> {{o[o1]}}</span>
+                                <span *ngIf="isEmptyObject(o[o1])=='o'"> {{o[o1].name}}</span>
+                                <span *ngIf="isEmptyObject(o[o1])=='a'">
+                                <span *ngFor="let col of o[o1]; let i=index">
+                                     <span *ngIf="i != o[o1].length-1">{{col.name}}, </span>
+                                    <span *ngIf="i == o[o1].length-1">{{col.name}}</span>
+                                </span>
+                              </span>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+</div> 
+<ng-template #isArray_list>
+    <div  *ngIf="metaData.report_results ; else undefinedData" (click)="closeAllfilter()">
+    <div class="table-responsive" style="overflow-y:scroll;height: 500px;">
+        <table class="table table-hover table-bordered table-striped reportTbt" >
+            <thead class="reportTabHead thead-dark">
+                <tr>
+                    <th class="head_sticky_r" *ngFor="let col of metaData.display_columns"> {{col.alias_name}}</th>
+                    <th *ngFor="let col of add_display_columns"> {{col.alias_name}}</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of metaData.report_results">
+                    <td *ngFor="let col of metaData.display_columns">
+                        <span *ngIf="isEmptyObject(row[col.name])=='s'"> 
+                          <span *ngIf="col.name!='created_at' && col.name!='updated_at'  && col.name!='dob' && col.name!='close_date'  && col.name!='travel_date' && col.name!='opportunitable_type' "> {{row[col.name]}}</span>
+                          <span *ngIf="col.name=='opportunitable_type' "> {{row[col.name].replace('App\\Models\\', '')}}</span>
+                                 <span *ngIf="(col.name=='created_at' || col.name=='updated_at' || col.name=='dob' || col.name=='close_date'  || col.name=='travel_date') && row[col.name]!='1970-01-01'">{{row[col.name] | date: 'dd MMM yyyy'}}</span>
+                        </span>
+                        <span *ngIf="isEmptyObject(row[col.name])=='o'"> {{row[col.name].name}}</span>
+                        <span *ngIf="isEmptyObject(row[col.name])=='a'">
+                            <span *ngFor="let cc of row[col.name]; let i=index">
+                                <span *ngIf="i!=row[col.name].length-1">{{cc.name}}, </span>
+                                <span *ngIf="i==row[col.name].length-1">{{cc.name}}</span>  
+                            </span>
+                        </span>
+
+                    </td> 
+                     <td *ngFor="let col of add_display_columns">
+                        <span *ngIf="isEmptyObject(row[col.name])=='s'"> 
+                          <span *ngIf="col.name!='created_at' && col.name!='updated_at'  && col.name!='dob' && col.name!='close_date'  && col.name!='travel_date' "> {{row[col.name]}}</span>
+                                 <span *ngIf="col.name=='created_at' || col.name=='updated_at' || col.name=='dob' || col.name=='close_date'  || col.name=='travel_date'">{{row[col.name] | date: 'dd MMM yyyy'}}</span>
+                        </span> 
+                        <span *ngIf="isEmptyObject(row[col.name])=='o'"> {{row[col.name].name}}</span>
+                        <span *ngIf="isEmptyObject(row[col.name])=='a'">
+                            <span *ngFor="let cc of row[col.name]; let i=index">
+                                <span *ngIf="i!=row[col.name].length-1">{{cc}}, </span>
+                                <span *ngIf="i==row[col.name].length-1">{{cc}}</span>  
+                            </span>
+                        </span>
+
+                    </td> 
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+ </ng-template>
+</div>
+                
+           
+            </div>
+            <ng-template #undefinedData>
+                <div class="alert alert-info">No data Found</div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Modal -->
+<div class="modal fade" id="modalSave" tabindex="-1" role="dialog" aria-hidden="false" *ngIf="modalSave">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h4>Save <span class="semi-bold">Report</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                    (click)="openNamePopUpHide()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- <form role="form"> -->
+                <div class="">
+                    <div class="row mt10">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label> Name</label>
+                                <input type="text" class="form-control" [(ngModel)]="newReportName">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group ">
+                                <label>Description</label>
+                                <textarea class="form-control" [(ngModel)]="newReportDesc"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-8 p0 pull-left">
+                                <label>Folder</label>
+                                <input *ngIf="selectedFolder" type="text" class="form-control" disabled
+                                    [value]="selectedFolder.name">
+                            </div>
+                            <div class="form-group col-md-4 pull-left">
+                                <!-- <label>&nbsp;</label> -->
+                                <button class="btn btn-secondary" style="margin-top: 16%;" type="button"
+                                    (click)="modalSelectFolderPopShow()">Select Folder
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- </form> -->
+            <div class="modal-footer">
+                <div class="col-md-12">
+                    <div class="col-md-9 col-sm-9 p0 pull-left">
+                    </div>
+                    <div class="col-md-3 col-sm-3 m-t-10 sm-m-t-10 p0 pull-right">
+                        <button type="button" class="btn btn-primary btn-block m-t-5 pull-right" *ngIf="!isEdit"
+                            (click)="saveReport();openNamePopUpShow()">Save
+                        </button>
+                        <button type="button" class="btn btn-primary btn-block m-t-5 pull-right" *ngIf="isEdit"
+                            (click)="updateReport();openNamePopUpShow()">Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal-dialog end-->
+
+
+<!-- Add Modal -->
+<div class="modal fade " id="modalSelectFolderP" tabindex="-1" role="dialog" aria-hidden="false"
+    *ngIf="modalSelectFolderPop">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+                <h4>Select <span class="semi-bold">Folder</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                    (click)="modalSelectFolderPophide()">&times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mt10 ">
+                    <div class="col-md-6 pull-left p0  folderSec" style="border-right:1px solid #ddd;">
+
+                        <button class="btn btn-secondary1 col-md-12 p0" style="border-bottom: 1px solid #ccc;"
+                            type="button" *ngFor="let rList of leftFolderList"
+                            (click)="navigateTonextFolder(rList.id,false)">
+                            <i class="fa fa-folder pull-left"></i>
+                            <span class="pull-left">{{rList.name}}</span>
+                            <i class="fa fa-caret-right pull-right"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-6 pull-left p0 folderSec">
+                        <button class="btn btn-secondary1 col-md-12 p0" style="border-bottom: 1px solid #ccc;"
+                            type="button" *ngFor="let rList of rightFolderList"
+                            (click)="navigateTonextFolder(rList.id,true)">
+                            <i class="fa fa-folder pull-left"></i>
+                            <span class="pull-left">{{rList.name}}</span>
+                            <i class="fa fa-caret-right pull-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12 p0">
+                    <div class="col-md-9 col-sm-9 m-t-10 sm-m-t-10 p0 pull-left">
+                        <button type="button" class="btn btn-primary m-t-5 pull-left" data-toggle="modal"
+                            data-target="#newFolder" (click)="AddnewFolder()"><i
+                                class="fa fa-folder pull-left"></i><span class="pull-left">New Folder</span></button>
+                    </div>
+                    <div class="col-md-3 col-sm-3 m-t-10 sm-m-t-10 p0 pull-right">
+
+                        <button type="button" class="btn btn-primary btn-block m-t-5 pull-right" data-dismiss="modal"
+                            (click)="modalSelectFolderPophide()" [disabled]="!selectedFolder">Select
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="newFolder" *ngIf="newFolder" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Folder</h5>
+                    <button type="button" class="close" (click)="HidenewFolder()" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" style="padding-top: 20px;">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <input class="form-control" [(ngModel)]="folderName" placeholder="Enter New Folder Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding-top: 20px;">
+                    <button type="button" class="btn btn-primary" (click)="createFolder()">Create Folder
+                    </button>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<style type="text/css">
+    .rep_add_col:after {
+        content: "";
+        position: absolute;
+        z-index: 2;
+        right: 8px;
+        top: 50%;
+        margin-top: -3px;
+        height: 0;
+        width: 0;
+        border-top: 6px solid #f99300;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        pointer-events: none;
+    }
+
+    .rep_add_col {
+        margin-bottom: 10px;
+    }
+</style>

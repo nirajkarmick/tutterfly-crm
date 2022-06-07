@@ -1,0 +1,7 @@
+.pac-container {
+    z-index: 10420 !important;
+}
+#modalAdd{
+	z-index: 1000 !important;
+}
+

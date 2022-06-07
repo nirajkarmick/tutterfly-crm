@@ -1,0 +1,47 @@
+<div class=" no-padding container-fixed-lg bg-white CRMTable" >
+    <div class="container-fluid p0">
+      <!-- START card -->
+      <div class="card card-transparent">
+        <div class="card-header">
+          <div class="card-title col-md-9">
+            <div class="MainHeadCont">
+            <div class="MainHead">Sharing Setting</div>
+          </div>
+          </div>
+          <div class="col-md-3 pull-left">
+              <button type="button" class="btn btn-primary newBtn pull-right"  data-toggle="modal" data-target="#modalAdd"  (click)="AddNewShow(undefined)">
+                  <span class="pull-left"><i class="pg-pencil"></i></span>
+                  <span>Edit</span>
+              </button>
+          </div>
+   
+        </div>
+        <div class="card-block">
+            <table class="table table-hover table-bordered col-md-12 col-sm-12">
+              <thead>
+                <tr>
+                  <th>Object</th>
+                  <th>Default Internal Access</th>
+                  <th>Grant Access Using Hierarchies</th>
+                </tr>
+              </thead>
+              <tbody>
+                   <tr>
+                      <td>Lead</td>
+                      <td>
+                        <select class="form-control">
+                            <option value="1">Public Read/Write/Transfer</option>
+                            <option value="2">Public Read/Write</option>
+                            <option value="3">Public Read/Only</option>
+                            <option value="4">Private</option>
+                        </select>
+                      </td>
+                      <td><input type="checkbox" class="form-control"></td>
+                    </tr>
+              </tbody>
+            </table>
+        </div>
+
+      </div>
+    </div>
+</div>

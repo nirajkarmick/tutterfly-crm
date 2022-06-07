@@ -1,0 +1,79 @@
+.ThankyouBackground {
+    background: #006dcc;
+    height: 100vh;
+    width: 100%;
+}
+
+.thankyouContainer {
+    background: #fff;
+    position: relative;
+    top: calc(50% - 250px);
+    right: 0;
+    height: auto;
+    margin: auto;
+    border-radius: 15px;
+    -moz-box-shadow: 8px -8px 0px 0px #f16a25;
+    -webkit-box-shadow: 8px -8px 0px 0px #f16a25;
+    box-shadow: 8px -8px 0px 0px #f16a25;
+}
+
+.ThankyouContent {
+    padding: 30px 15px;
+}
+
+.ThankyouContent figure {
+    width: 50%;
+    margin: auto;
+}
+
+.ThankyouContent figure img {
+    /*-moz-box-shadow: 10px 10px 5px #ccc;
+    -webkit-box-shadow: 10px 10px 5px #ccc;
+    box-shadow: 10px 10px 5px #ccc;*/
+    -webkit-filter: drop-shadow(5px 5px 1px rgba(0, 0, 0, 0.25));
+
+}
+.ThankyouContent .btn-round{
+    border-radius: 50px;
+    margin: 0 5px;
+}
+.ThankyouContent .btn-round:hover{
+    background: #006dcc;
+    color: #fff;
+}
+.btn-blue-round{
+    background: #006dcc;
+    color: #fff;
+}
+.ThankyouContent button.btn-blue-round:hover{
+    background: #fff;
+    color: #006dcc;
+}
+.ThankyouContent h3 a{
+    color: #f16a25;
+}
+.ThankyouContent h3 small{
+    color: #333;
+}
+@media (min-width: 768px) {
+    .thankyouContainer {
+        width: 600px;
+        height: auto;
+    }
+}
+
+@media (min-width: 1200px) {
+    .thankyouContainer {
+        width: 600px;
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .thankyouContainer {
+        width: 90%;
+        height: auto;
+        top: calc(50% - 30vh);
+    }
+
+}

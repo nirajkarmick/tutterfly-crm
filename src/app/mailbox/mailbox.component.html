@@ -1,0 +1,261 @@
+<div class=" no-padding container-fixed-lg CRMTable">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <form class="form-inline">
+                        </form>
+                    </div>
+                    <h4 class="page-title">Inbox</h4>
+                    <div *ngIf="isLocal" class="mb-2">
+                         <button class="btn btn-primary mb-1 sync_btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                             <span class="g_btn_img">
+                                <img src="assets/img/gmail_logo.png" width="20" class="gmail_imgb" >
+                            </span>
+                            <span class="g_btn_text">                             
+                                <strong>Gmail Sync</strong>
+                            </span> 
+                        </button>
+                         <div class="collapse" id="collapseExample">
+  <div class="card card-body">
+   <h4>Sync - Google Workspace Gmail & TutterflyCRM Integration</h4>
+   <div class="tfc_gmail row" style="margin:auto;">
+       <div class="col-md-2">
+         <img src="assets/img/gmail_logo.png" width="100" class="gmail_arrow">
+       </div>
+       <div class="col-md-2">
+         <img src="assets/img/arrow.png" width="100" class="tfc_arrow">
+       </div>
+       <div class="col-md-3">
+         <img src="assets/img/logo.png"   class="tfc_lgo">
+       </div>
+       <div class="col-md-3">
+         <a href="javascript:void(0)" [routerLink]="['/maindashboard',{ outlets: { bodySection: ['gmail'] }}]" class="btn btn-primary mt-3">Get Started</a>
+       </div>
+   </div>
+   
+  </div>
+</div> </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mail-box">
+                <aside class="card-box">
+                    <div class="card-box"> 
+                        <div class="inbox-leftbar">
+                            <a href="javascript: void(0);" (click)="composemail()" class="nav-link btn btn-danger btn-block waves-effect waves-light"
+                                >Compose</a>
+                            <div class="mail-list mt-4">
+                                <a href="javascript:void(0);" class="text-danger font-weight-bold"
+                                    [ngClass]="inbox_active?'active':''" (click)="ngOnInit()"><i
+                                        class="fas fa-inbox mr-2"></i>Inbox<span
+                                        class="badge badge-soft-danger float-right ml-2"
+                                        *ngIf="unread_msg">{{unread_msg}}</span></a>
+                               <!--  <a href="javascript: void(0);" (click)="getSent()"
+                                    [ngClass]="inbox_active?'':'active'"><i class="fas fa-paper-plane mr-2"></i>Sent
+                                    Mail</a>
+                                <a href="javascript: void(0);"><i class="fas fa-trash mr-2"></i>Trash</a>
+                                <a href="javascript: void(0);"><i class="fas fa-tag mr-2"></i>Important</a>
+                                <a href="javascript: void(0);"><i class="fas fa-warning mr-2"></i>Spam</a>
+                                <a href="javascript: void(0);"><i class="fas fa-star mr-2"></i>Starred</a>
+                                <a href="javascript: void(0);"><i class="fas fa-clock mr-2"></i>Snoozed</a> -->
+                            </div>
+                           <!--  <h6 class="mt-4">Labels</h6>
+                            <div class="list-group b-0 mail-list">
+                                <a href="javascript: void(0);" class="list-group-item border-0"><span
+                                        class="mdi mdi-circle text-info mr-2"></span>Web App</a>
+                                <a href="javascript: void(0);" class="list-group-item border-0"><span
+                                        class="mdi mdi-circle text-warning mr-2"></span>Recharge</a>
+                                <a href="javascript: void(0);" class="list-group-item border-0"><span
+                                        class="mdi mdi-circle text-dark mr-2"></span>Wallet Balance</a>
+                                <a href="javascript: void(0);" class="list-group-item border-0"><span
+                                        class="mdi mdi-circle text-primary mr-2"></span>Friends</a>
+                                <a href="javascript: void(0);" class="list-group-item border-0"><span
+                                        class="mdi mdi-circle text-success mr-2"></span>Family</a>
+                            </div> -->
+                        </div>
+                    </div>
+                </aside>
+                <aside class="lg-side">
+                    <div *ngIf="inboxDiv">
+                        <div class="mail-option">
+                            <div class="btn-group pull-left">
+                                <input class="mail-checkbox" type="checkbox" id="checkallMail"
+                                    style="margin: 12px 12px 0" (click)="valueChanged()">
+                                <label for="checkallMail" style="top: 8px;margin-right: 15px;"></label>
+                                <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown"
+                                    id="mailboxRefresh" href="javscript: void(0)" class="btn mini tooltips"
+                                    (click)="ngOnInit()">
+                                    <i class="fa fa-refresh"></i>
+                                </a>
+                                <div class="btn-group" id="btnGroupDel" style="display: none">
+                                    <button class="btn btn-light"><i class="fa fa-trash-o"></i></button>
+                                    <button class="btn btn-light" (click)="makeAsRead()">Mark as read</button>
+                                </div>
+                            </div>
+                            <div class="inbox-head">
+                                <form (action)="search_inbox()" class="pull-right position">
+                                    <div class="input-append">
+                                        <input type="text" class="sr-input" placeholder="Search Mail" [(ngModel)]="keywords" name="keywords">
+                                        <button class="btn sr-btn" type="submit" (click)="search_inbox()"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul class="unstyled inbox-pagination" *ngIf="allInbox && allInbox.length > 0">
+                                <li><span id="ember4496" class="ember-view"> Showing {{start_email}} - {{end_email}} of </span>
+                                </li>
+                                <li *ngIf="allInbox && allInbox.length > 0">
+                                    <span><strong>{{total_mail}}</strong></span>
+                                </li>
+                                <li>
+                                    <button class="btn pr-btn ml-2 next-prev-btn disabled" type="button" title="Previous"   *ngIf="page_no==2" ><i class="fas fa-angle-left"></i></button>
+                                    <button class="btn pr-btn ml-2 next-prev-btn"  *ngIf="page_no>2" type="button" title="Previous" (click)="previous_email()"  ><i class="fas fa-angle-left"></i></button>
+
+                                    <button class="btn pr-btn ml-2 next-prev-btn disabled" type="button" title="Next"   *ngIf="page_no>=total_pages"><i class="fas fa-angle-right"></i></button>
+                                    <button class="btn pr-btn ml-2 next-prev-btn" type="button" title="Next" (click)="next_email()" *ngIf="page_no<=total_pages"><i class="fas fa-angle-right"></i></button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div *ngIf="allInbox" class="inbox-body">
+                            <div class="flex-table-body">
+                                <div class="conversation flex-table-row conversation-read"
+                                    *ngFor="let inbox of allInbox; let i=index;" [ngClass]="inbox.seen==0 ? 'unread-inbx':'read-inbx'">
+                                    <!-- <div [ngClass]="inbox.seen==0 ? 'unread-inbx':'read-inbx'"> -->
+                                    <div class="flex-table-row-selection">
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" class="mail-checkbox mail_check" id="mailCheck_{{i}}"
+                                                value="{{inbox.message_id}}" (click)="markEmail()">
+                                            <label for="mailCheck_{{i}}"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex-table-row-media"
+                                        (click)="getMail(inbox.message_id,inbox.folder_name)" style="cursor: pointer">
+                                        <div class="mini-card-avatar">
+                                            <div class="avatar_round">
+                                                <span  class="avatar_content text-capitalize"  *ngIf="!isLocal">{{inbox.from.mail | slice:0:1}}</span>
+                                                <span  class="avatar_content text-capitalize"  *ngIf="isLocal">{{inbox.from | slice:0:1}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="mini-card-content">
+                                            <div class="email-recipient" matTooltip="{{inbox.from.mail}}" >
+                                                <span class="view-message  dont-show"
+                                                    [ngClass]="inbox.seen==0 ? 'unread-msg':''"  *ngIf="!isLocal">
+                                                {{(inbox.from.mail | slice: 0:30) + (inbox.from.mail.length > 30 ? '...' : '')}} </span>
+                                                <span class="view-message  dont-show"
+                                                    [ngClass]="inbox.seen==0 ? 'unread-msg':''"  *ngIf="isLocal">
+                                                {{(inbox.from | slice: 0:30) + (inbox.from.length > 30 ? '...' : '')}} </span>
+                                            </div>
+                                            <!-- <div class="text-muted small">
+                                                <i data-toggle="tooltip" data-placement="bottom"
+                                                    class="icon-email-incoming valign-inline" title="incoming"></i>
+                                                <span id="mailDatetime" data-toggle="tooltip" data-placement="bottom"
+                                                    title="{{inbox.date | date: 'MMM d, y, h:mm a'}}"
+                                                    class="ember-view relative-date">{{inBetween(inbox.date)}}</span>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="email-content" (click)="getMail(inbox.message_id,inbox.folder_name)"
+                                        style="cursor: pointer">
+                                        <div class="email-subject">
+                                            <a href="javascript: void(0);" class=""><span
+                                                    class="email-subject-content"  [ngClass]="inbox.seen==0 ? 'unread-msg':''">
+                                                    {{(inbox.subject | slice: 0:70) + (inbox.subject.length > 70 ? '...' : '')}}
+                                                </span></a>
+                                        </div>
+                                        <div class="email-msg">
+                                            <span *ngIf="inbox.body"> {{(inbox.body | slice: 0:70) + (inbox.body.length > 70 ? '...' : '')}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-table-row-media"
+                                        (click)="getMail(inbox.message_id,inbox.folder_name)" style="cursor: pointer">
+                                        
+                                        <div class="mini-card-content">
+                                            
+                                            <div class=" small" [ngClass]="inbox.seen==0 ? 'unread-msg':'text-muted'" >
+                                                <i data-toggle="tooltip" data-placement="bottom"
+                                                    class="icon-email-incoming valign-inline" title="incoming"></i>
+                                                <span id="mailDatetime" data-toggle="tooltip" data-placement="bottom"
+                                                    title="{{inbox.date | date: 'MMM d, y, h:mm a'}}"
+                                                    class="ember-view relative-date">{{inBetween(inbox.date)}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="allInbox && allInbox.length==0" class="inbox-body no-mail">
+                            {{box_msg}}
+                        </div>
+                    </div>
+                    <div *ngIf="bodyDiv">
+                        <div *ngIf="allInbox" class="inbox-body">
+                            <div class="mail-option">
+                                <div class="btn-group pull-left">
+                                    <nav aria-label="breadcrumb" class="mailbreadcrumb">
+                                        <ol class="breadcrumb mb-1">
+                                            <li class="breadcrumb-item"><a href="javascript:void(0);"
+                                                    (click)="ngOnInit()">Mail</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">
+                                                {{inboxBody.subject | slice:0:20}}</li>
+                                        </ol>
+                                        <!-- <h5 *ngIf="allInbox" class="font-18">{{inboxBody.subject | slice:0:20}}</h5> -->
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="flex-table-body mailbodyView">
+                                <div class="bodypanel bodypanel-default">
+                                    <div class="email-thread-view">
+                                        <div class="email-thread-avatar">
+                                            <div class="mini-card-avatar">
+                                                <div class="avatar_round">
+                                                    <span
+                                                        class="avatar_content text-capitalize">{{inboxBody.from.mailbox | slice:0:1}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="email-thread-details">
+                                            <div class="email-thread-details-header clearfix">
+                                                <div class="email-thread-details-sender">
+                                                    <div class="media-body">
+                                                        <small
+                                                            class="float-right">{{inboxBody.date | date: 'd MMM, y, h:mm a'}}</small>
+                                                        <h6 class="m-0 font-14">{{inboxBody.from.mail}}</h6>
+                                                        To :
+                                                        <small class="text-muted">{{inboxBody.to.full}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="inbox_body email-thread-details-body "
+                                                [innerHTML]="inboxBody.body_html">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .gmail_imgb{
+        margin-bottom: 5px;
+        margin-right: 8px;
+    }
+.sync_btn{
+
+        background: #f16a25 !important;
+        border: none;
+}
+.tfc_arrow {
+    margin-top: 10px;
+}
+</style>

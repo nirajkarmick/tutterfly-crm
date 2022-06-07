@@ -1,0 +1,265 @@
+<div class=" no-padding container-fixed-lg bg-white CRMTable" *ngIf="data != undefined">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Search Result : {{title | titlecase}}</h4>
+                </div>
+            </div>
+        </div> 
+        <div class="card-block">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <th *ngFor="let o of display"><span>{{o.alias_name}}</span></th>
+                    </thead> 
+                    <tr *ngFor="let obj of data">
+                        <td style="position: relative;" *ngFor="let o of display;let i=index" (click)="navigate(o.name,obj)">
+                            <a *ngIf="o.name=='first_name' || o.name=='last_name'  || o.name=='name' || (search_module_id==4 && o.alias_name=='Title') || o.name=='record_id'" href="javascript:void(0);"> {{checkForJson(obj[o.name])}}</a>
+                            <span *ngIf="o.name!='first_name' && o.name!='last_name'  && o.name!='name'  && (search_module_id!=4 && o.alias_name!='Title')  && o.name!='record_id'">{{checkForJson(obj[o.name])}}</span>
+
+                        </td>
+                    </tr>
+                </table>
+                <div class="text-center">
+                     <button *ngIf="totalCurrentSearch < totalDataSearch" class="btn btn-small tfc-load-more btn-view-blue" (click)="loadMoreDataSearch()">Load More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class=" no-padding container-fixed-lg CRMTable"  *ngIf="reportData != undefined">
+    <div *ngIf="export_loader" class="itinry_loader">
+      <img src="assets/img/export_data.gif" />
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Report Display</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card card-transparent123">
+            <div class="card-header card-white-head">
+                <div class="card-title m-0 w-100">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="select-DataView">
+                                <div class="d-flex icon-module float-left mr-1 mb-1">
+                                    <img src="assets/new_assets/images/account-icon.png" alt="" width="" class="img-fluid">
+                                </div>
+                                <div class="select-DataViewml-2">
+                                    <div class="form-group m-0">
+                                        <label class="m-0 text-primary">
+                                            <small><span *ngIf="report_type" class="text-capitalize"> {{report_type}} - </span>Report </small>
+                                            <div class="MainHeadClinetname">{{reportData.report_details.name}} <span style="color: #333"> ({{totalData}})</span>
+
+                                            </div> 
+                                            <a href="javascript:void(0);" class="ml-1" *ngIf="groupList && !showGraph" (click)="showGraphPie()">Show Graph 
+                                                <i class="mdi mdi-arrow-expand-down" ></i>
+                                            </a>
+                                            <a href="javascript:void(0);" class="ml-1" *ngIf="groupList && showGraph" (click)="hideGraphPie()">Hide Graph
+                                                <i class="mdi mdi-arrow-expand-up"  ></i> 
+                                            </a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <form class="form-inline button-list float-right"> 
+                                <a class="btn btn-secondary pull-right m-r-5" 
+                                   (click)="exportReport()" href="javascript:void(0)" *ngIf="reportData.report_results && reportData.report_results.length>0 ">Export <i class="fas fa-file-import"></i></a>
+                                <a class="btn btn-primary pull-right m-r-5"
+                                   [routerLink]="['/maindashboard',{ outlets: { bodySection: ['editReport'] }}]" [queryParams]="reportId"
+                                   title="Edit">Edit</a> 
+                                   <a class="btn btn-secondary pull-right m-r-5"href="javascript:void(0);" (click)="backClicked()" title="Back">Back</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                        <div class="widgetContent" *ngIf="isLocalSet && showGraph">
+                            <div class="row">
+                                <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                                    <div class="card-box">
+                                        <ul class="nav nav-tabs1 nav-pills" role="tablist" data-init-reponsive-tabs="dropdownfx">
+                                            <li class="nav-item" (click)="showGraphPie()">
+                                                <a class="active nav-link" data-toggle="tab" role="tab" data-target="#PieChart"
+                                                    href="#">Pie</a>
+                                            </li>
+                                            <li class="nav-item" (click)="showGraphLine()">
+                                                <a class="nav-link" href="#" data-toggle="tab" role="tab"  data-target="#lineChart" >Bar</a>
+                                            </li> 
+
+                                            <li class="nav-item" (click)="showGraphFunnel()">
+                                                <a class="nav-link" href="#" data-toggle="tab" role="tab"  data-target="#funnelChart" >Funnel</a>
+                                            </li> 
+
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="PieChart">
+                                                <div *ngIf="options.dataProvider!=undefined">
+                                                    <amCharts id="chartdiv1" [options]="options" [style.width.%]="100"
+                                                        [style.height.px]="400"></amCharts>
+                                                </div>
+                                           </div>
+                                            <div class="tab-pane" id="lineChart"> 
+                                                <div *ngIf="lineOptions.dataProvider!=undefined">
+                                                    <amCharts id="chartdiv2" [options]="lineOptions" [style.width.%]="100"
+                                                        [style.height.px]="400"></amCharts>
+                                                </div> 
+                                           </div>
+
+                                            <div class="tab-pane" id="funnelChart"> 
+                                                <div *ngIf="funnelOptions.dataProvider!=undefined">
+                                                    <amCharts id="chartdiv3" [options]="funnelOptions" [style.width.%]="50"
+                                                        [style.height.px]="400"  style="margin: auto;"></amCharts>
+                                                </div> 
+                                           </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>    
+                    </div>
+
+            <!-- <div class="table-responsive table nowrap w-100 table-striped table-bordered"  (scroll)="onScroll($event)" style="overflow-y: scroll;height: 600px;" *ngIf="groupList ; else isArray_list"> -->
+                 <div class="table-responsive table nowrap w-100 table-striped table-bordered"  *ngIf="groupList ; else isArray_list">
+                <div class="card-block">
+                    <div class="card-body">
+                        <div class="tableHead">
+                            <div *ngFor="let obj of reportData.group_by">{{obj.alias_name}}
+                            </div>
+                            <div *ngFor="let obj of reportData.display_columns">{{obj.alias_name}}</div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="divmain" >
+                            <div class="divmainSub" *ngFor="let obj of groupList">
+                             <div class="tdGroup pull-left" style="border-top: 1px solid #ccc;">
+                                    <strong> {{obj}}</strong>
+                             </div>
+                                            <div style="height:30px;border-top: 1px solid #ccc;">
+                                                <div *ngFor="let o of reportData.report_results[obj];let i=index" class="tableRepeat"
+                                                     [style.top.px]=i*pix>
+                                                    <div *ngFor="let o1 of getKeys(o)" (click)="navigate(o.name,obj)" class="elips pull-left">
+                                                        <span *ngIf="isEmptyObject(o[o1])=='s'" matTooltip="{{o[o1]}}"> 
+                                                        {{checkForDate(o[o1])}}
+                                                        
+                                                       
+                                                    </span>
+                                                        <span *ngIf="isEmptyObject(o[o1])=='o'" matTooltip="{{o[o1].name}}"> {{o[o1].name}}</span>
+                                                        <span *ngIf="isEmptyObject(o[o1])=='a'">
+                                                        <span *ngFor="let col of o[o1]; let i=index">
+                                                             <span *ngIf="i != o[o1].length-1" matTooltip="{{col.name}}">{{col.name}}, </span>
+                                                            <span *ngIf="i == o[o1].length-1">{{col.name}}</span> 
+                                                        </span>
+                                                      </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                            </div>
+                        </div>
+                        <ng-template #isArray>
+                            <div *ngFor="let o of reportData.report_results" class="tableSimple">
+                                <div class="elips" *ngFor="let o1 of getKeys(o)" (click)="navigate(o.name,obj)" >
+                                    <span *ngIf="isEmptyObject(o[o1])=='s'"> {{o[o1]}}</span>
+                                    <span *ngIf="isEmptyObject(o[o1])=='o'"> {{o[o1].name}}</span>
+                                    <span *ngIf="isEmptyObject(o[o1])=='a'">
+                                    <span *ngFor="let col of o[o1]; let i=index">
+                                         <span *ngIf="i != o[o1].length-1">{{col.name}}, </span>
+                                        <span *ngIf="i == o[o1].length-1">{{col.name}}</span>
+                                    </span>
+                                  </span>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+<ng-template #isArray_list>
+<div class="row d-flex">
+    <div class="col-xl-12 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="header-title mb-0">Reports</h4>
+            </div>
+            <div class="card-body"  >
+                <div class="table-responsive"  (scroll)="onScroll($event)" style="overflow-y: scroll;height: 600px;">
+                    <table class="table table-hover table-centered mb-0" cellpadding="0" cellspacing="0" border="0" >
+                    <thead class="reportTabHead">
+                        <tr>
+                            <th *ngFor="let obj of reportData.display_columns">{{obj.alias_name}}</th>
+                            <th *ngFor="let obj of reportData.add_display_columns">{{obj.alias_name}}</th> 
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  *ngFor="let o of reportData.report_results"> 
+                            <td  *ngFor="let o1 of getKeys(o)" (click)="navigate(o.name,obj)" >
+                                    <span *ngIf="isEmptyObject(o[o1])=='s'"> 
+                                       <span *ngIf="o1!='created_at' && o1!='updated_at'  && o1!='dob' && o1!='close_date'  && o1!='travel_date'&& o1!='opportunitable_type'"> {{o[o1]}}</span>
+                                  
+                                  <span *ngIf="o1=='opportunitable_type' "> {{o[o1].replace('App\\Models\\', '')}}</span>
+                                         <span *ngIf="(o1=='created_at' || o1=='updated_at' || o1=='dob' || o1=='close_date' || o1=='travel_date') && o[o1]!='1970-01-01'">{{o[o1] | date: 'dd MMM yyyy'}}</span>
+                                    </span>
+                                    <span *ngIf="isEmptyObject(o[o1])=='o'">
+
+                                     <span *ngIf="o1=='opportunitable_id' &&  o['opportunitable_type']=='App\\Models\\PersonalAccount'"> 
+                                        <a class="pull-left" [routerLink]="['/maindashboard',{ outlets: { bodySection: ['personelDetails'] }}]" [queryParams]="{ 'id': o[o1].id}" target="_blank" >{{o[o1].name}}</a>
+                                     </span>
+                                     <span *ngIf="o1=='opportunitable_id' &&  o['opportunitable_type']=='App\\Models\\Account'" target="_blank" > 
+                                        <a class="pull-left" [routerLink]="['/maindashboard',{ outlets: { bodySection: ['clientDetails'] }}]" [queryParams]="{ 'id': o[o1].id}">{{o[o1].name}}</a>
+                                     </span>
+                                     <span *ngIf="o1!='opportunitable_id' "> 
+                                     {{o[o1].name}}
+                                 </span>
+
+                                 </span>
+                                    <span *ngIf="isEmptyObject(o[o1])=='a'">
+                                        <span *ngFor="let col of o[o1]; let i=index">
+                                         <span *ngIf="i != o[o1].length-1">{{col.name}}, </span>
+                                        <span *ngIf="i == o[o1].length-1">{{col.name}}</span>
+                                        </span>
+                                    </span>
+                            </td>
+                            <td  *ngFor="let o1 of getKeysAdd(o)" >
+                                    <span *ngIf="isEmptyObject(o[o1])=='s'"> 
+                                       <span *ngIf="o1!='created_at' && o1!='updated_at'  && o1!='dob' && o1!='close_date'  && o1!='travel_date'"> {{o[o1]}}</span>
+                                         <span *ngIf="o1=='created_at' || o1=='updated_at' || o1=='dob' || o1=='close_date' || o1=='travel_date'">{{o[o1] | date: 'dd MMM yyyy'}}</span>
+                                    </span>
+                                    <span *ngIf="isEmptyObject(o[o1])=='o'"> {{o[o1].name}}</span>
+                                    <span *ngIf="isEmptyObject(o[o1])=='a'">
+                                        <span *ngFor="let col of o[o1]; let i=index">
+                                         <span *ngIf="i != o[o1].length-1">{{col}}, </span>
+                                        <span *ngIf="i == o[o1].length-1">{{col}}</span>
+                                        </span>
+                                    </span>
+                            </td>
+                           
+                        </tr>                               
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</ng-template>
+    </div>
+</div>
+
+<style type="text/css">
+    .widgetContent .nav-tabs .nav-item.show .nav-link, .widgetContent .nav-tabs .nav-link.active{
+
+        border-color: #dee2e6 #dee2e6 #fff !important;
+
+    }
+    .widgetContent .nav-tabs {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+</style>

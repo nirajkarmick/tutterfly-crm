@@ -1,0 +1,144 @@
+<div class="modal fade show" id="email_attachment"   tabindex="-1" role="dialog" aria-hidden="true"  >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <h5><i class="mdi mdi-email mr-1"></i>Email <span class="semi-bold">Attachments</span></h5>
+                    <button type="button" id="close_attch" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="upload_body" *ngIf="form_body"> 
+                        <div class="col-md-12 mt10 popHead">Upload or add links from drive files </div>
+                        <div class="">
+                            <div class="row mt10 upld-container">
+                                <div class="col-md-6">
+                                    <label class="form-group card" for="file"> 
+                                        <input  #myInput type="file" name="file" id="file" style="display:none;" class="inputfile" (change)="attachFiles($event.target.files)"  multiple="multiple"/>
+                                        <div class="upl-icon">
+                                           <i class="fa fa-desktop"></i>
+                                        </div>
+                                        <label  class="file_box">Choose From Computer</label>
+                                    </label>
+                                </div> 
+                                <div class="col-md-6">
+                                    <div class="form-group card" (click)="getDriveFolder()">  
+                                        <div class="upl-icon">
+                                           <i class="fa fa-cloud"></i>
+                                        </div>
+                                        <span for="file" class="file_box">Choose From Drive</span>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div> 
+
+
+
+                    <div class="upload_body drive_body" *ngIf="drive_body"> 
+                        
+                            <div class="row mt10" *ngIf="folder_body">
+                              <div class=" col-sm-6">
+                                <input type="search" placeholder="Search Files" class="form-control" [(ngModel)]="file_key" (ngModelChange)="search_file()">
+                              </div> 
+                              <div class=" col-sm-6">
+                                <button  class="btn btn-warning pull-right mb-1" (click)="back_to_main()">Back</button>
+                              </div>   
+                               <table class="table" width="100%" style="padding-top: 20px;">
+                                <thead  class="thead-light">
+                                    <tr>  
+                                        <th>Folder</th> 
+                                    </tr>
+                                </thead>
+                                   <tbody>
+                                    <tr *ngFor="let fol of folders;let k=index"> 
+                                        <td style="text-align: left;">
+                                          <a  class="d-flex align-items-center" href="javascript:void(0)" (click)="getFiles(fol.id)">
+                                          <i class="fa fa-folder mr-1"></i> <span>{{fol.name }}</span></a>
+                                        </td> 
+                                    </tr>
+                                </tbody>
+                               </table>
+                            </div> 
+                        
+                            <div class="row mt10" *ngIf="files_body">
+                              <div class=" col-sm-6">
+                                <input type="search" placeholder="Search Files" class="form-control" [(ngModel)]="file_key" (ngModelChange)="search_file()">
+                              </div> 
+                              <div class=" col-sm-6">
+                                <button  class="btn btn-warning pull-right mb-1" (click)="back_to_folder()">Back</button>
+                              </div> 
+                               <table class="table tableFile" width="100%" style="padding-top: 20px;">
+                                <thead  class="thead-light">
+                                    <tr>  
+                                        <th>File Name</th> 
+                                        <th>Type</th> 
+                                    </tr>
+                                </thead>
+                                   <tbody>
+                                    <tr *ngFor="let row of folder_files;let k=index"> 
+                                        <td style="text-align: left;">
+                                          <a href="javascript:void(0)" class="spanMAinFile d-flex align-items-center" (click)="selectFiles(row,row.id,row.file_name,row.title)">
+                                          
+                                            <span *ngIf="row.file_extension == 'gif'" class="icongif extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'xls' || row.file_extension == 'xlsx'" class="iconxls extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'png'" class="iconpng extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'ppt' || row.file_extension == 'pptx'" class="iconppt extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'pdf'" class="iconpdf extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'doc' || row.file_extension == 'docx'" class="icondoc extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'csv'" class="iconcsv extIcon"></span>
+                                            <span *ngIf="row.file_extension == 'jpg' || row.file_extension == 'JPG'" class="iconjpg extIcon"></span> 
+                                            <span _ngcontent-ibi-c23="" class="pull-left fileTxt" title="{{row.title }}"> {{row.title }} </span>
+                      </a>
+                                        </td> 
+                                        <td style="text-align: left;">{{row.file_extension}}</td>
+                                    </tr>
+                                </tbody>
+                               </table>
+                            </div> 
+                    </div>
+
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div> 
+    </div>
+</div>
+<style type="text/css">
+  #add_attachment .modal-dialog {
+    width: 70% !important;
+    max-width: 70%;
+  }
+  .file_box{
+  padding: 10px;
+  font-weight: bold;
+  /*border: 1px solid #ccc;*/
+}
+.upld-container{
+  text-align: center;
+
+
+}
+.upld-container .fa{
+      color: #efce4b;
+      font-size: 80px;
+}
+.drive_body .fa{
+      color: #efce4b;
+      font-size: 40px;
+}
+.upl-icon{
+  padding: 10px;
+}
+.upld-container .card{
+  cursor: pointer;
+}
+.extIcon{
+  width: 25px;
+    height: 25px;
+    margin-right: .5rem;
+    position: relative;
+    top: -2px;
+}
+</style>
+

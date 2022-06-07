@@ -1,0 +1,283 @@
+<div class="mainHeader fixed-top">
+  <div class="container">
+    <div class="col-md-3 col-sm-3 pull-left">
+      <img class="mainlogo" src="assets/img/logo.png" alt="logo" data-src="assets/img/logo">
+    </div>
+    <div class="col-md-9 col-sm-9 pull-left">
+      <ul>
+        <li><a class="btn btn-primary btn-sm" (click)="signupPopShow()">Get Started</a></li>
+        <li><a (click)="loginPopShow()">Login</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="mainSlider">
+  <div class="container">
+    <h1>Acquire, Retain and Delight Your Customers</h1>
+    <p>Tutterfly CRM is World's First Industry Specific Utility Designed for Travel <br>Agents and Tour Operators.
+      <b>Try it Out For Free !</b></p>
+    <button class="cta">Get Started</button>
+  </div>
+</div>
+
+
+<!--Old Design start-->
+
+
+
+<div id="loginPop" *ngIf="loginPop" style="display: block;" aria-labelledby="modalSlideUpLabel"
+  class="modal fade slide-down disable-scroll" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body p0">
+          <button type="button" class="close" (click)="loginPopHide()">&times;</button>
+          <div class="col-md-8 col-sm-8 pull-left">
+            <div class="col-md-4 col-sm-4 pull-left"></div>
+            <div class="col-md-4 col-sm-4 pull-left p0" id="SignIn">
+              <div class="smallogo"><img src="assets/img/logo.png" alt="logo" data-src="assets/img/logo"></div>
+              <!-- <p class="p-t-35">Sign into your pages account</p> -->
+              <!-- START Login Form -->
+              <form id="form-login" class="p-t-15" role="form">
+                <!-- START Form Control-->
+                <div class="form-group form-group-default">
+                  <!-- <label>Login</label/> -->
+                  <div class="controls">
+                    <i class="fa fa-user"></i>
+                    <input type="text" name="username" [(ngModel)]="credentials.email" placeholder="Email"
+                      class="form-control inputPad" required>
+                  </div>
+                </div>
+                <!-- END Form Control-->
+                <!-- START Form Control-->
+                <div class="form-group form-group-default">
+                  <!-- <label>Password</label> -->
+                  <div class="controls">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" class="form-control inputPad" [(ngModel)]="credentials.password"
+                      name="password" placeholder="Password" appAppPassword required>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary btn-cons m-t-10" type="button" (click)="login()">Sign in</button>
+                <div class="text-danger">{{errormsg}}</div>
+                <!-- START Form Control-->
+                <div class="row">
+                  <div class="col-md-6 pull-left d-flex align-items-center ">
+                    <span class="text-info small"><a href="#" (click)="forgotPassPopShow()">Forgot Password?</a></span>
+                  </div>
+                  <div class="col-md-6 pull-right d-flex align-items-center ">
+                    <span class="text-info small"><a href="#" (click)="signupPopShow()">Create New Account</a></span>
+                  </div>
+                </div>
+                <!-- END Form Control-->
+
+              </form>
+              <!--END Login Form-->
+            </div>
+            <div class="col-md-4 col-sm-4 pull-left"></div>
+          </div>
+          <div class="col-md-4 col-sm-4 pull-left p0 LoginrightImgSec">
+            <img
+              src="https://54.203.204.140/DookCRM/files_management/eyJpdiI6Ik9mMFlKM2tzb1paMWk1V0xLdXo5cHc9PSIsInZhbHVlIjoibHRHK0VBNWNIVkZsN2xqRjlXdXF2UT09IiwibWFjIjoiOTQyODQ1YWI3NTA4ZTFjNjA3NjczZGY1NjU3NmQ0MDMwNDE0OGQxODU2MGVlODFiZmY0ZDcwNTVhOWFmYjk5MCJ9"
+              class="LoginrightImg">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div id="loginPop" *ngIf="signupPop" style="display: block;" aria-labelledby="modalSlideUpLabel"
+  class="modal fade slide-down disable-scroll" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body p0">
+          <button type="button" class="close" (click)="signupPopHide()">&times;</button>
+          <div class="col-md-8 col-sm-8 pull-left">
+            <div class="col-md-4 col-sm-4 pull-left"></div>
+            <div class="col-md-4 col-sm-4 pull-left p0" id="SignUp">
+              <div class="smallogo"><img src="assets/img/logo.png" alt="logo" data-src="assets/img/logo"></div>
+              <form id="form-signup" class="p-t-15" role="form" (action)="register()">
+
+                <div class="form-group form-group-default col-md-6 pull-left">
+                  <!-- <label>First Name</label> -->
+                  <div class="controls">
+                    <input type="text" [(ngModel)]="client.first_name" name="firstname"
+                      [ngModelOptions]="{standalone: true}" placeholder="First Name" class="form-control" required>
+                  </div>
+                </div>
+
+                <div class="form-group form-group-default  col-md-6 pull-left">
+                  <!-- <label>Last Name</label> -->
+                  <div class="controls">
+                    <input type="text" [(ngModel)]="client.last_name" name="lastname"
+                      [ngModelOptions]="{standalone: true}" placeholder="Last Name" class="form-control" required>
+                  </div>
+                </div>
+
+                <div class="form-group form-group-default">
+                  <!-- <label>job Title</label> -->
+                  <div class="controls">
+                    <select type="text" class="form-control" name="asdasdasd" [(ngModel)]="client.title">
+                      <option [value]="undefined" selected>Job Title</option>
+                      <option *ngFor="let a of jobs">{{a.name}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group form-group-default">
+                  <!-- <label>Email</label> -->
+                  <div class="controls">
+                    <input type="text" name="lastname2" placeholder="Phone" class="form-control"
+                      [(ngModel)]="client.phone" required>
+                  </div>
+                </div>
+
+                <div class="form-group form-group-default">
+                  <!-- <label>Email</label> -->
+                  <div class="controls">
+                    <input type="text" name="lastname3" placeholder="Organization" class="form-control"
+                      [(ngModel)]="client.company_name" required>
+                  </div>
+                </div>
+
+                <div class="form-group form-group-default">
+                  <!-- <label>Password</label> -->
+                  <div class="controls">
+                    <input type="text" name="employees" placeholder="No of Employees" class="form-control"
+                      [(ngModel)]="client.employees">
+                  </div>
+                </div>
+
+                <div class="form-group form-group-default">
+                  <!-- <label>Password</label> -->
+                  <div class="controls">
+                    <select type="text" class="form-control" name="asdasdasd2323" [(ngModel)]="client.address_country">
+                      <option [value]="undefined" selected>Select Country</option>
+                      <option *ngFor="let a of country" [value]="a | json">{{a.name}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- <div class="form-group form-group-default">
+                        <div class="controls">
+                          <select type="text" class="form-control" name="asdasdasd23" [(ngModel)]="client.address_state" [disabled]="states==undefined || states.length==0">
+                            <option value="" selected >Select State</option>  
+                            <option *ngFor="let a of states" [value]="a.name">{{a.name}}</option>
+                          </select>
+                        </div>
+                      </div> -->
+
+                <div class="form-group form-group-default">
+                  <!-- <label>Email</label> -->
+                  <div class="controls">
+                    <input type="text" name="lastname1" placeholder="Email" class="form-control"
+                      [(ngModel)]="client.email" required>
+                  </div>
+                </div>
+
+                <div class="form-group form-group-default">
+                  <!-- <label>Email</label> -->
+                  <div class="controls">
+                    <input type="password" name="password" placeholder="Password" class="form-control"
+                      [(ngModel)]="client.password" required>
+                  </div>
+                </div>
+                <div class="form-group form-group-default">
+                  <!-- <label>Email</label> -->
+                  <div class="controls">
+                    <input type="password" name="password2" placeholder="Re Enter Password" class="form-control"
+                      [(ngModel)]="client.password_confirmation" required>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary btn-cons m-t-10" type="submit" (click)="register()">Sign Up</button>
+                <div class="text-danger">{{errormsg}}</div>
+                <!-- START Form Control-->
+                <div class="row">
+                  <div class="col-md-12 d-flex align-items-center">
+                    <span class="text-info small">Already have an account? <a (click)="loginPopShow()">Login</a></span>
+                  </div>
+                </div>
+                <!-- END Form Control-->
+              </form>
+            </div>
+            <div class="col-md-4 col-sm-4 pull-left"></div>
+          </div>
+          <div class="col-md-4 col-sm-4 pull-left p0 LoginrightImgSec">
+            <img
+              src="https://54.203.204.140/DookCRM/files_management/eyJpdiI6Ik9mMFlKM2tzb1paMWk1V0xLdXo5cHc9PSIsInZhbHVlIjoibHRHK0VBNWNIVkZsN2xqRjlXdXF2UT09IiwibWFjIjoiOTQyODQ1YWI3NTA4ZTFjNjA3NjczZGY1NjU3NmQ0MDMwNDE0OGQxODU2MGVlODFiZmY0ZDcwNTVhOWFmYjk5MCJ9"
+              class="LoginrightImg">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div id="loginPop" *ngIf="forgotPassPop" style="display: block;" aria-labelledby="modalSlideUpLabel"
+  class="modal fade slide-down disable-scroll" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-body p0">
+          <button type="button" class="close" (click)="forgotPassPopHide()">&times;</button>
+          <div class="col-md-8 col-sm-8 pull-left">
+            <div class="col-md-4 col-sm-4 pull-left"></div>
+            <div class="col-md-4 col-sm-4 pull-left p0" id="SignIn">
+              <div class="smallogo"><img src="assets/img/logo.png" alt="logo" data-src="assets/img/logo"></div>
+              <!-- <p class="p-t-35">Sign into your pages account</p> -->
+              <h5>Forgot Password</h5>
+              <h6>Enter your username below to retrieve your password.<br>
+                (Your username is an email address)</h6>
+              <!-- START Login Form -->
+              <form id="form-login" class="p-t-15" role="form">
+                <!-- START Form Control-->
+                <div class="form-group form-group-default">
+                  <!-- <label>Login</label/> -->
+                  <div class="controls">
+                    <input type="text" name="username" placeholder="Your Login (email)" [(ngModel)]="credentials.email"
+                      class="form-control" required>
+                  </div>
+                </div>
+                <!-- END Form Control-->
+                <button class="btn btn-primary btn-cons m-t-10" type="button" (click)="forgotPassword()">Reset
+                  Password</button>
+                <div class="text-danger">{{errormsg}}</div>
+                <!-- START Form Control-->
+                <div class="row">
+                  <div class="col-md-12 d-flex align-items-center ">
+                    <span class="text-info small"><a href="#" (click)="loginPopShow()">Back to Login</a></span>
+                  </div>
+                </div>
+                <!-- END Form Control-->
+
+              </form>
+              <!--END Login Form-->
+            </div>
+            <div class="col-md-4 col-sm-4 pull-left"></div>
+          </div>
+          <div class="col-md-4 col-sm-4 pull-left p0 LoginrightImgSec">
+            <img
+              src="https://54.203.204.140/DookCRM/files_management/eyJpdiI6Ik9mMFlKM2tzb1paMWk1V0xLdXo5cHc9PSIsInZhbHVlIjoibHRHK0VBNWNIVkZsN2xqRjlXdXF2UT09IiwibWFjIjoiOTQyODQ1YWI3NTA4ZTFjNjA3NjczZGY1NjU3NmQ0MDMwNDE0OGQxODU2MGVlODFiZmY0ZDcwNTVhOWFmYjk5MCJ9"
+              class="LoginrightImg">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

@@ -1,0 +1,77 @@
+Searching 294 files for "Share Files"
+
+C:\xampp\htdocs\tutterfly\src\app\file-details\file-details.component.html:
+  134          <div class="modal-header">
+  135            <button type="button" class="close" (click)="publicLinkDisplay(clientDetails.open)">&times;</button>
+  136:           <h4 class="modal-title" *ngIf="clientDetails.open==1">Share Files</h4>
+  137            <h4 class="modal-title" *ngIf="clientDetails.open==2">Public Link</h4>
+  138          </div>                        
+
+C:\xampp\htdocs\tutterfly\src\app\file-grid\file-grid.component.html:
+  144            <div class="modal-header">
+  145              <button type="button" class="close" (click)="publicLinkDisplay({},row.open)">&times;</button>
+  146:             <h4 class="modal-title" *ngIf="row.open==1">Share Files</h4>
+  147              <h4 class="modal-title" *ngIf="row.open==2">Public Link</h4>
+  148            </div>                        
+
+2 matches across 2 files
+
+
+Searching 294 files for "<app-file-g"
+
+C:\xampp\htdocs\tutterfly\src\app\file\file.component.html:
+   77                              <div class="tab-pane active" id="ownedMe"
+   78                                   *ngIf="files!=undefined && users!=undefined && index==0">
+   79:                                 <app-file-grid [source]="files" [users]="users" [displayColumns]="filesDisplayColumns"
+   80                                                 (updateGridValue)="updateGridValue($event)"></app-file-grid>
+   81                              </div>
+   ..
+   83                              <div class="tab-pane active" id="sharedMe"
+   84                                   *ngIf="sFiles!=undefined && users!=undefined && index==1">
+   85:                                 <app-file-grid [source]="sFiles" [users]="users" [displayColumns]="sFilesDisplayColumns"
+   86                                                 (updateGridValue)="updateGridValue($event)"></app-file-grid>
+   87                              </div>
+   88                              <div class="tab-pane active" id="allfolders"
+   89                                   *ngIf="files!=undefined && users!=undefined && index==2">
+   90:                                 <app-file-grid [source]="folders" [users]="users"
+   91                                                 [displayColumns]="folderDisplayColumns"
+   92                                                 (updateGridValue)="updateGridValue($event)"
+   ..
+   95                              <div class="tab-pane active" id="sharedMeByAdmin"
+   96                                   *ngIf="sFiles!=undefined && users!=undefined && index==3">
+   97:                                 <app-file-grid [source]="sFiles" [users]="users" [displayColumns]="sFilesDisplayColumns"
+   98                                                 (updateGridValue)="updateGridValue($event)"></app-file-grid>
+   99                              </div>
+
+4 matches in 1 file
+
+
+Searching 294 files for "public link"
+
+C:\xampp\htdocs\tutterfly\src\app\file-details\file-details.component.html:
+   16                      <button type="button" class="btn btn-light" (click)="download()">Download</button>
+   17                      <button type="button" class="btn btn-light" (click)="publicLinkDisplay(1)">Share</button>
+   18:                     <button type="button" class="btn btn-light" (click)="publicLinkDisplay(2)">Public Link</button>
+   19                  </div>
+   20              </div>
+   ..
+  135            <button type="button" class="close" (click)="publicLinkDisplay(clientDetails.open)">&times;</button>
+  136            <h4 class="modal-title" *ngIf="clientDetails.open==1">Share Files</h4>
+  137:           <h4 class="modal-title" *ngIf="clientDetails.open==2">Public Link</h4>
+  138          </div>                        
+  139          <div class="modal-body " style="padding-top: 20px;">
+
+C:\xampp\htdocs\tutterfly\src\app\file-grid\file-grid.component.html:
+   50                      <a class="dropdown-item" *ngIf="checkType()" (click)="download(row.id)">Download</a>
+   51                      <a class="dropdown-item" *ngIf="checkType()" (click)="publicLinkDisplay(row,1)">Share</a>
+   52:                     <a class="dropdown-item" *ngIf="checkType()" (click)="publicLinkDisplay(row,2)">Public Link</a>
+   53                      <a class="dropdown-item" *ngIf="checkType()" [routerLink]="['/maindashboard',{ outlets: { bodySection: ['fileDetails'] }}]" [queryParams]="{ 'id': row.id}">View File Details</a>
+   54                      <!-- <a class="dropdown-item" *ngIf="checkType()" (click)="EditFileDetailsShow(row,1)">View File Details</a> -->
+   ..
+  145              <button type="button" class="close" (click)="publicLinkDisplay({},row.open)">&times;</button>
+  146              <h4 class="modal-title" *ngIf="row.open==1">Share Files</h4>
+  147:             <h4 class="modal-title" *ngIf="row.open==2">Public Link</h4>
+  148            </div>                        
+  149            <div class="modal-body " style="padding-top: 20px;">
+
+4 matches across 2 files

@@ -1,0 +1,224 @@
+<div class="card-block taskSplit" id="DetailsCont">
+    <div class="" *ngIf="taskData!=undefined && taskData.length!=0">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 splitLeft">
+                <div class="splitLeftHeadSec pt-2">
+                    <div class="text-left">{{filtertaskData.length}} Tasks</div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search"
+                            (input)="filter($event.target.value)">
+                    </div>
+                </div>
+                <div class="splitLeftScroll" *ngIf="render">
+                    <a class="splitBtn" *ngFor="let t of filtertaskData" (click)="changeTask(t)">
+                        <!--add *ngIf here-->
+                        <div class="col-lg-7 col-md-7 col-sm-7 p0 float-left text-left elips" title="{{t.name}}">
+                            {{t.name}}</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 p0 float-left text-right elips"
+                            *ngIf="t.contact_id!=null && t.contact_id!=undefined" title="{{t.contact_id.name}}">
+                            {{t.contact_id.name}}
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-7 p0 float-left text-left elips"
+                            title="{{getUserName(t.last_modified_by_id)}}">{{getUserName(t.assigned_user_id)}}
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 p0 float-left text-right elips" title="{{t.created_at}}">
+                            {{t.created_at | date : 'dd/MM/yyyy'}}
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-9 col-sm-9 float-left splitRight">
+                <div class="col-lg-12 col-md-12 col-sm-12 splitrightHeadSec">
+                    <div class="button-list">
+                        <button type="button" class="btn btn-primary waves-effect waves-light"
+                            (click)="openFollowPop()">Create
+                            Follow-Up Task
+                        </button>
+                        <button type="button" class="btn btn-info waves-effect waves-light"
+                            (click)="openEditPop()">Edit</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="sm-m-l-5 sm-m-r-5">
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header p-0" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left" type="button"
+                                                data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                                <i class="fas fa-info-circle mainIcon"></i><i
+                                                    class="fas fa-angle-double-right mr-3"></i> Task Information
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseOne" class="collapse show fade" aria-labelledby="headingOne"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <form id="form-project" role="form" autocomplete="off" novalidate>
+                                                <div class="">
+                                                    <div class="row clearfix">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group required">
+                                                                <label>Subject</label>
+                                                                <div class="formReadonly form-control">
+                                                                    {{clientDetails.name}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group ">
+                                                                <label>Assigned To</label>
+                                                                <a href="javascript:void(0);"
+                                                                    class="formReadonly form-control">{{ getUserName(clientDetails.assigned_user_id)}}</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="">
+                                                    <div class="row clearfix">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group required">
+                                                                <label>Comments</label>
+                                                                <p class="formReadonly form-control1">
+                                                                    {{clientDetails.description}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group ">
+                                                                <label>Status</label>
+                                                                <a href="javascript:void(0);"
+                                                                    class="formReadonly form-control">{{clientDetails.status}}</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group required">
+                                                                <label>Due Date</label>
+                                                                <div class="formReadonly form-control">
+                                                                    {{clientDetails.due_date}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group  required">
+                                                                <label>Priority</label>
+                                                                <div class="formReadonly form-control">
+                                                                    {{clientDetails.priority}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header p-0" id="headingTwo">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed btn-block text-left" type="button"
+                                                data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                                                aria-controls="collapseTwo">
+                                                <i class="fas fa-align-justify mainIcon"></i><i
+                                                    class="fas fa-angle-double-right mr-3"></i>
+                                                Related To
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse fade" aria-labelledby="headingTwo"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Name</label>
+                                                        <div class="formReadonly form-control">
+                                                            <span style="margin-left:5px;" class="pull-left"
+                                                                *ngIf="clientDetails.contact_id!=null && clientDetails.contact_id!=undefined">
+                                                                <a class="pull-left"
+                                                                    [routerLink]="['/maindashboard',{ outlets: { bodySection: ['contactDetails'] }}]"
+                                                                    [queryParams]="{ 'id': clientDetails.contact_id.id}">{{clientDetails.contact_id.name |  titlecase}}</a>
+
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Related To </label>
+                                                        <div class="formReadonly form-control">
+                                                            <!-- <a class="float-left">{{clientDetails.taskable_id.name}}</a> -->
+                                                            <span *ngIf="clientDetails.taskable_type=='App\\Account'"><a
+                                                                    class="pull-left"
+                                                                    [routerLink]="['/maindashboard',{ outlets: { bodySection: ['clientDetails'] }}]"
+                                                                    [queryParams]="{ 'id': clientDetails.taskable_id.id}">{{clientDetails.taskable_id.name}}</a></span>
+                                                                  <span
+                                                                     *ngIf="clientDetails.taskable_type=='App\\PersonalAccount'"><a
+                                                                    class="pull-left"
+                                                                    [routerLink]="['/maindashboard',{ outlets: { bodySection: ['personelDetails'] }}]"
+                                                                    [queryParams]="{ 'id': clientDetails.taskable_id.id}">{{clientDetails.taskable_id.name}}</a></span>
+                                                                     <span *ngIf="clientDetails.taskable_type=='App\\Opportunity'"><a
+                                                                    class="pull-left"
+                                                                    [routerLink]="['/maindashboard',{ outlets: { bodySection: ['oppoDetails'] }}]"
+                                                                    [queryParams]="{ 'id': clientDetails.taskable_id.id}">{{clientDetails.taskable_id.name}}</a></span>
+                                                                    <span *ngIf="clientDetails.taskable_type=='App\\Lead'"><a
+                                                                    class="pull-left"
+                                                                    [routerLink]="['/maindashboard',{ outlets: { bodySection: ['leaderDetails'] }}]"
+                                                                    [queryParams]="{ 'id': clientDetails.taskable_id.id}">{{clientDetails.taskable_id.name}}</a></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header p-0" id="headingFour">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed btn-block text-left" type="button"
+                                                data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
+                                                aria-controls="collapseFour" >
+                                                <i class="fas fa-window-maximize mainIcon"></i><i
+                                                    class="fas fa-angle-double-right mr-3"></i>System information 
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseFour" class="collapse fade" aria-labelledby="headingFour"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Created by</label>
+                                                        <div class="formReadonly form-control">
+                                                            <a class="float-left">{{getUserName(clientDetails.created_by)}}
+                                                                ,</a>
+                                                            <span style="margin-left:5px;"
+                                                                class="float-left" >{{clientDetails.created_at | date: 'dd MMM yyyy | hh:mm a'}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group required">
+                                                        <label>Last Modified By </label>
+                                                        <div class="formReadonly form-control">
+                                                            <a class="float-left">{{getUserName(clientDetails.last_modified_by_id)}}
+                                                                ,</a>
+                                                            <span style="margin-left:5px;"
+                                                                class="float-left" >{{clientDetails.updated_at | date: 'dd MMM yyyy | hh:mm a'}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

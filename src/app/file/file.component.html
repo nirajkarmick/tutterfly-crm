@@ -1,0 +1,154 @@
+<div class="no-padding container-fixed-lg CRMTable fileMainCont">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                    </div>
+                    <h4 class="page-title">Drive</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header card-white-head">
+                <div class="card-title m-0 w-100">
+                    <div class="row">
+                        <div class="col-md-6 select-DataView">
+                            <div class="d-flex icon-module float-left mr-1">
+                                <!-- <img src="assets/new_assets/images/account-icon.png" alt="" width="" class="img-fluid"> -->
+                                <div class="timeline-icon bg-primary rounded-circle">
+                                    <i class="mdi mdi-file-outline float-left m-0 h3 p-2 align-middle text-white"></i>
+                                </div>
+                            </div>
+                            <div class="MainHeadCont">
+                                <div class="MainHead">Drive</div>
+                                <div class="MainHeadClinetname">{{sTab | titlecase}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group pull-right" *ngIf="index==0 || (index==2 && folderId!=undefined)">
+                                <input class="btn btn-light" data-toggle="modal" data-target="#modalEdit" type="file"  id="myFile" class="inputfileUpl" (change)="addFIle($event.target.files)">
+
+                                <label type="btn btn-light" class="btn btn-light custom-file-upload" for="myFile"
+                                    data-toggle="modal" data-target="#modalEdit" *ngIf="upload_btn_show">Upload</label>
+                            </div>
+                            <div class="btn-group pull-right" *ngIf="index==2" style="margin-right: 10px;">
+                                <button type="button" style="border: 1px solid #aaa;" class="btn btn-light"
+                                    data-toggle="modal" data-target="#newFolder">Create New Folder</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-box">
+            <!--<div class="clearfix"></div>-->
+            <div class="row">
+                <div class="col-md-2 col-sm-2 fileleftSec">
+                    <ul class="list-group flex-column" role="tablist" data-init-reponsive-tabs="dropdownfx">
+                        <li class="list-group-item">
+                            <a class="active" data-toggle="tab" role="tab" data-target="#ownedMe" href="#"
+                                (click)="changeTab(0)">Owned by me</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" data-toggle="tab" role="tab" data-target="#sharedMe"
+                                (click)="changeTab(1)">Shared
+                                with me</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" data-toggle="tab" role="tab" data-target="#sharedMeByAdmin"
+                                (click)="changeTab(3)">Shared with me by Admin</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" data-toggle="tab" role="tab" data-target="#allfolders"
+                                (click)="changeTab(2)">All Folders</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-10 col-sm-10 filerightSec">
+                    <div class="tab-content p0">
+                        <div class="tab-pane active" id="ownedMe"
+                            *ngIf="files!=undefined && users!=undefined && index==0">
+                            <app-file-grid [source]="files" [users]="users" [displayColumns]="filesDisplayColumns"
+                                (updateGridValue)="updateGridValue($event)"></app-file-grid>
+                        </div>
+
+                        <div class="tab-pane active" id="sharedMe"
+                            *ngIf="sFiles!=undefined && users!=undefined && index==1">
+                            <app-file-grid [source]="sFiles" [users]="users" [displayColumns]="sFilesDisplayColumns"
+                                (updateGridValue)="updateGridValue($event)"></app-file-grid>
+                        </div>
+                        <div class="tab-pane active" id="allfolders"
+                            *ngIf="files!=undefined && users!=undefined && index==2">
+                            <app-file-grid [source]="folders" [users]="users" [displayColumns]="folderDisplayColumns"
+                                (updateGridValue)="updateGridValue($event)"
+                                (selectedFolderId)="selectedFolderId($event)"></app-file-grid>
+                        </div>
+                        <div class="tab-pane active" id="sharedMeByAdmin"
+                            *ngIf="sFiles!=undefined && users!=undefined && index==3">
+                            <app-file-grid [source]="sFiles" [users]="users" [displayColumns]="sFilesDisplayColumns"
+                                (updateGridValue)="updateGridValue($event)"></app-file-grid>
+                        </div>
+                    </div>
+                    <div style="text-align: center;" *ngIf="totalCurrent < totalData && index == 0">
+                        <button class="btn btn-small tfc-load-more btn-view-blue" (click)="loadMoreData()">Load More</button> 
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="FileUploadPop" *ngIf="FileUploadPop" aria-labelledby="modalSlideUpLabel" class="modal fade " role="dialog"
+    aria-hidden="true">
+    <!-- <div id="modalRename" class="modal fade slide-down disable-scroll" tabindex="-1" role="dialog" aria-hidden="true"> -->
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <!-- <div class="modal-content-wrapper"> -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">File Upload</h5>
+                <button type="button" class="close" (click)="close()">&times;</button>
+            </div>
+            <div class="modal-body " style="padding-top: 20px;">
+                <div class="col-md-12 col-sm-12 p0">
+                    <span class="col-md-7 col-sm-7 float-left text-left">{{fileName}}</span>
+                    <span class="col-md-5 col-sm-5 float-left" *ngIf="fileLoaderSmall"><span
+                            class="fileUploader"></span></span>
+                    <span class="col-md-5 col-sm-5 float-left text-right" *ngIf="fileLoaderSuccess"><span
+                            class="text-primary">{{uploadMsg}}</span></span>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding-top: 20px;">
+                <button type="button" class="btn btn-primary" (click)="close()">Done</button>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+</div>
+
+
+<div id="newFolder" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create New Folder</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body button-list" style="padding-top: 20px;">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <input class="form-control" [(ngModel)]="folderName" placeholder="Enter New Folder Name">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary float-right" (click)="createFolder()" data-dismiss="modal">Create
+                    Folder
+                </button>
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal">Close</button>
+            </div> 
+        </div>
+    </div>
+</div>

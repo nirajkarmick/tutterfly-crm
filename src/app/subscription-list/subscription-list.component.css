@@ -1,0 +1,93 @@
+.compare_price_box {
+    border: 1px solid #ddd;
+    flex: 0 0 31%;
+    background: #fff;
+}
+
+.nav-tab-user .nav-item {
+    display: flex;
+    align-items: center;
+    /* border: 1px solid #dadeee; */
+    overflow: hidden;
+}
+
+.nav-tab-user .nav-item a.plan_name {
+    width: 100%;
+    color: #6c718b;
+    text-align: center;
+    padding: .4rem .6rem;
+    display: block;
+    line-height: 1;
+    border: 1px solid #dadeee;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-tab-user .nav-item {
+    flex: 0 0 33.33%;
+}
+
+.nav-tab-user .nav-item:first-child a.plan_name {
+    border-radius: 20px 0 0 20px;
+}
+
+.nav-tab-user .nav-item:last-child a.plan_name {
+    border-radius: 0 20px 20px 0;
+}
+
+.nav-tab-user .nav-item a.plan_name.active {
+    border-color: #f16a25;
+    color: #fff;
+    background-color: #f16a25;
+}
+
+.nav-tab-user .nav-item a.plan_name small {
+    font-size: 70%;
+    color: #007BFF;
+    line-height: 1;
+    margin-bottom: .1rem;
+    font-weight: bold;
+}
+
+.nav-tab-user .nav-item a.plan_name.active small {
+    color: #e4f125;
+}
+
+h5.tab-color {
+    color: #F16A25;
+    font-weight: 700;
+}
+
+h5.tab-color span, .price-des {
+    color: #5a5a5a;
+    font-weight: 500;
+}
+
+#first_price_mon, #buss_price_mon, #eco_price_mon ,.final_month{
+    color: #f16a25;
+}
+
+h6.feature-category.bottom_line {
+    border-bottom: 2px solid;
+    border-color: #f16a25;
+    width: 120px;
+}
+
+.feature-categories div.d-flex p span.check {
+    font-size: 16px;
+    font-weight: bold;
+    color: #90AF05;
+}
+
+div[disabled=disabled] {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+@media (min-width: 992px) {
+    body[data-layout-mode=horizontal] .content-page {
+        padding: 55px 15px 65px 15px;
+    }
+}

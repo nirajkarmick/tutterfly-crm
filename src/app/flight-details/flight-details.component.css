@@ -1,0 +1,457 @@
+.font12 {
+    font-size: 12px;
+}
+
+.flight_loader{
+  display:flex;align-items:center;justify-content:center; 
+  position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:18em;
+    margin-top: -9em; 
+    margin-left: -15em;  
+    z-index: 99; 
+}
+
+.flex-fill-0 {
+    flex: 1 1 0%;
+}
+
+/*.flightsearchDetails-flightfromandstops {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+}*/
+
+.flightsearchDetails-drawline {
+    -webkit-box-flex: 5;
+    -webkit-flex: 5;
+    -moz-box-flex: 5;
+    flex: 5;
+    position: relative;
+}
+
+.flightsearchDetails_line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    background-color: #ddd;
+}
+
+.flightsearchDetails_dot {
+    width: 8px;
+    height: 8px;
+    display: block;
+    position: absolute;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border-width: 2px;
+    border-style: solid;
+    background-color: #fff;
+    border-color: #ddd;
+}
+
+.flightsearchDetails-drawline.twoDots .flightsearchDetails_dot:nth-child(2) {
+    left: 33.33%
+}
+
+.flightsearchDetails-drawline.twoDots .flightsearchDetails_dot:nth-child(3) {
+    left: 66.66%
+}
+
+.flightsearchDetails-drawline.oneDots .flightsearchDetails_dot:nth-child(2) {
+    left: 50%
+}
+
+.bg-fill-grey {
+    fill: rgb(144, 148, 156);
+}
+
+.flightsearchDetails-flightfromandstops {
+    width: 60%;
+    min-width: auto;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    flex: 1;
+    height: 24px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.flightsearchDetails-timefromandlocation {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    flex-direction: column;
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+    -moz-box-align: end;
+    align-items: flex-end;
+    text-align: right;
+    font-size: 16px;
+    min-width: 25%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.flightformtime, .flighttotime {
+    font-weight: 700;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    font-size: 20px;
+}
+
+.flightsearchDetails-flightfromandstops-top {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+}
+
+.flightsearchDetails-flightfromandstops-bottom {
+    position: absolute;
+    width: 250%;
+    text-align: center;
+    top: 16px;
+}
+
+.flightsearchDetails-flightfromandstops-bottom {
+    -webkit-transform: translateX(-30%);
+    -moz-transform: translateX(-30%);
+    -o-transform: translateX(-30%);
+    transform: translateX(-30%);
+}
+
+@media (min-width: 576px) {
+    .flightsearchDetails-flightfromandstops-bottom {
+        position: relative;
+        width: 100%;
+    }
+
+    .flightsearchDetails-flightfromandstops-bottom {
+        -webkit-transform: none;
+        -moz-transform: none;
+        -o-transform: none;
+        transform: none;
+    }
+}
+
+.flightsearchDetails-flightfromandstops-stop {
+    color: #e44746;
+    cursor: pointer;
+}
+
+.flightformdest {
+    font-size: 14px;
+}
+
+.flightsearchDetails_slicecontainer {
+    /*padding: 2px 12px;*/
+    width: 100%;
+}
+
+.flightsearchDetails_flightlogo {
+    min-width: 30px;
+    width: 30px;
+    height: 30px;
+    margin: 3px;
+    padding: 3px;
+    -webkit-box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);
+    -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: #f9f9fa;
+}
+
+.flightsearchDetails_flightlogo img {
+    max-width: 100%;
+    max-height: 100%;
+}
+.flightdetails_middleline {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 10px;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 12px;
+}
+.flightdetails_middleline span {
+    width: 2px;
+    flex: 1 1 0%;
+    background-color: rgb(190, 194, 201);
+}
+.flightdetails-airlinelogo {
+    margin: 0px 4px;
+}
+.flightdetails-airlinename {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: inherit;
+    margin: 0px 4px;
+    vertical-align: middle;
+}
+.flightdetails-airlinenamewithlogo {
+    margin: 0px -4px;
+    color: rgb(42, 42, 46);
+}
+.flightdetails-airlinenamewithlogo img{
+    width: 14px;
+    height: auto;
+    -webkit-transition: -webkit-filter .7s;
+    transition: -webkit-filter .7s;
+    -o-transition: filter .7s;
+    -moz-transition: filter .7s;
+    transition: filter .7s;
+    transition: filter .7s,-webkit-filter .7s;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    flex: 1;
+}
+.flightdetails-flightnumber span{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;color: rgb(42, 42, 46);
+}
+.flightdetails-opratedby {
+    -webkit-box-align: center;
+    align-items: center;
+    align-self: center;
+    display: flex;
+}
+.flightdetails-opratedby span{
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 14px;
+    color: rgb(144, 148, 156);
+}
+.flightdetails-cabinClass span{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;color:rgb(119, 119, 119);
+}
+.flightdetails_right {
+    flex: 1 1 0%;
+    color: rgb(42, 42, 46);
+}
+.flightsearchDetails_flightname {
+    padding-left: 16px;
+    padding-right: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+}
+.flightdetails_left {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    width: 15%;
+    min-width: 50px;
+}
+.flightsearchDetails_flightname small {
+    -webkit-box-align: center;
+    align-items: center;
+    align-self: center;
+    display: flex;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.flightsearchDetails_flightname small span {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 14px;
+    color: rgb(144, 148, 156);
+    padding-right: 5px;
+}
+
+.flightsearchDetails-container .card-box {
+    position: relative;
+    border-radius: 8px;
+    box-shadow: rgb(0 0 0 / 20%) 0px 1px 3px 1px;
+    background-color: rgb(255, 255, 255);
+    margin-top: 10px;
+}
+
+.flightsearchDetails-container .card-box:first-of-type {
+    margin-top: 0px;
+}
+
+.flightsearchDetails-inner {
+    position: relative;
+    margin-top: 8px;
+    border-radius: 8px;
+    box-shadow: rgb(0 0 0 / 20%) 0px 1px 3px 1px;
+    background-color: rgb(255, 255, 255);
+}
+
+.flightsearchDetails-detail {
+    /*padding: 0px 12px;*/
+    -webkit-box-align: center;
+    align-items: center;
+    display: flex;
+}
+
+.flightsearchDetails-expend {
+    padding: 24px;
+}
+
+.flight-card-slice {
+    flex: 3 1 auto;
+    display: flex;
+}
+
+.flight-card-expendbtn {
+    max-width: 225px;
+    flex: 1 1 auto;
+    flex-direction: column;
+    display: flex;
+}
+.flightOriginairportname,.flightarivalairportname{
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    color: inherit;
+}
+.bottomLineborder {
+    min-width: 1px;
+    width: 100%;
+    flex: 1 1 0%;
+    margin: 0px 8px;
+    border-bottom: 1px solid rgb(221, 223, 226);
+}
+.bottomLine {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    background-color: transparent;
+    padding: 8px 0px;
+}
+.flightsearchDetails_slicecontainer_list {
+    padding: 0;
+    min-height: 65px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -moz-box-orient: horizontal;
+    -moz-box-direction: normal;
+    flex-direction: row;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+    border-bottom: none;
+    position: relative;
+    display: flex;
+}
+
+.flightsearchDetails_slicecontainer_item {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-box-flex: 2;
+    -webkit-flex: 2;
+    -moz-box-flex: 2;
+    flex: 2;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+}
+
+.flightsearchDetails_slicecontainer_item2 {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+    -webkit-box-flex: 3;
+    -webkit-flex: 3;
+    -moz-box-flex: 3;
+    flex: 3;
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom-color: #ddd;
+}
+
+.form-group .mat-datepicker-toggle{
+    top:-2px !important;
+}  
+.flt_date_control{
+    display: block;  
+    width: 100%;
+    height: calc(1.5em + .9rem + 2px);
+    padding: .45rem .9rem;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6c757d;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .2rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+}
+.time_pick {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><circle cx='20' cy='20' r='18.5' fill='none' stroke='%23222' stroke-width='3' /><path d='M20,4 20,8 M4,20 8,20 M36,20 32,20 M20,36 20,32' stroke='%23bbb' stroke-width='1' /><circle cx='20' cy='20' r='2' fill='%23222' stroke='%23222' stroke-width='2' /></svg>"), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><path d='M18.5,24.5 19.5,4 20.5,4 21.5,24.5 Z' fill='%23222' style='transform:rotate(120deg); transform-origin: 50% 50%;' /></svg>"), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><path d='M18.5,24.5 19.5,8.5 20.5,8.5 21.5,24.5 Z' style='transform:rotate(20deg); transform-origin: 50% 50%;' /></svg>");
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: var(--size) var(--size);
+  border: 1px solid #000;
+  border-radius: 20px;
+  color: #222;
+  font-size: 20px;
+  padding: 0 0 0;
+  transition: backgroundImage 0.25s;
+}
+
+.time_pick:focus {
+  outline: 2px dashed #945;
+  outline-offset: 3px;
+}

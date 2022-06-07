@@ -1,0 +1,58 @@
+button.mat-menu-item {
+}
+
+.header > .bg-white {
+    padding-bottom: 10px;
+}
+
+.menu-bar ul li.active, .menu-bar ul li {
+    padding: 0 6px;
+    margin: 0 10px;
+}
+
+.header .brand img {
+    width: 135px !important;
+    height: auto;
+}
+
+.horizontal-app-menu .header .header-md-height {
+    /*height: 70px !important;*/
+}
+
+.Megasearch {
+    width: 500px;
+}
+
+.Megasearch select {
+    -webkit-appearance: menulist;
+    border-radius: 5px 0 0 5px;
+    height: 30px;
+    outline: 0;
+    border: 0;
+    border-right: 1px solid #ddd;
+}
+
+.Megasearch input {
+    height: 30px;
+    outline: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.searchSubmit {
+    width: 100%;
+    color: #fff;
+    border-left: 1px solid #ddd;
+    border-radius: 0 5px 5px 0;
+}
+
+.horizontal-app-menu.fixed-header {
+    overflow: visible !important;
+}
+.logo-light span span{
+    color: #fff;
+    position: relative;
+    top: 10px;
+    margin-left: 5px;
+}
+

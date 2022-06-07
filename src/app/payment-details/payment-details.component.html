@@ -1,0 +1,85 @@
+<div class="navbar-custom">
+    <div class="container-fluid">
+        
+        <div class="logo-box">
+            <div class="logo logo-light text-center">
+                <span class="logo-sm">
+                    <img src="assets/img/tutterfly_icon.png" alt="" height="52">
+                </span>
+                <span class="logo-lg">
+                    <img src="assets/img/logo.png" alt="" height="50">
+                </span>
+            </div>
+        </div>
+         
+        <div class="clearfix"></div>
+    </div>
+</div>
+<article class="ThankyouBackground">
+					    <section class="thankyouContainer">
+					        <div class="container" *ngIf="load_content">
+					            <div class="row">
+
+					            	<div class="payment">
+            <div class="payment_header">
+               <div class="check" *ngIf="!isError"><i class="fa fa-check" aria-hidden="true"></i></div>
+                <div class="check" *ngIf="isError"><i class="fa fa-exclamation-triangle " aria-hidden="true"></i></div>
+            </div>
+            <div class="content" *ngIf="!isError"  style="text-align:center;">
+               <h1>Payment Success !</h1>
+               <p>{{sucessMsg}}</p>
+               <h3 [innerHTML]="response_data.plan.plan_description" class="plan_desc"></h3>
+               <h4 *ngIf="response_data && response_data.plan">{{response_data.plan.plan_name}} </h4>
+               <div class="success_foot mb-2">
+                        <button class="btn btn-outline btn-round btn-blue-round" [routerLink]="[ '/maindashboard',{ outlets :{ bodySection: ['Dashboard'] } } ]" type="button" >Dashboard</button>
+                        <button href="javascript:void(0);" [routerLink]="['/login']" class="btn btn-outline btn-round">Login</button>
+			    </div>
+            </div>
+            <div class="content"  *ngIf="isError" style="text-align:center;">
+               <h1>Payment Decline !</h1>
+               <p>{{sucessMsg}}</p>
+               <div class="success_foot mb-2"> 
+                        
+                        <button href="javascript:void(0);" [routerLink]="['/subscription-list']" class="btn btn-outline btn-round btn-blue-round">Pay Again</button>
+			    </div>
+            </div>
+        </div>
+            
+       
+					               <!--  <div class="ThankyouContent col-12 text-center">
+					                    <figure>
+					                        <img src="assets/img/email-confirmation.svg" alt="Thank you for Registration" class="img-fluid" style="width: auto">
+					                    </figure>
+					                    <h3><small> Payment Status</small><br> <a href="https://www.tutterflycrm.com/" class="w-100">TutterflyCRM</a></h3>
+					                    <div class="text-center" style="display: inline-block;" *ngIf="loader">
+					                        <mat-spinner class="dash-loader"  [diameter]="20"></mat-spinner>
+					                    </div>
+
+					                    <span class="text-success" *ngIf="sucessMsg">{{sucessMsg}}</span> 
+					                    <div class="mt20">
+					                        <button class="btn btn-outline btn-round btn-blue-round" [routerLink]="[ '/maindashboard',{ outlets :{ bodySection: ['Dashboard'] } } ]" type="button" >Dashboard</button>
+					                        <a href="javascript:void(0);" [routerLink]="['/login']" class="btn btn-outline btn-round">Login</a>
+					                    </div>
+					                </div> -->
+					            </div>
+					        </div>
+					    </section>
+                      </article>
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                Copyright &copy;
+                <script>document.write(new Date().getFullYear())</script>
+                <a href="https://www.tutterflycrm.com/" target="_blank">TutterflyCRM</a> | All Rights Reserved.
+            </div>
+            <div class="col-md-6">
+                <div class="text-md-right footer-links d-none d-sm-block">
+                    <a href="https://www.tutterflycrm.com/terms-of-use/" target="_blank">Terms of use</a>
+                    <a href="https://www.tutterflycrm.com/privacy-policy/" target="_blank">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

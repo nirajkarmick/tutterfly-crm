@@ -1,0 +1,234 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">Import</h4>
+            </div>
+        </div>
+    </div>
+    <div class=" no-padding container-fixed-lg bg-white123 CRMTable topstrip-import-data">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10">
+                    <ul class="progressbar pt-4">
+                        <li class="li_first" [ngClass]="upload_body || preview_next || preview_body? 'active':''">Select
+                            File</li>
+                        <li class="li_sec" [ngClass]="preview_next || preview_body? 'active':''">Map Fields</li>
+                        <li class="li_third" [ngClass]="preview_body? 'active':''">Start Import</li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mt-2" ><a href="javascript:void(0)" (click)="downloadSample()"
+                        class="btn btn-success btn3d">Download Sample&nbsp;<i class="fas fa-download"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" no-padding container-fixed-lg bg-white CRMTable mt-4 importDataBody">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="upload_body col-md-12 m-auto" *ngIf="upload_body">
+                    <div class="row mt10">
+                        <div class="col-md-6 text-center">
+                            <div class="form-group">
+                                <input type="file" name="file" id="file" class="inputfile"
+                                    (change)="onFileSelect($event.target)" #inputFile />
+                                <label for="file" class="btn">Choose a file</label>
+                                <p *ngIf="choose_file"><strong>{{choose_file}}</strong></p>
+                            </div>
+                            <i *ngIf="preview_loader" class="fas fa-circle-o-notch fa-spin import_loader"></i>
+                        </div>
+                        <div class="col-md-6 float-right">
+                            <div class="form-group">
+                                <ul class="import_hint">
+                                    <li>Only CSV can be uploaded.</li>
+                                    <li>Field should match with sample.</li>
+                                    <li>Date format allowed (dd-mm-yyyy & dd/mm/yyyy)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional form after CSV Upload -->
+
+                <div class="preview_bdy col-md-12 mt-4" *ngIf="preview_next">
+                    <div class="preview_sec">
+                        <div class="row">
+                            <div class=" col-sm-6 col-md-6 col-lg-6">
+                                <table class="table table-striped border" id="importCSVheaderTable">
+                                    <tr>
+                                        <th class="border">TutterflyCRM Fields</th>
+                                        <th class="border">Source Header</th>
+                                    </tr>
+                                    <tr *ngFor="let col of csv_header;let i=index">
+                                        <td class="border">
+                                            <div class="select_box_imp">
+                                                <select class="form-control" [ngModel]="csv_header[i]"
+                                                    (change)="mapHeader(col,$event)">
+                                                    <option *ngFor="let data of column_name;let i=index" [value]="data">
+                                                        {{data}}</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td class="border"><span class="font-weight-bold">{{csv_header[i]}}</span></td> 
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class=" col-sm-2 col-md-2 col-lg-2" *ngIf="sample_data && sample_data.length >0">
+                                <table class="table table-striped border">
+                                    <tr>
+                                        <th class="border">Sample Data</th>
+                                    </tr>
+                                    <tr *ngFor="let arr of sample_data[0];let i=index">
+                                        <td title="{{arr}}" class="border">{{(arr && arr.length>10)? (arr | slice:0:15)+'..':(arr)}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class=" col-sm-2 col-md-2 col-lg-2" *ngIf="sample_data && sample_data.length >1">
+                                <table class="table table-striped border">
+                                    <tr>
+                                        <th class="border">Sample Data</th>
+                                    </tr>
+                                    <tr *ngFor="let arr of sample_data[1];let i=index">
+                                        <td title="{{arr}}" class="border">{{(arr && arr.length>10)? (arr | slice:0:15)+'..':(arr)}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class=" col-sm-2 col-md-2 col-lg-2" *ngIf="sample_data && sample_data.length > 2">
+                                <table class="table table-striped border">
+                                    <tr>
+                                        <th class="border">Sample Data</th>
+                                    </tr>
+                                    <tr *ngFor="let arr of sample_data[2];let i=index">
+                                        <td title="{{arr}}" class="border">
+                                            {{(arr && arr.length>10)? (arr | slice:0:15)+'..':(arr)}}
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview_bdy col-sm-12" *ngIf="preview_body">
+                    <div class="preview_sec ">
+                        <div *ngIf="importArray && importArray.length>0" class="imported_msg font-weight-bold text-center mt-2">
+                            Total {{importArray.length}} data to be imported.
+                        </div>
+                        <div *ngIf="validate_fields && validate_fields.length>0" class="error valid_error_msg text-center mt-2">
+                            Please fill all
+                            <span *ngFor="let valid of validate_fields;let i=index" class="validation_imp">
+                                <span *ngIf="i < validate_fields.length-1"><strong>{{ valid.replace('_', ' ') }}
+                                    </strong>,
+                                </span>
+                                <span *ngIf="i == validate_fields.length-1"><strong>{{ valid.replace('_', ' ') }}
+                                    </strong>
+                                </span>
+                            </span> values.
+                        </div>
+                        <div *ngIf="valid_column && valid_column.length>0" class="error valid_error_msg text-center mt-2">
+                            <span *ngFor="let valid of valid_column; let i=index" class="validation_imp">
+                                <span *ngIf="i < valid_column.length-1"><strong>{{valid}}</strong>, </span>
+                                <span *ngIf="i == valid_column.length-1"><strong>{{valid}} </strong> </span>
+                            </span> Column(s) not found in file.
+                        </div>
+                        <div *ngIf="account_valid && account_valid.length>0" class="error valid_error_msg  text-center mt-2">
+                            <!--  Account name not matched. -->
+                            Following data not imported. <a href="javascript" data-toggle="modal"
+                                        data-target="#modalResponse" class="btn btn-small btn-link"  (click)="get_resp_details()">Get Details <i class="mdi mdi-format-float-left" ></i></a>
+                        </div>
+                        <div *ngIf="email_valid" class="error valid_error_msg  text-center mt-2">
+                            Please Fill Valid Email Id.
+                        </div>
+                        <div id="response_data" class=" col-sm-12 col-md-12 col-lg-12"
+                            *ngIf="errorImportArray && errorImportArray.length >0" style="overflow: auto;">
+                            <h5>Following Data need to rectify:</h5>
+                            <table class="table table-striped border mt-2">
+                               
+                                <tr>
+                                    <th *ngFor="let hd of csv_header">{{hd}}</th>
+                                </tr>
+                            
+                                <tr *ngFor="let arr of errorImportArray;let k=index;">
+                                    <td *ngFor="let head of csv_header" class="err_col_td">
+                                        <span *ngFor="let errHead of err_in_columns[k]">
+                                            <span class="" [ngClass]="errHead==head?'err_col_imp error':''"></span>
+                                        </span>
+                                        <small
+                                            *ngIf="arr['error_column'] && arr['error_column'].column_name && arr['error_column'].column_name==head">
+                                            <span class="err_col_imp error" style="font-size: 10px"
+                                                title="arr['error_column'].message">{{arr['error_column'].message}}</span>
+                                        </small>
+                                        <span title="{{arr[head]}}">
+                                            {{(arr[head] && arr[head].length>18)? (arr[head] | slice:0:18)+'..':(arr[head])}}</span>
+                                    </td>
+                                </tr>
+                          
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class=" no-padding container-fixed-lg bg-white123 CRMTable importDatafootersec">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 m-auto" style="padding:10px 30px;padding-bottom:20px;">
+                    <div class="form-group button-list">
+                        <div *ngIf="upload_body">
+                            <button type="button" class="btn btn-primary waves-effect waves-light pull-right" (click)="nextImport()"><i
+                            *ngIf="preview_loader" class="fas fa-circle-o-notch fa-spin"></i>&nbsp;Next</button>
+
+                            <button type="button" class="btn btn-dark waves-effect waves-light  pull-right"
+                                (click)="backToImport()">Cancel</button>
+                        </div>
+                        <div *ngIf="preview_next">
+                            <button type="button" class="btn btn-primary waves-effect waves-light m-t-5 pull-right"
+                                (click)="previewImport()">Next</button>
+                            <button type="button" class="btn btn-danger waves-effect waves-light m-t-5 pull-right m-r-10"
+                                (click)="backToImport()">Back</button>
+                        </div>
+                        <div *ngIf="preview_body">
+                            <button type="button" class="btn btn-primary m-t-5 pull-right" (click)="importData()"
+                                *ngIf="account_valid.length==0 && validate_fields.length==0 && valid_column.length==0">Import</button>
+                            <button type="button" class="btn btn-danger waves-effect waves-light m-t-5 pull-right m-r-10"
+                                (click)="backToNext()">Back</button>
+                            <button type="button" class="btn btn-dark waves-effect waves-light m-t-5 pull-right m-r-8"
+                                (click)="backToImport()"
+                                *ngIf="validate_fields.length>0 || valid_column.length>0">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fixed-left fade response_modal" id="modalResponse" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-aside" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header cardHeader-orange">
+                <h4 class="modal-title">Import Response<a href="javascript:void(0);" data-dismiss="modal"
+                                            aria-hidden="true" class="close-rightBar"
+                                            style="float: right;color: #fff;"><i class="fas fa-times-circle"></i></a></h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+            </div>
+            <div class="card-body addNew-form">
+                <div class="ConAcctSec">
+                    <div class="row" id="all_response_body">
+                        
+                    </div> 
+                </div> 
+              </div>  
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger " data-dismiss="modal"
+                        >Close</button>
+                </div>
+            
+        </div>
+    </div>
+</div>

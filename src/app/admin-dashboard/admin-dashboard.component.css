@@ -1,0 +1,25 @@
+.adminDash_box{
+    background:linear-gradient(45deg, #ffffff, rgb(200, 229, 255));
+    display: table;
+    vertical-align: middle;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 4px 4px 12px -1px rgba(204, 204, 204, 0.66);
+    cursor: pointer;
+}
+.adminDash_box .adminDash-img, .adminDash_box .adminData{width: 50%;display: table-cell;vertical-align: middle}
+.adminDash_box .adminDash-img img{width: 80%}
+.adminDash_box .adminData h4{
+    color: #006dcc;
+    margin-bottom: 0;
+}
+.adminDash_box .adminData span{
+    font-size: 2.75rem;
+    font-weight: bolder;
+    text-shadow: 3px 3px 0 rgb(0, 134, 255);
+    color: #fff;
+    line-height: 3.3rem;
+    -webkit-text-fill-color: #ffffff;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #006dcc;
+}

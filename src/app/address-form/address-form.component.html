@@ -1,0 +1,9 @@
+ <div *ngFor="let poi of addressData" class="auto-itm">
+                                    <div (click)="fetch_airp(poi.id,'org_from',i)">
+                                        <strong>
+                                            <i class="fas fa-map-marker"></i>
+                                            <span style="margin-left: 5px">{{poi.dest_name}},{{poi.country_name}}
+                                    </span></strong>
+                                    </div>
+                                </div>  
+                                <!-- <app-address-form [addressData]="airportDataDepFrom" [form_type]="'org_from'" [formCount]="i"></app-address-form> -->

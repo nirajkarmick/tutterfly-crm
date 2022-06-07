@@ -1,0 +1,19 @@
+#modalAdd {
+    text-align: left;
+    display: block;
+}
+#modalAdd.modelOpenNew .modal-dialog{    /*margin-top: 15% !important;*/}
+#modalAdd .modal-header{
+	/*padding: 5px 5px 0 25px; */
+}
+::ng-deep .mat-standard-chip{
+    padding: 2px 6px !important;
+    margin:1px !important;
+}
+
+.mat-chip.mat-standard-chip.mat-chip-selected.mat-warn {
+    /*background-color: #d8c90c;*/
+    /*color: #555;*/
+    font-size: 12px;
+}
+

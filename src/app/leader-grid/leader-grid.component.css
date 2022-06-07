@@ -1,0 +1,37 @@
+#modalListMail .modal-dialog {
+	/*width: 900px; 
+	max-width: 900px;*/
+	/*margin-top: 10%;*/
+	text-align: left;}
+
+#modalAdd{
+	z-index: 1000 !important; 
+}
+
+#modalImport .modal-dialog{
+ /* width: 80%;
+  max-width: 90%;*/
+}
+.preview_sec{
+	min-height: 300px;
+}
+.imported_msg{
+	padding: 25px;
+    font-weight: bold;
+    color: green;
+    font-size: 18px;
+}
+
+.mat-column-first_name {
+   
+    word-break: break-word; 
+    min-width: 100px;
+}
+.mat-column-email {
+   
+    word-break: break-word; 
+    min-width: 100px;
+}
+.mat-column-productName {
+    /*flex: 0 0 50%;*/
+}

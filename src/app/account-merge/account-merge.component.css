@@ -1,0 +1,111 @@
+
+.checkBoxContainer .Checkboxcheckmark:after {
+    left: 10px;
+    top: 7px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.checkBoxContainer input:checked ~ .Checkboxcheckmark:after {
+    display: block;
+}
+.Checkboxcheckmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+.checkBoxContainer input:checked ~ .Checkboxcheckmark {
+    background-color: #2196F3;
+}
+.checkBoxContainer:hover input ~ .Checkboxcheckmark {
+    background-color: #ccc;
+}
+.Checkboxcheckmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+.checkBoxContainer input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkBoxContainer {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    top:-5px;
+}
+
+.RadioContainer {
+    display: block;
+    position: relative;
+    padding-left: 0px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    /*font-size: 22px;*/
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    top: -2px;
+}
+
+.RadioContainer input {
+    position: relative;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.RadioContainer:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.RadioContainer input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.RadioContainer input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.RadioContainer .checkmark:after {
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}

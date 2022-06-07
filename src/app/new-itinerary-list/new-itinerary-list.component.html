@@ -1,0 +1,462 @@
+<div class=" no-padding container-fixed-lg CRMTable">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-12">
+            <div class="page-title-box">
+               <h4 class="page-title">Itineraries</h4>
+            </div>
+         </div>
+      </div>
+      <div class="card">
+         <div class="card-header card-white-head">
+            <div class="card-title m-0 w-100">
+               <div class="row  ml-md-0 mr-md-0 justify-content-between">
+                  <div class="select-DataView">
+                     <div class="d-flex icon-module float-left mr-1">
+                        <div class="timeline-icon bg-primary rounded-circle">
+                           <i class="mdi mdi-briefcase-account-outline float-left m-0 h3 p-2 align-middle text-white"></i>
+                        </div>
+                     </div>
+                     <div class="select-DataViewml-2 d-flex align-items-end">
+                        <div class="form-group m-0 float-left">
+                           <h4 class="text-grey">Itinerary Builder</h4>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="form-inline">
+                     <div class="form-group" style="position:relative;">
+                        <input type="text" class="form-control" id="inputPassword2" placeholder="Search"
+                           (keydown)="search_itin($event)" style="padding-right:30px">
+                        <i class="fas fa-search" style="position: absolute;top: 10px;right: 10px;"></i>
+                     </div>
+                     <div class="ml-2">
+                        <a class="btn btn-primary newBtn" style="color: #fff" href="javascript:void(0)" [routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itinerary-basic'] }}]" matTooltip="Create Itinerary">
+                        <span class="pull-left"><i class="fas fa-plus"></i></span>
+                        </a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="card-body">
+            <div class="row m-0">
+               <!-- <div class="col-lg-2 col-md-2 p0">
+                  <ul class="nav nav-tabs flex-column">
+                     <li class="nav-item"><a class="nav-link active" href="javascript:void(0)">Owned by me</a></li> 
+                  </ul>
+               </div> -->
+               <div class="col-lg-12 col-md-12 p0" style="border: 1px solid #ddd;">
+                  <table class="table table-bordered table-striped text-left" style="margin-top: 0px" id="itin_list" *ngIf="allItinerary && allItinerary.length;else no_content">
+                     <thead>
+                        <tr>
+                           <!-- <th>&nbsp;</th> -->
+                           <th>Itinerary Name</th>
+                           <th>Destinations</th>
+                           <th>Durations</th>
+                           <th>Created On</th>
+                           <th>&nbsp;</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr *ngFor="let iten of allItinerary">
+                           <td><a href="javascript:void(0);"
+                              [routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itinerary-details'] }}]"
+                              [queryParams]="{ 'id': iten.id}" matTooltip="{{iten.name}}" >
+                              <img *ngIf="iten.banner_image" src="{{iten.banner_image}}" alt="" width="50" height="50" style="border-radius: 50%" onError="this.src='assets/img/no-image-banner.png'" >
+                              <img *ngIf="iten.banner_image==''" src="https://www.tutterflycrm.com/assets/images/tutterfly-feature-images-1.png" alt="" width="50" height="50" style="border-radius: 50%">
+                              </a> 
+                              <a href="javascript:void(0);"
+                              [routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itinerary-details'] }}]"
+                              [queryParams]="{ 'id': iten.id}"> 
+                              <span class="ml-2">{{iten.name}}</span>
+                              </a>
+                           </td>
+                           <td>
+                              <span *ngFor="let dest of iten.destination_id;let i=index" class="validation_imp">
+                              <span *ngIf="i < iten.destination_id.length-1"><strong>{{ dest.name }} </strong>,
+                              </span>
+                              <span *ngIf="i == iten.destination_id.length-1"><strong>{{ dest.name }} </strong>
+                              </span>
+                              </span>
+                           </td>
+                           <!-- <td>{{iten.number_of_travellers}}</td> -->
+                           <td>{{iten.number_of_days-1}} N/{{iten.number_of_days}} D</td>
+                           <td>{{iten.created_at | date:'MMMM dd y'}}</td>
+                           <td class=" position-relative">
+                            <div class="dropdown position-relative">
+                                <button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action</button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+
+                                  <a href="javascript:void(0);" (click)="open_edit(iten.id)"  
+                                     class="mr-1 text-secondary dropdown-item" matTooltip="Edit"><i class="mdi mdi-square-edit-outline"></i> Edit</a>                                        
+                                  <a href="javascript:void(0);" class="mr-1 text-secondary dropdown-item" [routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['generate-pdf'] }}]" [queryParams]="{ 'id': iten.id}"  matTooltip=" Preview & Generate Pdf"><i class="mdi mdi-eye-settings-outline"></i> Preview & Generate Pdf</a>
+                                  <a href="javascript:void(0);" (click)="open_send_itin(iten.id)"   class="mr-1 text-secondary dropdown-item" matTooltip="Send E-mail" 
+                                     data-toggle="modal" data-target="#modalEmailItin" ><i class="mdi mdi-email-send-outline"></i> Send E-mail</a>
+                                  <a href="javascript:void(0);" (click)="open_copy_itin(iten.id)"   class="mr-1 text-dark dropdown-item" matTooltip="Copy Itinerary"   data-toggle="modal" data-target="#modalCopyItin" ><i class="mdi mdi-content-copy"></i> Copy</a>
+                                 <a href="javascript:void(0);" (click)="open_delete(iten.id,iten.name)"   class="mr-1 text-danger dropdown-item" matTooltip="Delete Itinerary"  data-toggle="modal" data-target="#modalDeleteItin" ><i class="mdi mdi-delete-outline"></i> Delete</a>  
+                             </div>
+                             </div>                                      
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <ng-template #no_content>
+                     <div class="no-itin-content" *ngIf="show_content_msg">
+                        <h3><a class="no-itin-content-link"  href="javascript:void(0)" [routerLink]="['/itineraryMain',{ outlets: { itinerarySection: ['itinerary-basic'] }}]" matTooltip="Create Itinerary">Create</a> your first itinerary</h3>
+                     </div>
+                  </ng-template>
+                  <div style="text-align: center;" *ngIf="totalCurrent < totalData">
+                     <button class="btn btn-small tfc-load-more btn-view-blue" (click)="loadMoreData()">Load More</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- <div class="newviewitinerarymodal" id="previewModal" style="display: none">
+   <button class="closebtn-newCreateitinerarymodal" (click)="close_pre_modal()"><i class="fa fa-close"></i></button> -->
+<!-- <app-preview [(itineraryData)]="itineraryData" [(itinerary_days)]="itinerary_days" [(flights)]="flights"></app-preview> -->
+<app-preview [(itineraryData)]="itineraryData"   [(s3_url)]="s3_url"  [(user_itinerary_inclusion)]="user_itinerary_inclusion"   [(itinerary_days)]="itinerary_days"   [(flights)]="flights" *ngIf="isPreview && itinerary_days && itinerary_days.length>0"></app-preview>
+<!-- </div> -->
+<!--modal end-->
+<div class="newCreateitinerarymodal" id="newCreateitinerarymodal" style="display: none">
+   <button class="closebtn-newCreateitinerarymodal" (click)="close_ite_modal()"><i class="fas fa-close"></i></button>
+   <div class="newCreateitinerarymodal-container container">
+      <div class="newCreateitinerarymodal-wrapper">
+         <h3 class="d-block text-left" *ngIf="editable_id==0">Create New Itinerary </h3>
+         <h3 class="d-block text-left" *ngIf="editable_id>0">Edit Itinerary </h3>
+         <hr>
+         <div class="form-group">
+            <label for="tripname"> Name</label>
+            <span class="error err_span">{{errName}}</span>
+            <input type="text" class="form-control" id="tripname" placeholder="Your Itinerary"
+            [(ngModel)]="newtinerary.name" [ngClass]="errName ? 'frm-danger':''">
+         </div> 
+         <div class="form-group" (click)="selectBox()">
+            <label for="destname">Destination(s)</label>
+            <span class="error err_span">{{errDest}}</span>
+            <ngx-select-dropdown (change)="renderNewViewDest($event.value)" [multiple]="true" [(ngModel)]="dest_selected" [config]="config" [options]="destinationData" style="width: 100%;"></ngx-select-dropdown> 
+         </div>
+         <div class="form-group1 row" *ngIf="editable_id==0">
+            <div class="col-sm-6 text-left mt-3">
+               <div class="radio radio-info form-check-inline" (click)="close_itinerarydatepiker()">
+                  <input type="radio" name="noofdaysconfirmation" id="withnocalenderdate"
+                  [value]="newtinerary.date_or_days" [checked]="newtinerary.date_or_days==0?1:0">
+                  <label for="withnocalenderdate">No Dates</label>
+               </div>
+               <div class="radio radio-info form-check-inline" (click)="close_itinerarydayselector()">
+                  <input type="radio" name="noofdaysconfirmation" id="withcalenderdate"
+                  [value]="newtinerary.date_or_days" [checked]="newtinerary.date_or_days">
+                  <label for="withcalenderdate">Specific Dates</label>
+               </div>
+            </div>
+            <div class="col-md-4">
+               <div class="form-group incrementor" id="itinerarydayselector" style="overflow: unset !important;">
+                  <label>No. of Night</label>
+                  <span class="error err_span">{{errDays}}</span>
+                  <!--<div class="btn-group mb-2">
+                     <button type="button" class="btn btn-light">Left</button>
+                     <button type="button" class="btn btn-light">Middle</button>
+                     <button type="button" class="btn btn-light">Right</button>
+                     </div>-->
+                  <div class="input-group">
+                     <div class="input-group-btn">
+                        <button id="down" class="btn btn-outline-info" (click)=" down_days('0')"><span
+                           class="fas fa-minus"></span></button>
+                     </div>
+                     <input type="text" id="myNumber" class="form-control input-number" value="1"
+                     [(ngModel)]="newtinerary.number_of_days"/>
+                     <div class="input-group-btn">
+                        <button id="up" class="btn btn-outline-info" (click)="up_days('1')"><i
+                           class="fas fa-plus"></i></button>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group1 ite_date_picker" id="itinerarydatepiker"
+                  style="display: none;overflow: unset !important;">
+                  <mat-form-field>
+                     <input class="form-control" id="dt_range" matInput ngxDaterangepickerMd showCancel="true"
+                     placeholder="Choose date" [(ngModel)]="selected" [showDropdowns]="true"
+                     [lockStartDate]="false" [customRangeDirection]="false"
+                     (ngModelChange)="ngModelChange($event)" (chosenDate)="chosenDate($event)"
+                     (click)="setRange()" [locale]="{applyLabel: 'ok', format: 'DD/MM/YYYY'}"/>
+                  </mat-form-field>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-12">
+               <div class="form-group ite_date_picker" id="itinerarydatepiker__" style="display: none"></div>
+            </div>
+         </div>
+
+         <div class="row d-flex align-items-center">
+             <div class="col-md-3 d-flex align-items-center">
+                 <div class="form-group">
+                     <label for="price_itin" >Price</label>
+                     <input type="number" class="form-control" name="noofnights" [(ngModel)]="newtinerary.amount" id="price_itin" min="0"> 
+                 </div>
+             </div> <div class="col-md-3 d-flex align-items-center">
+                 <div class="form-group">
+                     <label for="curr_itin" >Currency</label> 
+                     <select class="form-control" [(ngModel)]="newtinerary.timezone" id="curr_itin">
+                         <option value="INR">INR</option>
+                          <option value="USD">USD</option>
+                     </select>
+                 </div>
+             </div>
+         </div>
+         <div class="form-group ">
+            <label>Description</label>
+            <span class="error err_span">{{errDesc}}</span>
+            <textarea name="address" id="address" class="form-control" placeholder=" " rows="8"  [(ngModel)]="newtinerary.description"></textarea> 
+         </div>
+         <div class="form-group row">
+            <label for="savecopy" class="col-sm-3 col-form-label"> Banner</label>
+            <div class="col-sm-9 text-left">
+               <span class="error err_span" *ngIf="errImage">{{errImage}}</span>
+               <div class="file-upload" *ngIf="editable_id==0">
+                  <div class="file-select">
+                     <div class="file-select-button" id="fileName">Choose File</div>
+                     <div class="file-select-name" id="noFile" *ngIf="photo_name==''">No file chosen...</div>
+                     <div class="file-select-name" id="noFile" *ngIf="photo_name">{{photo_name}}</div>
+                     <input type="file" name="chooseFile" id="chooseFile" (change)="addFIle($event)" #banner>
+                  </div>
+               </div>
+               <div class="file-upload" *ngIf="editable_id>0">
+                  <img src="{{editbanner_image}}" width="75" height="75" id="edit_it_img">
+                  <div class="file-select file-edit-select">
+                     <div class="file-select-button file-edit-bt" id="fileName">Change Image</div>
+                     <input type="file" name="chooseFile" id="chooseFile" (change)="addFIle($event)" #banner>
+                  </div>
+               </div>
+               <div>
+               </div>
+            </div>
+         </div>
+         <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+               <!-- Status --> 
+            </label>
+            <div class="col-sm-4 text-left">
+               <!-- <div class="form-check form-check-inline">
+                  <input class="form-check-input " type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                         [value]="1" [(ngModel)]="newtinerary.status">
+                  <label class="form-check-label" for="inlineRadio1">Publish</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                         [value]="0" [(ngModel)]="newtinerary.status">
+                  <label class="form-check-label" for="inlineRadio2">Unpulished</label>
+                  </div> -->
+            </div>
+            <div class="col-sm-5 text-right">
+               <ul class="list-inline itineraryModalfooterBtn">
+                  <li class="list-inline-item">
+                     <button type="button" class="btn btn-secondary" (click)="close_ite_modal()">Close</button>
+                  </li>
+                  <li class="list-inline-item" *ngIf="editable_id==0">
+                     <button type="button" class="btn btn-primary" (click)="createnewItinerary()">Add</button>
+                  </li>
+                  <li class="list-inline-item" *ngIf="editable_id>0">
+                     <button type="button" class="btn btn-primary" (click)="createnewItinerary()">Update</button>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="modal fade" style="margin:0 auto; display: none; z-index:9999" id="crop_model" tabindex="-1" role="dialog"
+   aria-hidden="false">
+   <div class="modal-dialog" style="max-width: 650px">
+      <div class="modal-content">
+         <div class="modal-body" style="padding: 10px; max-height: 650px;overflow: auto;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+               (click)="close_crop()">&times;
+            </button>
+            <div class="form-group-attached">
+               <div class="row">
+                  <div class="col-md-12">
+                     <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                     [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="4 / 2"
+                     [resizeToWidth]="1200" [cropperMinWidth]="720" [onlyScaleDown]="true"
+                     [roundCropper]="false" [canvasRotation]="canvasRotation" [transform]="transform"
+                     [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png"
+                     (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                     (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()">
+                     </image-cropper>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6 m-t-10 sm-m-t-10">
+                     <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'"/>
+                  </div>
+                  <div class="col-md-6 mt-5">
+                     <button type="button" class="btn btn-warning m-t-5 pull-right" data-dismiss="modal"
+                        (click)="done_cropping()">Done Cropping
+                     </button>
+                     <button type="button" class="btn btn-secondary m-t-5 ml-5 pull-right1" data-dismiss="modal"
+                        (click)="close_crop()">Cancel
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div id="modalEmailItin"  aria-labelledby="modalSlideUpLabel" *ngIf="open_sendEmail" class="modal fade " role="dialog"
+   aria-hidden="true">
+   <div class="modal-dialog ">
+      <div class="modal-content">
+         <div class="modal-header clearfix text-left">
+            <h4>Send <span class="semi-bold">Itinerary</span></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+         </div>
+         <form id="sendEmailForm" autocomplete="off" #sendEmailForm="ngForm" novalidate (ngSubmit)="sendEmailForm.valid && send_itin_email(sendEmailForm)" class="signupform">
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="form-group comp-selectbx text-left mt5">
+                     <mat-form-field style="width: 100%;">
+                        <input matInput type="text" name="email" placeholder="Email"
+                        [(ngModel)]="itineraryEmailId" #email="ngModel" required
+                        pattern="[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}">
+                        <mat-error
+                           *ngIf="email.errors && email.errors.required && (email.dirty || email.touched || sendEmailForm.submitted)">
+                           Email <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="email.errors && email.errors.pattern">
+                           Enter a valid <strong>email</strong> address
+                        </mat-error>
+                     </mat-form-field>
+                     <p class="alert alert-warning send_email_alert_msg" *ngIf="send_itin_msg!=''">{{send_itin_msg}}</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <div class="col-md-12">
+               <div class="col-md-12 col-sm-12 p0 float-right">
+                  <button type="submit" class="btn btn-primary ml-1 float-right"
+                     >Send</button>
+                  <button type="button" class="btn btn-secondary m-t-5  float-right" data-dismiss="modal"
+                     (click)="close_em_mail()">Close</button>
+               </div>
+            </div>
+         </div>
+         </form>
+      </div>
+   </div>
+</div>
+<div id="modalCopyItin"  aria-labelledby="modalSlideUpLabel" *ngIf="open_copyitin" class="modal fade " role="dialog"
+   aria-hidden="true">
+   <div class="modal-dialog  modal-lg">
+    <div class="modal-content copy_content">
+         <div class="modal-header clearfix text-left">
+             <h3 class="d-block text-left" >Copy Itinerary </h3>
+                <button type="button" id="close_attch" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+         </div>
+         <div class="modal-body copy_body" style="padding: 10px; ">    
+                 
+                 <hr>
+                 <div class="row">
+                    <div class="col-md-12">
+                     <div class="form-group">
+                        <label for="tripname"> Name</label>
+                        <span class="error err_span">{{errName}}</span>
+                        <input type="text" class="form-control" id="tripname" placeholder="Your Itinerary"
+                        [(ngModel)]="copyitinery.name" [ngClass]="errName ? 'frm-danger':''">
+                     </div> 
+                     </div> 
+                    <!-- <div class="col-md-6">
+                         <div class="form-group" (click)="selectBox()">
+                            <label for="destname">Destination(s)</label>
+                            <span class="error err_span">{{errDest}}</span>
+                            <ngx-select-dropdown (change)="renderCopyDest($event.value)" [multiple]="true" [(ngModel)]="copy_dest_selected" [config]="config" [options]="destinationData" style="width: 100%;"></ngx-select-dropdown> 
+                         </div>
+                    </div> -->
+                 </div>
+                 <div class="row">
+                     <div class="col-12 d-flex justify-content-between align-items-center">                        
+                        <div class="form-group" >
+                            <label>Select Days*</label>
+                             <span class="error err_span">{{errDays}}</span>
+                            <div style="position: relative"> 
+                                <div class="checkbox form-check-inline" *ngFor="let dy of copy_day_ids">
+                                    <input type="checkbox" [value]="dy.id" [(ngModel)]="dy.checked" (click)="set_days(dy.id)" id="{{dy.id}}_checkday">
+                                    <label for="{{dy.id}}_checkday" style="text-transform: capitalize;"> {{dy.day_name}} </label>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="">
+                            <button class="btn btn-primary btn-sm text-capitalize" matTooltip="Add Days" (click)="add_copy_days()"><i class="fas fa-plus"></i> add days</button>
+                        </div>
+                     </div>
+                 </div>
+                  
+                 <div class="form-group ">
+                    <label>Description</label>
+                    <span class="error err_span">{{errDesc}}</span>
+                    <textarea name="address" id="address" class="form-control" placeholder=" " rows="4"  [(ngModel)]="copyitinery.description"></textarea> 
+                 </div>
+                <!--  <div class="form-group row">
+                    <label for="savecopy" class="col-sm-3 col-form-label"> Banner</label> 
+                    <div class="col-sm-9 text-left">
+                       <span class="error err_span" *ngIf="errImage">{{errImage}}</span> 
+                       <div class="file-upload" >
+                          <img src="{{copybanner_image}}" class="w-50" id="edit_it_img">
+                          <div class="file-select file-edit-select">
+                             <div class="file-select-button file-edit-bt" id="fileName">Change Image</div>
+                             <input type="file" name="chooseFile" id="chooseFile" (change)="addFIle($event)" #banner>
+                          </div>
+                       </div>
+                       <div>
+                       </div>
+                    </div>
+                 </div>  -->
+         </div>
+         <div class="modal-footer">
+            <div class="col-md-12">
+               <div class="col-md-12 col-sm-12 p0 float-right">
+                  <button type="button" class="btn btn-primary float-right" (click)="copyitineryDetails()">Copy</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal"  (click)="close_em_mail()">Close</button>
+               </div>
+            </div>
+         </div> 
+  </div>
+   </div>
+</div>
+
+<!-- /.modal-dialog end-->
+<div class="modal fade" id="modalDeleteItin" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content modal-filled bg-danger">
+      <div class="modal-body p-4">
+        <div class="text-center">
+          <h4><span class="mt-2 text-white">Are you sure you want to delete {{deleted_name}}?</span></h4>
+          <div class="form-group button-list">
+            <button type="button" class="btn btn-light waves-effect waves-light" data-dismiss="modal"
+                    (click)="deleteItin()">Yes
+            </button>
+            <button type="button" class="btn btn-primary waves-effect waves-light"
+                    data-dismiss="modal">No
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+    .copy_body{
+        /*min-width: 750px !important; */
+    }
+    .copy_content{ 
+        /*min-width: 750px !important; */
+        /*min-height: 700px !important;*/
+    }
+</style>
